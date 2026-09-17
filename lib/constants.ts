@@ -1,11 +1,3 @@
-import {
-    AiElementsIcon,
-    AiPaintbrushIcon,
-    AiCollageTemplateIcon,
-  } from "@hugeicons/core-free-icons"
-  
-  import type { NavPage } from "@/components/shared/nav-button"
-  
   export const ORG_URL = "https://aiellie.dev"
   export const BASE_URL = "https://aiellie.app";
   export const CLOUD_URL = "https://cloud.aiellie.app";
@@ -13,9 +5,3 @@ import {
   
   // The nav lists what is finished — a stub in it costs more than a short nav.
   export const CONTAINER = "mx-auto w-full max-w-7xl px-6 sm:px-10"
-
-  export const NAV_PAGES: NavPage[] = [
-    { href: "/elements", label: "Elements", icon: AiElementsIcon },
-    { href: "/design", label: "Design", icon: AiPaintbrushIcon },
-    { href: "/docs", label: "Docs", icon: AiCollageTemplateIcon },
-  ]

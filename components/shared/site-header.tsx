@@ -1,8 +1,7 @@
 "use client"
 
-import { CONTAINER, NAV_PAGES } from "@/lib/constants"
+import { CONTAINER } from "@/lib/constants"
 import { cn } from "@/lib/utils"
-import { NavButton } from "./nav-button"
 import { Logo } from "./logo"
 import Link from "next/link"
 
@@ -16,9 +15,7 @@ export function SiteHeader() {
           </Link>
           <div className="flex min-w-0 flex-1 items-center justify-center gap-4">
             <nav aria-label="Site" className="flex items-center gap-0.5">
-              {NAV_PAGES.map((page) => (
-                <NavButton key={page.href} {...page} />
-              ))}
+       
             </nav>
           </div>
         </div>
