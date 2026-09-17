@@ -10,7 +10,7 @@ const statusVariants = cva(
     variants: {
       variant: {
         success:
-          "border-emerald-500/20 bg-emerald-500/6 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/6 dark:text-emerald-400",
+          "border-emerald-500/10 bg-emerald-500/4 text-emerald-700 dark:border-emerald-400/5 dark:bg-emerald-400/15 dark:text-emerald-400",
         error:
           "border-destructive/20 bg-destructive/6 text-destructive dark:border-destructive/25 dark:bg-destructive/10",
         pending:

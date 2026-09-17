@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils"
 import { NavButton } from "./nav-button"
 import { Logo } from "./logo"
 import Link from "next/link"
-import { ThemeToggle } from "./theme-toggle"
 
 export function SiteHeader() {
   return (
@@ -23,7 +22,6 @@ export function SiteHeader() {
             </nav>
           </div>
         </div>
-        <ThemeToggle />
       </div>
     </header>
   )
