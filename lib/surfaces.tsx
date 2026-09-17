@@ -44,6 +44,7 @@ export const collapsePanel =
 
 export const live = "text-accent dark:text-accent bg-accent/5 dark:bg-accent/10 rounded-full px-1.5 py-0.5";
 export const error = "text-destructive dark:text-destructive bg-destructive/4 hover:bg-destructive/8 dark:bg-destructive/15 hover:dark:bg-destructive/25 rounded-full px-1.5 py-0.5";
+export const success = "text-emerald-500/10 bg-emerald-500/4 text-emerald-700 dark:border-emerald-400/10 dark:bg-emerald-400/15 dark:text-emerald-400 rounded-full px-1.5 py-0.5";
 
 export const mono = "font-mono text-[11px] tracking-tight";
 export const pixel = "font-pixel text-[11px] tracking-tight";
