@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { demoCanvasClass } from "@/lib/canvas";
 import { cn } from "@/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRightIcon } from "@hugeicons/core-free-icons";
@@ -54,7 +53,7 @@ export function DemoCard({
     >
       <div
         className={cn(
-          demoCanvasClass,
+          "border-foreground/10 flex items-center justify-center overflow-hidden rounded-xl border p-5 md:p-6",
           "group-hover/plate:border-foreground/25 h-[340px] transition-colors",
           wide && "md:h-[420px]",
         )}
