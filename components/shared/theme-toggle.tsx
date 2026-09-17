@@ -64,6 +64,7 @@ export function ThemeToggle({
         />
         <HugeiconsIcon
           icon={Moon02Icon}
+          fill="currentColor"
           className={cn(iconSwap, isDark ? iconSwapIn : iconSwapOut)}
         />
       </span>
