@@ -11,30 +11,20 @@ const statusVariants = cva(
       variant: {
         success:
           "border-emerald-500/10 bg-emerald-500/4 text-emerald-700 dark:border-emerald-400/5 dark:bg-emerald-400/10 dark:text-emerald-400",
-        error:
+        destructive:
           "border-destructive/20 bg-destructive/6 text-destructive dark:border-destructive/25 dark:bg-destructive/10",
-        pending:
-          "border-amber-500/20 bg-amber-500/6 text-amber-700 dark:border-amber-400/20 dark:bg-amber-400/6 dark:text-amber-400",
-        loading:
-          "border-blue-500/20 bg-blue-500/6 text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/6 dark:text-blue-400",
-        recording:
-          "border-rose-500/20 bg-rose-500/6 text-rose-700 dark:border-rose-400/20 dark:bg-rose-400/6 dark:text-rose-400",
-        cancelled: "border-border bg-muted text-muted-foreground",
-        verified:
-          "border-blue-500/20 bg-blue-500/6 text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/6 dark:text-blue-400",
-        brand:
-          "border-primary/20 bg-primary/6 text-primary dark:border-primary/25 dark:bg-primary/10",
+        live: "border-blue-500/20 bg-blue-500/6 text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/6 dark:text-blue-400",
       },
     },
     defaultVariants: {
-      variant: "brand",
+      variant: "live",
     },
   }
 )
 
 function Status({
   className,
-  variant = "success",
+  variant = "live",
   pulse = false,
   render,
   ...props
