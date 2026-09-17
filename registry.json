@@ -15,7 +15,8 @@
         }
       ],
         "meta": {
-          "icon": "Hold05Icon"
+          "icon": "Hold05Icon",
+          "iframeHeight": "400px"
         }
     }
   ]

@@ -13,7 +13,7 @@ export default function Layout({
     <div className="flex min-h-svh flex-col">
       <SiteHeader />
       {/* pb clears the fixed footer (h-8 + py-1) so the last row is reachable. */}
-      <main className={cn(CONTAINER, "flex-1 pb-16")}>{children}</main>
+      <main className={cn(CONTAINER, "flex-1")}>{children}</main>
       <SiteFooter />
     </div>
   );
