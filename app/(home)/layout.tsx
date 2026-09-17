@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/shared/site-header";
 import { SiteFooter } from "@/components/shared/site-footer";
 import { CONTAINER } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-
+  
 export default function Layout({
   children,
 }: {

@@ -10,13 +10,13 @@ const statusVariants = cva(
     variants: {
       variant: {
         success:
-          "border-emerald-500/10 bg-emerald-500/4 text-emerald-700 dark:border-emerald-400/5 dark:bg-emerald-400/15 dark:text-emerald-400",
+          "border-emerald-500/10 bg-emerald-500/4 text-emerald-700 dark:border-emerald-400/5 dark:bg-emerald-400/10 dark:text-emerald-400",
         error:
           "border-destructive/20 bg-destructive/6 text-destructive dark:border-destructive/25 dark:bg-destructive/10",
         pending:
           "border-amber-500/20 bg-amber-500/6 text-amber-700 dark:border-amber-400/20 dark:bg-amber-400/6 dark:text-amber-400",
         loading:
-          "border-sky-500/20 bg-sky-500/6 text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/6 dark:text-sky-400",
+          "border-blue-500/20 bg-blue-500/6 text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/6 dark:text-blue-400",
         recording:
           "border-rose-500/20 bg-rose-500/6 text-rose-700 dark:border-rose-400/20 dark:bg-rose-400/6 dark:text-rose-400",
         cancelled: "border-border bg-muted text-muted-foreground",
