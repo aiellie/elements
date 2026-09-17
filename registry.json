@@ -1,17 +1,18 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "elements.aiellie",
+  "name": "aiellie",
   "homepage": "https://elements.aiellie.dev",
   "items": [
     {
       "name": "hello-world",
-      "type": "registry:page",
+      "type": "registry:block",
       "title": "Hello World",
       "description": "A simple hello world page",
       "files": [
         {
           "path": "registry/aiellie/blocks/hello-world/page.tsx",
-          "type": "registry:page"
+          "type": "registry:page",
+          "target": "app/hello-world/page.tsx"
         }
       ],
         "meta": {
