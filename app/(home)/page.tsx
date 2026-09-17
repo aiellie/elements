@@ -1,15 +1,15 @@
 import { InitSnippet } from "@/app/(home)/components/init-snippet"
 import { Separator } from "@/components/ui/separator"
-import { HelloWorld } from "@/registry/aiellie/blocks/hello-world/hello-world"
+import { HelloWorldPage } from "@/registry/aiellie/blocks/hello-world/page"
 
 export default function Page() {
   return (
     <div className="flex flex-col gap-10 py-8 sm:py-12">
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl tracking-tight">Library for building AI Agents.</h1>
-        <p className="max-w-prose text-sm leading-relaxed text-muted-foreground">
+        <h2 className="max-w-prose text-md font-normal leading-relaxed text-muted-foreground">
           Primitives and a runtime for production chat. Upgrade to pro to connect backend.
-        </p>
+        </h2>
       </div>
       <InitSnippet />
       <Separator />
@@ -20,7 +20,7 @@ export default function Page() {
             </h2>
           </div>
           <div className="flex items-center justify-center min-h-[400px] relative">
-            <HelloWorld />
+            <HelloWorldPage />
           </div>
         </div>
     </div>
