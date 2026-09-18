@@ -1,3 +1,3 @@
 export function HelloWorldPage() {
-  return <h1 className="text-2xl font-bold">Hello World</h1>
+  return <h1 className="text-2xl">Ready when you are.</h1>
 }

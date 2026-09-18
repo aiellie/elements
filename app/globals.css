@@ -2,7 +2,6 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "tw-shimmer";
-@import "./typeset.css";
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -67,10 +66,8 @@
     --secondary: oklch(0.967 0.001 286.375);
     --secondary-foreground: oklch(0.21 0.006 285.885);
     --accent-foreground: oklch(0.21 0.006 285.885);
-    --destructive: oklch(0.577 0.245 27.325/4%);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --success: oklch(59.6% 0.145 163.225/4%);
-    --success-foreground: oklch(59.6% 0.145 163.225);
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.577 0.245 27.325/4%);
     --border: oklch(0.92 0.004 286.32);
     --input: oklch(0.92 0.004 286.32);
     --ring: oklch(0.705 0.015 286.067);
