@@ -2,153 +2,415 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "tw-shimmer";
+
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: var(--font-sans);
-    --color-link: var(--link);
-    --color-selection: var(--selection);
-    --color-selection-foreground: var(--selection-foreground);
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
-}
+/* ---------------------------------------------------------------------------
+   aiellie — design system
+   Values come from the design system; the comments say why, not what.
+   --------------------------------------------------------------------------- */
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: #383A42;
-    --popover: oklch(1 0 0/60%);
-    --muted: oklch(0.967 0.001 286.375);
-    --muted-foreground: oklch(0.552 0.016 285.938);
-    --accent: oklch(0.6 0.22 270);
-    --accent-foreground: #526FFF/.8;
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(.3496 0.0141 274.5);
-    --popover-foreground: oklch(0.141 0.005 285.823);
-    --primary: oklch(0.21 0.006 285.885);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.967 0.001 286.375);
-    --secondary-foreground: oklch(0.21 0.006 285.885);
-    --accent-foreground: oklch(0.21 0.006 285.885);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325/4%);
-    --border: oklch(0.92 0.004 286.32);
-    --input: oklch(0.92 0.004 286.32);
-    --ring: oklch(0.705 0.015 286.067);
-    --chart-1: oklch(0.871 0.006 286.286);
-    --chart-2: oklch(0.552 0.016 285.938);
-    --chart-3: oklch(0.442 0.017 285.786);
-    --chart-4: oklch(0.37 0.013 285.805);
-    --chart-5: oklch(0.274 0.006 286.033);
-    --radius: 0.875rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.141 0.005 285.823);
-    --sidebar-primary: oklch(0.21 0.006 285.885);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.967 0.001 286.375);
-    --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-    --sidebar-border: oklch(0.92 0.004 286.32);
-    --sidebar-ring: oklch(0.705 0.015 286.067);
-    --link: #526FFF;
-    --selection: oklch(0.967 0.001 286.375);
+  /* Radius base. Every step below is derived from this one value. */
+  --radius: 0.875rem;
+
+  /* Surfaces */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+
+  /* Fills */
+  --primary: oklch(0.21 0.006 285.885);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  /* One step darker than zinc-500 so it holds 4.5:1 on muted, not just on white. */
+  --muted-foreground: oklch(0.53 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+
+  /* Edges. Focus is a border-colour swap, so --ring must differ from --input
+     by at least 3:1 — zinc-500 clears it, zinc-400 does not. */
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.552 0.016 285.938);
+
+  /* Status. live is a placeholder blue-500 until the brand hue is chosen. */
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --live: oklch(0.623 0.214 259.815);
+  --success: oklch(0.596 0.145 163.225);
+
+  /* Link ink, used on hover. Placeholder until the brand hue lands — blue-600
+     rather than blue-500 so a body-size link clears 4.5:1 (5.3:1 on white). */
+  --link: oklch(0.546 0.245 262.881);
+
+  /* Text selection — the same zinc as muted, so selecting reads as a fill. */
+  --selection: oklch(0.967 0.001 286.375);
+
+  /* Glass */
+  --glass: #ffffff99;
+  --glass-strong: #ffffffcc;
+  --overlay: #00000080;
+
+  /* Sidebar */
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.21 0.006 285.885);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.552 0.016 285.938);
+
+  /* Layers */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 20;
+  --z-dropdown: 30;
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-toast: 60;
+  --z-tooltip: 70;
+
+  /* Motion. Input is answered instantly; layout takes its time. */
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-layout: 280ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
 }
 
 .dark {
-    --background: oklch(.1776 0 0);
-    --foreground: oklch(.9911 0 0);
-    --popover: oklch(0.21 0.006 285.885/70%);
-    --muted: oklch(0.274 0.006 286.033);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --card: oklch(0.21 0.006 285.885);
-    --card-foreground: oklch(0.985 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.92 0.004 286.32);
-    --primary-foreground: oklch(0.21 0.006 285.885);
-    --secondary: oklch(0.274 0.006 286.033);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted-foreground: oklch(0.705 0.015 286.067);
-    --accent: oklch(0.274 0.006 286.033);
-    --accent-foreground: oklch(0.985 0 0);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.552 0.016 285.938);
-    --chart-1: oklch(0.871 0.006 286.286);
-    --chart-2: oklch(0.552 0.016 285.938);
-    --chart-3: oklch(0.442 0.017 285.786);
-    --chart-4: oklch(0.37 0.013 285.805);
-    --chart-5: oklch(0.274 0.006 286.033);
-    --sidebar: oklch(0.21 0.006 285.885);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.274 0.006 286.033);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.552 0.016 285.938);
-    --selection: oklch(0.274 0.006 286.033);
-    --link: #526FFF;
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+
+  --primary: oklch(0.92 0.004 286.32);
+  --primary-foreground: oklch(0.21 0.006 285.885);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+
+  --border: #ffffff1a;
+  --input: #ffffff26;
+  --ring: oklch(0.552 0.016 285.938);
+
+  --destructive: oklch(0.704 0.191 22.216);
+  /* Near-black ink: white on this red is 2.9:1. */
+  --destructive-foreground: oklch(0.141 0.005 285.823);
+  --live: oklch(0.707 0.165 254.624);
+  --success: oklch(0.765 0.177 163.223);
+
+  /* blue-500 in dark: 5.3:1 on background, 4.7:1 on card. */
+  --link: oklch(0.623 0.214 259.815);
+
+  --selection: oklch(0.274 0.006 286.033);
+
+  --glass: #09090b99;
+  --glass-strong: #09090bcc;
+  --overlay: #000000b3;
+
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.92 0.004 286.32);
+  --sidebar-primary-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: #ffffff1a;
+  --sidebar-ring: oklch(0.552 0.016 285.938);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-live: var(--live);
+  --color-success: var(--success);
+  --color-link: var(--link);
+  --color-selection: var(--selection);
+  --color-glass: var(--glass);
+  --color-glass-strong: var(--glass-strong);
+  --color-overlay: var(--overlay);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Type. Variable faces across 100–900, so 350 / 400 / 430 are real axis
+     positions rather than rounded steps. In a Next.js app, prefer
+     next/font/google — drop the @import above and put its variables first:
+     var(--font-geist-sans), "Geist", ui-sans-serif, … */
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Weights. Nothing resolves above 430, so an inherited font-semibold or
+     font-bold comes out at medium without touching its class string. */
+  --font-weight-thin: 250;
+  --font-weight-extralight: 300;
+  --font-weight-light: 350;
+  --font-weight-normal: 400;
+  --font-weight-medium: 430;
+  --font-weight-semibold: 430;
+  --font-weight-bold: 430;
+  --font-weight-extrabold: 430;
+  --font-weight-black: 430;
+
+  /* Radius, derived from --radius the way shadcn derives its own. */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 10px);
+
+  /* Shadows. Only things that float get one; everything below md is none,
+     so an inherited Card loses its shadow-sm on its own. */
+  --shadow-2xs: none;
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: 0 4px 12px -2px #00000014, 0 2px 4px -2px #0000000f;
+  --shadow-lg: 0 12px 28px -6px #0000001f, 0 4px 8px -4px #00000014;
+  --shadow-xl: 0 12px 28px -6px #0000001f, 0 4px 8px -4px #00000014;
+  --shadow-2xl: 0 12px 28px -6px #0000001f, 0 4px 8px -4px #00000014;
+
+  --blur-xs: 4px;
+  --blur-sm: 8px;
+  --blur-md: 12px;
+
+  --animate-blink: blink 1s step-end infinite;
+  --animate-pulse-dot: pulse-dot 1.4s ease-in-out infinite;
+}
+
+.dark {
+  --shadow-md: 0 4px 12px -2px #00000066, 0 2px 4px -2px #00000052;
+  --shadow-lg: 0 12px 28px -6px #00000080, 0 4px 8px -4px #00000066;
+  --shadow-xl: 0 12px 28px -6px #00000080, 0 4px 8px -4px #00000066;
+  --shadow-2xl: 0 12px 28px -6px #00000080, 0 4px 8px -4px #00000066;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/5;
+    @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+
   html {
     @apply overscroll-y-none scroll-smooth;
   }
-  ::selection {
-    @apply bg-selection;
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
   }
+
+  /* Scrollbars are furniture: the hairline, on no track. */
   * {
     scrollbar-color: var(--border) transparent;
   }
+
+  /* The only thing in the UI that changes colour on hover of its own accord. */
   a {
     @apply hover:text-link;
   }
+
   button:not(:disabled),
-[role="button"]:not(:disabled) {
-  cursor: pointer;
-}
-  html {
-    @apply font-sans;
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background-color: var(--selection);
+    color: var(--foreground);
+  }
+
+  /* There are no rings in this system. Focus is a 1px border-colour swap,
+     so nothing reflows and nothing grows a halo. Components inherited from
+     shadcn still ship focus-visible:ring-[3px] — this cancels it globally. */
+  *:focus-visible {
+    outline: none;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-ring-offset-shadow: 0 0 #0000;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
+    /* Opacity is kept so an overlay still fades rather than appearing
+       out of nowhere; press scale is dropped entirely. */
+    .motion-fade {
+      transition-property: opacity !important;
+      transition-duration: var(--duration-fast) !important;
+    }
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------------------- */
+
+/* The floating-surface treatment: opaque fallback first, glass where supported.
+   Pair with shadow-md (dropdowns, popovers) or shadow-lg (dialogs, sheets). */
+@utility glass {
+  background-color: var(--popover);
+  @supports (backdrop-filter: blur(4px)) {
+    background-color: var(--glass);
+    backdrop-filter: blur(var(--blur-xs));
+  }
+}
+
+/* Over an image, a chart or a dense table, where 60% drops to ~7:1. */
+@utility glass-strong {
+  background-color: var(--popover);
+  @supports (backdrop-filter: blur(4px)) {
+    background-color: var(--glass-strong);
+    backdrop-filter: blur(var(--blur-xs));
+  }
+}
+
+/* Press feedback. Scale only — hover already shifted the fill. */
+@utility press {
+  transition-property: transform;
+  transition-duration: var(--duration-instant);
+  transition-timing-function: var(--ease-out);
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+}
+
+/* Type scale. Sizes, leading, weight and tracking are fixed per style. */
+@utility text-display {
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 350;
+  letter-spacing: -0.02em;
+}
+@utility text-h1 {
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 350;
+  letter-spacing: -0.02em;
+}
+@utility text-h2 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 430;
+  letter-spacing: -0.015em;
+}
+@utility text-h3 {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 430;
+  letter-spacing: -0.01em;
+}
+@utility text-h4 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 430;
+}
+@utility text-body {
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+}
+@utility text-body-sm {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+@utility text-label {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 430;
+}
+@utility text-caption {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+}
+@utility text-overline {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 430;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+@utility text-code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+}
+@utility text-code-sm {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 430;
+}
+@utility text-code-block {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 22px;
+  font-weight: 400;
+}
+@utility text-kbd {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 430;
 }
