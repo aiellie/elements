@@ -1,6 +1,7 @@
 import { DemoCard } from "@/components/pages/demo-card"
 import { HelloWorldPage } from "@/registry/aiellie/blocks/hello-world/page"
 import { ChatPage } from "@/registry/aiellie/blocks/chat/page"
+import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 export default function Page() {
   return (
     <div className="grid grid-cols-1 gap-x-6 gap-y-10 py-8 sm:py-12 md:grid-cols-2 xl:grid-cols-3">
@@ -24,6 +25,17 @@ export default function Page() {
       >
         <ChatPage />
       </DemoCard>
+      <DemoCard
+        href="/examples/model-selector"
+        index={3}
+        title="Model Selector"
+        description="A simple model selector component"
+        wide
+        connection="aiellie"
+      >
+        <ModelSelectorDemo />
+      </DemoCard>
     </div>
+        
   )
 }
