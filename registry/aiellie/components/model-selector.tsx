@@ -9,6 +9,8 @@ import {
   type ModelIconName,
   type ModelIconProps,
 } from "@/registry/aiellie/components/icons/model-icons"
+import { groupByVendor, VENDOR_NAMES } from "@/registry/aiellie/lib/models"
+import type { ModelOption } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
   Menu,
@@ -20,64 +22,12 @@ import {
   MenuTrigger,
 } from "@/registry/aiellie/components/menu"
 
-/**
- * One model on offer. `vendor` does two jobs — it picks the mark the row wears
- * and the group the row is listed under — so a model is filed by saying whose
- * it is, rather than by being written into the right list.
- */
-interface ModelOption {
-  /** What `value` holds while this model is the chosen one. */
-  id: string
-  /** What the row says, and what the trigger says once this is chosen. */
-  name: string
-  /** Whose model it is, as a key of `modelIcons`. */
-  vendor: ModelIconName
-  /** Listed, but not choosable — a model the current plan does not include. */
-  disabled?: boolean
-}
-
-/**
- * The heading over each vendor's rows. These name the company rather than the
- * product: a row already says "Claude" or "Gemini" in its own name, and a
- * heading that says it again tells the reader nothing the row did not.
- *
- * Typed against the set's keys, so a mark added to `model-icons` stops the
- * type check here until it has a name, instead of heading its group with
- * nothing.
- */
-const VENDOR_NAMES: Record<ModelIconName, string> = {
-  claude: "Anthropic",
-  openai: "OpenAI",
-  gemini: "Google",
-  grok: "xAI",
-  deepseek: "DeepSeek",
-  mistral: "Mistral",
-  v0: "Vercel",
-}
-
 function ModelMark({
   vendor,
   ...props
 }: ModelIconProps & { vendor: ModelIconName }) {
   const Mark = modelIcons[vendor]
   return <Mark {...props} />
-}
-
-/**
- * The models, gathered by vendor. A group sits where its first model was and
- * rows keep the order they came in, so the menu reads the way the list was
- * written without anyone sorting it by vendor first.
- */
-function groupByVendor(models: ModelOption[]) {
-  const groups = new Map<ModelIconName, ModelOption[]>()
-
-  for (const model of models) {
-    const group = groups.get(model.vendor)
-    if (group) group.push(model)
-    else groups.set(model.vendor, [model])
-  }
-
-  return [...groups]
 }
 
 /**
@@ -105,8 +55,7 @@ function ModelSelector({
   showSearch = false,
   side,
   align,
-  render = <Button variant="ghost" />,
-  className,
+  render = <Button variant="outline" size="sm" />,
   ...props
 }: Omit<React.ComponentProps<typeof MenuTrigger>, "children" | "value"> & {
   models: ModelOption[]
@@ -130,7 +79,11 @@ function ModelSelector({
 
   return (
     <Menu>
-      <MenuTrigger render={<Button variant="outline" size="sm" />}>
+      {/* `render` and the rest of the trigger's props are passed on rather
+          than swallowed: a selector sits in a composer next to other controls,
+          and the button it wears is the caller's to match. The default is the
+          shape it had when it wore a fixed one. */}
+      <MenuTrigger render={render} {...props}>
         {selected ? (
           <>
             <ModelMark vendor={selected.vendor} />
