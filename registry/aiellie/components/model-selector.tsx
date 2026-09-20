@@ -8,7 +8,7 @@ import {
   modelIcons,
   type ModelIconName,
   type ModelIconProps,
-} from "@/registry/aiellie/components/icons/model-icons"
+} from "@/registry/aiellie/icons/model-icons"
 import { groupByVendor, VENDOR_NAMES } from "@/registry/aiellie/lib/models"
 import type { ModelOption } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"

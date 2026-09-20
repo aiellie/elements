@@ -60,7 +60,7 @@
       "description": "The vendor marks, keyed by vendor, drawn here rather than looked up in an icon set.",
       "files": [
         {
-          "path": "registry/aiellie/components/icons/model-icons.tsx",
+          "path": "registry/aiellie/icons/model-icons.tsx",
           "type": "registry:component",
           "target": "components/aiellie/icons/model-icons.tsx"
         }

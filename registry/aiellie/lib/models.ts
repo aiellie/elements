@@ -1,4 +1,4 @@
-import type { ModelIconName } from "@/registry/aiellie/components/icons/model-icons"
+import type { ModelIconName } from "@/registry/aiellie/icons/model-icons"
 
 /**
  * One model on offer. `vendor` does two jobs — it picks the mark the row wears
