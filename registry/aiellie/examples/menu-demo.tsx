@@ -58,7 +58,7 @@ import {
   MenuSubContent,
   MenuSubTrigger,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 
 /**
  * Every row the menu ships, in one popup: plain items with shortcuts, submenus

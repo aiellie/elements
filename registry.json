@@ -46,7 +46,7 @@
       "registryDependencies": ["@aiellie/utils"],
       "files": [
         {
-          "path": "registry/aiellie/components/menu.tsx",
+          "path": "registry/aiellie/ui/menu.tsx",
           "type": "registry:ui",
           "target": "components/aiellie/menu.tsx"
         }
