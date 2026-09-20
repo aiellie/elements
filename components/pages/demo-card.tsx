@@ -3,8 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowUpRightIcon } from "@hugeicons/core-free-icons";
+import {
+  DemoActions,
+  demoBackgroundClass,
+  type DemoBackground,
+} from "@/components/pages/demo-actions";
 
 
 export function DemoCard({
@@ -13,6 +16,7 @@ export function DemoCard({
   title,
   description,
   connection,
+  item,
   wide = false,
   children,
 }: {
@@ -21,11 +25,17 @@ export function DemoCard({
   title: string;
   description: string;
   connection?: string;
+  /**
+   * The registry item the card installs. Defaults to the last segment of
+   * `href`, which is what every card's route is already named after.
+   */
+  item?: string;
   wide?: boolean;
   children: React.ReactNode;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
+  const [background, setBackground] = useState<DemoBackground>("default");
 
   useEffect(() => {
     const root = rootRef.current;
@@ -55,6 +65,7 @@ export function DemoCard({
         className={cn(
           "border-foreground/10 flex items-center justify-center overflow-hidden rounded-xl border p-5 md:p-6",
           "group-hover/plate:border-foreground/25 h-[340px] transition-colors",
+          demoBackgroundClass(background),
           wide && "md:h-[420px]",
         )}
       >
@@ -64,29 +75,36 @@ export function DemoCard({
           </div>
         ) : null}
       </div>
-      <Link
-        href={href}
-        aria-label={title}
-        className="group/caption mt-3.5 flex items-baseline gap-2.5"
-      >
-        <span className="text-muted-foreground font-mono text-[11px] tabular-nums">
-          {String(index).padStart(2, "0")}
-        </span>
-        <h3 className="text-[13.5px] font-medium underline-offset-4 group-hover/caption:underline">
-          {title}
-        </h3>
-        {connection ? (
-          <span className="text-muted-foreground font-mono text-[11px]">
-            {connection}
-          </span>
-        ) : null}
-        <span
-          aria-hidden
-          className="text-muted-foreground ms-auto self-center opacity-0 transition-opacity group-hover/plate:opacity-100 motion-reduce:transition-none"
+      {/* The actions sit beside the link rather than inside it: the trigger is
+          a button, and a button inside an anchor is neither valid nor
+          clickable without following the link first. */}
+      <div className="mt-3.5 flex items-baseline gap-2.5">
+        <Link
+          href={href}
+          aria-label={title}
+          className="group/caption flex min-w-0 items-baseline gap-2.5"
         >
-          <HugeiconsIcon icon={ArrowUpRightIcon} className="size-3.5" />
-        </span>
-      </Link>
+          <span className="text-muted-foreground font-mono text-[11px] tabular-nums">
+            {String(index).padStart(2, "0")}
+          </span>
+          <h3 className="text-[13.5px] font-medium underline-offset-4 group-hover/caption:underline">
+            {title}
+          </h3>
+          {connection ? (
+            <span className="text-muted-foreground font-mono text-[11px]">
+              {connection}
+            </span>
+          ) : null}
+        </Link>
+        <DemoActions
+          item={item ?? href.split("/").filter(Boolean).pop() ?? ""}
+          href={href}
+          title={title}
+          background={background}
+          onBackgroundChange={setBackground}
+          className="ms-auto self-center"
+        />
+      </div>
       <p className="text-muted-foreground mt-1 text-[13px] leading-relaxed">
         {description}
       </p>
