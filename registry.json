@@ -4,15 +4,15 @@
   "homepage": "https://elements.aiellie.dev",
   "items": [
     {
-      "name": "hello-world",
+      "name": "chat",
       "type": "registry:block",
-      "title": "Hello World",
-      "description": "A simple hello world page",
+      "title": "Chat",
+      "description": "A simple chat block",
       "files": [
         {
-          "path": "registry/aiellie/blocks/hello-world/page.tsx",
+          "path": "registry/aiellie/blocks/chat/page.tsx",
           "type": "registry:page",
-          "target": "app/hello-world/page.tsx"
+          "target": "app/chat/page.tsx"
         }
       ],
       "meta": {
