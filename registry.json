@@ -4,6 +4,103 @@
   "homepage": "https://elements.aiellie.dev",
   "items": [
     {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "The cn helper every element uses to merge class names.",
+      "dependencies": ["cn"],
+      "files": [
+        {
+          "path": "lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Base UI's button with this registry's variants and sizes on it.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["controls"]
+    },
+    {
+      "name": "menu",
+      "type": "registry:ui",
+      "title": "Menu",
+      "description": "Base UI's menu with this registry's surface on it, plus an optional search box that filters the rows.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["overlay", "navigation"]
+    },
+    {
+      "name": "model-icons",
+      "type": "registry:component",
+      "title": "Model Icons",
+      "description": "The vendor marks, keyed by vendor, drawn here rather than looked up in an icon set.",
+      "files": [
+        {
+          "path": "registry/aiellie/components/icons/model-icons.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["display"]
+    },
+    {
+      "name": "models",
+      "type": "registry:lib",
+      "title": "Models",
+      "description": "The model catalogue a selector is handed: the option shape, the vendor headings, the grouping, and a list to start from.",
+      "registryDependencies": ["@aiellie/model-icons"],
+      "files": [
+        {
+          "path": "registry/aiellie/lib/models.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "model-selector",
+      "type": "registry:component",
+      "title": "Model Selector",
+      "description": "A simple model selector component",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/menu",
+        "@aiellie/model-icons",
+        "@aiellie/models"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/model-selector.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "icon": "AiBrain01Icon",
+        "iframeHeight": "400px"
+      },
+      "categories": ["controls"]
+    },
+    {
       "name": "chat",
       "type": "registry:block",
       "title": "Chat",
@@ -18,60 +115,6 @@
       "meta": {
         "icon": "Hold05Icon",
         "iframeHeight": "500px"
-      }
-    },
-    {
-      "name": "models",
-      "type": "registry:lib",
-      "title": "Models",
-      "description": "The model catalogue a selector is handed: the option shape, the vendor headings, the grouping, and a list to start from.",
-      "files": [
-        {
-          "path": "registry/aiellie/lib/models.ts",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/aiellie/components/icons/model-icons.tsx",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "model-selector",
-      "type": "registry:component",
-      "title": "Model Selector",
-      "description": "A simple model selector component",
-      "dependencies": [
-        "@base-ui/react",
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react",
-        "class-variance-authority"
-      ],
-      "files": [
-        {
-          "path": "registry/aiellie/components/model-selector.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/aiellie/components/menu.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/aiellie/components/icons/model-icons.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/aiellie/lib/models.ts",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/aiellie/ui/button.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "meta": {
-        "icon": "AiBrain01Icon",
-        "iframeHeight": "400px"
       }
     }
   ]
