@@ -11,8 +11,9 @@
       "dependencies": ["cn"],
       "files": [
         {
-          "path": "lib/utils.ts",
-          "type": "registry:lib"
+          "path": "registry/aiellie/lib/utils.ts",
+          "type": "registry:lib",
+          "target": "lib/utils.ts"
         }
       ]
     },
@@ -26,7 +27,8 @@
       "files": [
         {
           "path": "registry/aiellie/ui/button.tsx",
-          "type": "registry:ui"
+          "type": "registry:ui",
+          "target": "components/ui/button.tsx"
         }
       ],
       "categories": ["controls"]
@@ -45,7 +47,8 @@
       "files": [
         {
           "path": "registry/aiellie/components/menu.tsx",
-          "type": "registry:ui"
+          "type": "registry:ui",
+          "target": "components/aiellie/menu.tsx"
         }
       ],
       "categories": ["overlay", "navigation"]
@@ -58,7 +61,8 @@
       "files": [
         {
           "path": "registry/aiellie/components/icons/model-icons.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "target": "components/aiellie/icons/model-icons.tsx"
         }
       ],
       "categories": ["display"]
@@ -72,7 +76,8 @@
       "files": [
         {
           "path": "registry/aiellie/lib/models.ts",
-          "type": "registry:lib"
+          "type": "registry:lib",
+          "target": "lib/models.ts"
         }
       ]
     },
@@ -91,7 +96,8 @@
       "files": [
         {
           "path": "registry/aiellie/components/model-selector.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "target": "components/aiellie/model-selector.tsx"
         }
       ],
       "meta": {
