@@ -26,7 +26,7 @@ import {
   MenuItem,
   MenuSeparator,
   MenuTrigger,
-} from "@/registry/aiellie/ui/menu"
+} from "@/registry/aiellie/components/menu"
 import {
   Toolbar,
   ToolbarButton,
@@ -34,7 +34,7 @@ import {
   ToolbarInput,
   ToolbarLink,
   ToolbarSeparator,
-} from "@/registry/aiellie/ui/toolbar"
+} from "@/registry/aiellie/components/toolbar"
 
 /**
  * A formatting row: two groups of controls, a field, a link and a menu, divided

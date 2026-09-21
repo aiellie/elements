@@ -10,7 +10,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 
 export default function TooltipIconButtonDemo() {
   return (

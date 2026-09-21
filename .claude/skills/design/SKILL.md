@@ -1,10 +1,11 @@
+---
+name: design
+description: The aiellie design system — color and status tokens, glass surfaces, elevation, type scale and weights, radius, spacing and density, focus, z-layers, motion, and icon rules. Use before building, restyling or reviewing any UI in this repo, including porting a shadcn component into the registry.
+---
+
 # aiellie — design system
 
-The single source of truth for how this registry looks and behaves. Drop it at the repo root (or in `.claude/`) and point your `CLAUDE.md` at it:
-
-```md
-Follow the design system in `design-system.md` for all UI work.
-```
+The single source of truth for how this registry looks and behaves.
 
 Values live in `globals.css`; this file says what they mean and when to reach for them. If the two disagree, `globals.css` is the value and this file is the intent — fix whichever is wrong.
 

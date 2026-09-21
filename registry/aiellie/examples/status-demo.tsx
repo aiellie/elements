@@ -4,7 +4,7 @@ import {
   Status,
   StatusIndicator,
   StatusLabel,
-} from "@/registry/aiellie/ui/status"
+} from "@/registry/aiellie/components/status"
 
 export default function StatusDemo() {
   return (

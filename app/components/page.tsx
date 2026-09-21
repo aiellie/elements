@@ -1,29 +1,73 @@
-import { Activity03Icon, AiBrain01Icon } from "@hugeicons/core-free-icons"
+import {
+  Activity03Icon,
+  AiBrain01Icon,
+  CursorInfo02Icon,
+  LayoutTopIcon,
+  Menu01Icon,
+} from "@hugeicons/core-free-icons"
+import { CategorySection } from "@/components/pages/category-separator"
 import { DemoCard } from "@/components/pages/demo-card"
+import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
+import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
+import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 export default function ComponentsPage() {
   return (
-    <div className="grid grid-cols-1 gap-x-6 gap-y-10 py-8 sm:py-12 md:grid-cols-2 xl:grid-cols-3">
-      <DemoCard
-        href="/examples/model-selector"
-        index={1}
-        title="Model Selector"
-        icon={AiBrain01Icon}
-        description="A simple model selector component"
-        
-      >
-        <ModelSelectorDemo />
-      </DemoCard>
-      <DemoCard
-        href="/examples/status"
-        index={2}
-        title="Status"
-        icon={Activity03Icon}
-        description="A simple status component"
-      >
-        <StatusDemo />
-      </DemoCard>
-    </div>    
+    <div className="flex flex-col gap-16 py-8 sm:py-12">
+      <CategorySection category="actions">
+        <DemoCard
+          href="/components/tooltip-icon-button"
+          index={1}
+          title="Tooltip Icon Button"
+          icon={CursorInfo02Icon}
+          description="A simple tooltip icon button component"
+        >
+          <TooltipIconButtonDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/toolbar"
+          index={2}
+          title="Toolbar"
+          icon={LayoutTopIcon}
+          description="A simple toolbar component"
+        >
+          <ToolbarDemo />
+        </DemoCard>
+      </CategorySection>
+      <CategorySection category="inputs">
+        <DemoCard
+          href="/components/model-selector"
+          index={3}
+          title="Model Selector"
+          icon={AiBrain01Icon}
+          description="A simple model selector component"
+        >
+          <ModelSelectorDemo />
+        </DemoCard>
+      </CategorySection>
+      <CategorySection category="overlays">
+        <DemoCard
+          href="/components/menu"
+          index={4}
+          title="Menu"
+          icon={Menu01Icon}
+          description="A simple menu component"
+        >
+          <MenuDemo />
+        </DemoCard>
+      </CategorySection>
+      <CategorySection category="feedback">
+        <DemoCard
+          href="/components/status"
+          index={5}
+          title="Status"
+          icon={Activity03Icon}
+          description="A simple status component"
+        >
+          <StatusDemo />
+        </DemoCard>
+      </CategorySection>
+    </div>
   )
 }
