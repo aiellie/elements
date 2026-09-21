@@ -15,12 +15,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pnpm dev                            # site on :3000 (press `d` to flip light/dark)
 pnpm registry:build                 # shadcn build: registry.json -> public/r/*.json
 pnpm typecheck                      # tsc --noEmit
+pnpm lint                           # eslint with Next's config
 pnpm build                          # registry:build, then next build
 pnpm exec prettier --write <files>  # format only what you touched
 ```
 
 - `public/r/` is generated and gitignored. The build never deletes JSON for items that were removed from `registry.json`, so a file existing there doesn't mean the item is still published.
-- `pnpm lint` currently crashes inside eslint-plugin-react under ESLint 10 (`contextOrFilename.getFilename is not a function`). Until that's fixed, `pnpm typecheck` is the check to pass.
+- `pnpm typecheck` and `pnpm lint` are the checks to pass before calling work done.
 - `pnpm format` rewrites the whole repo, and much of the repo isn't Prettier-clean yet, so don't run it for a scoped change.
 - There is no test suite.
 
@@ -59,7 +60,7 @@ Rules that keep installs working:
   - `icon` takes a Hugeicons glyph.
   - `wide` makes the card span the whole row; use it for blocks.
   - The demo mounts lazily, centred in a plate of fixed height: 340px, or 420px when `wide`.
-- `components/ui/` and `components/aiellie/` hold the UI used by the site chrome (`demo-actions`, `nav-button`). Most of these files are copies of registry items installed into this repo; `toast.tsx` exists only for the site. Nothing keeps the copies in sync with `registry/`, which is the source of truth, so they can fall behind it.
+- `components/ui/` and `components/aiellie/` hold the UI used by the site chrome (`demo-actions`, `nav-button`). Most of these files are copies of registry items installed into this repo; `toast.tsx` exists only for the site. Nothing keeps the copies in sync with `registry/`, which is the source of truth, so they can fall behind it. To update a copy, copy the registry file over it, then point any `@/registry/aiellie/...` imports at the installed paths.
 - Site-only code: `components/shared/`, `components/pages/`, `lib/surfaces.tsx`, `lib/constants.ts` (nav pages, container width), `lib/categories.ts`, and `app/provider.tsx` (themes and toasts).
 
 ## Building a feature
@@ -77,7 +78,7 @@ Once the plan is approved, build it in layers. For example, "build the chat page
 2. **Components.** Make each part its own item in `components/` (`chat-header.tsx`, `chat-composer.tsx`, …), built from those primitives.
 3. **Block.** `blocks/chat/components/chat.tsx` composes the parts, and `blocks/chat/page.tsx` renders it. The home page previews the block.
 4. **Demos.** Every new `ui/` or `components/` item gets an `examples/<name>-demo.tsx` and a `DemoCard` on `/ui` or `/components`, inside its category's `CategorySection`.
-5. **Registry.** Add every new item to `registry.json` with its category, then run `pnpm registry:build` and `pnpm typecheck`.
+5. **Registry.** Add every new item to `registry.json` with its category, then run `pnpm registry:build`, `pnpm typecheck` and `pnpm lint`.
 
 ## Porting a shadcn component into `ui/`
 

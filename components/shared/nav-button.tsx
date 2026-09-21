@@ -73,6 +73,7 @@ interface NavPage {
  * `FloatingToolbarTab` and the theme pill, so the three read as one system.
  */
 const navButton = cn(
+  "flex items-center justify-center rounded-full text-foreground/45 outline-none transition-[background-color,color,scale] duration-150 hover:bg-foreground/[0.06] hover:text-foreground/90 active:scale-[0.96] focus-visible:ring-1 focus-visible:ring-foreground/20 motion-reduce:transition-none dark:hover:bg-foreground/[0.09]",
   "inline-flex h-6.5 items-center gap-1.5 rounded-md px-2 text-xs font-medium whitespace-nowrap",
   "data-[active=true]:bg-muted data-[active=true]:text-foreground",
   "data-[active=true]:hover:bg-muted data-[active=true]:hover:text-foreground",
