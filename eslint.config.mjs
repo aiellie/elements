@@ -21,6 +21,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The starter app `aiellie init` copies. Its page imports the chat, which
+    // only exists once the command has installed it into a real app.
+    "packages/cli/template/**",
   ]),
 ]);
 

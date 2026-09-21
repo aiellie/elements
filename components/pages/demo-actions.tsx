@@ -259,5 +259,5 @@ function DemoActions({
   )
 }
 
-export { DemoActions, DEMO_BACKGROUNDS, demoBackgroundClass }
+export { DemoActions, DEMO_BACKGROUNDS, demoBackgroundClass, writeToClipboard }
 export type { DemoBackground }

@@ -24,6 +24,11 @@ pnpm exec prettier --write <files>  # format only what you touched
 - `pnpm typecheck` and `pnpm lint` are the checks to pass before calling work done.
 - `pnpm format` rewrites the whole repo, and much of the repo isn't Prettier-clean yet, so don't run it for a scoped change.
 - There is no test suite.
+- To try the `aiellie` command against your local registry, run `pnpm registry:build` with `pnpm dev` running, then run this from a scratch folder outside the repo:
+
+  ```bash
+  AIELLIE_REGISTRY_URL=http://localhost:3000/r node <repo>/packages/cli/bin/aiellie.js init my-chat --yes
+  ```
 
 ## Architecture
 
@@ -50,6 +55,23 @@ Rules that keep installs working:
 - Every registry file that a file imports must be listed in its item's `registryDependencies` (as `@aiellie/<name>`). Otherwise the file never gets installed and the import breaks. Every npm package the file imports goes in `dependencies`.
 - A block lists every file it ships: `page.tsx` as `registry:page`, and its `components/*.tsx` as `registry:component` targeted under `components/aiellie/`. It depends on every item it composes. The page installs as a Next route, so it needs a default export.
 - Registry code only gets to use shadcn's standard theme tokens (`background`, `muted`, `sidebar`, `border`, `ring`, …), Tailwind's own utilities, and `tw-animate-css` (listed in `dependencies`, like `tooltip` and `message` do). The site's extras (`text-h2`, `glass`, `press`, `bg-overlay`, `animate-blink`, the `--z-*` layers) don't exist in a consumer's project. Don't try to ship new theme variables either: this CLI writes `cssVars.theme` under a `.theme` class instead of `@theme`, and `css` can't declare a variable inside `@theme`.
+
+The `theme` item is the exception to living under `registry/aiellie/`: it publishes the site's own `app/globals.css`, byte for byte, as a file that replaces a consumer's stylesheet. Any change to `app/globals.css` therefore ships to new apps on the next deploy. Keep it self-contained: every package it `@import`s must be in the theme item's `dependencies`.
+
+Projects have to register the `@aiellie` namespace in their `components.json` before anything that depends on `@aiellie/...` will install. Without it, shadcn stops with "Unknown registry". The `aiellie` command adds the entry itself; a plain `shadcn add <url>` doesn't.
+
+### `packages/cli/`: the `aiellie` command
+
+An npm package (`aiellie`) in the pnpm workspace, written in plain JavaScript with no build step. Commands:
+
+- **`npx aiellie init [dir]`:** in an empty folder, or given a new folder name, it copies `template/` (a bare Next.js app: layout, fonts, `components.json`, a home page that shows the chat), installs its packages, then runs `shadcn add @aiellie/theme @aiellie/chat` against the live registry. In a folder with a `package.json`, it runs `shadcn init` if the project has no `components.json`, registers the namespace, and adds the chat.
+- **`npx aiellie add <names...>`:** registers the namespace if needed and runs `shadcn add @aiellie/<name>`.
+
+The chat and the theme come from the registry at install time, so they reach new apps whenever the site deploys. Republish the package only when `bin/` or `template/` changes. The template ships inside the package rather than being downloaded, because the GitHub repo is private. Its `.gitignore` is stored as `_gitignore`, because npm strips `.gitignore` files from published packages.
+
+With `--yes`, or when there's no terminal, the command types shadcn's answers itself. shadcn asks about files that already exist even with `--yes`, and it quits without installing the rest if its input is closed instead of answered. The site's typecheck and lint skip `packages/`, because the template's imports only resolve inside a generated app.
+
+To publish, log in with `npm login`, bump `version` in `packages/cli/package.json`, then run `pnpm publish` from `packages/cli`.
 
 ### The site: `app/`, `components/`, `lib/`
 

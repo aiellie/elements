@@ -1,0 +1,28 @@
+{
+  "name": "aiellie",
+  "version": "0.1.0",
+  "description": "Create a chat app from the aiellie registry, or add its components to an existing project.",
+  "homepage": "https://elements.aiellie.dev",
+  "keywords": [
+    "ai",
+    "chat",
+    "components",
+    "shadcn",
+    "registry",
+    "base-ui"
+  ],
+  "type": "module",
+  "bin": {
+    "aiellie": "./bin/aiellie.js"
+  },
+  "files": [
+    "bin",
+    "template"
+  ],
+  "engines": {
+    "node": ">=20.9"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.8.1"
+  }
+}

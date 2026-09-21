@@ -18,6 +18,20 @@
       ]
     },
     {
+      "name": "theme",
+      "type": "registry:item",
+      "title": "Theme",
+      "description": "The whole aiellie stylesheet: color, type, radius, shadow and motion tokens. It replaces your app/globals.css.",
+      "dependencies": ["shadcn", "tw-animate-css", "tw-shimmer"],
+      "files": [
+        {
+          "path": "app/globals.css",
+          "type": "registry:file",
+          "target": "app/globals.css"
+        }
+      ]
+    },
+    {
       "name": "models",
       "type": "registry:lib",
       "title": "Models",
