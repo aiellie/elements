@@ -1,3 +1,4 @@
+import { Activity03Icon, AiBrain01Icon } from "@hugeicons/core-free-icons"
 import { DemoCard } from "@/components/pages/demo-card"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
@@ -8,6 +9,7 @@ export default function ComponentsPage() {
         href="/examples/model-selector"
         index={1}
         title="Model Selector"
+        icon={AiBrain01Icon}
         description="A simple model selector component"
         
       >
@@ -17,6 +19,7 @@ export default function ComponentsPage() {
         href="/examples/status"
         index={2}
         title="Status"
+        icon={Activity03Icon}
         description="A simple status component"
       >
         <StatusDemo />

@@ -1,3 +1,4 @@
+import { BubbleChatSparkIcon } from "@hugeicons/core-free-icons"
 import { DemoCard } from "@/components/pages/demo-card"
 import { ChatPage } from "@/registry/aiellie/blocks/chat/page"
 export default function Page() {
@@ -7,6 +8,7 @@ export default function Page() {
         href="/elements/chat"
         index={1}
         title="Chat"
+        icon={BubbleChatSparkIcon}
         description="A simple chat component"
         wide
       >

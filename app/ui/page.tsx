@@ -1,3 +1,10 @@
+import {
+  Comment01Icon,
+  CursorInfo02Icon,
+  LayoutTopIcon,
+  Menu01Icon,
+  MousePointerClickIcon,
+} from "@hugeicons/core-free-icons"
 import { DemoCard } from "@/components/pages/demo-card"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
@@ -11,6 +18,7 @@ export default function UiPage() {
         href="/ui/button"
         index={1}
         title="Button"
+        icon={MousePointerClickIcon}
         description="A simple button component"
         
       >
@@ -20,6 +28,7 @@ export default function UiPage() {
         href="/ui/tooltip-icon-button"
         index={2}
         title="Tooltip Icon Button"
+        icon={CursorInfo02Icon}
         description="A simple tooltip icon button component"
       >
         <TooltipIconButtonDemo />
@@ -28,6 +37,7 @@ export default function UiPage() {
         href="/ui/menu"
         index={3}
         title="Menu"
+        icon={Menu01Icon}
         description="A simple menu component"
       >
         <MenuDemo />
@@ -36,6 +46,7 @@ export default function UiPage() {
         href="/examples/tooltip"
         index={4}
         title="Tooltip"
+        icon={Comment01Icon}
         description="A simple tooltip component"
       >
         <TooltipDemo />
@@ -44,6 +55,7 @@ export default function UiPage() {
         href="/ui/toolbar"
         index={5}
         title="Toolbar"
+        icon={LayoutTopIcon}
         description="A simple toolbar component"
       >
         <ToolbarDemo />
