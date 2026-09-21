@@ -2,7 +2,6 @@
 
 import {
   AiEditingIcon,
-  AiBeautifyIcon,
   ArrowUp02Icon,
   Copy01Icon,
   Delete01Icon,
@@ -27,9 +26,6 @@ export default function ButtonDemo() {
         </Button>
         <Button size="sm" variant="ghost">
           <HugeiconsIcon icon={AiEditingIcon} /> Edit
-        </Button>
-        <Button size="sm" variant="link">
-          <HugeiconsIcon icon={AiBeautifyIcon} /> Generate
         </Button>
         <Button size="sm" variant="destructive">
           <HugeiconsIcon icon={Delete01Icon} /> Delete

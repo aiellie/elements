@@ -3,7 +3,7 @@ import ButtonDemo from "@/registry/aiellie/examples/button-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
-import PopoverDemo from "@/registry/aiellie/examples/popover-demo"
+import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 export default function UiPage() {
   return (
     <div className="grid grid-cols-1 gap-x-6 gap-y-10 py-8 sm:py-12 md:grid-cols-2 xl:grid-cols-3">
@@ -41,12 +41,12 @@ export default function UiPage() {
         <TooltipDemo />
       </DemoCard>
       <DemoCard
-        href="/ui/popover"
+        href="/ui/toolbar"
         index={5}
-        title="Popover"
-        description="A simple popover component"
+        title="Toolbar"
+        description="A simple toolbar component"
       >
-        <PopoverDemo />
+        <ToolbarDemo />
       </DemoCard>
     </div>     
   )
