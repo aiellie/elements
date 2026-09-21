@@ -49,6 +49,7 @@ Rules that keep installs working:
 - Inside `registry/`, import other registry files as `@/registry/aiellie/<folder>/<name>`, and import `cn` from `@/lib/utils`. Never import site code (`@/components/...`, `lib/surfaces`, `lib/constants`). On install, the shadcn CLI rewrites these imports so each one points at wherever that file landed, matching files by basename. Keep basenames unique across the registry.
 - Every registry file that a file imports must be listed in its item's `registryDependencies` (as `@aiellie/<name>`). Otherwise the file never gets installed and the import breaks. Every npm package the file imports goes in `dependencies`.
 - A block lists every file it ships: `page.tsx` as `registry:page`, and its `components/*.tsx` as `registry:component` targeted under `components/aiellie/`. It depends on every item it composes. The page installs as a Next route, so it needs a default export.
+- Registry code only gets to use shadcn's standard theme tokens (`background`, `muted`, `sidebar`, `border`, `ring`, …), Tailwind's own utilities, and `tw-animate-css` (listed in `dependencies`, like `tooltip` and `message` do). The site's extras (`text-h2`, `glass`, `press`, `bg-overlay`, `animate-blink`, the `--z-*` layers) don't exist in a consumer's project. Don't try to ship new theme variables either: this CLI writes `cssVars.theme` under a `.theme` class instead of `@theme`, and `css` can't declare a variable inside `@theme`.
 
 ### The site: `app/`, `components/`, `lib/`
 
@@ -67,18 +68,31 @@ Rules that keep installs working:
 
 When asked to build something new (a block, a component or a primitive), **post a plan and wait for the user's approval before creating any files.** The plan lists:
 
-- **Block:** the parts that go in it.
-- **Components:** the existing ones it reuses, and the new ones to build, with a line on what each new one does.
+- **Block:** the page's own parts, the `<block>-*.tsx` files that go in `blocks/<block>/components/`.
+- **Components:** the reusable ones it uses, and the new ones to build, with a line on what each new one does.
 - **UI:** the existing primitives it uses, the ones to port from shadcn (into `ui/`), and the ones to build ourselves on Base UI (into `components/`).
 - **Categories:** the category each new item's card goes under.
 
 Once the plan is approved, build it in layers. For example, "build the chat page: sidebar, header, messages, empty state, composer, thread" breaks down like this:
 
 1. **Primitives.** Port anything missing from shadcn into `ui/` (see the next section), or build our own on `@base-ui/react` in `components/`.
-2. **Components.** Make each part its own item in `components/` (`chat-header.tsx`, `chat-composer.tsx`, …), built from those primitives.
-3. **Block.** `blocks/chat/components/chat.tsx` composes the parts, and `blocks/chat/page.tsx` renders it. The home page previews the block.
+2. **Components.** A piece worth reusing outside this page becomes its own item in `components/`, with a general name (`composer`, `message`, `thread`). Each one installs on its own and knows nothing about the page.
+3. **Block.** The page's own parts are `chat-*.tsx` files in `blocks/chat/components/`, each built from the reusable pieces. For example, `chat-composer.tsx` is the composer plus the model selector, hooked up to send. Parts that only make sense on this page (the sidebar, the header, the empty state) exist only here. `chat.tsx` lays them out and holds the state, and `page.tsx` renders it. Block files install only with the block and get no cards; the home page previews the whole block.
 4. **Demos.** Every new `ui/` or `components/` item gets an `examples/<name>-demo.tsx` and a `DemoCard` on `/ui` or `/components`, inside its category's `CategorySection`.
 5. **Registry.** Add every new item to `registry.json` with its category, then run `pnpm registry:build`, `pnpm typecheck` and `pnpm lint`.
+
+## Design feedback
+
+Design feedback is already a decision, so it doesn't need a plan first. Ask only when it's unclear what the user wants. Don't just patch the one spot that was mentioned. Make the change stick, so later work follows it without being told again:
+
+1. **The component** in `registry/aiellie/`. Registry code can't use the site's own tokens (see the rules above), so the new value goes in the component's classes.
+2. **Its demo** in `examples/`, so its card shows the change, and **the site's copy** in `components/ui/` or `components/aiellie/`, if it has one.
+3. **`app/globals.css`**, when the feedback changes a value the site itself uses: a token, a utility or a global rule.
+4. **The `design` skill.** Write the feedback down as a rule, with its reason, where future work will look for it. Where it contradicts the skill, the feedback wins: rewrite that part instead of adding an exception.
+5. **Other components with the same pattern.** Feedback about one component usually describes a pattern, so bring the others in line and say which ones changed. If it's unclear whether the feedback applies to them, ask.
+6. **This file**, when the feedback changes how things are built rather than how they look.
+
+Check each change in the browser, in light and dark mode. When feedback arrives as a list, work through it item by item and end with a summary of what changed where.
 
 ## Porting a shadcn component into `ui/`
 

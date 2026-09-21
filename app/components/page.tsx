@@ -4,12 +4,18 @@ import {
   CursorInfo02Icon,
   LayoutTopIcon,
   Menu01Icon,
+  Message01Icon,
+  MessageEdit01Icon,
+  MessageMultiple01Icon,
 } from "@hugeicons/core-free-icons"
 import { CategorySection } from "@/components/pages/category-separator"
 import { DemoCard } from "@/components/pages/demo-card"
+import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
+import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
+import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
 import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 export default function ComponentsPage() {
@@ -66,6 +72,35 @@ export default function ComponentsPage() {
           description="A simple status component"
         >
           <StatusDemo />
+        </DemoCard>
+      </CategorySection>
+      <CategorySection category="chat">
+        <DemoCard
+          href="/components/composer"
+          index={6}
+          title="Composer"
+          icon={MessageEdit01Icon}
+          description="A simple composer component"
+        >
+          <ComposerDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/message"
+          index={7}
+          title="Message"
+          icon={Message01Icon}
+          description="A simple message component"
+        >
+          <MessageDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/thread"
+          index={8}
+          title="Thread"
+          icon={MessageMultiple01Icon}
+          description="A simple thread component"
+        >
+          <ThreadDemo />
         </DemoCard>
       </CategorySection>
     </div>

@@ -1,5 +1,9 @@
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
-export function ChatPage() {
-    return <Chat />
-  }
-  
+
+export default function ChatPage() {
+  return (
+    <div className="h-dvh">
+      <Chat />
+    </div>
+  )
+}

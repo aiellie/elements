@@ -61,6 +61,21 @@
       "categories": ["actions"]
     },
     {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "A text field that grows with what is typed into it.",
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/textarea.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/textarea.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
       "name": "tooltip",
       "type": "registry:ui",
       "title": "Tooltip",
@@ -75,6 +90,26 @@
         }
       ],
       "docs": "The open and close animations come from tw-animate-css. Add `@import \"tw-animate-css\";` to your global stylesheet if it is not there already.",
+      "categories": ["overlays"]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Base UI's dialog as a panel that slides in from an edge of the screen, over a dimmed page.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/sheet.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/sheet.tsx"
+        }
+      ],
       "categories": ["overlays"]
     },
     {
@@ -174,15 +209,117 @@
       "categories": ["inputs"]
     },
     {
+      "name": "composer",
+      "type": "registry:component",
+      "title": "Composer",
+      "description": "The box a message is written in: a field that grows as you type, a row for controls, and a send button that turns into stop while a reply streams.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/textarea",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/composer.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/composer.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "message",
+      "type": "registry:component",
+      "title": "Message",
+      "description": "One turn in a conversation: the person's words in a bubble, the assistant's as plain text with a caret while it is still being written.",
+      "dependencies": ["tw-animate-css"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/message.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/message.tsx"
+        }
+      ],
+      "docs": "The caret's blink comes from tw-animate-css. Add `@import \"tw-animate-css\";` to your global stylesheet if it is not there already.",
+      "categories": ["chat"]
+    },
+    {
+      "name": "thread",
+      "type": "registry:component",
+      "title": "Thread",
+      "description": "The scrolling part of a conversation. It keeps to the newest message while a reply streams, and offers a way back once you scroll away.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/thread.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/thread.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
       "name": "chat",
       "type": "registry:block",
       "title": "Chat",
-      "description": "A simple chat block",
+      "description": "A chat page: your chats in a sidebar, a thread that streams replies, and a composer with a model selector.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/sheet",
+        "@aiellie/menu",
+        "@aiellie/status",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/model-selector",
+        "@aiellie/models",
+        "@aiellie/composer",
+        "@aiellie/message",
+        "@aiellie/thread",
+        "@aiellie/utils"
+      ],
       "files": [
         {
           "path": "registry/aiellie/blocks/chat/page.tsx",
           "type": "registry:page",
           "target": "app/chat/page.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-sidebar.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-sidebar.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-header.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-header.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-thread.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-thread.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-messages.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-messages.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-empty.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-empty.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-composer.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-composer.tsx"
         }
       ],
       "meta": {
