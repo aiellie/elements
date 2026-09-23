@@ -19,8 +19,7 @@ import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
-import { PanelShell } from "@/registry/aiellie/blocks/panels/components/panels-shell"
-import PanelsPage from "@/registry/aiellie/blocks/panels/page"
+import { Panels } from "@/registry/aiellie/blocks/panels/components/panels"
 
 type Demo = {
   title: string
@@ -48,9 +47,11 @@ const DEMOS: Record<string, Demo> = {
     // Full screen it fills the stage rather than the window, which also has
     // the stage's own bar in it.
     Demo: () => (
-      <PanelShell className="my-0 h-full">
-        <PanelsPage />
-      </PanelShell>
+      <Panels className="h-full">
+        <div className="flex h-full items-center justify-center p-6 text-sm text-muted-foreground">
+          Your page goes here.
+        </div>
+      </Panels>
     ),
   },
   button: { title: "Button", gallery: "/ui", Demo: ButtonDemo },

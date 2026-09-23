@@ -1,223 +1,440 @@
 "use client"
 
 import * as React from "react"
+import {
+  Cancel01Icon,
+  LayoutAlignBottomIcon,
+  LayoutAlignLeftIcon,
+  LayoutAlignRightIcon,
+  SidebarBottomIcon,
+  SidebarLeftIcon,
+  SidebarRightIcon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+import type { Layout, LayoutChangedMeta } from "react-resizable-panels"
+import { usePanelRef } from "react-resizable-panels"
 
-import { useSidebar } from "@/registry/aiellie/ui/sidebar"
+import { useIsMobile } from "@/registry/aiellie/hooks/use-mobile"
+import { Button } from "@/registry/aiellie/ui/button"
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/registry/aiellie/ui/resizable"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/registry/aiellie/ui/sheet"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/registry/aiellie/ui/tooltip"
+import { cn } from "@/lib/utils"
 
-const RIGHT_OPEN_KEY = "panels:right-open"
-const BOTTOM_OPEN_KEY = "panels:bottom-open"
+type Side = "left" | "right" | "bottom"
 
-// Sidebar already binds ⌘B (see SIDEBAR_KEYBOARD_SHORTCUT) to the left panel;
-// these sit next to it: ⌘I for the right panel, ⌘J for the bottom one. Plain
-// ⌘+letter like the sidebar's, and letters it doesn't use — the sidebar's
-// handler doesn't check Shift, so ⌘⇧B would double up with ⌘B under Caps Lock.
-const RIGHT_PANEL_KEYBOARD_SHORTCUT = "i"
-const BOTTOM_PANEL_KEYBOARD_SHORTCUT = "j"
+/**
+ * Everything that differs from one side to the next. Sizes are the panel's
+ * default, smallest and largest, in any unit the library takes; the key is the
+ * letter that toggles it with ⌘ or Ctrl.
+ */
+const PANELS = {
+  left: {
+    title: "Left",
+    size: ["18rem", "12rem", "28rem"],
+    key: "b",
+    openIcon: SidebarLeftIcon,
+    closedIcon: LayoutAlignLeftIcon,
+  },
+  right: {
+    title: "Right",
+    size: ["24rem", "16rem", "42rem"],
+    key: "i",
+    openIcon: SidebarRightIcon,
+    closedIcon: LayoutAlignRightIcon,
+  },
+  bottom: {
+    title: "Bottom",
+    size: ["16rem", "8rem", "70%"],
+    key: "j",
+    openIcon: SidebarBottomIcon,
+    closedIcon: LayoutAlignBottomIcon,
+  },
+} as const
 
-// localStorage is the source of truth for panel state so it survives reloads.
-// Writes fall back to this map when storage is unavailable (private mode,
-// quota), keeping the panels working for the session either way.
-const memoryFallback = new Map<string, string>()
-const listeners = new Set<() => void>()
-
-/** Reads a JSON value persisted with `writePanelStorage`. */
-function readPanelStorage<T>(key: string): T | undefined {
-  if (typeof window === "undefined") return undefined
-  let raw: string | null | undefined
-  try {
-    raw = window.localStorage.getItem(key)
-  } catch {
-    raw = undefined
-  }
-  raw ??= memoryFallback.get(key)
-  if (raw == null) return undefined
-  try {
-    return JSON.parse(raw) as T
-  } catch {
-    return undefined
-  }
+type PanelsContextValue = {
+  /** Whether each panel is on screen, its rail or, on a phone, its sheet. */
+  isOpen: (side: Side) => boolean
+  toggle: (side: Side) => void
 }
 
-function writePanelStorage(key: string, value: unknown) {
-  const raw = JSON.stringify(value)
-  memoryFallback.set(key, raw)
-  try {
-    window.localStorage.setItem(key, raw)
-  } catch {
-    // The memory copy above still drives this session.
-  }
-  for (const listener of listeners) listener()
-}
+const PanelsContext = React.createContext<PanelsContextValue | null>(null)
 
-// The `storage` event covers other tabs; `listeners` covers this one.
-function subscribeToPanelStorage(callback: () => void) {
-  listeners.add(callback)
-  window.addEventListener("storage", callback)
-  return () => {
-    listeners.delete(callback)
-    window.removeEventListener("storage", callback)
-  }
-}
-
-const getRightOpenSnapshot = () => readPanelStorage<boolean>(RIGHT_OPEN_KEY)
-const getBottomOpenSnapshot = () => readPanelStorage<boolean>(BOTTOM_OPEN_KEY)
-const getServerSnapshot = () => undefined
-
-type PanelsContextProps = {
-  /** The right rail, on desktop. Persisted. */
-  rightOpen: boolean
-  /**
-   * The right panel as a sheet, on mobile — the counterpart of the sidebar's
-   * `openMobile`. Session-only: a sheet must not pop open by itself after a
-   * reload or a resize.
-   */
-  rightOpenMobile: boolean
-  bottomOpen: boolean
-  setRightOpen: (open: boolean) => void
-  setRightOpenMobile: (open: boolean) => void
-  setBottomOpen: (open: boolean) => void
-  /** Drives the rail on desktop and the sheet on mobile, like `toggleSidebar`. */
-  toggleRight: () => void
-  /** Opens whichever of the two is in play, for content that needs the panel up. */
-  openRight: () => void
-  toggleBottom: () => void
-}
-
-const PanelsContext = React.createContext<PanelsContextProps | null>(
-  null
-)
-
-// The header toggles live outside the panel group, so the open state for the
-// right and bottom panels sits above both. `useSidebar` already owns the left
-// one; this covers the other two sides, and leans on the same `isMobile` to
-// tell the right rail from its mobile sheet — so `PanelsProvider` has to sit
-// inside a `SidebarProvider`.
 function usePanels() {
   const context = React.useContext(PanelsContext)
-  if (!context) {
-    throw new Error("usePanels must be used within a PanelsProvider.")
-  }
-
+  if (!context) throw new Error("usePanels must be used within <Panels>.")
   return context
 }
 
-function PanelsProvider({
-  defaultRightOpen = false,
-  defaultBottomOpen = false,
+/**
+ * Opens and closes one panel, with a tooltip naming what it will do and the
+ * key that does the same. With `close` it is a ghost × instead, for where the
+ * panel is always open when the button is seen: its own header, or its sheet.
+ */
+function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
+  const { isOpen, toggle } = usePanels()
+  const { title, key, openIcon, closedIcon } = PANELS[side]
+  const open = isOpen(side)
+  const label = `${open ? "Hide" : "Show"} ${title.toLowerCase()} panel`
+
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <Button
+            data-slot="panel-toggle"
+            variant={open && !close ? "secondary" : "ghost"}
+            size="icon-sm"
+            // A close button only ever closes, so it isn't a pressed toggle.
+            aria-pressed={close ? undefined : open}
+            onClick={() => toggle(side)}
+          />
+        }
+      >
+        {/* Keyed so the glyph remounts, and replays any entrance animation,
+            as it swaps. */}
+        <HugeiconsIcon
+          key={String(open)}
+          icon={close ? Cancel01Icon : open ? openIcon : closedIcon}
+          aria-hidden
+          className={cn(!(open && !close) && "text-muted-foreground")}
+        />
+        <span className="sr-only">{label}</span>
+      </TooltipTrigger>
+      <TooltipContent side="bottom">
+        {label}
+        <kbd
+          data-slot="kbd"
+          className="rounded-sm bg-background/15 px-1 font-sans"
+        >
+          ⌘{key.toUpperCase()}
+        </kbd>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+/** The bar across the top of a panel: its name, and its toggles at the end. */
+function PanelHeader({
+  title,
+  start,
+  end,
+}: {
+  title: string
+  start?: React.ReactNode
+  end?: React.ReactNode
+}) {
+  return (
+    <header className="flex h-10 shrink-0 items-center gap-2 border-b bg-background px-2">
+      {start}
+      <span className="min-w-0 truncate px-1 text-xs font-medium text-muted-foreground">
+        {title}
+      </span>
+      {end ? (
+        <div className="ms-auto flex shrink-0 items-center gap-1">{end}</div>
+      ) : null}
+    </header>
+  )
+}
+
+/**
+ * One collapsible panel and the handle on its inner edge. It stays mounted and
+ * collapses to nothing rather than unmounting, because an unmounted panel
+ * hands its space to whichever neighbour has room, which can throw the other
+ * side out to its largest size.
+ *
+ * While it is shut, its handle is disabled and hidden, so a closed panel opens
+ * from its toggle and not by pulling its edge back out. The handle can't
+ * simply go away: with no separator between two panels, the library lets the
+ * gap between their edges be dragged instead.
+ */
+function CollapsiblePanel({
+  side,
+  open,
   children,
 }: {
-  defaultRightOpen?: boolean
-  defaultBottomOpen?: boolean
+  side: Side
+  open: boolean
   children: React.ReactNode
 }) {
-  // The server render can't see localStorage, so it paints the defaults and
-  // the client corrects itself right after hydration — that's exactly the
-  // server-snapshot / client-snapshot split useSyncExternalStore models.
-  const storedRight = React.useSyncExternalStore(
-    subscribeToPanelStorage,
-    getRightOpenSnapshot,
-    getServerSnapshot
-  )
-  const storedBottom = React.useSyncExternalStore(
-    subscribeToPanelStorage,
-    getBottomOpenSnapshot,
-    getServerSnapshot
-  )
+  const panelRef = usePanelRef()
+  const [defaultSize, minSize, maxSize] = PANELS[side].size
 
-  const rightOpen =
-    typeof storedRight === "boolean" ? storedRight : defaultRightOpen
-  const bottomOpen =
-    typeof storedBottom === "boolean" ? storedBottom : defaultBottomOpen
-
-  // Plain state, same as the sidebar's `openMobile`: the sheet is the mobile
-  // stand-in for the rail and shares nothing with it.
-  const { isMobile } = useSidebar()
-  const [rightOpenMobile, setRightOpenMobile] = React.useState(false)
-
-  const setRightOpen = React.useCallback((open: boolean) => {
-    writePanelStorage(RIGHT_OPEN_KEY, open)
-  }, [])
-
-  const setBottomOpen = React.useCallback((open: boolean) => {
-    writePanelStorage(BOTTOM_OPEN_KEY, open)
-  }, [])
-
-  const toggleRight = React.useCallback(() => {
-    if (isMobile) {
-      setRightOpenMobile((open) => !open)
-    } else {
-      setRightOpen(!rightOpen)
-    }
-  }, [isMobile, rightOpen, setRightOpen])
-
-  const openRight = React.useCallback(() => {
-    if (isMobile) {
-      setRightOpenMobile(true)
-    } else {
-      setRightOpen(true)
-    }
-  }, [isMobile, setRightOpen])
-
-  const toggleBottom = React.useCallback(() => {
-    setBottomOpen(!bottomOpen)
-  }, [bottomOpen, setBottomOpen])
-
-  // Same shape as the sidebar's ⌘B handler (⌘ or Ctrl, no other modifiers).
+  // Only a change of `open` moves the panel, so a drag that closes it isn't
+  // echoed back as an expand. The first pass runs on mount too, or an open
+  // panel soaks up whatever space the group has left over.
+  const syncedRef = React.useRef<boolean | null>(null)
   React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!(event.metaKey || event.ctrlKey) || event.altKey || event.shiftKey) {
+    const panel = panelRef.current
+    if (!panel || syncedRef.current === open) return
+    syncedRef.current = open
+    // Reopening always comes back at the default size, whatever a drag left.
+    if (open) panel.resize(defaultSize)
+    else panel.collapse()
+  }, [open, panelRef, defaultSize])
+
+  const handle = (
+    <ResizableHandle
+      withHandle
+      disabled={!open}
+      className={cn(!open && "pointer-events-none invisible")}
+    />
+  )
+
+  // `defaultSize` and `minSize` are only read on mount, so they have to agree
+  // with the first render, or a closed panel paints open once and claims its
+  // minimum from a neighbour.
+  const panel = (
+    <ResizablePanel
+      id={`panel-${side}`}
+      panelRef={panelRef}
+      // Shut, nothing in it can be tabbed to or read out, toggles included.
+      inert={!open}
+      collapsible
+      collapsedSize={0}
+      defaultSize={open ? defaultSize : 0}
+      minSize={open ? minSize : 0}
+      maxSize={maxSize}
+      groupResizeBehavior="preserve-pixel-size"
+      className="flex flex-col bg-background"
+      style={{ overflow: "hidden" }}
+    >
+      {children}
+    </ResizablePanel>
+  )
+
+  return side === "left" ? (
+    <>
+      {panel}
+      {handle}
+    </>
+  ) : (
+    <>
+      {handle}
+      {panel}
+    </>
+  )
+}
+
+/** A panel's body, scrolling on its own under its header. */
+function PanelBody({ children }: { children?: React.ReactNode }) {
+  return <div className="min-h-0 flex-1 overflow-auto">{children}</div>
+}
+
+/**
+ * On a phone the side panels don't fit beside the page, so they slide over it
+ * as sheets instead, each with its own header and a × to close it.
+ */
+function PanelSheet({
+  side,
+  open,
+  onOpenChange,
+  children,
+}: {
+  side: "left" | "right"
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  children: React.ReactNode
+}) {
+  const { title } = PANELS[side]
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent
+        side={side}
+        showCloseButton={false}
+        className="gap-0 bg-background text-foreground"
+      >
+        <SheetHeader className="sr-only">
+          <SheetTitle>{title} panel</SheetTitle>
+          <SheetDescription>
+            Slides over the page on small screens.
+          </SheetDescription>
+        </SheetHeader>
+        <PanelHeader title={title} end={<PanelToggle side={side} close />} />
+        <PanelBody>{children}</PanelBody>
+      </SheetContent>
+    </Sheet>
+  )
+}
+
+/**
+ * An app shell: the page in the middle, with a resizable panel on the left,
+ * the right and along the bottom, each opened from the headers or with ⌘B, ⌘I
+ * and ⌘J. Drag a panel's edge to resize it, or all the way in to close it.
+ *
+ * It fills the window by default. Pass `className` to size it some other way,
+ * e.g. `h-full` to fill a box.
+ */
+function Panels({
+  left,
+  right,
+  bottom,
+  defaultOpen = { left: true, right: false, bottom: false },
+  className,
+  children,
+}: {
+  left?: React.ReactNode
+  right?: React.ReactNode
+  bottom?: React.ReactNode
+  defaultOpen?: Record<Side, boolean>
+  className?: string
+  /** The page, in the main panel. */
+  children: React.ReactNode
+}) {
+  const isMobile = useIsMobile()
+  // The rails, on a wide screen.
+  const [open, setOpen] = React.useState(defaultOpen)
+  // The side sheet that is up, on a phone. It is separate from the rails so a
+  // sheet never pops open by itself on the way down from a wide screen.
+  const [sheet, setSheet] = React.useState<"left" | "right" | null>(null)
+
+  const value = React.useMemo<PanelsContextValue>(
+    () => ({
+      isOpen: (side) =>
+        isMobile && side !== "bottom" ? sheet === side : open[side],
+      toggle: (side) => {
+        if (isMobile && side !== "bottom") {
+          setSheet((current) => (current === side ? null : side))
+        } else {
+          setOpen((current) => ({ ...current, [side]: !current[side] }))
+        }
+      },
+    }),
+    [isMobile, open, sheet]
+  )
+
+  // Growing past a phone's width drops the sheets; forget them too, or
+  // shrinking back would bring one straight back.
+  if (!isMobile && sheet) setSheet(null)
+
+  React.useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!(event.metaKey || event.ctrlKey) || event.altKey || event.shiftKey)
         return
-      }
-      const key = event.key.toLowerCase()
-      if (key === RIGHT_PANEL_KEYBOARD_SHORTCUT) {
-        event.preventDefault()
-        toggleRight()
-      } else if (key === BOTTOM_PANEL_KEYBOARD_SHORTCUT) {
-        event.preventDefault()
-        toggleBottom()
-      }
+      const side = (Object.keys(PANELS) as Side[]).find(
+        (side) => PANELS[side].key === event.key.toLowerCase()
+      )
+      if (!side) return
+      event.preventDefault()
+      value.toggle(side)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [value])
+
+  // A drag or a resize key can close a panel, or open a closed one, so the
+  // state follows the layout whenever the person, not the code, changed it.
+  const syncFrom =
+    (sides: Side[]) =>
+    (layout: Layout, { isUserInteraction }: LayoutChangedMeta) => {
+      if (!isUserInteraction) return
+      setOpen((current) => {
+        const next = { ...current }
+        for (const side of sides) {
+          next[side] = (layout[`panel-${side}`] ?? 0) > 0
+        }
+        return next
+      })
     }
 
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [toggleBottom, toggleRight])
-
-  const value = React.useMemo<PanelsContextProps>(
-    () => ({
-      rightOpen,
-      rightOpenMobile,
-      bottomOpen,
-      setRightOpen,
-      setRightOpenMobile,
-      setBottomOpen,
-      toggleRight,
-      openRight,
-      toggleBottom,
-    }),
-    [
-      bottomOpen,
-      rightOpen,
-      rightOpenMobile,
-      setBottomOpen,
-      setRightOpen,
-      toggleBottom,
-      toggleRight,
-      openRight,
-    ]
-  )
+  // The side rails stay shut on a phone, where the sheets stand in for them.
+  const leftOpen = open.left && !isMobile
+  const rightOpen = open.right && !isMobile
 
   return (
     <PanelsContext.Provider value={value}>
-      {children}
+      <ResizablePanelGroup
+        onLayoutChanged={syncFrom(isMobile ? [] : ["left", "right"])}
+        className={cn("h-svh", className)}
+      >
+        <CollapsiblePanel side="left" open={leftOpen}>
+          <PanelHeader title="Left" end={<PanelToggle side="left" />} />
+          {/* On a phone `left` is in its sheet, so it isn't mounted twice. */}
+          <PanelBody>{isMobile ? null : left}</PanelBody>
+        </CollapsiblePanel>
+        <ResizablePanel id="panel-content">
+          <ResizablePanelGroup
+            orientation="vertical"
+            onLayoutChanged={syncFrom(["bottom"])}
+          >
+            <ResizablePanel
+              id="panel-main"
+              className="flex flex-col"
+              style={{ overflow: "hidden" }}
+            >
+              {/* A panel's toggle sits in its own header while it is open, and
+                  falls back to this one, on the same side, once it closes. */}
+              <PanelHeader
+                title="Main"
+                start={leftOpen ? null : <PanelToggle side="left" />}
+                end={
+                  rightOpen ? null : (
+                    <>
+                      <PanelToggle side="bottom" />
+                      <PanelToggle side="right" />
+                    </>
+                  )
+                }
+              />
+              <PanelBody>{children}</PanelBody>
+            </ResizablePanel>
+            <CollapsiblePanel side="bottom" open={open.bottom}>
+              <PanelHeader
+                title="Bottom"
+                end={<PanelToggle side="bottom" close />}
+              />
+              <PanelBody>{bottom}</PanelBody>
+            </CollapsiblePanel>
+          </ResizablePanelGroup>
+        </ResizablePanel>
+        <CollapsiblePanel side="right" open={rightOpen}>
+          <PanelHeader
+            title="Right"
+            end={
+              <>
+                <PanelToggle side="bottom" />
+                <PanelToggle side="right" />
+              </>
+            }
+          />
+          <PanelBody>{isMobile ? null : right}</PanelBody>
+        </CollapsiblePanel>
+      </ResizablePanelGroup>
+
+      {isMobile ? (
+        <>
+          <PanelSheet
+            side="left"
+            open={sheet === "left"}
+            onOpenChange={(next) => setSheet(next ? "left" : null)}
+          >
+            {left}
+          </PanelSheet>
+          <PanelSheet
+            side="right"
+            open={sheet === "right"}
+            onOpenChange={(next) => setSheet(next ? "right" : null)}
+          >
+            {right}
+          </PanelSheet>
+        </>
+      ) : null}
     </PanelsContext.Provider>
   )
 }
 
-export {
-  PanelsProvider,
-  usePanels,
-  readPanelStorage,
-  writePanelStorage,
-  RIGHT_PANEL_KEYBOARD_SHORTCUT,
-  BOTTOM_PANEL_KEYBOARD_SHORTCUT,
-}
+export { Panels, usePanels }
