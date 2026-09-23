@@ -2,6 +2,7 @@ import {
   BubbleChatIcon,
   InputTextIcon,
   Layers01Icon,
+  LayoutTwoColumnIcon,
   Notification03Icon,
   TouchInteraction01Icon,
 } from "@hugeicons/core-free-icons"
@@ -18,6 +19,8 @@ export const CATEGORIES = {
   actions: { name: "Actions", icon: TouchInteraction01Icon },
   /** Things you type into or choose with. */
   inputs: { name: "Inputs", icon: InputTextIcon },
+  /** Things that divide the page into regions. */
+  layout: { name: "Layout", icon: LayoutTwoColumnIcon },
   /** Things that float over the page. */
   overlays: { name: "Overlays", icon: Layers01Icon },
   /** Things that report state: running, done, failed. */

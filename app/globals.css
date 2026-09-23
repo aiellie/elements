@@ -37,7 +37,7 @@
      by at least 3:1 — zinc-500 clears it, zinc-400 does not. */
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.552 0.016 285.938);
+  --ring: oklch(.705 0.015 286.067);
 
   /* Status. live is a placeholder blue-500 until the brand hue is chosen. */
   --destructive: oklch(0.577 0.245 27.325);
@@ -65,7 +65,7 @@
   --sidebar-accent: oklch(0.967 0.001 286.375);
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.552 0.016 285.938);
+  --sidebar-ring: oklch(.705 0.015 286.067);
 
   /* Layers */
   --z-base: 0;

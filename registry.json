@@ -127,6 +127,22 @@
       "categories": ["overlays"]
     },
     {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Panels split by a line that can be dragged to resize them, with a grip that shows on hover.",
+      "dependencies": ["react-resizable-panels"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/resizable.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/resizable.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
       "name": "menu",
       "type": "registry:component",
       "title": "Menu",
@@ -280,10 +296,15 @@
       "type": "registry:block",
       "title": "Chat",
       "description": "A chat page: your chats in a sidebar, a thread that streams replies, and a composer with a model selector.",
-      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "react-resizable-panels"
+      ],
       "registryDependencies": [
         "@aiellie/button",
         "@aiellie/sheet",
+        "@aiellie/resizable",
         "@aiellie/menu",
         "@aiellie/status",
         "@aiellie/tooltip-icon-button",

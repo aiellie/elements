@@ -5,6 +5,7 @@ import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
+import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
 import SheetDemo from "@/registry/aiellie/examples/sheet-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
@@ -36,6 +37,7 @@ const DEMOS: Record<string, Demo> = {
   },
   button: { title: "Button", gallery: "/ui", Demo: ButtonDemo },
   textarea: { title: "Textarea", gallery: "/ui", Demo: TextareaDemo },
+  resizable: { title: "Resizable", gallery: "/ui", Demo: ResizableDemo },
   tooltip: { title: "Tooltip", gallery: "/ui", Demo: TooltipDemo },
   sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
   "tooltip-icon-button": {
