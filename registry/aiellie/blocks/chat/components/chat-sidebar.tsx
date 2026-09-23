@@ -63,7 +63,7 @@ function ChatSidebarHeader({
             }}
             className="text-md w-fit font-medium"
           >
-            <span>Chatle</span>
+            <span>Chat</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

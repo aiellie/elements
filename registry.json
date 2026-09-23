@@ -268,7 +268,7 @@
       "name": "user-menu",
       "type": "registry:component",
       "title": "User Menu",
-      "description": "Who is signed in, at the foot of a sidebar: a small picture and their name, opening a menu for their account, settings and signing out.",
+      "description": "Who is signed in, at the foot of a sidebar: a small picture and their name, opening a menu headed by them and their plan, with usage, invites, settings and logging out.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/avatar",

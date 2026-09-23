@@ -106,7 +106,7 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
 ]
 
 /** Who the preview is signed in as. Pass your own signed-in person instead. */
-const SAMPLE_USER: User = { name: "Ada Lovelace" }
+const SAMPLE_USER: User = { name: "Ada Lovelace", plan: "Pro" }
 
 /**
  * What the preview answers with, since there is no model behind it. Replace
