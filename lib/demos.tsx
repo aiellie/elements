@@ -12,6 +12,7 @@ import SheetDemo from "@/registry/aiellie/examples/sheet-demo"
 import SidebarDemo from "@/registry/aiellie/examples/sidebar-demo"
 import SkeletonDemo from "@/registry/aiellie/examples/skeleton-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
+import TabsDemo from "@/registry/aiellie/examples/tabs-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
 import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
@@ -45,6 +46,7 @@ const DEMOS: Record<string, Demo> = {
   resizable: { title: "Resizable", gallery: "/ui", Demo: ResizableDemo },
   separator: { title: "Separator", gallery: "/ui", Demo: SeparatorDemo },
   sidebar: { title: "Sidebar", gallery: "/ui", Demo: SidebarDemo },
+  tabs: { title: "Tabs", gallery: "/ui", Demo: TabsDemo },
   tooltip: { title: "Tooltip", gallery: "/ui", Demo: TooltipDemo },
   sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
   skeleton: { title: "Skeleton", gallery: "/ui", Demo: SkeletonDemo },

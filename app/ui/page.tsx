@@ -7,6 +7,7 @@ import {
   MousePointerClickIcon,
   PanelRightIcon,
   SidebarLeftIcon,
+  BrowserIcon,
   TextIcon,
 } from "@hugeicons/core-free-icons"
 import { CategorySection } from "@/components/pages/category-separator"
@@ -18,6 +19,7 @@ import SeparatorDemo from "@/registry/aiellie/examples/separator-demo"
 import SheetDemo from "@/registry/aiellie/examples/sheet-demo"
 import SidebarDemo from "@/registry/aiellie/examples/sidebar-demo"
 import SkeletonDemo from "@/registry/aiellie/examples/skeleton-demo"
+import TabsDemo from "@/registry/aiellie/examples/tabs-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
 export default function UiPage() {
@@ -82,11 +84,20 @@ export default function UiPage() {
         >
           <SidebarDemo />
         </DemoCard>
+        <DemoCard
+          href="/ui/tabs"
+          index={7}
+          title="Tabs"
+          icon={BrowserIcon}
+          description="Views to switch between, one at a time"
+        >
+          <TabsDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="overlays">
         <DemoCard
           href="/ui/tooltip"
-          index={7}
+          index={8}
           title="Tooltip"
           icon={Comment01Icon}
           description="A simple tooltip component"
@@ -95,7 +106,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/sheet"
-          index={8}
+          index={9}
           title="Sheet"
           icon={PanelRightIcon}
           description="A simple sheet component"
@@ -106,7 +117,7 @@ export default function UiPage() {
       <CategorySection category="feedback">
         <DemoCard
           href="/ui/skeleton"
-          index={9}
+          index={10}
           title="Skeleton"
           icon={Loading03Icon}
           description="A placeholder that pulses while content loads"

@@ -233,6 +233,22 @@
       "categories": ["layout"]
     },
     {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Base UI's tabs: a row of views to switch between, on a muted track.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/tabs.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/tabs.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
       "name": "menu",
       "type": "registry:component",
       "title": "Menu",

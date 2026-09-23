@@ -212,6 +212,12 @@ Keyboard focus is the only thing that triggers it: `focus-visible`, never `focus
 
 `border` and `input` are deliberate hairlines at roughly 1.3:1. They are decoration and containment, not information: every control also carries a visible label, and every state that matters is carried by text or ink as well. When a boundary must be perceivable on its own — a chart axis, a table rule that encodes structure — use `muted-foreground` instead.
 
+### Tabs
+
+**Tabs are the segmented track only: `TabsList` on its default variant.** Never use `variant="line"`. The underline marks the current view with a 2px bar in `foreground`, a heavier mark than anything else in the system uses for "selected". Everywhere else, the current item is a quiet fill: sidebar rows and menu items on `accent`, and the active tab on `background` inside a `muted` track. The `line` variant stays in `ui/tabs.tsx` only because the port keeps shadcn's API, so an install doesn't break anyone's call sites. Don't show it in demos, blocks or components.
+
+The active tab carries an `input` hairline in both themes, since the `shadow-sm` shadcn lifts it with resolves to none here. It gives way to `ring` under keyboard focus (`data-active:not-focus-visible:border-input`), so a focused active tab still shows focus.
+
 ### Layers
 
 Eight layers, ten apart so one can be slipped in later without renumbering:
