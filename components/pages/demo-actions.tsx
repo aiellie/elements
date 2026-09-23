@@ -80,6 +80,15 @@ const DEMO_BACKGROUNDS = [
 
 type DemoBackground = (typeof DEMO_BACKGROUNDS)[number]["id"]
 
+/**
+ * Where the demo of `item` opens full screen. Kept here rather than beside the
+ * list of demos, which imports every one of them and would drag the lot into
+ * any card that only wanted the link.
+ */
+function demoHref(item: string) {
+  return `/demo/${item}`
+}
+
 /** What the plate wears for `id`. Default paints nothing and keeps the page. */
 function demoBackgroundClass(id: DemoBackground) {
   return DEMO_BACKGROUNDS.find((option) => option.id === id)?.plate ?? ""
@@ -154,8 +163,11 @@ function DemoActions({
 }: {
   /** The registry item to install, e.g. `model-selector`. */
   item: string
-  /** The example this card leads to. */
-  href: string
+  /**
+   * Where the example opens full screen. Left out on that page itself, which
+   * has nowhere further to open to.
+   */
+  href?: string
   /** What the card is called, so the button says which card it belongs to. */
   title: string
   background: DemoBackground
@@ -244,20 +256,30 @@ function DemoActions({
           </MenuRadioGroup>
         </MenuGroup>
 
-        <MenuSeparator />
+        {href ? (
+          <>
+            <MenuSeparator />
 
-        {/* The card's title is still the link; this is the affordance the
-            arrow used to carry, kept where the arrow was. Rendered as a real
-            anchor through Next's link, so modified clicks open a tab and a
-            plain one does not reload the page. */}
-        <MenuLinkItem render={<Link href={href} />} closeOnClick>
-          <HugeiconsIcon aria-hidden icon={ArrowUpRightIcon} />
-          Open example
-        </MenuLinkItem>
+            {/* The card's title is still the link; this is the affordance the
+                arrow used to carry, kept where the arrow was. Rendered as a
+                real anchor through Next's link, so modified clicks open a tab
+                and a plain one does not reload the page. */}
+            <MenuLinkItem render={<Link href={href} />} closeOnClick>
+              <HugeiconsIcon aria-hidden icon={ArrowUpRightIcon} />
+              Open example
+            </MenuLinkItem>
+          </>
+        ) : null}
       </MenuContent>
     </Menu>
   )
 }
 
-export { DemoActions, DEMO_BACKGROUNDS, demoBackgroundClass, writeToClipboard }
+export {
+  DemoActions,
+  DEMO_BACKGROUNDS,
+  demoBackgroundClass,
+  demoHref,
+  writeToClipboard,
+}
 export type { DemoBackground }

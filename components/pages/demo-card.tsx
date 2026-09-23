@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import {
   DemoActions,
   demoBackgroundClass,
+  demoHref,
   type DemoBackground,
 } from "@/components/pages/demo-actions";
 
@@ -18,7 +19,7 @@ export function DemoCard({
   icon,
   description,
   connection,
-  item,
+  item: itemProp,
   wide = false,
   children,
 }: {
@@ -40,6 +41,7 @@ export function DemoCard({
   const rootRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   const [background, setBackground] = useState<DemoBackground>("default");
+  const item = itemProp ?? href.split("/").filter(Boolean).pop() ?? "";
 
   useEffect(() => {
     const root = rootRef.current;
@@ -83,8 +85,10 @@ export function DemoCard({
           a button, and a button inside an anchor is neither valid nor
           clickable without following the link first. */}
       <div className="mt-3.5 flex items-baseline gap-2.5">
+        {/* Both the title and the menu open the demo full screen, rather than
+            `href`, which only names the item. */}
         <Link
-          href={href}
+          href={demoHref(item)}
           aria-label={title}
           className="group/caption flex min-w-0 items-baseline gap-2.5"
         >
@@ -113,8 +117,8 @@ export function DemoCard({
           ) : null}
         </Link>
         <DemoActions
-          item={item ?? href.split("/").filter(Boolean).pop() ?? ""}
-          href={href}
+          item={item}
+          href={demoHref(item)}
           title={title}
           background={background}
           onBackgroundChange={setBackground}
