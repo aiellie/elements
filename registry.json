@@ -429,15 +429,11 @@
       "type": "registry:block",
       "title": "Chat",
       "description": "A chat page: your chats in a sidebar, a thread that streams replies, and a composer with a model selector.",
-      "dependencies": [
-        "@hugeicons/react",
-        "@hugeicons/core-free-icons",
-        "react-resizable-panels"
-      ],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/button",
         "@aiellie/sidebar",
-        "@aiellie/resizable",
+        "@aiellie/panels",
         "@aiellie/menu",
         "@aiellie/status",
         "@aiellie/tooltip-icon-button",

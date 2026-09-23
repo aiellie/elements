@@ -15,21 +15,20 @@ import {
   MenuItem,
   MenuTrigger,
 } from "@/registry/aiellie/components/menu"
+import { usePanels } from "@/registry/aiellie/components/panels"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarInput,
   SidebarMenu,
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
+  SidebarProvider,
 } from "@/registry/aiellie/ui/sidebar"
-import { cn } from "@/lib/utils"
 
 /**
  * A chat's name, being changed in place. Enter or clicking away keeps the new
@@ -85,125 +84,127 @@ function RenameField({
 }
 
 /**
+ * The sidebar's header: the way to a new chat. On a phone the sidebar is a
+ * sheet over the chat, so starting one puts the sheet away too.
+ */
+function ChatSidebarHeader({ onNewChat }: { onNewChat: () => void }) {
+  const { closeSheet } = usePanels()
+
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={() => {
+        onNewChat()
+        closeSheet()
+      }}
+    >
+      <HugeiconsIcon icon={PencilEdit02Icon} />
+      New chat
+    </Button>
+  )
+}
+
+/**
  * Your chats, newest first, with the open one marked. Each row has a menu for
  * renaming or deleting it. The menu stays out of the way until the row is
  * pointed at, except on touch screens, where there is no pointing.
  *
- * It is the sidebar's own `Sidebar`, so it takes the same `collapsible`: the
- * chat passes `none` where it lays the sidebar out itself, and leaves the
- * default on a phone, where `Sidebar` becomes a sheet.
+ * It fills whatever panel the chat puts it in, which folds it away and makes
+ * it a sheet on a phone, so it never collapses by itself. The provider is only
+ * there because the sidebar's rows read from it; it is held open for them.
  */
 function ChatSidebar({
   conversations,
   activeId,
   onSelect,
-  onNewChat,
   onRename,
   onDelete,
-  collapsible,
-  className,
 }: {
   conversations: { id: string; title: string }[]
   activeId: string | null
   onSelect: (id: string) => void
-  onNewChat: () => void
   onRename: (id: string, title: string) => void
   onDelete: (id: string) => void
-  collapsible?: React.ComponentProps<typeof Sidebar>["collapsible"]
-  className?: string
 }) {
   const [renamingId, setRenamingId] = React.useState<string | null>(null)
-  // On a phone the sidebar is a sheet over the chat, so picking a chat, or
-  // starting one, is also done with the sheet.
-  const { setOpenMobile } = useSidebar()
+  // On a phone the sidebar is a sheet over the chat, so picking a chat is also
+  // done with the sheet.
+  const { closeSheet } = usePanels()
 
   return (
-    <Sidebar
-      collapsible={collapsible}
-      className={cn("bg-background", className)}
-    >
-      <SidebarHeader className="h-12 flex-row items-center py-0">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => {
-            onNewChat()
-            setOpenMobile(false)
-          }}
-        >
-          <HugeiconsIcon icon={PencilEdit02Icon} />
-          New chat
-        </Button>
-      </SidebarHeader>
-      <SidebarContent role="navigation" aria-label="Chats">
-        <SidebarGroup className="pt-0">
-          {conversations.length > 0 ? (
-            <SidebarGroupLabel>Recent</SidebarGroupLabel>
-          ) : null}
-          <SidebarMenu className="gap-0.5">
-            {conversations.map((conversation) => (
-              <SidebarMenuItem key={conversation.id}>
-                {conversation.id === renamingId ? (
-                  <RenameField
-                    title={conversation.title}
-                    onDone={(title) => {
-                      if (title) onRename(conversation.id, title)
-                      setRenamingId(null)
-                    }}
-                  />
-                ) : (
-                  <>
-                    <SidebarMenuButton
-                      isActive={conversation.id === activeId}
-                      aria-current={
-                        conversation.id === activeId ? "page" : undefined
-                      }
-                      onClick={() => {
-                        onSelect(conversation.id)
-                        setOpenMobile(false)
+    <SidebarProvider open className="h-full min-h-0">
+      <Sidebar collapsible="none" className="w-full bg-background">
+        <SidebarContent role="navigation" aria-label="Chats">
+          <SidebarGroup>
+            {conversations.length > 0 ? (
+              <SidebarGroupLabel>Recent</SidebarGroupLabel>
+            ) : null}
+            <SidebarMenu className="gap-0.5">
+              {conversations.map((conversation) => (
+                <SidebarMenuItem key={conversation.id}>
+                  {conversation.id === renamingId ? (
+                    <RenameField
+                      title={conversation.title}
+                      onDone={(title) => {
+                        if (title) onRename(conversation.id, title)
+                        setRenamingId(null)
                       }}
-                    >
-                      <span>{conversation.title}</span>
-                    </SidebarMenuButton>
-                    <Menu>
-                      <MenuTrigger
-                        render={
-                          <SidebarMenuAction
-                            showOnHover
-                            className="text-muted-foreground pointer-coarse:opacity-100"
-                          />
+                    />
+                  ) : (
+                    <>
+                      <SidebarMenuButton
+                        isActive={conversation.id === activeId}
+                        aria-current={
+                          conversation.id === activeId ? "page" : undefined
                         }
+                        onClick={() => {
+                          onSelect(conversation.id)
+                          closeSheet()
+                        }}
                       >
-                        <HugeiconsIcon icon={MoreHorizontalIcon} />
-                        <span className="sr-only">
-                          Options for {conversation.title}
-                        </span>
-                      </MenuTrigger>
-                      <MenuContent align="start" className="min-w-36">
-                        <MenuItem
-                          onClick={() => setRenamingId(conversation.id)}
+                        <span>{conversation.title}</span>
+                      </SidebarMenuButton>
+                      <Menu>
+                        <MenuTrigger
+                          render={
+                            <SidebarMenuAction
+                              showOnHover
+                              className="text-muted-foreground pointer-coarse:opacity-100"
+                            />
+                          }
                         >
-                          <HugeiconsIcon icon={PencilEdit01Icon} />
-                          Rename
-                        </MenuItem>
-                        <MenuItem
-                          variant="destructive"
-                          onClick={() => onDelete(conversation.id)}
-                        >
-                          <HugeiconsIcon icon={Delete01Icon} />
-                          Delete
-                        </MenuItem>
-                      </MenuContent>
-                    </Menu>
-                  </>
-                )}
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+                          <HugeiconsIcon icon={MoreHorizontalIcon} />
+                          <span className="sr-only">
+                            Options for {conversation.title}
+                          </span>
+                        </MenuTrigger>
+                        <MenuContent align="start" className="min-w-36">
+                          <MenuItem
+                            onClick={() => setRenamingId(conversation.id)}
+                          >
+                            <HugeiconsIcon icon={PencilEdit01Icon} />
+                            Rename
+                          </MenuItem>
+                          <MenuItem
+                            variant="destructive"
+                            onClick={() => onDelete(conversation.id)}
+                          >
+                            <HugeiconsIcon icon={Delete01Icon} />
+                            Delete
+                          </MenuItem>
+                        </MenuContent>
+                      </Menu>
+                    </>
+                  )}
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+    </SidebarProvider>
   )
 }
 
-export { ChatSidebar }
+export { ChatSidebar, ChatSidebarHeader }

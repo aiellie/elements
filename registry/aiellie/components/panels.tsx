@@ -70,6 +70,13 @@ type PanelsContextValue = {
   /** Whether each panel is on screen, its rail or, on a phone, its sheet. */
   isOpen: (side: Side) => boolean
   toggle: (side: Side) => void
+  /**
+   * Puts away whichever side panel is up as a sheet on a phone, and does
+   * nothing on a wide screen, where the panel sits beside the page. For
+   * content that is done once something in it is picked, like a list of
+   * pages.
+   */
+  closeSheet: () => void
 }
 
 const PanelsContext = React.createContext<PanelsContextValue | null>(null)
@@ -128,24 +135,34 @@ function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
   )
 }
 
-/** The bar across the top of a panel: its name, and its toggles at the end. */
+/**
+ * The bar across the top of a panel: its title, and its toggles at the end.
+ * The title is the panel's name unless the page hands over a header of its
+ * own, which gets the whole space between the toggles.
+ */
 function PanelHeader({
   title,
   start,
   end,
 }: {
-  title: string
+  title: React.ReactNode
   start?: React.ReactNode
   end?: React.ReactNode
 }) {
   return (
     <header className="flex h-10 shrink-0 items-center gap-2 border-b bg-background px-2">
       {start}
-      <span className="min-w-0 truncate px-1 text-xs font-medium text-muted-foreground">
-        {title}
-      </span>
+      <div className="flex min-w-0 flex-1 items-center gap-1">
+        {typeof title === "string" ? (
+          <span className="min-w-0 truncate px-1 text-xs font-medium text-muted-foreground">
+            {title}
+          </span>
+        ) : (
+          title
+        )}
+      </div>
       {end ? (
-        <div className="ms-auto flex shrink-0 items-center gap-1">{end}</div>
+        <div className="flex shrink-0 items-center gap-1">{end}</div>
       ) : null}
     </header>
   )
@@ -161,6 +178,9 @@ function PanelHeader({
  * from its toggle and not by pulling its edge back out. The handle can't
  * simply go away: with no separator between two panels, the library lets the
  * gap between their edges be dragged instead.
+ *
+ * Its content never gets smaller than the panel's smallest size, so as the
+ * panel folds away the content slides out of view instead of squeezing.
  */
 function CollapsiblePanel({
   side,
@@ -213,7 +233,14 @@ function CollapsiblePanel({
       className="flex flex-col bg-background"
       style={{ overflow: "hidden" }}
     >
-      {children}
+      <div
+        className="flex min-h-0 flex-1 flex-col"
+        style={
+          side === "bottom" ? { minHeight: minSize } : { minWidth: minSize }
+        }
+      >
+        {children}
+      </div>
     </ResizablePanel>
   )
 
@@ -241,11 +268,13 @@ function PanelBody({ children }: { children?: React.ReactNode }) {
  */
 function PanelSheet({
   side,
+  header,
   open,
   onOpenChange,
   children,
 }: {
   side: "left" | "right"
+  header?: React.ReactNode
   open: boolean
   onOpenChange: (open: boolean) => void
   children: React.ReactNode
@@ -264,17 +293,35 @@ function PanelSheet({
             Slides over the page on small screens.
           </SheetDescription>
         </SheetHeader>
-        <PanelHeader title={title} end={<PanelToggle side={side} close />} />
+        <PanelHeader
+          title={header ?? title}
+          end={<PanelToggle side={side} close />}
+        />
         <PanelBody>{children}</PanelBody>
       </SheetContent>
     </Sheet>
   )
 }
 
+/** How long a panel takes to open or close from its toggle, in milliseconds. */
+const DURATION = 280
+
+/**
+ * While a toggle is at work, every panel eases to its new size. A drag has to
+ * follow the pointer exactly, so the transition is only on for that long.
+ */
+const ANIMATING =
+  "data-animating:*:transition-[flex-grow] data-animating:*:duration-280 data-animating:*:ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:*:transition-none"
+
 /**
  * An app shell: the page in the middle, with a resizable panel on the left,
  * the right and along the bottom, each opened from the headers or with ⌘B, ⌘I
  * and ⌘J. Drag a panel's edge to resize it, or all the way in to close it.
+ *
+ * Only the panels given content are there, toggles and keys included, so a
+ * page with a sidebar and nothing else passes `left` alone. Each header shows
+ * the panel's name unless `headers` gives it something else, like the page's
+ * title and its actions.
  *
  * It fills the window by default. Pass `className` to size it some other way,
  * e.g. `h-full` to fill a box.
@@ -283,6 +330,7 @@ function Panels({
   left,
   right,
   bottom,
+  headers = {},
   defaultOpen = { left: true, right: false, bottom: false },
   className,
   children,
@@ -290,17 +338,34 @@ function Panels({
   left?: React.ReactNode
   right?: React.ReactNode
   bottom?: React.ReactNode
-  defaultOpen?: Record<Side, boolean>
+  /** What each header shows in place of the panel's name. */
+  headers?: Partial<Record<Side | "main", React.ReactNode>>
+  defaultOpen?: Partial<Record<Side, boolean>>
   className?: string
   /** The page, in the main panel. */
   children: React.ReactNode
 }) {
   const isMobile = useIsMobile()
+  const hasLeft = left != null
+  const hasRight = right != null
+  const hasBottom = bottom != null
+  const has = React.useMemo(
+    () => ({ left: hasLeft, right: hasRight, bottom: hasBottom }),
+    [hasLeft, hasRight, hasBottom]
+  )
   // The rails, on a wide screen.
-  const [open, setOpen] = React.useState(defaultOpen)
+  const [open, setOpen] = React.useState({
+    left: false,
+    right: false,
+    bottom: false,
+    ...defaultOpen,
+  })
   // The side sheet that is up, on a phone. It is separate from the rails so a
   // sheet never pops open by itself on the way down from a wide screen.
   const [sheet, setSheet] = React.useState<"left" | "right" | null>(null)
+  const [animating, setAnimating] = React.useState(false)
+  const timerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined)
+  React.useEffect(() => () => clearTimeout(timerRef.current), [])
 
   const value = React.useMemo<PanelsContextValue>(
     () => ({
@@ -309,10 +374,14 @@ function Panels({
       toggle: (side) => {
         if (isMobile && side !== "bottom") {
           setSheet((current) => (current === side ? null : side))
-        } else {
-          setOpen((current) => ({ ...current, [side]: !current[side] }))
+          return
         }
+        clearTimeout(timerRef.current)
+        setAnimating(true)
+        timerRef.current = setTimeout(() => setAnimating(false), DURATION)
+        setOpen((current) => ({ ...current, [side]: !current[side] }))
       },
+      closeSheet: () => setSheet(null),
     }),
     [isMobile, open, sheet]
   )
@@ -326,7 +395,7 @@ function Panels({
       if (!(event.metaKey || event.ctrlKey) || event.altKey || event.shiftKey)
         return
       const side = (Object.keys(PANELS) as Side[]).find(
-        (side) => PANELS[side].key === event.key.toLowerCase()
+        (side) => has[side] && PANELS[side].key === event.key.toLowerCase()
       )
       if (!side) return
       event.preventDefault()
@@ -334,7 +403,7 @@ function Panels({
     }
     window.addEventListener("keydown", onKeyDown)
     return () => window.removeEventListener("keydown", onKeyDown)
-  }, [value])
+  }, [value, has])
 
   // A drag or a resize key can close a panel, or open a closed one, so the
   // state follows the layout whenever the person, not the code, changed it.
@@ -345,7 +414,7 @@ function Panels({
       setOpen((current) => {
         const next = { ...current }
         for (const side of sides) {
-          next[side] = (layout[`panel-${side}`] ?? 0) > 0
+          if (has[side]) next[side] = (layout[`panel-${side}`] ?? 0) > 0
         }
         return next
       })
@@ -354,22 +423,31 @@ function Panels({
   // The side rails stay shut on a phone, where the sheets stand in for them.
   const leftOpen = open.left && !isMobile
   const rightOpen = open.right && !isMobile
+  const bottomToggle = has.bottom ? <PanelToggle side="bottom" /> : null
 
   return (
     <PanelsContext.Provider value={value}>
       <ResizablePanelGroup
+        data-animating={animating || undefined}
         onLayoutChanged={syncFrom(isMobile ? [] : ["left", "right"])}
-        className={cn("h-svh", className)}
+        className={cn("h-svh", ANIMATING, className)}
       >
-        <CollapsiblePanel side="left" open={leftOpen}>
-          <PanelHeader title="Left" end={<PanelToggle side="left" />} />
-          {/* On a phone `left` is in its sheet, so it isn't mounted twice. */}
-          <PanelBody>{isMobile ? null : left}</PanelBody>
-        </CollapsiblePanel>
+        {has.left ? (
+          <CollapsiblePanel side="left" open={leftOpen}>
+            <PanelHeader
+              title={headers.left ?? PANELS.left.title}
+              end={<PanelToggle side="left" />}
+            />
+            {/* On a phone `left` is in its sheet, so it isn't mounted twice. */}
+            <PanelBody>{isMobile ? null : left}</PanelBody>
+          </CollapsiblePanel>
+        ) : null}
         <ResizablePanel id="panel-content">
           <ResizablePanelGroup
             orientation="vertical"
+            data-animating={animating || undefined}
             onLayoutChanged={syncFrom(["bottom"])}
+            className={ANIMATING}
           >
             <ResizablePanel
               id="panel-main"
@@ -379,58 +457,70 @@ function Panels({
               {/* A panel's toggle sits in its own header while it is open, and
                   falls back to this one, on the same side, once it closes. */}
               <PanelHeader
-                title="Main"
-                start={leftOpen ? null : <PanelToggle side="left" />}
+                title={headers.main ?? "Main"}
+                start={
+                  has.left && !leftOpen ? <PanelToggle side="left" /> : null
+                }
                 end={
                   rightOpen ? null : (
                     <>
-                      <PanelToggle side="bottom" />
-                      <PanelToggle side="right" />
+                      {bottomToggle}
+                      {has.right ? <PanelToggle side="right" /> : null}
                     </>
                   )
                 }
               />
               <PanelBody>{children}</PanelBody>
             </ResizablePanel>
-            <CollapsiblePanel side="bottom" open={open.bottom}>
-              <PanelHeader
-                title="Bottom"
-                end={<PanelToggle side="bottom" close />}
-              />
-              <PanelBody>{bottom}</PanelBody>
-            </CollapsiblePanel>
+            {has.bottom ? (
+              <CollapsiblePanel side="bottom" open={open.bottom}>
+                <PanelHeader
+                  title={headers.bottom ?? PANELS.bottom.title}
+                  end={<PanelToggle side="bottom" close />}
+                />
+                <PanelBody>{bottom}</PanelBody>
+              </CollapsiblePanel>
+            ) : null}
           </ResizablePanelGroup>
         </ResizablePanel>
-        <CollapsiblePanel side="right" open={rightOpen}>
-          <PanelHeader
-            title="Right"
-            end={
-              <>
-                <PanelToggle side="bottom" />
-                <PanelToggle side="right" />
-              </>
-            }
-          />
-          <PanelBody>{isMobile ? null : right}</PanelBody>
-        </CollapsiblePanel>
+        {has.right ? (
+          <CollapsiblePanel side="right" open={rightOpen}>
+            <PanelHeader
+              title={headers.right ?? PANELS.right.title}
+              end={
+                <>
+                  {bottomToggle}
+                  <PanelToggle side="right" />
+                </>
+              }
+            />
+            <PanelBody>{isMobile ? null : right}</PanelBody>
+          </CollapsiblePanel>
+        ) : null}
       </ResizablePanelGroup>
 
       {isMobile ? (
         <>
-          <PanelSheet
-            side="left"
-            open={sheet === "left"}
-            onOpenChange={(next) => setSheet(next ? "left" : null)}
-          >
-            {left}
-          </PanelSheet>
-          <PanelSheet
-            side="right"
-            open={sheet === "right"}
-            onOpenChange={(next) => setSheet(next ? "right" : null)}
-          >
-            {right}
-          </PanelSheet>
+          {has.left ? (
+            <PanelSheet
+              side="left"
+              header={headers.left}
+              open={sheet === "left"}
+              onOpenChange={(next) => setSheet(next ? "left" : null)}
+            >
+              {left}
+            </PanelSheet>
+          ) : null}
+          {has.right ? (
+            <PanelSheet
+              side="right"
+              header={headers.right}
+              open={sheet === "right"}
+              onOpenChange={(next) => setSheet(next ? "right" : null)}
+            >
+              {right}
+            </PanelSheet>
+          ) : null}
         </>
       ) : null}
     </PanelsContext.Provider>

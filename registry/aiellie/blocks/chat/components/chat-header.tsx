@@ -4,7 +4,6 @@ import {
   Delete02Icon,
   MoreHorizontalIcon,
   PencilEdit02Icon,
-  SidebarLeftIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -15,14 +14,12 @@ import {
   MenuSeparator,
   MenuTrigger,
 } from "@/registry/aiellie/components/menu"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 import { Button } from "@/registry/aiellie/ui/button"
-import { useSidebar } from "@/registry/aiellie/ui/sidebar"
 
 /**
- * The top of the page: the way to the sidebar, what this chat is called, and
- * what can be done to it. The toggle is the sidebar's own, so it opens the
- * sheet on a phone and folds the sidebar away everywhere else.
+ * What the main panel's header shows: what this chat is called, and what can
+ * be done to it. The panels draw the header itself and put the sidebar's
+ * toggle beside this.
  */
 function ChatHeader({
   title,
@@ -34,19 +31,8 @@ function ChatHeader({
   /** Left out for a new chat, which has nothing to delete yet. */
   onDelete?: () => void
 }) {
-  const { open, openMobile, isMobile, toggleSidebar } = useSidebar()
-  const sidebarOpen = isMobile ? openMobile : open
-
   return (
-    <header className="flex h-12 shrink-0 items-center gap-1 border-b px-2">
-      <TooltipIconButton
-        tooltip={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
-        aria-expanded={sidebarOpen}
-        onClick={toggleSidebar}
-        className="size-7"
-      >
-        <HugeiconsIcon icon={SidebarLeftIcon} className="rtl:-scale-x-100" />
-      </TooltipIconButton>
+    <>
       <h1 className="min-w-0 truncate px-1 text-sm font-medium">{title}</h1>
       <Menu>
         <MenuTrigger
@@ -71,7 +57,7 @@ function ChatHeader({
           ) : null}
         </MenuContent>
       </Menu>
-    </header>
+    </>
   )
 }
 
