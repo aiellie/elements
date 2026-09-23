@@ -11,6 +11,9 @@ import {
 } from "@hugeicons/core-free-icons"
 import { CategorySection } from "@/components/pages/category-separator"
 import { DemoCard } from "@/components/pages/demo-card"
+import { PageHero } from "@/components/pages/page-hero"
+import { cardCount } from "@/lib/categories"
+import { PAGES } from "@/lib/constants"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
@@ -23,6 +26,10 @@ import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-butt
 export default function ComponentsPage() {
   return (
     <div className="flex flex-col gap-16 py-8 sm:py-12">
+      <PageHero
+        {...PAGES["/components"]}
+        count={cardCount("registry:component")}
+      />
       <CategorySection category="actions">
         <DemoCard
           href="/components/tooltip-icon-button"
