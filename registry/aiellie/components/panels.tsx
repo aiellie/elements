@@ -40,7 +40,8 @@ type Side = "left" | "right" | "bottom"
 /**
  * Everything that differs from one side to the next. Sizes are the panel's
  * default, smallest and largest, in any unit the library takes; the key is the
- * letter that toggles it with ⌘ or Ctrl.
+ * letter that toggles it with ⌘ or Ctrl. `fill` is whether its toggle takes a
+ * fill while the panel is open; without one, only the glyph says so.
  */
 const PANELS = {
   left: {
@@ -49,6 +50,8 @@ const PANELS = {
     key: "b",
     openIcon: SidebarLeftIcon,
     closedIcon: LayoutAlignLeftIcon,
+    // It sits among the sidebar's own quiet buttons, so it stays as quiet.
+    fill: false,
   },
   right: {
     title: "Right",
@@ -56,6 +59,7 @@ const PANELS = {
     key: "i",
     openIcon: SidebarRightIcon,
     closedIcon: LayoutAlignRightIcon,
+    fill: true,
   },
   bottom: {
     title: "Bottom",
@@ -63,6 +67,7 @@ const PANELS = {
     key: "j",
     openIcon: SidebarBottomIcon,
     closedIcon: LayoutAlignBottomIcon,
+    fill: true,
   },
 } as const
 
@@ -94,7 +99,7 @@ function usePanels() {
  */
 function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
   const { isOpen, toggle } = usePanels()
-  const { title, key, openIcon, closedIcon } = PANELS[side]
+  const { title, key, openIcon, closedIcon, fill } = PANELS[side]
   const open = isOpen(side)
   const label = `${open ? "Hide" : "Show"} ${title.toLowerCase()} panel`
 
@@ -104,7 +109,7 @@ function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
         render={
           <Button
             data-slot="panel-toggle"
-            variant={open && !close ? "secondary" : "ghost"}
+            variant={open && !close && fill ? "secondary" : "ghost"}
             size="icon-sm"
             // A close button only ever closes, so it isn't a pressed toggle.
             aria-pressed={close ? undefined : open}
@@ -155,7 +160,7 @@ function PanelHeader({
   return (
     <header
       className={cn(
-        "flex h-10 shrink-0 items-center gap-2 bg-background px-2",
+        "flex h-10 shrink-0 items-center gap-2 bg-background px-3",
         border && "border-b"
       )}
     >
@@ -278,6 +283,7 @@ function PanelSheet({
   side,
   header,
   border,
+  toggleAt = "end",
   open,
   onOpenChange,
   children,
@@ -285,6 +291,7 @@ function PanelSheet({
   side: "left" | "right"
   header?: React.ReactNode
   border?: boolean
+  toggleAt?: "start" | "end"
   open: boolean
   onOpenChange: (open: boolean) => void
   children: React.ReactNode
@@ -306,7 +313,7 @@ function PanelSheet({
         <PanelHeader
           title={header ?? title}
           border={border}
-          end={<PanelToggle side={side} close />}
+          {...{ [toggleAt]: <PanelToggle side={side} close /> }}
         />
         <PanelBody>{children}</PanelBody>
       </SheetContent>
@@ -343,6 +350,7 @@ function Panels({
   bottom,
   headers = {},
   headerBorder = {},
+  toggleAt = {},
   defaultOpen = { left: true, right: false, bottom: false },
   className,
   children,
@@ -354,6 +362,11 @@ function Panels({
   headers?: Partial<Record<Side | "main", React.ReactNode>>
   /** Which headers leave off the rule under them. Each has one by default. */
   headerBorder?: Partial<Record<Side | "main", boolean>>
+  /**
+   * Which end of its own header each panel's toggle sits at: "end" by
+   * default, or "start", ahead of whatever `headers` gives it.
+   */
+  toggleAt?: Partial<Record<Side, "start" | "end">>
   defaultOpen?: Partial<Record<Side, boolean>>
   className?: string
   /** The page, in the main panel. */
@@ -451,7 +464,7 @@ function Panels({
             <PanelHeader
               title={headers.left ?? PANELS.left.title}
               border={headerBorder.left}
-              end={<PanelToggle side="left" />}
+              {...{ [toggleAt.left ?? "end"]: <PanelToggle side="left" /> }}
             />
             {/* On a phone `left` is in its sheet, so it isn't mounted twice. */}
             <PanelBody>{isMobile ? null : left}</PanelBody>
@@ -493,7 +506,11 @@ function Panels({
                 <PanelHeader
                   title={headers.bottom ?? PANELS.bottom.title}
                   border={headerBorder.bottom}
-                  end={<PanelToggle side="bottom" close />}
+                  {...{
+                    [toggleAt.bottom ?? "end"]: (
+                      <PanelToggle side="bottom" close />
+                    ),
+                  }}
                 />
                 <PanelBody>{bottom}</PanelBody>
               </CollapsiblePanel>
@@ -505,10 +522,15 @@ function Panels({
             <PanelHeader
               title={headers.right ?? PANELS.right.title}
               border={headerBorder.right}
+              start={
+                toggleAt.right === "start" ? <PanelToggle side="right" /> : null
+              }
               end={
                 <>
                   {bottomToggle}
-                  <PanelToggle side="right" />
+                  {toggleAt.right === "start" ? null : (
+                    <PanelToggle side="right" />
+                  )}
                 </>
               }
             />
@@ -524,6 +546,7 @@ function Panels({
               side="left"
               header={headers.left}
               border={headerBorder.left}
+              toggleAt={toggleAt.left}
               open={sheet === "left"}
               onOpenChange={(next) => setSheet(next ? "left" : null)}
             >
@@ -535,6 +558,7 @@ function Panels({
               side="right"
               header={headers.right}
               border={headerBorder.right}
+              toggleAt={toggleAt.right}
               open={sheet === "right"}
               onOpenChange={(next) => setSheet(next ? "right" : null)}
             >

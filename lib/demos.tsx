@@ -2,6 +2,7 @@ import type { ComponentType } from "react"
 
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
+import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
@@ -60,6 +61,11 @@ const DEMOS: Record<string, Demo> = {
     Demo: TooltipIconButtonDemo,
   },
   toolbar: { title: "Toolbar", gallery: "/components", Demo: ToolbarDemo },
+  "help-menu": {
+    title: "Help Menu",
+    gallery: "/components",
+    Demo: HelpMenuDemo,
+  },
   "user-menu": {
     title: "User Menu",
     gallery: "/components",

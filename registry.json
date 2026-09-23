@@ -285,6 +285,26 @@
       "categories": ["actions"]
     },
     {
+      "name": "help-menu",
+      "type": "registry:component",
+      "title": "Help Menu",
+      "description": "Where to go for help: a question-mark button with a tooltip, opening a menu of help, keyboard shortcuts, what's new and the privacy center.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/menu",
+        "@aiellie/tooltip"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/help-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/help-menu.tsx"
+        }
+      ],
+      "categories": ["actions"]
+    },
+    {
       "name": "panels",
       "type": "registry:component",
       "title": "Panels",
@@ -471,6 +491,7 @@
         "@aiellie/sidebar",
         "@aiellie/panels",
         "@aiellie/user-menu",
+        "@aiellie/help-menu",
         "@aiellie/menu",
         "@aiellie/status",
         "@aiellie/tooltip-icon-button",
@@ -501,6 +522,11 @@
           "path": "registry/aiellie/blocks/chat/components/chat-nav-main.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-nav-main.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-nav-history.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-nav-history.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-nav-chats.tsx",

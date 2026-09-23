@@ -5,10 +5,8 @@ import * as React from "react"
 import { ChatComposer } from "@/registry/aiellie/blocks/chat/components/chat-composer"
 import { ChatHeader } from "@/registry/aiellie/blocks/chat/components/chat-header"
 import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat-messages"
-import {
-  ChatSidebar,
-  ChatSidebarHeader,
-} from "@/registry/aiellie/blocks/chat/components/chat-sidebar"
+import { ChatNavHistory } from "@/registry/aiellie/blocks/chat/components/chat-nav-history"
+import { ChatSidebar } from "@/registry/aiellie/blocks/chat/components/chat-sidebar"
 import { ChatThread } from "@/registry/aiellie/blocks/chat/components/chat-thread"
 import type { ComposerStatus } from "@/registry/aiellie/components/composer"
 import { Panels } from "@/registry/aiellie/components/panels"
@@ -123,6 +121,34 @@ const FIRST_WORD_DELAY = 500
 const WORD_DELAY = 35
 
 /**
+ * The chats opened so far, in order, and which one is on screen. Null is a new
+ * chat. Back and forward move through it the way a browser moves through
+ * pages.
+ */
+type History = { entries: (string | null)[]; index: number }
+
+/** Opens a chat as the next step, dropping whatever was ahead of this one. */
+function visit(history: History, id: string | null): History {
+  if (history.entries[history.index] === id) return history
+  const entries = [...history.entries.slice(0, history.index + 1), id]
+  return { entries, index: entries.length - 1 }
+}
+
+/**
+ * Forgets a deleted chat, along with any step that, without it, would only
+ * repeat the one before.
+ */
+function forget(history: History, id: string): History {
+  const entries: (string | null)[] = []
+  let index = 0
+  history.entries.forEach((entry, i) => {
+    if (entry !== id && entries.at(-1) !== entry) entries.push(entry)
+    if (i <= history.index) index = Math.max(entries.length - 1, 0)
+  })
+  return entries.length > 0 ? { entries, index } : { entries: [null], index: 0 }
+}
+
+/**
  * The chat page: your chats down the side, the open one in the middle, and the
  * composer underneath.
  *
@@ -130,11 +156,29 @@ const WORD_DELAY = 35
  * and the thread is the main one. Dragging the sidebar's edge resizes it, and
  * its toggle, or ⌘B, folds it away. On a phone there is no room beside the
  * thread, so the toggle opens the sidebar over the page in a sheet instead.
+ *
+ * ⌘[ and ⌘] step back and forward through the chats you have opened. ⌘K and
+ * ⌘⇧U open search and activity, which are yours to supply: the page has
+ * neither, so their buttons and keys do nothing until you pass them.
  */
-function Chat({ className }: { className?: string }) {
+function Chat({
+  onSearch,
+  onActivity,
+  onProjects,
+  className,
+}: {
+  onSearch?: () => void
+  onActivity?: () => void
+  onProjects?: () => void
+  className?: string
+}) {
   const [conversations, setConversations] = React.useState(SAMPLE_CONVERSATIONS)
   // Null is a new chat. Nothing is saved until its first message is sent.
-  const [activeId, setActiveId] = React.useState<string | null>(null)
+  const [history, setHistory] = React.useState<History>({
+    entries: [null],
+    index: 0,
+  })
+  const activeId = history.entries[history.index]
   const [draft, setDraft] = React.useState("")
   const [model, setModel] = React.useState(MODELS[0].id)
   // The chat a reply is being written into, which is not always the open one.
@@ -248,7 +292,12 @@ function Chat({ className }: { className?: string }) {
         { id, title, messages: [question, reply] },
         ...all,
       ])
-      setActiveId(id)
+      setHistory((current) => ({
+        ...current,
+        entries: current.entries.map((entry, i) =>
+          i === current.index ? id : entry
+        ),
+      }))
       stream(id, reply.id)
     } else {
       updateMessages(activeId, (messages) => [...messages, question, reply])
@@ -277,13 +326,43 @@ function Chat({ className }: { className?: string }) {
 
   const select = (id: string) => {
     if (id !== activeId) stop()
-    setActiveId(id)
+    setHistory((current) => visit(current, id))
   }
 
   const startNewChat = () => {
     stop()
-    setActiveId(null)
+    setHistory((current) => visit(current, null))
   }
+
+  const canGoBack = history.index > 0
+  const canGoForward = history.index < history.entries.length - 1
+
+  /** One step back (-1) or forward (1) through the chats opened so far. */
+  const go = (step: -1 | 1) => {
+    const index = history.index + step
+    if (index < 0 || index >= history.entries.length) return
+    stop()
+    setHistory({ ...history, index })
+  }
+
+  // Read fresh on every key, so the listener below never sees an old history.
+  const onShortcut = React.useEffectEvent((event: KeyboardEvent) => {
+    if (!(event.metaKey || event.ctrlKey) || event.altKey) return
+    const key = event.key.toLowerCase()
+    const action = event.shiftKey
+      ? { u: onActivity }[key]
+      : { "[": () => go(-1), "]": () => go(1), k: onSearch }[key]
+    // A key with nothing behind it is left to the browser.
+    if (!action) return
+    event.preventDefault()
+    action()
+  })
+
+  React.useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => onShortcut(event)
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [])
 
   const rename = (id: string, title: string) =>
     setConversations((all) =>
@@ -306,7 +385,11 @@ function Chat({ className }: { className?: string }) {
     setConversations((all) =>
       all.filter((conversation) => conversation.id !== id)
     )
-    if (id === activeId) setActiveId(null)
+    setHistory((current) => {
+      const next = forget(current, id)
+      // Deleting the open chat leaves a new one in its place.
+      return current.entries[current.index] === id ? visit(next, null) : next
+    })
   }
 
   return (
@@ -329,6 +412,9 @@ function Chat({ className }: { className?: string }) {
               activeId={activeId}
               user={SAMPLE_USER}
               onNewChat={startNewChat}
+              onProjects={onProjects}
+              onSearch={onSearch}
+              onActivity={onActivity}
               onSelect={select}
               onRename={rename}
               onTogglePin={togglePin}
@@ -337,8 +423,18 @@ function Chat({ className }: { className?: string }) {
           }
           // The sidebar's header runs straight into its list.
           headerBorder={{ left: false }}
+          // The toggle leads the sidebar's header, ahead of back and forward,
+          // in the same corner as when the sidebar is shut.
+          toggleAt={{ left: "start" }}
           headers={{
-            left: <ChatSidebarHeader onNewChat={startNewChat} />,
+            left: (
+              <ChatNavHistory
+                canGoBack={canGoBack}
+                canGoForward={canGoForward}
+                onBack={() => go(-1)}
+                onForward={() => go(1)}
+              />
+            ),
             main: (
               <ChatHeader
                 title={active?.title ?? "New chat"}

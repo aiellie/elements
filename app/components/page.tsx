@@ -2,6 +2,7 @@ import {
   Activity03Icon,
   AiBrain01Icon,
   CursorInfo02Icon,
+  HelpCircleIcon,
   LayoutThreeColumnIcon,
   LayoutTopIcon,
   Menu01Icon,
@@ -15,6 +16,7 @@ import { DemoCard } from "@/components/pages/demo-card"
 import { PageHero } from "@/components/pages/page-hero"
 import { cardCount } from "@/lib/categories"
 import { PAGES } from "@/lib/constants"
+import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
@@ -60,11 +62,20 @@ export default function ComponentsPage() {
         >
           <UserMenuDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/help-menu"
+          index={4}
+          title="Help Menu"
+          icon={HelpCircleIcon}
+          description="Help, shortcuts and policies behind one button"
+        >
+          <HelpMenuDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="inputs">
         <DemoCard
           href="/components/model-selector"
-          index={4}
+          index={5}
           title="Model Selector"
           icon={AiBrain01Icon}
           description="A simple model selector component"
@@ -75,7 +86,7 @@ export default function ComponentsPage() {
       <CategorySection category="layout">
         <DemoCard
           href="/components/panels"
-          index={5}
+          index={6}
           title="Panels"
           icon={LayoutThreeColumnIcon}
           description="An app shell with resizable panels on three sides"
@@ -87,7 +98,7 @@ export default function ComponentsPage() {
       <CategorySection category="overlays">
         <DemoCard
           href="/components/menu"
-          index={6}
+          index={7}
           title="Menu"
           icon={Menu01Icon}
           description="A simple menu component"
@@ -98,7 +109,7 @@ export default function ComponentsPage() {
       <CategorySection category="feedback">
         <DemoCard
           href="/components/status"
-          index={7}
+          index={8}
           title="Status"
           icon={Activity03Icon}
           description="A simple status component"
@@ -109,7 +120,7 @@ export default function ComponentsPage() {
       <CategorySection category="chat">
         <DemoCard
           href="/components/composer"
-          index={8}
+          index={9}
           title="Composer"
           icon={MessageEdit01Icon}
           description="A simple composer component"
@@ -118,7 +129,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message"
-          index={9}
+          index={10}
           title="Message"
           icon={Message01Icon}
           description="A simple message component"
@@ -127,7 +138,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={10}
+          index={11}
           title="Thread"
           icon={MessageMultiple01Icon}
           description="A simple thread component"
