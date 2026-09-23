@@ -3,6 +3,7 @@
 import type { ComponentProps } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
+  Cancel01Icon,
   LayoutAlignBottomIcon,
   LayoutAlignLeftIcon,
   LayoutAlignRightIcon,
@@ -40,12 +41,19 @@ type PanelToggleProps = Omit<
   shortcut: string
   openIcon: HugeIcon
   closedIcon: HugeIcon
+  /**
+   * Drawn as a close button instead: ghost with a cancel glyph, for places
+   * where the panel is always open when the button is seen, such as its own
+   * header or its sheet. The tooltip and the shortcut stay the same.
+   */
+  close?: boolean
 }
 
 /**
  * Icon button that opens and closes one panel. Closed: ghost + LayoutAlign
  * icon (an outline of where the panel would go). Open: secondary + Sidebar
- * icon. The tooltip names the action and shows its keyboard shortcut.
+ * icon. With `close`, a ghost cancel button. The tooltip names the action and
+ * shows its keyboard shortcut.
  */
 function PanelToggle({
   open,
@@ -54,11 +62,13 @@ function PanelToggle({
   shortcut,
   openIcon,
   closedIcon,
+  close = false,
   onClick,
   className,
   ...props
 }: PanelToggleProps) {
   const action = open ? "Hide" : "Show"
+  const icon = close ? Cancel01Icon : open ? openIcon : closedIcon
 
   return (
     <Tooltip>
@@ -67,9 +77,10 @@ function PanelToggle({
           <Button
             data-slot="panel-toggle"
             data-state={open ? "open" : "closed"}
-            variant={open ? "secondary" : "ghost"}
+            variant={open && !close ? "secondary" : "ghost"}
             size="icon-sm"
-            aria-pressed={open}
+            // A close button only ever closes, so it isn't a pressed toggle.
+            aria-pressed={close ? undefined : open}
             className={className}
             onClick={(event) => {
               onClick?.(event)
@@ -83,8 +94,8 @@ function PanelToggle({
             panel-toggle-icon-in animation (see app/animations.css). */}
         <HugeiconsIcon
           key={open ? "open" : "closed"}
-          icon={open ? openIcon : closedIcon}
-          className={open ? undefined : "text-muted-foreground"}
+          icon={icon}
+          className={open && !close ? undefined : "text-muted-foreground"}
         />
         <span className="sr-only">
           {action} {label}

@@ -108,9 +108,29 @@ const handleClassName = cn(
 )
 
 /**
+ * The handle beside a collapsible panel. While the panel is shut there is
+ * nothing to drag: a closed panel opens from its toggle, not by pulling its
+ * edge back out. The handle stays in the group rather than unmounting, because
+ * two panels with no separator between them can still be resized by dragging
+ * the gap between their edges. Disabled, the library skips it altogether, and
+ * it is hidden and lets the pointer through, so there is no line to see and no
+ * "not allowed" cursor over where it was.
+ */
+function PanelHandle({ open }: { open: boolean }) {
+  return (
+    <ResizableHandle
+      withHandle
+      disabled={!open}
+      className={cn(handleClassName, !open && "pointer-events-none invisible")}
+    />
+  )
+}
+
+/**
  * Fixed-height header pinned to the top of every panel: the panel's icon and
- * name. `start` renders before them (the left toggle lives there); `end` is
- * pushed to the far edge (the right and bottom toggles).
+ * name. `end` is pushed to the far edge, where every panel keeps its own
+ * toggle. `start` renders before the name, which only the main header uses,
+ * for the left toggle while the left panel is shut.
  */
 function PanelHeader({
   icon,
@@ -334,8 +354,8 @@ function PanelShellBody({
         <div className="flex h-full flex-col overflow-hidden">
           <PanelHeader
             title="Left"
-            start={leftOpen ? <LeftPanelToggle /> : null}
-            className="border-b-0 bg-background"
+            end={leftOpen ? <LeftPanelToggle /> : null}
+            className="bg-background"
           />
           {/* On mobile `left` lives in the sheet instead (see PanelSheets);
               the rail never opens there, so don't mount it twice. */}
@@ -344,7 +364,7 @@ function PanelShellBody({
           </div>
         </div>
       </ResizablePanel>
-      <ResizableHandle withHandle className={handleClassName} />
+      <PanelHandle open={leftOpen} />
       <ResizablePanel id="panel-content">
         {/* The bottom panel splits the content area, so it stops short of the
             left and right panels. */}
@@ -357,9 +377,9 @@ function PanelShellBody({
               content instead of pushing it out of sight. */}
           <ResizablePanel id="panel-main" style={{ overflow: "hidden" }}>
             <div className="flex h-full flex-col">
-              {/* A toggle lives in its own panel's header while that panel is
-                  open and falls back to the main header once it closes — at the
-                  same screen corner either way. Collapsed panels stay mounted,
+              {/* A toggle lives at the end of its own panel's header while that
+                  panel is open and falls back to the main header once it
+                  closes, on the same side of the screen as the panel. Collapsed panels stay mounted,
                   so the toggle must not be rendered in both places at once.
                   (The mobile sheets are modal, so their header can carry a
                   second one while the rail's is behind the backdrop.) */}
@@ -380,7 +400,7 @@ function PanelShellBody({
               </main>
             </div>
           </ResizablePanel>
-          <ResizableHandle withHandle className={handleClassName} />
+          <PanelHandle open={bottomOpen} />
           <ResizablePanel
             id={BOTTOM_PANEL_ID}
             panelRef={bottomRef}
@@ -393,13 +413,13 @@ function PanelShellBody({
             className="bg-background"
           >
             <div className="flex h-full flex-col overflow-hidden">
-              <PanelHeader title="Bottom" />
+              <PanelHeader title="Bottom" end={<BottomPanelToggle close />} />
               <div className="min-h-0 flex-1 overflow-auto" />
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>
-      <ResizableHandle withHandle className={handleClassName} />
+      <PanelHandle open={rightPanelOpen} />
       <ResizablePanel
         id={RIGHT_PANEL_ID}
         panelRef={rightRef}
@@ -437,9 +457,9 @@ function PanelShellBody({
  * The left and right panels on mobile. The rails never open there — their
  * minimum widths do not fit beside the content — so the same two panels slide
  * over the page as sheets, the way the app sidebar does on its own. Each sheet
- * carries the same header as its rail, toggle included: the toggles in the
- * main header sit behind the modal backdrop while a sheet is up, so the one in
- * the sheet is what closes it, at the same corner. Sheet content only mounts
+ * carries the same header as its rail, with its toggle drawn as a close button:
+ * the toggles in the main header sit behind the modal backdrop while a sheet
+ * is up, so the one in the sheet is what closes it, at the same corner. Sheet content only mounts
  * while open, and the rail skips `left` on mobile, so it is never mounted
  * twice.
  */
@@ -473,8 +493,8 @@ function PanelSheets({ left }: Readonly<{ left?: ReactNode }>) {
       >
         <PanelHeader
           title="Left"
-          start={<LeftPanelToggle />}
-          className="border-b-0 bg-background"
+          end={<LeftPanelToggle close />}
+          className="bg-background"
         />
         <div className="min-h-0 flex-1 overflow-auto">{left}</div>
       </PanelSheet>
@@ -489,7 +509,7 @@ function PanelSheets({ left }: Readonly<{ left?: ReactNode }>) {
         <PanelHeader
           title={rightTitle ?? "Right"}
           onClose={rightOnClose ?? undefined}
-          end={<RightPanelToggle />}
+          end={<RightPanelToggle close />}
         />
         <div ref={setSheetNode} className="min-h-0 flex-1 overflow-auto" />
       </PanelSheet>
