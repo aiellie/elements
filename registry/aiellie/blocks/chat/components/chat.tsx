@@ -157,18 +157,24 @@ function forget(history: History, id: string): History {
  * its toggle, or ⌘B, folds it away. On a phone there is no room beside the
  * thread, so the toggle opens the sidebar over the page in a sheet instead.
  *
- * ⌘[ and ⌘] step back and forward through the chats you have opened. ⌘K and
- * ⌘⇧U open search and activity, which are yours to supply: the page has
- * neither, so their buttons and keys do nothing until you pass them.
+ * ⌘N starts a new chat, and ⌘[ and ⌘] step back and forward through the
+ * chats you have opened. ⌘⇧U turns activity on and off, lighting the bell;
+ * what it shows is yours to supply. ⌘⇧N and ⌘K open quick chat and search,
+ * also yours: the page has neither, so their buttons and keys do nothing
+ * until you pass them. Most browsers keep ⌘N and ⌘⇧N for their own windows,
+ * so those two reach the page only in a desktop shell.
  */
 function Chat({
+  onQuickChat,
   onSearch,
   onActivity,
   onProjects,
   className,
 }: {
+  onQuickChat?: () => void
   onSearch?: () => void
-  onActivity?: () => void
+  /** Told whether activity is now up, each time the bell is pressed. */
+  onActivity?: (open: boolean) => void
   onProjects?: () => void
   className?: string
 }) {
@@ -179,6 +185,8 @@ function Chat({
     index: 0,
   })
   const activeId = history.entries[history.index]
+  // Whether activity is up. The bell shows it either way; what opens is yours.
+  const [activityOpen, setActivityOpen] = React.useState(false)
   const [draft, setDraft] = React.useState("")
   const [model, setModel] = React.useState(MODELS[0].id)
   // The chat a reply is being written into, which is not always the open one.
@@ -334,6 +342,12 @@ function Chat({
     setHistory((current) => visit(current, null))
   }
 
+  const toggleActivity = () => {
+    const open = !activityOpen
+    setActivityOpen(open)
+    onActivity?.(open)
+  }
+
   const canGoBack = history.index > 0
   const canGoForward = history.index < history.entries.length - 1
 
@@ -350,8 +364,13 @@ function Chat({
     if (!(event.metaKey || event.ctrlKey) || event.altKey) return
     const key = event.key.toLowerCase()
     const action = event.shiftKey
-      ? { u: onActivity }[key]
-      : { "[": () => go(-1), "]": () => go(1), k: onSearch }[key]
+      ? { n: onQuickChat, u: toggleActivity }[key]
+      : {
+          n: startNewChat,
+          "[": () => go(-1),
+          "]": () => go(1),
+          k: onSearch,
+        }[key]
     // A key with nothing behind it is left to the browser.
     if (!action) return
     event.preventDefault()
@@ -412,9 +431,11 @@ function Chat({
               activeId={activeId}
               user={SAMPLE_USER}
               onNewChat={startNewChat}
+              onQuickChat={onQuickChat}
               onProjects={onProjects}
               onSearch={onSearch}
-              onActivity={onActivity}
+              activityOpen={activityOpen}
+              onActivity={toggleActivity}
               onSelect={select}
               onRename={rename}
               onTogglePin={togglePin}

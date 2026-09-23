@@ -1,6 +1,6 @@
 "use client"
 
-import { Notification03Icon, Search01Icon } from "@hugeicons/core-free-icons"
+import { BellDotIcon, BellIcon, Search01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import {
@@ -22,6 +22,16 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/registry/aiellie/ui/sidebar"
+import { cn } from "@/lib/utils"
+
+/**
+ * Lit in the theme's live colour, or Tailwind's blue where a project has no
+ * `--live`: this block can be installed without the aiellie theme. The fill is
+ * the status formula, 4% at rest and 7% under the pointer. Written out whole,
+ * since Tailwind only finds classes it can read as they are.
+ */
+const liveOn =
+  "bg-[color-mix(in_oklab,var(--live,var(--color-blue-500))_4%,transparent)] [&_svg]:text-[color:var(--live,var(--color-blue-500))] hover:bg-[color-mix(in_oklab,var(--live,var(--color-blue-500))_7%,transparent)] hover:[&_svg]:text-[color:var(--live,var(--color-blue-500))]"
 
 /**
  * The top of the sidebar: the app's name, which takes you back to a new chat,
@@ -31,11 +41,14 @@ import {
 function ChatSidebarHeader({
   onNewChat,
   onSearch,
+  activityOpen,
   onActivity,
 }: {
   onNewChat: () => void
   onSearch?: () => void
-  onActivity?: () => void
+  /** Whether activity is up, which lights the bell and gives it a dot. */
+  activityOpen: boolean
+  onActivity: () => void
 }) {
   const { closeSheet } = usePanels()
 
@@ -66,10 +79,11 @@ function ChatSidebarHeader({
         <TooltipIconButton
           tooltip="Activity"
           shortcut="⌘⇧U"
+          aria-pressed={activityOpen}
           onClick={onActivity}
-          className="size-7"
+          className={cn("size-7", activityOpen && liveOn)}
         >
-          <HugeiconsIcon icon={Notification03Icon} />
+          <HugeiconsIcon icon={activityOpen ? BellDotIcon : BellIcon} />
         </TooltipIconButton>
       </div>
     </SidebarHeader>
@@ -88,30 +102,40 @@ function ChatSidebarHeader({
 function ChatSidebar({
   user,
   onNewChat,
+  onQuickChat,
   onProjects,
   onSearch,
+  activityOpen,
   onActivity,
   ...chats
 }: ChatNavProps & {
   user: User
   onNewChat: () => void
+  onQuickChat?: () => void
   onProjects?: () => void
   onSearch?: () => void
-  onActivity?: () => void
+  activityOpen: boolean
+  onActivity: () => void
 }) {
   return (
     <Sidebar collapsible="none" className="w-full bg-background">
       <ChatSidebarHeader
         onNewChat={onNewChat}
         onSearch={onSearch}
+        activityOpen={activityOpen}
         onActivity={onActivity}
       />
       <SidebarContent role="navigation" aria-label="Chats">
-        <ChatNavMain onNewChat={onNewChat} onProjects={onProjects} />
+        <ChatNavMain
+          newChatOpen={chats.activeId === null}
+          onNewChat={onNewChat}
+          onQuickChat={onQuickChat}
+          onProjects={onProjects}
+        />
         <ChatNavPinned {...chats} />
         <ChatNavRecents {...chats} />
       </SidebarContent>
-      <SidebarFooter className="flex-row items-center gap-1">
+      <SidebarFooter className="flex-row items-center gap-1 border-t border-border/50">
         <div className="min-w-0 flex-1">
           <UserMenu user={user} />
         </div>

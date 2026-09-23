@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
+import { ArrowLeft02Icon, ArrowRight02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
@@ -30,7 +30,7 @@ function ChatNavHistory({
         onClick={onBack}
         className="size-7"
       >
-        <HugeiconsIcon icon={ArrowLeft01Icon} className="rtl:-scale-x-100" />
+        <HugeiconsIcon icon={ArrowLeft02Icon} className="rtl:-scale-x-100" />
       </TooltipIconButton>
       <TooltipIconButton
         tooltip="Forward"
@@ -39,7 +39,7 @@ function ChatNavHistory({
         onClick={onForward}
         className="size-7"
       >
-        <HugeiconsIcon icon={ArrowRight01Icon} className="rtl:-scale-x-100" />
+          <HugeiconsIcon icon={ArrowRight02Icon} className="rtl:-scale-x-100" />
       </TooltipIconButton>
     </div>
   )

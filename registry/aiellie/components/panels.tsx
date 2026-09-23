@@ -102,6 +102,9 @@ function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
   const { title, key, openIcon, closedIcon, fill } = PANELS[side]
   const open = isOpen(side)
   const label = `${open ? "Hide" : "Show"} ${title.toLowerCase()} panel`
+  // Filled, the open toggle is lit to match its fill. Otherwise it stays
+  // muted like any quiet icon button, and only the glyph says it's open.
+  const filled = open && !close && fill
 
   return (
     <Tooltip>
@@ -109,11 +112,15 @@ function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
         render={
           <Button
             data-slot="panel-toggle"
-            variant={open && !close && fill ? "secondary" : "ghost"}
+            variant={filled ? "secondary" : "ghost"}
             size="icon-sm"
             // A close button only ever closes, so it isn't a pressed toggle.
             aria-pressed={close ? undefined : open}
             onClick={() => toggle(side)}
+            className={cn(
+              !filled &&
+                "[&_svg]:text-muted-foreground hover:[&_svg]:text-foreground"
+            )}
           />
         }
       >
@@ -123,7 +130,6 @@ function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
           key={String(open)}
           icon={close ? Cancel01Icon : open ? openIcon : closedIcon}
           aria-hidden
-          className={cn(!(open && !close) && "text-muted-foreground")}
         />
         <span className="sr-only">{label}</span>
       </TooltipTrigger>

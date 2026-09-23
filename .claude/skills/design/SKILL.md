@@ -180,10 +180,12 @@ Controls are 32px, not shadcn's 36px. That one change is most of what makes the 
 | input, select, combobox | `h-8` 32px | `px-3` | — |
 | menu item, table row, list row | `h-8` 32px | `px-2` | `gap-2` |
 | card, dialog, popover | — | `p-4` | `gap-3` |
-| sidebar item | `h-8` 32px | `px-2` | `gap-2` |
+| sidebar item | `h-7.5` 30px | `px-2` | `gap-2` |
 | page gutter | — | `px-6` | — |
 | between sections | — | — | `gap-6` |
 | between page regions | — | — | `gap-8` |
+
+Sidebar items are the one row that runs shorter than a control, at 30px, the half-step between the two. A sidebar is a long list read at a glance: at 32px it read as tall, and at 28px as cramped. Its rows, the rename field, the loading row and any icon button beside a row (quick chat, say) all sit at 30px, and the row's action and badge sit 5px from its top to stay centred. Group labels keep 32px, since they space the sections rather than being rows.
 
 Docs pages are the exception: `body` prose at 16/26 with 16px between paragraphs, 40px between sections, and a measure capped near 72ch. Product density and reading density are different jobs.
 
