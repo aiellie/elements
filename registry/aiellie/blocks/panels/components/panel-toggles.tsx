@@ -84,7 +84,6 @@ function PanelToggle({
         <HugeiconsIcon
           key={open ? "open" : "closed"}
           icon={open ? openIcon : closedIcon}
-          strokeWidth={1.75}
           className={open ? undefined : "text-muted-foreground"}
         />
         <span className="sr-only">

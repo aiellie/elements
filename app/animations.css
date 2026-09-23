@@ -1,0 +1,77 @@
+/*
+ * Motion for the panel shell: panels opening and closing, and the toggle
+ * buttons that drive them. Imported from globals.css.
+ */
+
+ :root {
+    --panel-duration: 220ms;
+    /* Decelerating curve — quick start, soft landing (same family as Sheet). */
+    --panel-ease: cubic-bezier(0.32, 0.72, 0, 1);
+    --panel-toggle-duration: 160ms;
+  }
+  
+  /*
+   * Panel size. react-resizable-panels sizes every panel with an inline
+   * `flex-grow`, so transitioning that one property animates opening, closing
+   * and programmatic resizes (toggles, shortcuts, double-click reset) along
+   * whichever axis the group uses.
+   */
+  [data-panel] {
+    transition: flex-grow var(--panel-duration) var(--panel-ease);
+  }
+  
+  /*
+   * ...but never while a separator is being dragged, or the panel would trail
+   * the pointer. The library reflects the drag as `data-separator="active"`;
+   * matching on the enclosing group covers nested groups too.
+   */
+  [data-group]:has([data-separator="active"]) [data-panel] {
+    transition: none;
+  }
+  
+  /*
+   * Toggle buttons. A toggle moves between headers as its panel opens and
+   * closes (it is remounted there), and its icon is swapped at the same time —
+   * both fade/scale in rather than popping.
+   */
+  @keyframes panel-toggle-in {
+    from {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  
+  @keyframes panel-toggle-icon-in {
+    from {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  
+  [data-slot="panel-toggle"] {
+    animation: panel-toggle-in var(--panel-toggle-duration) var(--panel-ease) both;
+  }
+  
+  [data-slot="panel-toggle"] > svg {
+    animation: panel-toggle-icon-in var(--panel-toggle-duration) var(--panel-ease)
+      both;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    [data-panel] {
+      transition: none;
+    }
+  
+    [data-slot="panel-toggle"],
+    [data-slot="panel-toggle"] > svg {
+      animation: none;
+    }
+  }

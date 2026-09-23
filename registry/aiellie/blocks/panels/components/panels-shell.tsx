@@ -20,10 +20,7 @@ import {
   RightPanelToggle,
 } from "./panel-toggles"
 import { PanelsProvider, usePanels } from "./panels"
-import {
-  RightPanelProvider,
-  useRightPanel,
-} from "./right-panel"
+import { RightPanelProvider, useRightPanel } from "./right-panel"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
   ResizableHandle,
@@ -31,8 +28,6 @@ import {
   ResizablePanelGroup,
 } from "@/registry/aiellie/ui/resizable"
 import { SidebarProvider, useSidebar } from "@/registry/aiellie/ui/sidebar"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/aiellie/ui/tabs"
-import { Toaster } from "@/components/ui/toast"
 import {
   Tooltip,
   TooltipContent,
@@ -57,31 +52,23 @@ const LEFT_PANEL_ID = "panel-left"
 const RIGHT_PANEL_ID = "panel-right"
 const BOTTOM_PANEL_ID = "panel-bottom"
 
-// The glyph on each panel's tab. One frame throughout with the edge that panel
-// occupies picked out, so the set reads as the layout itself; the main panel
-// gets the page instead, being what the other three sit around. `data-icon`
-// tightens the tab's padding on the icon's side (see components/ui/tabs.tsx).
+// The glyph beside each panel's name. One frame throughout with the edge that
+// panel occupies picked out, so the set reads as the layout itself; the main
+// panel gets the page instead, being what the other three sit around.
 const LEFT_PANEL_ICON = (
   <HugeiconsIcon
     icon={LayoutLeftIcon}
     strokeWidth={1.75}
-    data-icon="inline-start"
     className="size-3.5!"
   />
 )
 const MAIN_PANEL_ICON = (
-  <HugeiconsIcon
-    icon={BrowserIcon}
-    strokeWidth={1.75}
-    data-icon="inline-start"
-    className="size-3.5!"
-  />
+  <HugeiconsIcon icon={BrowserIcon} strokeWidth={1.75} className="size-3.5!" />
 )
 const RIGHT_PANEL_ICON = (
   <HugeiconsIcon
     icon={LayoutRightIcon}
     strokeWidth={1.75}
-    data-icon="inline-start"
     className="size-3.5!"
   />
 )
@@ -89,7 +76,6 @@ const BOTTOM_PANEL_ICON = (
   <HugeiconsIcon
     icon={LayoutBottomIcon}
     strokeWidth={1.75}
-    data-icon="inline-start"
     className="size-3.5!"
   />
 )
@@ -99,7 +85,7 @@ const BOTTOM_PANEL_ICON = (
  * panel's own once nothing has — the same fallback its title makes.
  */
 function rightPanelIcon(icon: HugeiconsIcon | null) {
-  // aria-hidden: a brand mark carries its own <title>, which the tab would
+  // aria-hidden: a brand mark carries its own <title>, which the header would
   // otherwise read out ahead of the name right beside it.
   return icon ? (
     <HugeiconsIcon icon={icon as any} aria-hidden className="size-3.5!" />
@@ -121,15 +107,10 @@ const handleClassName = cn(
   "focus-visible:[&>div]:opacity-100"
 )
 
-/** Each header holds a single tab, so they can all name it the same thing. */
-const PANEL_TAB_VALUE = "panel"
-
 /**
- * Fixed-height header pinned to the top of every panel. The panel's name is a
- * tab rather than a plain title — one tab for now, and the shape to grow into
- * once a panel holds more than one thing. `start` renders before it (the left
- * toggle lives there); `end` is pushed to the far edge (the right and bottom
- * toggles).
+ * Fixed-height header pinned to the top of every panel: the panel's icon and
+ * name. `start` renders before them (the left toggle lives there); `end` is
+ * pushed to the far edge (the right and bottom toggles).
  */
 function PanelHeader({
   icon,
@@ -139,10 +120,10 @@ function PanelHeader({
   end,
   className,
 }: {
-  /** Sits inside the tab, ahead of the title. */
+  /** Sits ahead of the title. */
   icon?: ReactNode
   title: string
-  /** Given one, the icon turns into a close button while the tab is hovered. */
+  /** Given one, the icon turns into a close button while the name is hovered. */
   onClose?: () => void
   start?: ReactNode
   end?: ReactNode
@@ -156,64 +137,46 @@ function PanelHeader({
       )}
     >
       {start}
-      {/* The tab is sized off the header rather than off itself: `h-full!`
-          beats the list's own `h-8`, which overhangs a header that spends one
-          of its 8 pixels on the bottom border. The list is `w-fit`, so a long
-          title would otherwise run straight past the panel — `max-w-full` here
-          and `min-w-0` on either side of it are what make it truncate instead,
-          leaving the toggles where they are. */}
-      <Tabs defaultValue={PANEL_TAB_VALUE} className="h-full min-w-0">
-        <TabsList
-          variant="default"
-          className="h-full! max-w-full cursor-pointer"
-        >
-          <TabsTrigger
-            value={PANEL_TAB_VALUE}
-            // A button inside a button is invalid HTML, so a tab that carries
-            // one isn't rendered as one. Base UI puts the tab's role, focus
-            // and keyboard handling on whatever element it is given.
-            render={onClose ? <div /> : undefined}
-            className="group/panel-tab min-w-0 text-xs text-muted-foreground"
-          >
-            {onClose ? (
-              // The button covers the icon rather than displacing it, so the
-              // swap doesn't shift the title on its way past: `-inset-1` grows
-              // it from the icon's 14px out to the tab's own height, which is
-              // the hit target a 14px button would be too small to give. It
-              // stays up wherever hover isn't a thing — a touch screen, or the
-              // panel's mobile sheet.
-              <span className="relative flex size-3.5 shrink-0 items-center justify-center">
-                <span className="transition-opacity group-hover/panel-tab:opacity-0">
-                  {icon}
-                </span>
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <Button
-                        variant="ghost"
-                        size="icon-xs"
-                        aria-label="Close"
-                        onClick={onClose}
-                        className="absolute -inset-1 size-auto opacity-0 transition-opacity group-hover/panel-tab:opacity-100 focus-visible:opacity-100 pointer-coarse:opacity-100"
-                      />
-                    }
-                  >
-                    <HugeiconsIcon
-                      icon={Cancel01Icon}
-                      strokeWidth={2}
-                      className="size-3.5!"
-                    />
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">Close</TooltipContent>
-                </Tooltip>
-              </span>
-            ) : (
-              icon
-            )}
-            <span className="truncate">{title}</span>
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+      {/* `min-w-0` lets a long title truncate instead of running past the
+          panel, leaving the toggles where they are. */}
+      <div className="group/panel-title flex min-w-0 items-center gap-1.5 px-1 text-xs font-medium text-muted-foreground">
+        {onClose ? (
+          // The button covers the icon rather than displacing it, so the swap
+          // doesn't shift the title on its way past: `-inset-1` grows it from
+          // the icon's 14px out to the header's own height, which is the hit
+          // target a 14px button would be too small to give. It stays up
+          // wherever hover isn't a thing — a touch screen, or the panel's
+          // mobile sheet.
+          <span className="relative flex size-3.5 shrink-0 items-center justify-center">
+            <span className="transition-opacity group-hover/panel-title:opacity-0">
+              {icon}
+            </span>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon-xs"
+                    aria-label="Close"
+                    onClick={onClose}
+                    className="absolute -inset-1 size-auto opacity-0 transition-opacity group-hover/panel-title:opacity-100 focus-visible:opacity-100 pointer-coarse:opacity-100"
+                  />
+                }
+              >
+                <HugeiconsIcon
+                  icon={Cancel01Icon}
+                  strokeWidth={2}
+                  className="size-3.5!"
+                />
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Close</TooltipContent>
+            </Tooltip>
+          </span>
+        ) : (
+          icon
+        )}
+        <span className="truncate">{title}</span>
+      </div>
       {end ? (
         <div className="ms-auto flex shrink-0 items-center gap-1">{end}</div>
       ) : null}
@@ -261,11 +224,16 @@ function useCollapsiblePanel(open: boolean, size: string) {
  * app sidebar lives there), `children` is the page in the main panel. On
  * mobile the left and right panels open as sheets over the page instead of
  * rails beside it, and `left` moves into the sheet.
+ *
+ * It fills the window between `--header-height` and `--footer-height` by
+ * default. Pass `className` to size it some other way, e.g. `my-0 h-full` to
+ * fill a box instead.
  */
 export function PanelShell({
   left,
+  className,
   children,
-}: Readonly<{ left?: ReactNode; children: ReactNode }>) {
+}: Readonly<{ left?: ReactNode; className?: string; children: ReactNode }>) {
   return (
     <SidebarProvider
       style={
@@ -273,6 +241,18 @@ export function PanelShell({
           "--sidebar-width": "calc(var(--spacing) * 72)",
         } as CSSProperties
       }
+      // The window's height lives here rather than on the panel group, which
+      // fills whatever this is. `min-h-0` drops the provider's own
+      // `min-h-svh`, which would otherwise hold a smaller shell open.
+      // Nothing defines the two custom properties yet — a `calc()` naming an
+      // undefined one is invalid, and an invalid height is simply dropped,
+      // which leaves the whole shell as tall as its content instead of the
+      // window. The fallbacks keep it valid until a real header and footer
+      // set them.
+      className={cn(
+        "mt-[var(--header-height,0px)] mb-[var(--footer-height,0px)] h-[calc(100svh-var(--header-height,0px)-var(--footer-height,0px))] min-h-0",
+        className
+      )}
     >
       <PanelsProvider>
         <RightPanelProvider>
@@ -280,7 +260,6 @@ export function PanelShell({
           <PanelSheets left={left} />
         </RightPanelProvider>
       </PanelsProvider>
-      <Toaster />
     </SidebarProvider>
   )
 }
@@ -335,15 +314,6 @@ function PanelShellBody({
     <ResizablePanelGroup
       orientation="horizontal"
       onLayoutChanged={syncSidesFromLayout}
-      // Nothing defines these yet — a `calc()` naming an undefined custom
-      // property is invalid, and an invalid height is simply dropped, which
-      // leaves the whole shell as tall as its content instead of the window.
-      // The fallbacks keep it valid until a real header and footer set them.
-      className="mt-[var(--header-height,0px)] mb-[var(--footer-height,0px)]"
-      style={{
-        height:
-          "calc(100svh - var(--header-height, 0px) - var(--footer-height, 0px))",
-      }}
     >
       {/* `defaultSize` is only read on mount, so it has to agree with the state
           of that first render — otherwise a closed panel paints open once. The
@@ -363,10 +333,9 @@ function PanelShellBody({
       >
         <div className="flex h-full flex-col overflow-hidden">
           <PanelHeader
-            icon={LEFT_PANEL_ICON}
             title="Left"
             start={leftOpen ? <LeftPanelToggle /> : null}
-            className="border-b-0 bg-sidebar"
+            className="border-b-0 bg-background"
           />
           {/* On mobile `left` lives in the sheet instead (see PanelSheets);
               the rail never opens there, so don't mount it twice. */}
@@ -395,7 +364,6 @@ function PanelShellBody({
                   (The mobile sheets are modal, so their header can carry a
                   second one while the rail's is behind the backdrop.) */}
               <PanelHeader
-                icon={MAIN_PANEL_ICON}
                 title="Main"
                 start={leftOpen ? null : <LeftPanelToggle />}
                 end={
@@ -425,7 +393,7 @@ function PanelShellBody({
             className="bg-background"
           >
             <div className="flex h-full flex-col overflow-hidden">
-              <PanelHeader icon={BOTTOM_PANEL_ICON} title="Bottom" />
+              <PanelHeader title="Bottom" />
               <div className="min-h-0 flex-1 overflow-auto" />
             </div>
           </ResizablePanel>
@@ -447,7 +415,6 @@ function PanelShellBody({
       >
         <div className="flex h-full min-h-0 flex-col overflow-hidden">
           <PanelHeader
-            icon={rightPanelIcon(rightIcon)}
             title={rightTitle ?? "Right"}
             onClose={rightOnClose ?? undefined}
             end={
@@ -505,10 +472,9 @@ function PanelSheets({ left }: Readonly<{ left?: ReactNode }>) {
         onOpenChange={setOpenMobile}
       >
         <PanelHeader
-          icon={LEFT_PANEL_ICON}
           title="Left"
           start={<LeftPanelToggle />}
-          className="border-b-0 bg-sidebar"
+          className="border-b-0 bg-background"
         />
         <div className="min-h-0 flex-1 overflow-auto">{left}</div>
       </PanelSheet>
@@ -521,7 +487,6 @@ function PanelSheets({ left }: Readonly<{ left?: ReactNode }>) {
         {/* Unlike the rail's header, no bottom toggle next to this one: the
             bottom panel sits behind the backdrop while the sheet is up. */}
         <PanelHeader
-          icon={rightPanelIcon(rightIcon)}
           title={rightTitle ?? "Right"}
           onClose={rightOnClose ?? undefined}
           end={<RightPanelToggle />}

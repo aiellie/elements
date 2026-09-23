@@ -1,4 +1,5 @@
 import { PanelShell } from "./components/panels-shell"
+import { Toaster } from "@/components/ui/toast"
 
 export default function MainLayout({
   children,
@@ -6,10 +7,11 @@ export default function MainLayout({
   children: React.ReactNode
 }>) {
   return (
-    // The shell's left panel already collapses and resizes, so the sidebar
-    // renders inline (`collapsible="none"`) and simply fills the panel.
-    <PanelShell >
-      {children}
-    </PanelShell>
+    <>
+      <PanelShell>{children}</PanelShell>
+      {/* The app's one toaster, kept out of the shell so a shell rendered
+          inside a page that already has one doesn't show every toast twice. */}
+      <Toaster />
+    </>
   )
 }
