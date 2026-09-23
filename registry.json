@@ -143,6 +143,96 @@
       "categories": ["layout"]
     },
     {
+      "name": "use-mobile",
+      "type": "registry:hook",
+      "title": "Use Mobile",
+      "description": "A hook that reports whether the window is narrower than a tablet, for layouts that change shape on a phone.",
+      "files": [
+        {
+          "path": "registry/aiellie/hooks/use-mobile.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-mobile.ts"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Base UI's input at editor density, with focus shown as a change of border colour.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/input.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Base UI's separator: a hairline between groups, across or down.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/separator.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/separator.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "A muted block that pulses where content is still loading.",
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/skeleton.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/skeleton.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "shadcn's sidebar in this registry's style: a provider that keeps it open or folded, the rail itself, and the groups and rows that go in it. On a phone it opens as a sheet.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/input",
+        "@aiellie/separator",
+        "@aiellie/sheet",
+        "@aiellie/skeleton",
+        "@aiellie/tooltip",
+        "@aiellie/use-mobile",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/sidebar.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/sidebar.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
       "name": "menu",
       "type": "registry:component",
       "title": "Menu",
@@ -303,7 +393,7 @@
       ],
       "registryDependencies": [
         "@aiellie/button",
-        "@aiellie/sheet",
+        "@aiellie/sidebar",
         "@aiellie/resizable",
         "@aiellie/menu",
         "@aiellie/status",

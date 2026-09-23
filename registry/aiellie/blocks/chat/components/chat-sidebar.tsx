@@ -16,6 +16,19 @@ import {
   MenuTrigger,
 } from "@/registry/aiellie/components/menu"
 import { Button } from "@/registry/aiellie/ui/button"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInput,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
 
 /**
@@ -48,7 +61,7 @@ function RenameField({
   }, [])
 
   return (
-    <input
+    <SidebarInput
       ref={inputRef}
       value={value}
       aria-label="Chat name"
@@ -66,7 +79,7 @@ function RenameField({
           onDone()
         }
       }}
-      className="h-8 w-full min-w-0 rounded-lg border border-sidebar-ring bg-background px-2 text-sm outline-none"
+      className="rounded-lg border-sidebar-ring px-2 dark:bg-background"
     />
   )
 }
@@ -75,6 +88,10 @@ function RenameField({
  * Your chats, newest first, with the open one marked. Each row has a menu for
  * renaming or deleting it. The menu stays out of the way until the row is
  * pointed at, except on touch screens, where there is no pointing.
+ *
+ * It is the sidebar's own `Sidebar`, so it takes the same `collapsible`: the
+ * chat passes `none` where it lays the sidebar out itself, and leaves the
+ * default on a phone, where `Sidebar` becomes a sheet.
  */
 function ChatSidebar({
   conversations,
@@ -83,6 +100,7 @@ function ChatSidebar({
   onNewChat,
   onRename,
   onDelete,
+  collapsible,
   className,
 }: {
   conversations: { id: string; title: string }[]
@@ -91,85 +109,100 @@ function ChatSidebar({
   onNewChat: () => void
   onRename: (id: string, title: string) => void
   onDelete: (id: string) => void
+  collapsible?: React.ComponentProps<typeof Sidebar>["collapsible"]
   className?: string
 }) {
   const [renamingId, setRenamingId] = React.useState<string | null>(null)
+  // On a phone the sidebar is a sheet over the chat, so picking a chat, or
+  // starting one, is also done with the sheet.
+  const { setOpenMobile } = useSidebar()
 
   return (
-    <div
-      data-slot="chat-sidebar"
-      className={cn(
-        "flex h-full flex-col bg-background text-sidebar-foreground",
-        className
-      )}
+    <Sidebar
+      collapsible={collapsible}
+      className={cn("bg-background", className)}
     >
-      <div className="flex h-12 shrink-0 items-center px-2">
-        <Button variant="ghost" size="sm" onClick={onNewChat}>
+      <SidebarHeader className="h-12 flex-row items-center py-0">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            onNewChat()
+            setOpenMobile(false)
+          }}
+        >
           <HugeiconsIcon icon={PencilEdit02Icon} />
           New chat
         </Button>
-      </div>
-      <nav
-        aria-label="Chats"
-        className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-2 pb-2"
-      >
-        {conversations.length > 0 ? (
-          <p className="px-2 pt-1 pb-1.5 text-xs text-muted-foreground">
-            Recent
-          </p>
-        ) : null}
-        {conversations.map((conversation) =>
-          conversation.id === renamingId ? (
-            <RenameField
-              key={conversation.id}
-              title={conversation.title}
-              onDone={(title) => {
-                if (title) onRename(conversation.id, title)
-                setRenamingId(null)
-              }}
-            />
-          ) : (
-            <div
-              key={conversation.id}
-              className="group/row relative flex items-center"
-            >
-              <button
-                type="button"
-                aria-current={conversation.id === activeId ? "page" : undefined}
-                onClick={() => onSelect(conversation.id)}
-                className="flex h-8 w-full min-w-0 items-center rounded-lg border border-transparent px-2 pe-8 text-start text-sm transition-colors outline-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:border-sidebar-ring aria-[current=page]:bg-sidebar-accent aria-[current=page]:text-sidebar-accent-foreground"
-              >
-                <span className="truncate">{conversation.title}</span>
-              </button>
-              <Menu>
-                <MenuTrigger
-                  render={<Button variant="ghost" size="icon-xs" />}
-                  className="absolute end-1 text-muted-foreground transition-opacity motion-reduce:transition-none pointer-fine:opacity-0 pointer-fine:group-hover/row:opacity-100 pointer-fine:focus-visible:opacity-100 pointer-fine:aria-expanded:opacity-100"
-                >
-                  <HugeiconsIcon icon={MoreHorizontalIcon} />
-                  <span className="sr-only">
-                    Options for {conversation.title}
-                  </span>
-                </MenuTrigger>
-                <MenuContent align="start" className="min-w-36">
-                  <MenuItem onClick={() => setRenamingId(conversation.id)}>
-                    <HugeiconsIcon icon={PencilEdit01Icon} />
-                    Rename
-                  </MenuItem>
-                  <MenuItem
-                    variant="destructive"
-                    onClick={() => onDelete(conversation.id)}
-                  >
-                    <HugeiconsIcon icon={Delete01Icon} />
-                    Delete
-                  </MenuItem>
-                </MenuContent>
-              </Menu>
-            </div>
-          )
-        )}
-      </nav>
-    </div>
+      </SidebarHeader>
+      <SidebarContent role="navigation" aria-label="Chats">
+        <SidebarGroup className="pt-0">
+          {conversations.length > 0 ? (
+            <SidebarGroupLabel>Recent</SidebarGroupLabel>
+          ) : null}
+          <SidebarMenu className="gap-0.5">
+            {conversations.map((conversation) => (
+              <SidebarMenuItem key={conversation.id}>
+                {conversation.id === renamingId ? (
+                  <RenameField
+                    title={conversation.title}
+                    onDone={(title) => {
+                      if (title) onRename(conversation.id, title)
+                      setRenamingId(null)
+                    }}
+                  />
+                ) : (
+                  <>
+                    <SidebarMenuButton
+                      isActive={conversation.id === activeId}
+                      aria-current={
+                        conversation.id === activeId ? "page" : undefined
+                      }
+                      onClick={() => {
+                        onSelect(conversation.id)
+                        setOpenMobile(false)
+                      }}
+                    >
+                      <span>{conversation.title}</span>
+                    </SidebarMenuButton>
+                    <Menu>
+                      <MenuTrigger
+                        render={
+                          <SidebarMenuAction
+                            showOnHover
+                            className="text-muted-foreground pointer-coarse:opacity-100"
+                          />
+                        }
+                      >
+                        <HugeiconsIcon icon={MoreHorizontalIcon} />
+                        <span className="sr-only">
+                          Options for {conversation.title}
+                        </span>
+                      </MenuTrigger>
+                      <MenuContent align="start" className="min-w-36">
+                        <MenuItem
+                          onClick={() => setRenamingId(conversation.id)}
+                        >
+                          <HugeiconsIcon icon={PencilEdit01Icon} />
+                          Rename
+                        </MenuItem>
+                        <MenuItem
+                          variant="destructive"
+                          onClick={() => onDelete(conversation.id)}
+                        >
+                          <HugeiconsIcon icon={Delete01Icon} />
+                          Delete
+                        </MenuItem>
+                      </MenuContent>
+                    </Menu>
+                  </>
+                )}
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   )
 }
 

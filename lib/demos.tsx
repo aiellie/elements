@@ -2,11 +2,15 @@ import type { ComponentType } from "react"
 
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
+import InputDemo from "@/registry/aiellie/examples/input-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
+import SeparatorDemo from "@/registry/aiellie/examples/separator-demo"
 import SheetDemo from "@/registry/aiellie/examples/sheet-demo"
+import SidebarDemo from "@/registry/aiellie/examples/sidebar-demo"
+import SkeletonDemo from "@/registry/aiellie/examples/skeleton-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
@@ -37,9 +41,13 @@ const DEMOS: Record<string, Demo> = {
   },
   button: { title: "Button", gallery: "/ui", Demo: ButtonDemo },
   textarea: { title: "Textarea", gallery: "/ui", Demo: TextareaDemo },
+  input: { title: "Input", gallery: "/ui", Demo: InputDemo },
   resizable: { title: "Resizable", gallery: "/ui", Demo: ResizableDemo },
+  separator: { title: "Separator", gallery: "/ui", Demo: SeparatorDemo },
+  sidebar: { title: "Sidebar", gallery: "/ui", Demo: SidebarDemo },
   tooltip: { title: "Tooltip", gallery: "/ui", Demo: TooltipDemo },
   sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
+  skeleton: { title: "Skeleton", gallery: "/ui", Demo: SkeletonDemo },
   "tooltip-icon-button": {
     title: "Tooltip Icon Button",
     gallery: "/components",

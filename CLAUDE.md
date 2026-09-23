@@ -42,6 +42,7 @@ A file's folder decides its item `type` and where it installs:
 | `components/` | everything we designed, from building blocks to AI pieces (menu, toolbar, status, model-selector) | `registry:component` | `components/aiellie/<name>.tsx` |
 | `blocks/<name>/` | a whole page: `page.tsx`, plus parts private to the block in `components/` | `registry:block` | `page.tsx` → `app/<name>/page.tsx` |
 | `icons/`, `lib/` | vendor marks; data and helpers (`models.ts`, `utils.ts`) | `registry:component` / `registry:lib` | `components/aiellie/icons/`, `lib/` |
+| `hooks/` | React hooks that ported shadcn components import (`use-mobile`) | `registry:hook` | `hooks/<name>.ts` |
 | `examples/` | `<item>-demo.tsx` with a default export; used by the site only | none | not published |
 
 **`ui/` or `components/`?** Only a shadcn component we restyled goes in `ui/`, because only that can safely replace a file in the consumer's `components/ui/`. Everything else is ours and goes in `components/`, however small. What kind of thing an item is (an action, an overlay, …) is decided by its category, not its folder.

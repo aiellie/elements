@@ -1,7 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { usePanelRef, type PanelSize } from "react-resizable-panels"
+import {
+  usePanelRef,
+  type PanelImperativeHandle,
+  type PanelProps,
+  type PanelSize,
+} from "react-resizable-panels"
 
 import { ChatComposer } from "@/registry/aiellie/blocks/chat/components/chat-composer"
 import { ChatHeader } from "@/registry/aiellie/blocks/chat/components/chat-header"
@@ -15,7 +20,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/registry/aiellie/ui/resizable"
-import { Sheet, SheetContent, SheetTitle } from "@/registry/aiellie/ui/sheet"
+import { SidebarProvider, useSidebar } from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
 
 type Conversation = {
@@ -128,20 +133,57 @@ const SIDEBAR_MAX = 400
 /** How long the sidebar takes to fold away or come back, in milliseconds. */
 const SIDEBAR_DURATION = 280
 
-/** Wide enough for the sidebar to sit beside the thread rather than over it. */
-const DESKTOP_QUERY = "(min-width: 48rem)"
+/**
+ * The sidebar, wherever there is room for it. Beside the thread it sits in a
+ * panel whose edge can be dragged. On a phone there is no room beside the
+ * thread, so the sidebar leaves the panels and opens over the page as a sheet.
+ *
+ * The panel's width is what animates as it folds away. The sidebar inside
+ * keeps its own width throughout, so its rows slide out of view instead of
+ * squeezing, and it is inert while folded, so nothing hidden can be tabbed to.
+ */
+function ChatSidebarPanel({
+  panelRef,
+  animating,
+  width,
+  onResize,
+  ...sidebar
+}: React.ComponentProps<typeof ChatSidebar> & {
+  panelRef: React.Ref<PanelImperativeHandle | null>
+  /** True while the width is animating, when the sidebar holds `width`. */
+  animating: boolean
+  width: number
+  onResize: PanelProps["onResize"]
+}) {
+  const { isMobile, open } = useSidebar()
 
-function subscribeToDesktop(onChange: () => void) {
-  const query = window.matchMedia(DESKTOP_QUERY)
-  query.addEventListener("change", onChange)
-  return () => query.removeEventListener("change", onChange)
-}
+  if (isMobile) return <ChatSidebar {...sidebar} />
 
-function useDesktop() {
-  return React.useSyncExternalStore(
-    subscribeToDesktop,
-    () => window.matchMedia(DESKTOP_QUERY).matches,
-    () => true
+  return (
+    <>
+      <ResizablePanel
+        id="sidebar"
+        panelRef={panelRef}
+        collapsible
+        defaultSize={SIDEBAR_DEFAULT}
+        minSize={SIDEBAR_MIN}
+        maxSize={SIDEBAR_MAX}
+        groupResizeBehavior="preserve-pixel-size"
+        onResize={onResize}
+        style={{ overflow: "hidden" }}
+      >
+        <div
+          inert={!open}
+          className="h-full"
+          style={{ width: open && !animating ? "100%" : width }}
+        >
+          <ChatSidebar collapsible="none" className="w-full" {...sidebar} />
+        </div>
+      </ResizablePanel>
+      {/* Folded away, the line goes too, but the handle stays where it was
+          so the sidebar can be dragged back out. */}
+      <ResizableHandle withHandle className={cn(!open && "bg-transparent")} />
+    </>
   )
 }
 
@@ -150,9 +192,9 @@ function useDesktop() {
  * composer underneath.
  *
  * On a wide screen the sidebar sits beside the thread. Its edge can be dragged
- * to resize it, and the header's toggle folds it away. On a narrow one there
- * is no room beside the thread, so the toggle opens the sidebar over the page
- * in a sheet instead.
+ * to resize it, and the header's toggle, or ⌘B, folds it away. On a narrow one
+ * there is no room beside the thread, so the toggle opens the sidebar over the
+ * page in a sheet instead.
  */
 function Chat({ className }: { className?: string }) {
   const [conversations, setConversations] = React.useState(SAMPLE_CONVERSATIONS)
@@ -167,10 +209,8 @@ function Chat({ className }: { className?: string }) {
   // The sidebar's width before it was last folded, which it keeps while it
   // folds and while it comes back.
   const [sidebarWidth, setSidebarWidth] = React.useState(SIDEBAR_DEFAULT)
-  const [sheetOpen, setSheetOpen] = React.useState(false)
   // The chat a reply is being written into, which is not always the open one.
   const [streamingId, setStreamingId] = React.useState<string | null>(null)
-  const desktop = useDesktop()
 
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   const sidebarRef = usePanelRef()
@@ -315,13 +355,11 @@ function Chat({ className }: { className?: string }) {
   const select = (id: string) => {
     if (id !== activeId) stop()
     setActiveId(id)
-    setSheetOpen(false)
   }
 
   const startNewChat = () => {
     stop()
     setActiveId(null)
-    setSheetOpen(false)
   }
 
   const rename = (id: string, title: string) =>
@@ -339,12 +377,16 @@ function Chat({ className }: { className?: string }) {
     if (id === activeId) setActiveId(null)
   }
 
-  const toggleSidebar = () => {
+  /**
+   * Where the sidebar's toggle and shortcut land on a wide screen: the panel
+   * folds away or comes back, animated.
+   */
+  const setSidebar = (open: boolean) => {
     const panel = sidebarRef.current
-    if (!panel) return
+    if (!panel || open === !panel.isCollapsed()) return
     if (sidebarTimerRef.current) clearTimeout(sidebarTimerRef.current)
     setSidebarAnimating(true)
-    if (panel.isCollapsed()) {
+    if (open) {
       setSidebarOpen(true)
       panel.expand()
     } else {
@@ -391,90 +433,60 @@ function Chat({ className }: { className?: string }) {
         className
       )}
     >
-      {/* The panels' widths animate only while the toggle is at work. The
-          sidebar keeps its own width throughout, so its rows slide out of view
-          instead of squeezing, and it is inert while folded away, so nothing
-          hidden can be tabbed to. On a narrow screen only the thread's panel is
-          rendered, and it stays mounted when the sidebar's comes and goes. */}
-      <ResizablePanelGroup
-        data-animating={sidebarAnimating || undefined}
-        className="data-animating:*:transition-[flex-grow] data-animating:*:duration-280 data-animating:*:ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:*:transition-none"
+      {/* The provider keeps whether the sidebar is open, for the header's
+          toggle and for ⌘B. The panel animates only while the toggle is at
+          work, since a drag has to follow the pointer exactly. */}
+      <SidebarProvider
+        open={sidebarOpen}
+        onOpenChange={setSidebar}
+        className="min-h-0"
       >
-        {desktop && (
-          <>
-            <ResizablePanel
-              id="sidebar"
-              panelRef={sidebarRef}
-              collapsible
-              defaultSize={SIDEBAR_DEFAULT}
-              minSize={SIDEBAR_MIN}
-              maxSize={SIDEBAR_MAX}
-              groupResizeBehavior="preserve-pixel-size"
-              onResize={onSidebarResize}
-              style={{ overflow: "hidden" }}
-            >
-              <div
-                inert={!sidebarOpen}
-                className="h-full"
-                style={{
-                  width:
-                    sidebarOpen && !sidebarAnimating ? "100%" : sidebarWidth,
-                }}
-              >
-                <ChatSidebar {...sidebarProps} />
-              </div>
-            </ResizablePanel>
-            {/* Folded away, the line goes too, but the handle stays where it
-                was so the sidebar can be dragged back out. */}
-            <ResizableHandle
-              withHandle
-              className={cn(!sidebarOpen && "bg-transparent")}
-            />
-          </>
-        )}
-        <ResizablePanel
-          id="main"
-          className="flex min-w-0 flex-col"
-          style={{ overflow: "hidden" }}
+        <ResizablePanelGroup
+          data-animating={sidebarAnimating || undefined}
+          className="data-animating:*:transition-[flex-grow] data-animating:*:duration-280 data-animating:*:ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:*:transition-none"
         >
-          <ChatHeader
-            title={active?.title ?? "New chat"}
-            sidebarOpen={desktop ? sidebarOpen : sheetOpen}
-            onToggleSidebar={() =>
-              desktop ? toggleSidebar() : setSheetOpen(true)
-            }
-            onNewChat={startNewChat}
-            onDelete={active ? () => remove(active.id) : undefined}
+          {/* Always the first child, so the thread's panel after it stays
+              mounted when the sidebar moves between the panels and a sheet. */}
+          <ChatSidebarPanel
+            panelRef={sidebarRef}
+            animating={sidebarAnimating}
+            width={sidebarWidth}
+            onResize={onSidebarResize}
+            {...sidebarProps}
           />
-          {/* Keyed by chat, so opening another one starts at its newest
-              message instead of wherever the last one was scrolled to. */}
-          <ChatThread
-            key={activeId ?? "new"}
-            messages={active?.messages ?? []}
-            onSend={send}
-            onRetry={retry}
-            onEdit={edit}
-          />
-          <ChatComposer
-            value={draft}
-            onValueChange={setDraft}
-            onSend={send}
-            onStop={stop}
-            status={status}
-            models={MODELS}
-            model={model}
-            onModelChange={setModel}
-            inputRef={inputRef}
-          />
-        </ResizablePanel>
-      </ResizablePanelGroup>
-
-      <Sheet open={sheetOpen && !desktop} onOpenChange={setSheetOpen}>
-        <SheetContent side="left" className="w-72 gap-0 p-0">
-          <SheetTitle className="sr-only">Chats</SheetTitle>
-          <ChatSidebar className="bg-transparent" {...sidebarProps} />
-        </SheetContent>
-      </Sheet>
+          <ResizablePanel
+            id="main"
+            className="flex min-w-0 flex-col"
+            style={{ overflow: "hidden" }}
+          >
+            <ChatHeader
+              title={active?.title ?? "New chat"}
+              onNewChat={startNewChat}
+              onDelete={active ? () => remove(active.id) : undefined}
+            />
+            {/* Keyed by chat, so opening another one starts at its newest
+                message instead of wherever the last one was scrolled to. */}
+            <ChatThread
+              key={activeId ?? "new"}
+              messages={active?.messages ?? []}
+              onSend={send}
+              onRetry={retry}
+              onEdit={edit}
+            />
+            <ChatComposer
+              value={draft}
+              onValueChange={setDraft}
+              onSend={send}
+              onStop={stop}
+              status={status}
+              models={MODELS}
+              model={model}
+              onModelChange={setModel}
+              inputRef={inputRef}
+            />
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </SidebarProvider>
     </div>
   )
 }
