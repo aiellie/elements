@@ -30,7 +30,7 @@ export const TooltipIconButton = forwardRef<
               size="icon"
               {...rest}
               className={cn(
-                "size-6 p-1 active:scale-90 rounded-lg",
+                "size-6 p-1 active:scale-90 rounded-lg [&_svg]:text-muted-foreground hover:[&_svg]:text-foreground",
                 className,
               )}
               ref={ref}

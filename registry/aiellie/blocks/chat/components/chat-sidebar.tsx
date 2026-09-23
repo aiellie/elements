@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import {
-  Delete02Icon,
+  Delete01Icon,
   MoreHorizontalIcon,
   PencilEdit01Icon,
   PencilEdit02Icon,
@@ -99,7 +99,7 @@ function ChatSidebar({
     <div
       data-slot="chat-sidebar"
       className={cn(
-        "flex h-full flex-col bg-sidebar text-sidebar-foreground",
+        "flex h-full flex-col bg-background text-sidebar-foreground",
         className
       )}
     >
@@ -160,7 +160,7 @@ function ChatSidebar({
                     variant="destructive"
                     onClick={() => onDelete(conversation.id)}
                   >
-                    <HugeiconsIcon icon={Delete02Icon} />
+                    <HugeiconsIcon icon={Delete01Icon} />
                     Delete
                   </MenuItem>
                 </MenuContent>
