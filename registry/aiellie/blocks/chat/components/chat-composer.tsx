@@ -40,7 +40,7 @@ function ChatComposer({
   inputRef?: React.Ref<HTMLTextAreaElement>
 }) {
   return (
-    <div className="mx-auto w-full max-w-2xl px-4 pb-4">
+    <div className="mx-auto w-full max-w-2xl shrink-0 px-4 pb-4">
       <Composer
         value={value}
         onValueChange={onValueChange}

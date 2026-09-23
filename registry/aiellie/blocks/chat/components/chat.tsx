@@ -465,7 +465,8 @@ function Chat({
             ),
           }}
         >
-          <div className="flex h-full flex-col">
+          {/* Fills the panel, so the thread scrolls and the composer stays down. */}
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
             {/* Keyed by chat, so opening another one starts at its newest
                 message instead of wherever the last one was scrolled to. */}
             <ChatThread

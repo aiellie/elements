@@ -276,9 +276,29 @@ function CollapsiblePanel({
   )
 }
 
-/** A panel's body, scrolling on its own under its header. */
-function PanelBody({ children }: { children?: React.ReactNode }) {
-  return <div className="min-h-0 flex-1 overflow-auto">{children}</div>
+/**
+ * A panel's body, under its header. It scrolls on its own unless `scroll` is
+ * off, in which case it fills the panel and leaves scrolling to its contents,
+ * so a page can keep something at the bottom, like a composer, while the rest
+ * moves.
+ */
+function PanelBody({
+  scroll = true,
+  children,
+}: {
+  scroll?: boolean
+  children?: React.ReactNode
+}) {
+  return (
+    <div
+      className={cn(
+        "min-h-0 flex-1",
+        scroll ? "overflow-auto" : "flex flex-col overflow-hidden"
+      )}
+    >
+      {children}
+    </div>
+  )
 }
 
 /**
@@ -505,7 +525,8 @@ function Panels({
                   )
                 }
               />
-              <PanelBody>{children}</PanelBody>
+              {/* The page scrolls itself, so a footer inside it stays put. */}
+              <PanelBody scroll={false}>{children}</PanelBody>
             </ResizablePanel>
             {has.bottom ? (
               <CollapsiblePanel side="bottom" open={open.bottom}>
