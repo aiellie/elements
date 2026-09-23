@@ -1,4 +1,5 @@
 import {
+  UserCircleIcon,
   Comment01Icon,
   InputLongTextIcon,
   LayoutTwoColumnIcon,
@@ -15,6 +16,7 @@ import { DemoCard } from "@/components/pages/demo-card"
 import { PageHero } from "@/components/pages/page-hero"
 import { cardCount } from "@/lib/categories"
 import { PAGES } from "@/lib/constants"
+import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
 import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
@@ -127,6 +129,15 @@ export default function UiPage() {
           description="A placeholder that pulses while content loads"
         >
           <SkeletonDemo />
+        </DemoCard>
+        <DemoCard
+          href="/ui/avatar"
+          index={11}
+          title="Avatar"
+          icon={UserCircleIcon}
+          description="A picture of someone, or their initials"
+        >
+          <AvatarDemo />
         </DemoCard>
       </CategorySection>
     </div>

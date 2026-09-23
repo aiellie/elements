@@ -1,5 +1,6 @@
 import type { ComponentType } from "react"
 
+import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
@@ -18,6 +19,7 @@ import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
 import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
+import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
@@ -51,12 +53,18 @@ const DEMOS: Record<string, Demo> = {
   tooltip: { title: "Tooltip", gallery: "/ui", Demo: TooltipDemo },
   sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
   skeleton: { title: "Skeleton", gallery: "/ui", Demo: SkeletonDemo },
+  avatar: { title: "Avatar", gallery: "/ui", Demo: AvatarDemo },
   "tooltip-icon-button": {
     title: "Tooltip Icon Button",
     gallery: "/components",
     Demo: TooltipIconButtonDemo,
   },
   toolbar: { title: "Toolbar", gallery: "/components", Demo: ToolbarDemo },
+  "user-menu": {
+    title: "User Menu",
+    gallery: "/components",
+    Demo: UserMenuDemo,
+  },
   "model-selector": {
     title: "Model Selector",
     gallery: "/components",

@@ -203,6 +203,22 @@
       "categories": ["feedback"]
     },
     {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Base UI's avatar: someone's picture, their initials while it loads or when there is none, and a badge or a group of them.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/avatar.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/avatar.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
@@ -247,6 +263,26 @@
         }
       ],
       "categories": ["layout"]
+    },
+    {
+      "name": "user-menu",
+      "type": "registry:component",
+      "title": "User Menu",
+      "description": "Who is signed in, at the foot of a sidebar: a small picture and their name, opening a menu for their account, settings and signing out.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/avatar",
+        "@aiellie/menu",
+        "@aiellie/sidebar"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/user-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/user-menu.tsx"
+        }
+      ],
+      "categories": ["actions"]
     },
     {
       "name": "panels",
@@ -434,6 +470,7 @@
         "@aiellie/button",
         "@aiellie/sidebar",
         "@aiellie/panels",
+        "@aiellie/user-menu",
         "@aiellie/menu",
         "@aiellie/status",
         "@aiellie/tooltip-icon-button",
@@ -459,6 +496,16 @@
           "path": "registry/aiellie/blocks/chat/components/chat-sidebar.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-sidebar.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-nav-main.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-nav-main.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-nav-chats.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-nav-chats.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-header.tsx",

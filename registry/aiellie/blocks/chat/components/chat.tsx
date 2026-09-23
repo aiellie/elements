@@ -12,12 +12,16 @@ import {
 import { ChatThread } from "@/registry/aiellie/blocks/chat/components/chat-thread"
 import type { ComposerStatus } from "@/registry/aiellie/components/composer"
 import { Panels } from "@/registry/aiellie/components/panels"
+import type { User } from "@/registry/aiellie/components/user-menu"
 import { MODELS } from "@/registry/aiellie/lib/models"
+import { SidebarProvider } from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
 
 type Conversation = {
   id: string
   title: string
+  /** Kept in the sidebar's pinned list, above the recent chats. */
+  pinned?: boolean
   messages: ChatMessage[]
 }
 
@@ -29,6 +33,7 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
   {
     id: "tokens",
     title: "Custom colors in Tailwind v4",
+    pinned: true,
     messages: [
       {
         id: "tokens-1",
@@ -101,6 +106,9 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
     ],
   },
 ]
+
+/** Who the preview is signed in as. Pass your own signed-in person instead. */
+const SAMPLE_USER: User = { name: "Ada Lovelace" }
 
 /**
  * What the preview answers with, since there is no model behind it. Replace
@@ -284,6 +292,15 @@ function Chat({ className }: { className?: string }) {
       )
     )
 
+  const togglePin = (id: string) =>
+    setConversations((all) =>
+      all.map((conversation) =>
+        conversation.id === id
+          ? { ...conversation, pinned: !conversation.pinned }
+          : conversation
+      )
+    )
+
   const remove = (id: string) => {
     if (streamRef.current?.conversationId === id) stop()
     setConversations((all) =>
@@ -300,52 +317,61 @@ function Chat({ className }: { className?: string }) {
         className
       )}
     >
-      <Panels
-        defaultOpen={{ left: true }}
-        className="h-full"
-        left={
-          <ChatSidebar
-            conversations={conversations}
-            activeId={activeId}
-            onSelect={select}
-            onRename={rename}
-            onDelete={remove}
-          />
-        }
-        headers={{
-          left: <ChatSidebarHeader onNewChat={startNewChat} />,
-          main: (
-            <ChatHeader
-              title={active?.title ?? "New chat"}
+      {/* The sidebar's rows, and the header's name, read from this. It is
+          held open, since the panels are what fold the sidebar away. */}
+      <SidebarProvider open className="h-full min-h-0">
+        <Panels
+          defaultOpen={{ left: true }}
+          className="h-full"
+          left={
+            <ChatSidebar
+              chats={conversations}
+              activeId={activeId}
+              user={SAMPLE_USER}
               onNewChat={startNewChat}
-              onDelete={active ? () => remove(active.id) : undefined}
+              onSelect={select}
+              onRename={rename}
+              onTogglePin={togglePin}
+              onDelete={remove}
             />
-          ),
-        }}
-      >
-        <div className="flex h-full flex-col">
-          {/* Keyed by chat, so opening another one starts at its newest
-              message instead of wherever the last one was scrolled to. */}
-          <ChatThread
-            key={activeId ?? "new"}
-            messages={active?.messages ?? []}
-            onSend={send}
-            onRetry={retry}
-            onEdit={edit}
-          />
-          <ChatComposer
-            value={draft}
-            onValueChange={setDraft}
-            onSend={send}
-            onStop={stop}
-            status={status}
-            models={MODELS}
-            model={model}
-            onModelChange={setModel}
-            inputRef={inputRef}
-          />
-        </div>
-      </Panels>
+          }
+          // The sidebar's header runs straight into its list.
+          headerBorder={{ left: false }}
+          headers={{
+            left: <ChatSidebarHeader onNewChat={startNewChat} />,
+            main: (
+              <ChatHeader
+                title={active?.title ?? "New chat"}
+                onNewChat={startNewChat}
+                onDelete={active ? () => remove(active.id) : undefined}
+              />
+            ),
+          }}
+        >
+          <div className="flex h-full flex-col">
+            {/* Keyed by chat, so opening another one starts at its newest
+                message instead of wherever the last one was scrolled to. */}
+            <ChatThread
+              key={activeId ?? "new"}
+              messages={active?.messages ?? []}
+              onSend={send}
+              onRetry={retry}
+              onEdit={edit}
+            />
+            <ChatComposer
+              value={draft}
+              onValueChange={setDraft}
+              onSend={send}
+              onStop={stop}
+              status={status}
+              models={MODELS}
+              model={model}
+              onModelChange={setModel}
+              inputRef={inputRef}
+            />
+          </div>
+        </Panels>
+      </SidebarProvider>
     </div>
   )
 }

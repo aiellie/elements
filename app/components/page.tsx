@@ -8,6 +8,7 @@ import {
   Message01Icon,
   MessageEdit01Icon,
   MessageMultiple01Icon,
+  UserAccountIcon,
 } from "@hugeicons/core-free-icons"
 import { CategorySection } from "@/components/pages/category-separator"
 import { DemoCard } from "@/components/pages/demo-card"
@@ -22,6 +23,7 @@ import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
 import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
+import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 export default function ComponentsPage() {
   return (
@@ -49,11 +51,20 @@ export default function ComponentsPage() {
         >
           <ToolbarDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/user-menu"
+          index={3}
+          title="User Menu"
+          icon={UserAccountIcon}
+          description="Who is signed in, and what they can do with their account"
+        >
+          <UserMenuDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="inputs">
         <DemoCard
           href="/components/model-selector"
-          index={3}
+          index={4}
           title="Model Selector"
           icon={AiBrain01Icon}
           description="A simple model selector component"
@@ -64,7 +75,7 @@ export default function ComponentsPage() {
       <CategorySection category="layout">
         <DemoCard
           href="/components/panels"
-          index={4}
+          index={5}
           title="Panels"
           icon={LayoutThreeColumnIcon}
           description="An app shell with resizable panels on three sides"
@@ -76,7 +87,7 @@ export default function ComponentsPage() {
       <CategorySection category="overlays">
         <DemoCard
           href="/components/menu"
-          index={5}
+          index={6}
           title="Menu"
           icon={Menu01Icon}
           description="A simple menu component"
@@ -87,7 +98,7 @@ export default function ComponentsPage() {
       <CategorySection category="feedback">
         <DemoCard
           href="/components/status"
-          index={6}
+          index={7}
           title="Status"
           icon={Activity03Icon}
           description="A simple status component"
@@ -98,7 +109,7 @@ export default function ComponentsPage() {
       <CategorySection category="chat">
         <DemoCard
           href="/components/composer"
-          index={7}
+          index={8}
           title="Composer"
           icon={MessageEdit01Icon}
           description="A simple composer component"
@@ -107,7 +118,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message"
-          index={8}
+          index={9}
           title="Message"
           icon={Message01Icon}
           description="A simple message component"
@@ -116,7 +127,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={9}
+          index={10}
           title="Thread"
           icon={MessageMultiple01Icon}
           description="A simple thread component"

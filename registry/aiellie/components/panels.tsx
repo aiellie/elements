@@ -144,13 +144,21 @@ function PanelHeader({
   title,
   start,
   end,
+  border = true,
 }: {
   title: React.ReactNode
   start?: React.ReactNode
   end?: React.ReactNode
+  /** Off, the header runs straight into the panel, as a sidebar's does. */
+  border?: boolean
 }) {
   return (
-    <header className="flex h-10 shrink-0 items-center gap-2 border-b bg-background px-2">
+    <header
+      className={cn(
+        "flex h-10 shrink-0 items-center gap-2 bg-background px-2",
+        border && "border-b"
+      )}
+    >
       {start}
       <div className="flex min-w-0 flex-1 items-center gap-1">
         {typeof title === "string" ? (
@@ -269,12 +277,14 @@ function PanelBody({ children }: { children?: React.ReactNode }) {
 function PanelSheet({
   side,
   header,
+  border,
   open,
   onOpenChange,
   children,
 }: {
   side: "left" | "right"
   header?: React.ReactNode
+  border?: boolean
   open: boolean
   onOpenChange: (open: boolean) => void
   children: React.ReactNode
@@ -295,6 +305,7 @@ function PanelSheet({
         </SheetHeader>
         <PanelHeader
           title={header ?? title}
+          border={border}
           end={<PanelToggle side={side} close />}
         />
         <PanelBody>{children}</PanelBody>
@@ -331,6 +342,7 @@ function Panels({
   right,
   bottom,
   headers = {},
+  headerBorder = {},
   defaultOpen = { left: true, right: false, bottom: false },
   className,
   children,
@@ -340,6 +352,8 @@ function Panels({
   bottom?: React.ReactNode
   /** What each header shows in place of the panel's name. */
   headers?: Partial<Record<Side | "main", React.ReactNode>>
+  /** Which headers leave off the rule under them. Each has one by default. */
+  headerBorder?: Partial<Record<Side | "main", boolean>>
   defaultOpen?: Partial<Record<Side, boolean>>
   className?: string
   /** The page, in the main panel. */
@@ -436,6 +450,7 @@ function Panels({
           <CollapsiblePanel side="left" open={leftOpen}>
             <PanelHeader
               title={headers.left ?? PANELS.left.title}
+              border={headerBorder.left}
               end={<PanelToggle side="left" />}
             />
             {/* On a phone `left` is in its sheet, so it isn't mounted twice. */}
@@ -458,6 +473,7 @@ function Panels({
                   falls back to this one, on the same side, once it closes. */}
               <PanelHeader
                 title={headers.main ?? "Main"}
+                border={headerBorder.main}
                 start={
                   has.left && !leftOpen ? <PanelToggle side="left" /> : null
                 }
@@ -476,6 +492,7 @@ function Panels({
               <CollapsiblePanel side="bottom" open={open.bottom}>
                 <PanelHeader
                   title={headers.bottom ?? PANELS.bottom.title}
+                  border={headerBorder.bottom}
                   end={<PanelToggle side="bottom" close />}
                 />
                 <PanelBody>{bottom}</PanelBody>
@@ -487,6 +504,7 @@ function Panels({
           <CollapsiblePanel side="right" open={rightOpen}>
             <PanelHeader
               title={headers.right ?? PANELS.right.title}
+              border={headerBorder.right}
               end={
                 <>
                   {bottomToggle}
@@ -505,6 +523,7 @@ function Panels({
             <PanelSheet
               side="left"
               header={headers.left}
+              border={headerBorder.left}
               open={sheet === "left"}
               onOpenChange={(next) => setSheet(next ? "left" : null)}
             >
@@ -515,6 +534,7 @@ function Panels({
             <PanelSheet
               side="right"
               header={headers.right}
+              border={headerBorder.right}
               open={sheet === "right"}
               onOpenChange={(next) => setSheet(next ? "right" : null)}
             >
