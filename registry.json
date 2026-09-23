@@ -249,6 +249,33 @@
       "categories": ["layout"]
     },
     {
+      "name": "panels",
+      "type": "registry:component",
+      "title": "Panels",
+      "description": "An app shell: the page in the middle, with resizable panels on the left, the right and along the bottom, toggled from their headers or with ⌘B, ⌘I and ⌘J. On a phone the side panels open as sheets.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "react-resizable-panels"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/resizable",
+        "@aiellie/sheet",
+        "@aiellie/tooltip",
+        "@aiellie/use-mobile",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/panels.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/panels.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
       "name": "menu",
       "type": "registry:component",
       "title": "Menu",

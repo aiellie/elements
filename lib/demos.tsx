@@ -5,6 +5,7 @@ import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
+import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
 import SeparatorDemo from "@/registry/aiellie/examples/separator-demo"
@@ -19,7 +20,6 @@ import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
-import { Panels } from "@/registry/aiellie/blocks/panels/components/panels"
 
 type Demo = {
   title: string
@@ -40,19 +40,6 @@ const DEMOS: Record<string, Demo> = {
     // Bordered on the card, where it sits on a plate; full screen it is the
     // page, and a frame around the whole viewport would only be a second edge.
     Demo: () => <Chat />,
-  },
-  panels: {
-    title: "Panels",
-    gallery: "/",
-    // Full screen it fills the stage rather than the window, which also has
-    // the stage's own bar in it.
-    Demo: () => (
-      <Panels className="h-full">
-        <div className="flex h-full items-center justify-center p-6 text-sm text-muted-foreground">
-          Your page goes here.
-        </div>
-      </Panels>
-    ),
   },
   button: { title: "Button", gallery: "/ui", Demo: ButtonDemo },
   textarea: { title: "Textarea", gallery: "/ui", Demo: TextareaDemo },
@@ -75,6 +62,7 @@ const DEMOS: Record<string, Demo> = {
     gallery: "/components",
     Demo: ModelSelectorDemo,
   },
+  panels: { title: "Panels", gallery: "/components", Demo: PanelsDemo },
   menu: { title: "Menu", gallery: "/components", Demo: MenuDemo },
   status: { title: "Status", gallery: "/components", Demo: StatusDemo },
   composer: { title: "Composer", gallery: "/components", Demo: ComposerDemo },
