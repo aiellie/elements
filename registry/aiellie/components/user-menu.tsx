@@ -3,7 +3,6 @@
 import {
   Logout01Icon,
   Settings01Icon,
-  UnfoldMoreIcon,
   UserCircleIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -77,11 +76,6 @@ function UserMenu({
               <AvatarFallback>{initials(user.name)}</AvatarFallback>
             </Avatar>
             <span className="min-w-0 flex-1 truncate">{user.name}</span>
-            <HugeiconsIcon
-              icon={UnfoldMoreIcon}
-              aria-hidden
-              className="ms-auto text-muted-foreground"
-            />
           </MenuTrigger>
           {/* Opens upward from the foot of the sidebar, as wide as the row. */}
           <MenuContent side="top" className="w-(--anchor-width) min-w-48">
