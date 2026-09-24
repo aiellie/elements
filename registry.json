@@ -839,6 +839,11 @@
           "target": "components/aiellie/chat-nav-history.tsx"
         },
         {
+          "path": "registry/aiellie/blocks/chat/components/chat-nav-filter.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-nav-filter.tsx"
+        },
+        {
           "path": "registry/aiellie/blocks/chat/components/chat-switcher.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-switcher.tsx"

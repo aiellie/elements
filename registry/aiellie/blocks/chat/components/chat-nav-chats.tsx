@@ -3,6 +3,7 @@
 import * as React from "react"
 import {
   Alert02Icon,
+  ArrowRight01Icon,
   CheckmarkCircle02Icon,
   Delete01Icon,
   Loading03Icon,
@@ -13,6 +14,11 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
+import {
+  arrange,
+  ChatNavFilter,
+  DEFAULT_VIEW,
+} from "@/registry/aiellie/blocks/chat/components/chat-nav-filter"
 import {
   Menu,
   MenuContent,
@@ -216,23 +222,63 @@ function ChatNavItem({
   )
 }
 
+// The list folds rather than unmounting, so it can animate shut, and is inert
+// while folded so its rows drop out of the tab order.
 function ChatNavGroup({
   label,
   chats,
   ...props
 }: ChatNavProps & { label: string }) {
+  const [open, setOpen] = React.useState(true)
+  const [view, setView] = React.useState(DEFAULT_VIEW)
+  const listId = React.useId()
+
   if (chats.length === 0) return null
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-muted-foreground/50">
-        {label}
-      </SidebarGroupLabel>
-      <SidebarMenu className="gap-0.5">
-        {chats.map((chat) => (
-          <ChatNavItem key={chat.id} chat={chat} {...props} />
-        ))}
-      </SidebarMenu>
+      <div className="group/label relative">
+        <SidebarGroupLabel
+          render={
+            <button
+              type="button"
+              aria-expanded={open}
+              aria-controls={listId}
+              onClick={() => setOpen((current) => !current)}
+            />
+          }
+          className="group/section w-full gap-1 pe-8 text-muted-foreground/50 hover:text-muted-foreground"
+        >
+          {label}
+          <HugeiconsIcon
+            icon={ArrowRight01Icon}
+            aria-hidden
+            className="size-3.5! opacity-0 transition-[opacity,rotate] duration-150 group-hover/label:opacity-100 group-focus-visible/section:opacity-100 group-aria-expanded/section:rotate-90 group-aria-[expanded=false]/section:opacity-100 motion-reduce:transition-none rtl:-scale-x-100"
+          />
+        </SidebarGroupLabel>
+        <ChatNavFilter
+          label={label}
+          view={view}
+          onViewChange={setView}
+          className="end-1 top-1.5 opacity-0 group-focus-within/label:opacity-100 group-hover/label:opacity-100 aria-expanded:opacity-100 pointer-coarse:opacity-100"
+        />
+      </div>
+      <div
+        id={listId}
+        inert={!open}
+        className={cn(
+          "grid transition-[grid-template-rows,opacity] duration-280 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr] opacity-0"
+        )}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <SidebarMenu className="gap-0.5">
+            {arrange(chats, view).map((chat) => (
+              <ChatNavItem key={chat.id} chat={chat} {...props} />
+            ))}
+          </SidebarMenu>
+        </div>
+      </div>
     </SidebarGroup>
   )
 }
@@ -258,4 +304,4 @@ function ChatNavRecents({ chats, ...props }: ChatNavProps) {
 }
 
 export { ChatNavPinned, ChatNavRecents }
-export type { ChatNavProps, ChatNavStatus }
+export type { ChatNavChat, ChatNavProps, ChatNavStatus }

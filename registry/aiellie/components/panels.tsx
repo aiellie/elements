@@ -297,10 +297,45 @@ function PanelSheet({
 }
 
 const DURATION = 280
+const EASE_OUT = "cubic-bezier(0.16, 1, 0.3, 1)"
 
 // Only on while a toggle animates, since a drag has to follow the pointer.
 const ANIMATING =
   "data-animating:*:transition-[flex-grow] data-animating:*:duration-280 data-animating:*:ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:*:transition-none"
+
+// A drag past a panel's minimum snaps it shut, or open again, in one step. A
+// CSS transition can't be switched on in time for that step without also
+// dragging behind the pointer, so the snap is played back from the sizes on
+// either side of it.
+function useSnapAnimation(skip: React.RefObject<boolean>) {
+  const groupRef = React.useRef<HTMLDivElement>(null)
+  const layoutRef = React.useRef<Layout | null>(null)
+
+  const onLayoutChange = (layout: Layout) => {
+    const previous = layoutRef.current
+    layoutRef.current = layout
+    const group = groupRef.current
+    if (!previous || !group || skip.current) return
+
+    const snapped = Object.keys(layout).some(
+      (id) => (previous[id] ?? 0) > 0 !== (layout[id] ?? 0) > 0
+    )
+    if (!snapped) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    for (const id of Object.keys(layout)) {
+      const panel = group.querySelector<HTMLElement>(`:scope > [id="${id}"]`)
+      if (!panel || previous[id] === undefined) continue
+      panel.getAnimations().forEach((animation) => animation.cancel())
+      panel.animate([{ flexGrow: previous[id] }, { flexGrow: layout[id] }], {
+        duration: DURATION,
+        easing: EASE_OUT,
+      })
+    }
+  }
+
+  return { elementRef: groupRef, onLayoutChange }
+}
 
 function Panels({
   left,
@@ -344,8 +379,12 @@ function Panels({
   // sheet never pops open by itself on the way down from a wide screen.
   const [sheet, setSheet] = React.useState<"left" | "right" | null>(null)
   const [animating, setAnimating] = React.useState(false)
+  // Read by the snap animation, which a toggle's own transition already covers.
+  const animatingRef = React.useRef(false)
   const timerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined)
   React.useEffect(() => () => clearTimeout(timerRef.current), [])
+  const rowSnap = useSnapAnimation(animatingRef)
+  const columnSnap = useSnapAnimation(animatingRef)
 
   const value = React.useMemo<PanelsContextValue>(
     () => ({
@@ -358,7 +397,11 @@ function Panels({
         }
         clearTimeout(timerRef.current)
         setAnimating(true)
-        timerRef.current = setTimeout(() => setAnimating(false), DURATION)
+        animatingRef.current = true
+        timerRef.current = setTimeout(() => {
+          setAnimating(false)
+          animatingRef.current = false
+        }, DURATION)
         setOpen((current) => ({ ...current, [side]: !current[side] }))
       },
       closeSheet: () => setSheet(null),
@@ -408,6 +451,7 @@ function Panels({
     <PanelsContext.Provider value={value}>
       <ResizablePanelGroup
         data-animating={animating || undefined}
+        {...rowSnap}
         onLayoutChanged={syncFrom(isMobile ? [] : ["left", "right"])}
         className={cn("h-svh", ANIMATING, className)}
       >
@@ -426,6 +470,7 @@ function Panels({
           <ResizablePanelGroup
             orientation="vertical"
             data-animating={animating || undefined}
+            {...columnSnap}
             onLayoutChanged={syncFrom(["bottom"])}
             className={ANIMATING}
           >

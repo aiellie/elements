@@ -222,6 +222,12 @@ Keyboard focus is the only thing that triggers it: `focus-visible`, never `focus
 
 The active tab carries an `input` hairline in both themes, since the `shadow-sm` shadcn lifts it with resolves to none here. It gives way to `ring` under keyboard focus (`data-active:not-focus-visible:border-input`), so a focused active tab still shows focus.
 
+### Scrolling lists
+
+**Rows that get you somewhere stay put; only the list under them scrolls.** In a sidebar, the header and the main rows (new chat, projects) sit above the scroll area, and only the chat sections move. An edge of a scrolling list fades over 24px (`1.5rem`) with a mask, and only while more of the list is hidden past that edge, so a list that fits shows no fade at all. The fade is a mask on the scroll box, never a gradient overlay painted in a background colour, which would break on any other ground.
+
+**A section label can fold its list.** The label becomes the button, with a chevron after it that shows on hover and stays while the list is folded, turning 90° at 150 ms. The list folds the way any in-layout region does (see Motion). A section's other controls, like its filter, sit at the label's end and appear on hover, on focus, while their menu is open, and always on touch.
+
 ### Search inside a list
 
 **A search field at the top of a menu or command list is a row of the panel, not a field set inside it.** It runs edge to edge, has no fill, no border of its own and no rounding, and a `border-border/60` hairline under it divides it from the rows. Its search glyph sits in `muted-foreground/70` and lines up with the row icons below it. A clear button sits at its end, disabled at 30% rather than hidden while the field is empty, so the text's end doesn't shift as you type; clearing puts focus back in the field. A boxed input there would read as a second surface inside the panel, and it would steal a step of padding from every row. `MenuSearch` in `menu.tsx` and `CommandInput` in `ui/command.tsx` are the reference. A standalone search field elsewhere on the page is an ordinary input and keeps its border.
@@ -285,7 +291,7 @@ Scale only: the button doesn't also nudge down, and the fill doesn't darken on p
 
 **A trigger's icon may turn to show that what it opens is open**: a chevron by 180°, a plus by 45° into a close mark. It turns at 150 ms, keyed to the trigger's `aria-expanded`, and turns back when the menu closes.
 
-**Layout transitions** animate: resizable panels, sidebar collapse and expand, accordions, drawers. Animate `width`, `height` or `transform`, never `all`.
+**Layout transitions** animate: resizable panels, sidebar collapse and expand, accordions, drawers. Animate `width`, `height` or `transform`, never `all`. That includes a panel dragged past its minimum: the snap shut, or open again, plays at 280 ms instead of jumping, while the rest of the drag follows the pointer with no transition at all.
 
 **A region that appears inside a layout folds open and shut; it never pops in.** A tray above the composer, a row of chips, a banner: keep it mounted, and move `grid-template-rows` between `0fr` and `1fr` with opacity, at 280 ms, with an inner `overflow-hidden` wrapper. Mark it `inert` while shut, and keep its last contents while it folds away, so it doesn't empty before it closes. `ComposerHeader` is the reference.
 

@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { BellDotIcon, BellIcon, Search01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -30,6 +31,47 @@ import { cn } from "@/lib/utils"
 // whole, since Tailwind only finds classes it can read as they are.
 const liveOn =
   "bg-[color-mix(in_oklab,var(--live,var(--color-blue-500))_4%,transparent)] [&_svg]:text-[color:var(--live,var(--color-blue-500))] hover:bg-[color-mix(in_oklab,var(--live,var(--color-blue-500))_7%,transparent)] hover:[&_svg]:text-[color:var(--live,var(--color-blue-500))]"
+
+// Fades an edge of the list only while more of it is hidden past that edge.
+function useScrollFade() {
+  const ref = React.useRef<HTMLDivElement>(null)
+  const [edges, setEdges] = React.useState({ top: false, bottom: false })
+
+  React.useEffect(() => {
+    const element = ref.current
+    if (!element) return
+    const update = () => {
+      const top = element.scrollTop > 0
+      const bottom =
+        element.scrollTop + element.clientHeight < element.scrollHeight - 1
+      setEdges((current) =>
+        current.top === top && current.bottom === bottom
+          ? current
+          : { top, bottom }
+      )
+    }
+    update()
+    element.addEventListener("scroll", update, { passive: true })
+    // Watches the list as well as the box, since a section folding changes how
+    // much there is to scroll without a scroll event.
+    const observer = new ResizeObserver(update)
+    observer.observe(element)
+    if (element.firstElementChild) observer.observe(element.firstElementChild)
+    return () => {
+      element.removeEventListener("scroll", update)
+      observer.disconnect()
+    }
+  }, [])
+
+  const style: React.CSSProperties | undefined =
+    edges.top || edges.bottom
+      ? {
+          maskImage: `linear-gradient(to bottom, ${edges.top ? "transparent" : "#000"}, #000 1.5rem, #000 calc(100% - 1.5rem), ${edges.bottom ? "transparent" : "#000"})`,
+        }
+      : undefined
+
+  return { ref, style }
+}
 
 function ChatSidebarHeader({
   mode,
@@ -99,6 +141,8 @@ function ChatSidebar({
   activityOpen: boolean
   onActivity: () => void
 }) {
+  const { ref: listRef, style: fadeStyle } = useScrollFade()
+
   return (
     <Sidebar collapsible="none" className="w-full bg-background">
       <ChatSidebarHeader
@@ -108,15 +152,22 @@ function ChatSidebar({
         activityOpen={activityOpen}
         onActivity={onActivity}
       />
-      <SidebarContent role="navigation" aria-label="Chats">
-        <ChatNavMain
-          newChatOpen={chats.activeId === null}
-          onNewChat={onNewChat}
-          onQuickChat={onQuickChat}
-          onProjects={onProjects}
-        />
-        <ChatNavPinned {...chats} activity={activityOpen} />
-        <ChatNavRecents {...chats} activity={activityOpen} />
+      <ChatNavMain
+        newChatOpen={chats.activeId === null}
+        onNewChat={onNewChat}
+        onQuickChat={onQuickChat}
+        onProjects={onProjects}
+      />
+      <SidebarContent
+        ref={listRef}
+        role="navigation"
+        aria-label="Chats"
+        style={fadeStyle}
+      >
+        <div className="flex flex-col">
+          <ChatNavPinned {...chats} activity={activityOpen} />
+          <ChatNavRecents {...chats} activity={activityOpen} />
+        </div>
       </SidebarContent>
       <SidebarFooter className="flex-row items-center gap-1 border-t border-border/50">
         <div className="min-w-0 flex-1">
