@@ -7,3 +7,5 @@
 7. vercel analytics
 8. fix agents.md
 9. make it signin able
+10. homepage
+11. update demo instructions to make them active like playing
