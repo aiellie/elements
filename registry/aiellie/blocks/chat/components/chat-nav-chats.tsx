@@ -165,7 +165,7 @@ function ChatNavGroup({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>{label}</SidebarGroupLabel>
+      <SidebarGroupLabel className="text-muted-foreground/50">{label}</SidebarGroupLabel>
       <SidebarMenu className="gap-0.5">
         {chats.map((chat) => (
           <ChatNavItem key={chat.id} chat={chat} {...props} />
