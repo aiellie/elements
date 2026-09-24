@@ -12,6 +12,7 @@ import {
   MenuLinkItem,
   MenuTrigger,
 } from "@/components/aiellie/menu"
+import { buttonVariants } from "@/components/ui/button"
 import {
   Tooltip,
   TooltipContent,
@@ -63,20 +64,11 @@ interface NavPage {
   icon: IconSvgElement
 }
 
-/**
- * The kit's ghost treatment, re-shaped for a nav item: a rounded rectangle that
- * grows a label from `sm` up. `ghostButton` already carries the flex centering,
- * focus ring, transition and press scale.
- *
- * The data-scoped hover rules are not redundant — `ghostButton` ends in a plain
- * `hover:` tint that a selected item would otherwise fade to on pointer-over.
- * These outrank it on specificity, so the accent holds. Same treatment as
- * `FloatingToolbarTab` and the theme pill, so the three read as one system.
- */
+/** The shared small ghost button treatment, plus the current-route state. */
 const navButton = cn(
-  "flex items-center justify-center rounded-full text-foreground/45 transition-[background-color,color,scale] duration-150 outline-none hover:bg-foreground/[0.06] hover:text-foreground/90 focus-visible:ring-1 focus-visible:ring-foreground/20 active:scale-[0.96] motion-reduce:transition-none dark:hover:bg-foreground/[0.09]",
-  "inline-flex h-6.5 items-center gap-1.5 rounded-md px-2 text-xs font-medium whitespace-nowrap",
+  buttonVariants({ variant: "ghost", size: "sm" }),
   "data-[active=true]:bg-muted data-[active=true]:text-foreground",
+  "data-[active=true]:[&_svg]:text-foreground",
   "data-[active=true]:hover:bg-muted data-[active=true]:hover:text-foreground",
   "dark:data-[active=true]:hover:bg-muted"
 )
@@ -143,15 +135,7 @@ function SiteNav({ pages }: { pages: NavPage[] }) {
       </nav>
       <div className="sm:hidden">
         <Menu>
-          <MenuTrigger
-            data-active={selected}
-            className={cn(
-              navButton,
-              "not-data-[active=true]:data-popup-open:bg-foreground/[0.06]",
-              "not-data-[active=true]:data-popup-open:text-foreground/90",
-              "dark:not-data-[active=true]:data-popup-open:bg-foreground/[0.09]"
-            )}
-          >
+          <MenuTrigger data-active={selected} className={navButton}>
             <HugeiconsIcon
               aria-hidden
               icon={Menu01Icon}
@@ -173,11 +157,7 @@ function SiteNav({ pages }: { pages: NavPage[] }) {
                   aria-current={current ? "page" : undefined}
                   className="data-[active=true]:text-foreground data-[active=true]:data-highlighted:text-foreground"
                 >
-                  <HugeiconsIcon
-                    icon={item.icon}
-                    strokeWidth={2}
-                    className="size-3.5"
-                  />
+                  <HugeiconsIcon icon={item.icon} className="size-3.5" />
                   {item.label}
                 </MenuLinkItem>
               )
@@ -215,18 +195,7 @@ function NavMenu({
       <NavTooltip label={label}>
         <MenuTrigger
           data-active={selected}
-          className={cn(
-            navButton,
-            "group/nav-menu",
-            // Held open, the trigger should look pressed. Scoped to the
-            // unselected case so it can't fight the accent above it — both are
-            // one-attribute selectors, so neither wins on specificity and the
-            // cascade would decide by whatever order Tailwind emitted them in.
-            "not-data-[active=true]:data-popup-open:bg-foreground/[0.06]",
-            "not-data-[active=true]:data-popup-open:text-foreground/90",
-            "dark:not-data-[active=true]:data-popup-open:bg-foreground/[0.09]",
-            className
-          )}
+          className={cn(navButton, "group/nav-menu", className)}
           {...props}
         >
           <HugeiconsIcon icon={icon} strokeWidth={2} className="size-3.5" />
