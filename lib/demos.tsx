@@ -1,7 +1,9 @@
 import type { ComponentType } from "react"
 
+import BadgeDemo from "@/registry/aiellie/examples/badge-demo"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
+import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
@@ -55,6 +57,8 @@ const DEMOS: Record<string, Demo> = {
   sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
   skeleton: { title: "Skeleton", gallery: "/ui", Demo: SkeletonDemo },
   avatar: { title: "Avatar", gallery: "/ui", Demo: AvatarDemo },
+  badge: { title: "Badge", gallery: "/ui", Demo: BadgeDemo },
+  empty: { title: "Empty", gallery: "/ui", Demo: EmptyDemo },
   "tooltip-icon-button": {
     title: "Tooltip Icon Button",
     gallery: "/components",

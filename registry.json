@@ -59,6 +59,20 @@
       ]
     },
     {
+      "name": "brand-icons",
+      "type": "registry:component",
+      "title": "Brand Icons",
+      "description": "aiellie's own marks, keyed by name, drawn here rather than looked up in an icon set.",
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/icons/brand-icons.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/icons/brand-icons.tsx"
+        }
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
@@ -219,6 +233,38 @@
       "categories": ["feedback"]
     },
     {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "shadcn's badge: a short label beside something, in six variants, rendered as whatever element you give it.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/badge.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/badge.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "shadcn's empty: what a place shows when there is nothing in it yet, with room for an icon, a title, a line of help and an action.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/empty.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/empty.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
@@ -272,6 +318,7 @@
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/avatar",
+        "@aiellie/badge",
         "@aiellie/menu",
         "@aiellie/sidebar"
       ],
@@ -487,7 +534,9 @@
       "description": "A chat page: your chats in a sidebar, a thread that streams replies, and a composer with a model selector.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
+        "@aiellie/brand-icons",
         "@aiellie/button",
+        "@aiellie/empty",
         "@aiellie/sidebar",
         "@aiellie/panels",
         "@aiellie/user-menu",

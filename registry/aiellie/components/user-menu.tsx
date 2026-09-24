@@ -13,6 +13,7 @@ import {
   MenuContent,
   MenuItem,
   MenuSeparator,
+  MenuShortcut,
   MenuTrigger,
 } from "@/registry/aiellie/components/menu"
 import {
@@ -20,6 +21,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/registry/aiellie/ui/avatar"
+import { Badge } from "@/registry/aiellie/ui/badge"
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -67,12 +69,15 @@ function UserAvatar({ user }: { user: User }) {
  */
 function UserMenu({
   user,
+  usage,
   onUsage,
   onInvite,
   onSettings,
   onLogOut,
 }: {
   user: User
+  /** How much of their plan is left, e.g. "72% left", shown beside Usage. */
+  usage?: string
   onUsage?: () => void
   onInvite?: () => void
   onSettings?: () => void
@@ -101,15 +106,14 @@ function UserMenu({
                 {user.name}
               </span>
               {user.plan ? (
-                <span className="shrink-0 rounded-sm bg-muted px-1.5 py-0.5 text-xs font-medium text-foreground">
-                  {user.plan}
-                </span>
+                <Badge variant="secondary">{user.plan}</Badge>
               ) : null}
             </div>
             <MenuSeparator />
             <MenuItem onClick={onUsage}>
               <HugeiconsIcon icon={ChartLineData01Icon} aria-hidden />
               Usage
+              {usage ? <MenuShortcut>{usage}</MenuShortcut> : null}
             </MenuItem>
             <MenuItem onClick={onInvite}>
               <HugeiconsIcon icon={UserAdd01Icon} aria-hidden />

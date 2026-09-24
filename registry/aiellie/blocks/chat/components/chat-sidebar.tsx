@@ -101,6 +101,7 @@ function ChatSidebarHeader({
  */
 function ChatSidebar({
   user,
+  usage,
   onNewChat,
   onQuickChat,
   onProjects,
@@ -110,6 +111,8 @@ function ChatSidebar({
   ...chats
 }: ChatNavProps & {
   user: User
+  /** How much of their plan is left, shown in the user menu. */
+  usage?: string
   onNewChat: () => void
   onQuickChat?: () => void
   onProjects?: () => void
@@ -137,7 +140,7 @@ function ChatSidebar({
       </SidebarContent>
       <SidebarFooter className="flex-row items-center gap-1 border-t border-border/50">
         <div className="min-w-0 flex-1">
-          <UserMenu user={user} />
+          <UserMenu user={user} usage={usage} />
         </div>
         <HelpMenu />
       </SidebarFooter>

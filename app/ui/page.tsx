@@ -1,4 +1,5 @@
 import {
+  Tag01Icon,
   UserCircleIcon,
   Comment01Icon,
   InputLongTextIcon,
@@ -9,6 +10,7 @@ import {
   PanelRightIcon,
   SidebarLeftIcon,
   BrowserIcon,
+  DashedLineCircleIcon,
   TextIcon,
 } from "@hugeicons/core-free-icons"
 import { CategorySection } from "@/components/pages/category-separator"
@@ -16,8 +18,10 @@ import { DemoCard } from "@/components/pages/demo-card"
 import { PageHero } from "@/components/pages/page-hero"
 import { cardCount } from "@/lib/categories"
 import { PAGES } from "@/lib/constants"
+import BadgeDemo from "@/registry/aiellie/examples/badge-demo"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
+import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
 import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
 import SeparatorDemo from "@/registry/aiellie/examples/separator-demo"
@@ -138,6 +142,24 @@ export default function UiPage() {
           description="A picture of someone, or their initials"
         >
           <AvatarDemo />
+        </DemoCard>
+        <DemoCard
+          href="/ui/badge"
+          index={12}
+          title="Badge"
+          icon={Tag01Icon}
+          description="A short label beside something, like a plan or a status"
+        >
+          <BadgeDemo />
+        </DemoCard>
+        <DemoCard
+          href="/ui/empty"
+          index={13}
+          title="Empty"
+          icon={DashedLineCircleIcon}
+          description="What a place shows before there is anything in it"
+        >
+          <EmptyDemo />
         </DemoCard>
       </CategorySection>
     </div>

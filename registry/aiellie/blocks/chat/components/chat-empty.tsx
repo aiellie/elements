@@ -1,6 +1,14 @@
 "use client"
 
+import { brandIcons } from "@/registry/aiellie/icons/brand-icons"
 import { Button } from "@/registry/aiellie/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/registry/aiellie/ui/empty"
 
 /** A few ways in, for a chat with nothing in it yet. Swap for your own. */
 const SUGGESTIONS = [
@@ -16,11 +24,14 @@ const SUGGESTIONS = [
  */
 function ChatEmpty({ onSelect }: { onSelect: (prompt: string) => void }) {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-5 text-center">
-      <h2 className="text-2xl font-light tracking-tight">
-        Ready when you are.
-      </h2>
-      <div className="flex max-w-md flex-wrap justify-center gap-2">
+    <Empty className="gap-5">
+      <EmptyHeader>
+        <EmptyMedia className="size-10 rounded-lg" variant="icon">{brandIcons.elephant("size-6 text-foreground")}</EmptyMedia>
+        <EmptyTitle className="text-2xl font-light tracking-tight">
+          Ready when you are.
+        </EmptyTitle>
+      </EmptyHeader>
+      <EmptyContent className="max-w-md flex-row flex-wrap justify-center">
         {SUGGESTIONS.map((prompt) => (
           <Button
             key={prompt}
@@ -31,8 +42,8 @@ function ChatEmpty({ onSelect }: { onSelect: (prompt: string) => void }) {
             {prompt}
           </Button>
         ))}
-      </div>
-    </div>
+      </EmptyContent>
+    </Empty>
   )
 }
 

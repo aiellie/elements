@@ -430,6 +430,7 @@ function Chat({
               chats={conversations}
               activeId={activeId}
               user={SAMPLE_USER}
+              usage="72% left"
               onNewChat={startNewChat}
               onQuickChat={onQuickChat}
               onProjects={onProjects}
