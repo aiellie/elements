@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
+import { ArrowLeft02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import {
@@ -49,8 +49,7 @@ function DemoStage({
         >
           <HugeiconsIcon
             aria-hidden
-            icon={ArrowLeft01Icon}
-            strokeWidth={2}
+            icon={ArrowLeft02Icon}
             className="rtl:-scale-x-100"
           />
           <span className="sr-only">Back to the gallery</span>
