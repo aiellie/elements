@@ -12,11 +12,10 @@ export function GitHubLink() {
       size="sm"
       variant="ghost"
       nativeButton={false}
-      className="h-8 shadow-none"
       render={<Link href={GITHUB_URL} target="_blank" rel="noreferrer" />}
     >
       <HugeiconsIcon aria-hidden icon={GithubIcon} />
-    <span className="text-muted-foreground hover:text-foreground">GitHub</span>
+    <span >GitHub</span>
     </Button>
   )
 }
