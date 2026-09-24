@@ -40,7 +40,7 @@ function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
 
 const toolbarButton = cn(
   "flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg text-foreground/55 transition-[background-color,color,scale] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] outline-none select-none",
-  "hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-1 focus-visible:ring-foreground/5 active:scale-[0.94]",
+  "hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-1 focus-visible:ring-foreground/5 active:scale-90",
   "aria-pressed:bg-foreground/[0.06] aria-pressed:text-foreground",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
   "motion-reduce:transition-none dark:hover:bg-foreground/[0.09] dark:aria-pressed:bg-foreground/[0.09]",

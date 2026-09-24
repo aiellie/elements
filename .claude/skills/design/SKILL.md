@@ -266,13 +266,16 @@ Input is answered instantly; layout takes its time. Anything the pointer causes 
 
 **Transition the properties that change, never `all`.** `transition-[opacity,scale]` says what is moving and keeps everything else from being caught up in it. `transition-colors`, `transition-opacity` and `transition-transform` are fine, because each already names its properties. Tailwind v4's `scale-*`, `rotate-*` and `translate-*` set the `scale`, `rotate` and `translate` properties, so list those rather than `transform` inside a bracketed list.
 
-**Press feedback.** Every button, icon button and clickable card dents:
+**Press feedback.** Every button, icon button and clickable card dents by about a pixel at each edge, so the scale depends on the size:
 
 ```
-transition-transform duration-[80ms] ease-out active:scale-[0.97]
+active:scale-[0.97]   a button with a label, a clickable card
+active:scale-90       an icon-only button, 20–36px
 ```
 
-Scale only — the fill does not darken on press, since hover already shifted it. Nothing else in the system scales; a hover that grows an element is not part of this vocabulary.
+At 0.97 a 32px button dents about 1px. An icon button at the same scale would move less than half a pixel, which reads as nothing, so it goes to 0.90. A labelled button at 0.90 would lose a tenth of its width and read as a toy. Transition only `scale`, at 80 ms, with `ease-out`.
+
+Scale only: the button doesn't also nudge down, and the fill doesn't darken on press, since hover already shifted it. Nothing else in the system scales; a hover that grows an element is not part of this vocabulary.
 
 **A trigger's icon may turn to show that what it opens is open**: a chevron by 180°, a plus by 45° into a close mark. It turns at 150 ms, keyed to the trigger's `aria-expanded`, and turns back when the menu closes.
 
