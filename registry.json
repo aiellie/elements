@@ -605,14 +605,9 @@
       "name": "project-selector",
       "type": "registry:component",
       "title": "Project Selector",
-      "description": "Which project a chat belongs to: its name opens a searchable menu to switch it, and its mark turns into a remove button on hover. Pressing the current project again removes it too. Its rows also come alone, for a submenu of your own.",
+      "description": "Which project a chat belongs to: one button opens a searchable menu to switch it, and pressing the current project again removes it. Its rows also come alone, for a submenu of your own.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
-      "registryDependencies": [
-        "@aiellie/button",
-        "@aiellie/menu",
-        "@aiellie/tooltip-icon-button",
-        "@aiellie/utils"
-      ],
+      "registryDependencies": ["@aiellie/button", "@aiellie/menu"],
       "files": [
         {
           "path": "registry/aiellie/components/project-selector.tsx",

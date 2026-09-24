@@ -96,7 +96,7 @@ export default function ComposerDemo() {
             projects={PROJECTS}
             value={shownProject}
             onValueChange={setProject}
-            className="hover:bg-background has-aria-expanded:bg-background dark:hover:bg-background/60 dark:has-aria-expanded:bg-background/60"
+            render={trayButton}
           />
         ) : null}
         <WorkInMenu

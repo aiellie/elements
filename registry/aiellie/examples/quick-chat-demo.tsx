@@ -32,6 +32,7 @@ export default function QuickChatDemo() {
   const [messages, setMessages] =
     React.useState<QuickChatMessage[]>(INITIAL_MESSAGES)
   const [streaming, setStreaming] = React.useState(false)
+  const [composerKey, setComposerKey] = React.useState(0)
   const [value, setValue] = React.useState("")
   const [model, setModel] = React.useState(MODELS[0].id)
   const [project, setProject] = React.useState<string | null>(null)
@@ -66,9 +67,16 @@ export default function QuickChatDemo() {
       <QuickChat
         open={open}
         onOpenChange={setOpen}
+        onNewChat={() => {
+          stop()
+          setMessages([])
+          setValue("")
+          setComposerKey((key) => key + 1)
+        }}
         messages={messages}
         composer={
           <ChatComposer
+            key={composerKey}
             value={value}
             onValueChange={setValue}
             onSend={(content, attachments: ChatAttachment[]) => {

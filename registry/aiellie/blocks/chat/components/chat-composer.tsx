@@ -190,7 +190,7 @@ function ChatComposer({
               projects={projects}
               value={shownProject}
               onValueChange={onProjectChange}
-              className="hover:bg-background has-aria-expanded:bg-background dark:hover:bg-background/60 dark:has-aria-expanded:bg-background/60"
+              render={trayButton}
             />
             <WorkInMenu
               value={workIn}

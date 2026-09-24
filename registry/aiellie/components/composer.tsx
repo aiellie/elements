@@ -228,7 +228,7 @@ function ComposerHeader({
       <div className="min-h-0 overflow-hidden">
         <div
           className={cn(
-            "flex flex-wrap items-center gap-1 rounded-t-xl bg-muted/60 px-1.5 py-1",
+            "flex min-w-0 flex-nowrap items-center gap-1 overflow-x-auto overscroll-x-contain rounded-t-xl bg-muted/60 px-1.5 py-1",
             className
           )}
           {...props}

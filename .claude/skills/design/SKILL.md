@@ -198,6 +198,8 @@ Four rules:
 - **One step for related things, two for separate ones.** Label to field is `space-1`; field to the next field is `space-4`. Jumping a single step to mean "these are different" doesn't read.
 - **No arbitrary values.** If something needs 14px, the answer is 12 or 16. `space-0.5` exists for the genuine optical exceptions so nothing else has to invent one.
 
+**A composer tray stays on one line and scrolls horizontally.** Context controls in `ComposerHeader` never wrap into a second row, even in a narrow floating composer. Keep their order and control height stable with `flex-nowrap` and `overflow-x-auto`; the person can pan to anything that does not fit. Wrapping changes the tray's height, steals space from the thread and makes related selectors look like separate groups.
+
 A 32px control with a 12px corner (`radius-md`) has 10px of straight edge on each side — that ratio is what keeps the tight density from looking like a pill. If a control gets shorter than 28px, drop it to `radius-sm`.
 
 ### Focus and edges

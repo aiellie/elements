@@ -100,6 +100,7 @@ function Chat({
     []
   )
   const [quickStreaming, setQuickStreaming] = React.useState(false)
+  const [quickComposerKey, setQuickComposerKey] = React.useState(0)
   const [quickDraft, setQuickDraft] = React.useState("")
   const [quickModel, setQuickModel] = React.useState(MODELS[0].id)
   const [quickProject, setQuickProject] = React.useState<string | null>(null)
@@ -331,6 +332,13 @@ function Chat({
     setQuickMessages((all) => all.filter((message) => !message.streaming))
   }
 
+  const startNewQuickChat = () => {
+    stopQuickChat()
+    setQuickMessages([])
+    setQuickDraft("")
+    setQuickComposerKey((key) => key + 1)
+  }
+
   const sendQuickChat = (
     content: string,
     attachments: ChatAttachment[] = []
@@ -541,9 +549,11 @@ function Chat({
       <QuickChat
         open={quickChatOpen}
         onOpenChange={setQuickChatOpen}
+        onNewChat={startNewQuickChat}
         messages={quickMessages}
         composer={
           <ChatComposer
+            key={quickComposerKey}
             value={quickDraft}
             onValueChange={setQuickDraft}
             onSend={sendQuickChat}

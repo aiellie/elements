@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Cancel01Icon } from "@hugeicons/core-free-icons"
+import { Cancel01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import {
@@ -31,6 +31,7 @@ type QuickChatMessage = {
 function QuickChat({
   open,
   onOpenChange,
+  onNewChat,
   messages,
   onSubmit,
   onStop,
@@ -45,6 +46,8 @@ function QuickChat({
 }: Omit<React.ComponentProps<"section">, "title" | "onSubmit"> & {
   open: boolean
   onOpenChange: (open: boolean) => void
+  /** Starts another conversation without closing the panel. */
+  onNewChat?: () => void
   messages: QuickChatMessage[]
   onSubmit?: (value: string) => void
   onStop?: () => void
@@ -116,6 +119,21 @@ function QuickChat({
         >
           {title}
         </h2>
+        {onNewChat ? (
+          <TooltipIconButton
+            type="button"
+            tooltip="New quick chat"
+            onClick={() => {
+              onNewChat()
+              requestAnimationFrame(() =>
+                rootRef.current?.querySelector("textarea")?.focus()
+              )
+            }}
+            className="size-7"
+          >
+            <HugeiconsIcon icon={PencilEdit02Icon} aria-hidden />
+          </TooltipIconButton>
+        ) : null}
         <TooltipIconButton
           type="button"
           tooltip="Close quick chat"
