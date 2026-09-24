@@ -11,3 +11,4 @@
 11. update demo instructions to make them active like playing
 12. analyze the structure of how we r doing this and if it still makes sense
 13. create quick chat composer
+14. animated jumping bots game
