@@ -4,7 +4,9 @@ import * as React from "react"
 import {
   Attachment01Icon,
   Folder01Icon,
+  FolderLibraryIcon,
   Image01Icon,
+  PuzzleIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -18,14 +20,43 @@ import { DictateButton } from "@/registry/aiellie/components/dictate-button"
 import {
   Composer,
   ComposerFooter,
+  ComposerHeader,
   ComposerInput,
   ComposerSubmit,
   type ComposerStatus,
 } from "@/registry/aiellie/components/composer"
-import { MenuItem } from "@/registry/aiellie/components/menu"
+import {
+  MenuGroup,
+  MenuGroupLabel,
+  MenuItem,
+  MenuSeparator,
+  MenuSub,
+  MenuSubContent,
+  MenuSubTrigger,
+} from "@/registry/aiellie/components/menu"
 import { ModelSelector } from "@/registry/aiellie/components/model-selector"
+import {
+  PluginSelector,
+  PluginSelectorItems,
+  type PluginOption,
+} from "@/registry/aiellie/components/plugin-selector"
+import {
+  ProjectSelector,
+  ProjectSelectorItems,
+  type ProjectOption,
+} from "@/registry/aiellie/components/project-selector"
 import type { ModelOption } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
+
+// Ghost buttons, lifted onto the page's ground on hover, since the tray is
+// already the muted fill a ghost button hovers to.
+const trayButton = (
+  <Button
+    variant="ghost"
+    size="sm"
+    className="hover:bg-background aria-expanded:bg-background dark:hover:bg-background/60 dark:aria-expanded:bg-background/60"
+  />
+)
 
 function ChatComposer({
   value,
@@ -36,6 +67,12 @@ function ChatComposer({
   models,
   model,
   onModelChange,
+  projects,
+  project,
+  onProjectChange,
+  plugins,
+  activePlugins,
+  onPluginsChange,
   inputRef,
 }: {
   value: string
@@ -47,6 +84,13 @@ function ChatComposer({
   models: ModelOption[]
   model: string
   onModelChange: (model: string) => void
+  projects: ProjectOption[]
+  project: string | null
+  onProjectChange: (project: string | null) => void
+  plugins: PluginOption[]
+  /** The ids of the plugins turned on. */
+  activePlugins: string[]
+  onPluginsChange: (plugins: string[]) => void
   inputRef?: React.Ref<HTMLTextAreaElement>
 }) {
   const [attachments, setAttachments] = React.useState<ChatAttachment[]>([])
@@ -91,6 +135,26 @@ function ChatComposer({
         onChange={pick}
         {...{ webkitdirectory: "" }}
       />
+      {project || activePlugins.length > 0 ? (
+        <ComposerHeader>
+          {project ? (
+            <ProjectSelector
+              projects={projects}
+              value={project}
+              onValueChange={onProjectChange}
+              render={trayButton}
+            />
+          ) : null}
+          {activePlugins.length > 0 ? (
+            <PluginSelector
+              plugins={plugins}
+              value={activePlugins}
+              onValueChange={onPluginsChange}
+              render={trayButton}
+            />
+          ) : null}
+        </ComposerHeader>
+      ) : null}
       <Composer
         value={value}
         onValueChange={onValueChange}
@@ -119,6 +183,36 @@ function ChatComposer({
               <HugeiconsIcon aria-hidden icon={Image01Icon} />
               Add photos
             </MenuItem>
+            <MenuSeparator />
+            <MenuGroup>
+              <MenuGroupLabel>Connect</MenuGroupLabel>
+              <MenuSub>
+                <MenuSubTrigger>
+                  <HugeiconsIcon aria-hidden icon={FolderLibraryIcon} />
+                  Projects
+                </MenuSubTrigger>
+                <MenuSubContent className="min-w-48">
+                  <ProjectSelectorItems
+                    projects={projects}
+                    value={project}
+                    onValueChange={onProjectChange}
+                  />
+                </MenuSubContent>
+              </MenuSub>
+              <MenuSub>
+                <MenuSubTrigger>
+                  <HugeiconsIcon aria-hidden icon={PuzzleIcon} />
+                  Plugins
+                </MenuSubTrigger>
+                <MenuSubContent className="min-w-48">
+                  <PluginSelectorItems
+                    plugins={plugins}
+                    value={activePlugins}
+                    onValueChange={onPluginsChange}
+                  />
+                </MenuSubContent>
+              </MenuSub>
+            </MenuGroup>
           </AddMenu>
           <ModelSelector
             models={models}

@@ -207,6 +207,21 @@ function ComposerInput({
   )
 }
 
+// A tray that sits on top of the box, so it goes just before <Composer>, not
+// inside it. Inset past the box's corner, so it meets the straight edge.
+function ComposerHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="composer-header"
+      className={cn(
+        "mx-5 flex flex-wrap items-center gap-1 rounded-t-xl bg-muted px-1.5 py-1",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
 function ComposerFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -248,5 +263,11 @@ function ComposerSubmit({
   )
 }
 
-export { Composer, ComposerFooter, ComposerInput, ComposerSubmit }
+export {
+  Composer,
+  ComposerFooter,
+  ComposerHeader,
+  ComposerInput,
+  ComposerSubmit,
+}
 export type { ComposerStatus }

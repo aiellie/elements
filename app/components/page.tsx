@@ -6,6 +6,7 @@ import {
   BubbleChatTemporaryIcon,
   CursorInfo02Icon,
   DashboardSpeed02Icon,
+  FolderLibraryIcon,
   HelpCircleIcon,
   LayoutThreeColumnIcon,
   LayoutTopIcon,
@@ -14,6 +15,7 @@ import {
   Message01Icon,
   MessageEdit01Icon,
   MessageMultiple01Icon,
+  PuzzleIcon,
   UserAccountIcon,
 } from "@hugeicons/core-free-icons"
 import { CategorySection } from "@/components/pages/category-separator"
@@ -29,6 +31,8 @@ import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
+import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
+import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import TemporaryChatToggleDemo from "@/registry/aiellie/examples/temporary-chat-toggle-demo"
@@ -111,8 +115,26 @@ export default function ComponentsPage() {
           <ModelSelectorDemo />
         </DemoCard>
         <DemoCard
-          href="/components/dictate-button"
+          href="/components/project-selector"
           index={8}
+          title="Project Selector"
+          icon={FolderLibraryIcon}
+          description="Which project a chat belongs to, and a menu to switch it"
+        >
+          <ProjectSelectorDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/plugin-selector"
+          index={9}
+          title="Plugin Selector"
+          icon={PuzzleIcon}
+          description="Which plugins a chat can use, turned on and off from one menu"
+        >
+          <PluginSelectorDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/dictate-button"
+          index={10}
           title="Dictate Button"
           icon={Mic01Icon}
           description="Speak instead of typing, into any field"
@@ -123,7 +145,7 @@ export default function ComponentsPage() {
       <CategorySection category="layout">
         <DemoCard
           href="/components/panels"
-          index={9}
+          index={11}
           title="Panels"
           icon={LayoutThreeColumnIcon}
           description="An app shell with resizable panels on three sides"
@@ -135,7 +157,7 @@ export default function ComponentsPage() {
       <CategorySection category="overlays">
         <DemoCard
           href="/components/menu"
-          index={10}
+          index={12}
           title="Menu"
           icon={Menu01Icon}
           description="A simple menu component"
@@ -146,7 +168,7 @@ export default function ComponentsPage() {
       <CategorySection category="feedback">
         <DemoCard
           href="/components/status"
-          index={11}
+          index={13}
           title="Status"
           icon={Activity03Icon}
           description="A simple status component"
@@ -155,7 +177,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/meter"
-          index={12}
+          index={14}
           title="Meter"
           icon={DashboardSpeed02Icon}
           description="How full something is, like a context window or a credit balance"
@@ -164,7 +186,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/waveform"
-          index={13}
+          index={15}
           title="Waveform"
           icon={AudioWave01Icon}
           description="Live bars that follow a microphone, so you can see it hears you"
@@ -175,7 +197,7 @@ export default function ComponentsPage() {
       <CategorySection category="chat">
         <DemoCard
           href="/components/composer"
-          index={14}
+          index={16}
           title="Composer"
           icon={MessageEdit01Icon}
           description="A simple composer component"
@@ -184,7 +206,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message"
-          index={15}
+          index={17}
           title="Message"
           icon={Message01Icon}
           description="A simple message component"
@@ -193,7 +215,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={16}
+          index={18}
           title="Thread"
           icon={MessageMultiple01Icon}
           description="A simple thread component"

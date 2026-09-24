@@ -557,6 +557,38 @@
       "categories": ["feedback"]
     },
     {
+      "name": "project-selector",
+      "type": "registry:component",
+      "title": "Project Selector",
+      "description": "A small button that shows which project a chat belongs to and opens a menu to switch or remove it. Its rows also come alone, for a submenu of your own.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/menu"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/project-selector.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/project-selector.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "plugin-selector",
+      "type": "registry:component",
+      "title": "Plugin Selector",
+      "description": "A small button that shows which plugins a chat can use, with their marks and a count, and opens a menu to turn them on and off. Its rows also come alone, for a submenu of your own.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/menu"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/plugin-selector.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/plugin-selector.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
       "name": "dictate-button",
       "type": "registry:component",
       "title": "Dictate Button",
@@ -680,6 +712,8 @@
         "@aiellie/temporary-chat-toggle",
         "@aiellie/attachment",
         "@aiellie/dialog",
+        "@aiellie/project-selector",
+        "@aiellie/plugin-selector",
         "@aiellie/waveform",
         "@aiellie/model-selector",
         "@aiellie/models",

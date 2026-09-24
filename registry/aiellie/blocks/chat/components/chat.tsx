@@ -1,6 +1,14 @@
 "use client"
 
 import * as React from "react"
+import {
+  DropboxIcon,
+  FigmaIcon,
+  Github01Icon,
+  GoogleDriveIcon,
+  Notion01Icon,
+  SlackIcon,
+} from "@hugeicons/core-free-icons"
 
 import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import { ChatComposer } from "@/registry/aiellie/blocks/chat/components/chat-composer"
@@ -11,6 +19,8 @@ import { ChatSidebar } from "@/registry/aiellie/blocks/chat/components/chat-side
 import { ChatThread } from "@/registry/aiellie/blocks/chat/components/chat-thread"
 import type { ComposerStatus } from "@/registry/aiellie/components/composer"
 import { Panels } from "@/registry/aiellie/components/panels"
+import type { PluginOption } from "@/registry/aiellie/components/plugin-selector"
+import type { ProjectOption } from "@/registry/aiellie/components/project-selector"
 import type { User } from "@/registry/aiellie/components/user-menu"
 import { MODELS } from "@/registry/aiellie/lib/models"
 import { SidebarProvider } from "@/registry/aiellie/ui/sidebar"
@@ -107,6 +117,23 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
 // Sample signed-in person. Pass your own.
 const SAMPLE_USER: User = { name: "Ada Lovelace", plan: "Pro" }
 
+// Sample projects and plugins. Pass your own; the preview only shows which
+// are connected, and nothing reads a project or calls a plugin.
+const SAMPLE_PROJECTS: ProjectOption[] = [
+  { id: "website", name: "Website redesign" },
+  { id: "planning", name: "Q3 planning" },
+  { id: "onboarding", name: "Onboarding docs" },
+]
+
+const SAMPLE_PLUGINS: PluginOption[] = [
+  { id: "github", name: "GitHub", icon: Github01Icon },
+  { id: "drive", name: "Google Drive", icon: GoogleDriveIcon },
+  { id: "slack", name: "Slack", icon: SlackIcon },
+  { id: "notion", name: "Notion", icon: Notion01Icon },
+  { id: "figma", name: "Figma", icon: FigmaIcon },
+  { id: "dropbox", name: "Dropbox", icon: DropboxIcon },
+]
+
 // There is no model behind the preview. Replace `stream` below with your
 // model's response and the rest of the page works as it is.
 const PREVIEW_REPLY =
@@ -165,6 +192,8 @@ function Chat({
   const [activityOpen, setActivityOpen] = React.useState(false)
   const [draft, setDraft] = React.useState("")
   const [model, setModel] = React.useState(MODELS[0].id)
+  const [project, setProject] = React.useState<string | null>(null)
+  const [plugins, setPlugins] = React.useState<string[]>([])
   // The chat a reply is being written into, which is not always the open one.
   const [streamingId, setStreamingId] = React.useState<string | null>(null)
 
@@ -473,6 +502,12 @@ function Chat({
               models={MODELS}
               model={model}
               onModelChange={setModel}
+              projects={SAMPLE_PROJECTS}
+              project={project}
+              onProjectChange={setProject}
+              plugins={SAMPLE_PLUGINS}
+              activePlugins={plugins}
+              onPluginsChange={setPlugins}
               inputRef={inputRef}
             />
           </div>

@@ -15,6 +15,8 @@ import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
+import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
+import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
 import SeparatorDemo from "@/registry/aiellie/examples/separator-demo"
@@ -95,6 +97,16 @@ const DEMOS: Record<string, Demo> = {
     title: "Model Selector",
     gallery: "/components",
     Demo: ModelSelectorDemo,
+  },
+  "project-selector": {
+    title: "Project Selector",
+    gallery: "/components",
+    Demo: ProjectSelectorDemo,
+  },
+  "plugin-selector": {
+    title: "Plugin Selector",
+    gallery: "/components",
+    Demo: PluginSelectorDemo,
   },
   "dictate-button": {
     title: "Dictate Button",
