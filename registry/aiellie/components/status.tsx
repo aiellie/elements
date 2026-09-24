@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const statusVariants = cva(
-  "group/status inline-flex w-fit shrink-0 items-center gap-1.5 overflow-hidden rounded-4xl border px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-colors focus-visible:ring-1 focus-visible:ring-foreground/5 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  "group/status inline-flex w-fit shrink-0 items-center gap-1.5 overflow-hidden rounded-4xl border px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-colors focus-visible:ring-1 focus-visible:ring-foreground/5 motion-reduce:transition-none [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
       variant: {
@@ -61,7 +61,7 @@ function StatusIndicator({
       )}
       {...props}
     >
-      <span className="absolute inline-flex size-full animate-ping rounded-full bg-current opacity-60 group-data-[pulse=false]/status:hidden" />
+      <span className="absolute inline-flex size-full animate-ping rounded-full bg-current opacity-60 group-data-[pulse=false]/status:hidden motion-reduce:animate-none" />
       <span
         aria-hidden
         className="absolute inline-flex size-full rounded-full border border-current/30"

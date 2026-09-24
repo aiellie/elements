@@ -46,23 +46,22 @@ export default function ComposerDemo() {
       }}
       className="max-w-md"
     >
-      <AddMenu>
-        <MenuItem>
-          <HugeiconsIcon aria-hidden icon={Attachment01Icon} />
-          Upload files
-        </MenuItem>
-        <MenuItem>
-          <HugeiconsIcon aria-hidden icon={Image01Icon} />
-          Add photos
-        </MenuItem>
-        <MenuItem>
-          <HugeiconsIcon aria-hidden icon={Camera01Icon} />
-          Take a photo
-        </MenuItem>
-      </AddMenu>
       <ComposerInput />
-      <ComposerSubmit />
       <ComposerFooter>
+        <AddMenu className="me-auto">
+          <MenuItem>
+            <HugeiconsIcon aria-hidden icon={Attachment01Icon} />
+            Upload files
+          </MenuItem>
+          <MenuItem>
+            <HugeiconsIcon aria-hidden icon={Image01Icon} />
+            Add photos
+          </MenuItem>
+          <MenuItem>
+            <HugeiconsIcon aria-hidden icon={Camera01Icon} />
+            Take a photo
+          </MenuItem>
+        </AddMenu>
         <ModelSelector
           models={MODELS}
           value={model}
@@ -70,6 +69,7 @@ export default function ComposerDemo() {
           side="top"
           render={<Button variant="ghost" size="sm" />}
         />
+        <ComposerSubmit />
       </ComposerFooter>
     </Composer>
   )

@@ -38,7 +38,7 @@
      by at least 3:1 — zinc-500 clears it, zinc-400 does not. */
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(.705 0.015 286.067);
+  --ring: oklch(.871 0.006 286.286);
 
   /* Status. live is a placeholder blue-500 until the brand hue is chosen. */
   --destructive: oklch(0.577 0.245 27.325);
@@ -271,12 +271,6 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
-    }
-    /* Opacity is kept so an overlay still fades rather than appearing
-       out of nowhere; press scale is dropped entirely. */
-    .motion-fade {
-      transition-property: opacity !important;
-      transition-duration: var(--duration-fast) !important;
     }
   }
 }

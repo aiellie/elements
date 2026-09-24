@@ -514,7 +514,7 @@
       "name": "composer",
       "type": "registry:component",
       "title": "Composer",
-      "description": "The box a message is written in: a one-line field that grows as you type, with room for an add menu before it, a send button after it that turns into stop while a reply streams, and a row for controls beneath.",
+      "description": "The box a message is written in: a field that grows as you type, and a row beneath it for controls, like an add menu or a model selector, that ends in a send button that turns into stop while a reply streams.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/button",

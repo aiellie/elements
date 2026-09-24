@@ -51,23 +51,22 @@ function ChatComposer({
         onStop={onStop}
         status={status}
       >
-        <AddMenu>
-          <MenuItem>
-            <HugeiconsIcon aria-hidden icon={Attachment01Icon} />
-            Upload files
-          </MenuItem>
-          <MenuItem>
-            <HugeiconsIcon aria-hidden icon={Image01Icon} />
-            Add photos
-          </MenuItem>
-          <MenuItem>
-            <HugeiconsIcon aria-hidden icon={Camera01Icon} />
-            Take a photo
-          </MenuItem>
-        </AddMenu>
         <ComposerInput ref={inputRef} />
-        <ComposerSubmit />
         <ComposerFooter>
+          <AddMenu className="me-auto">
+            <MenuItem>
+              <HugeiconsIcon aria-hidden icon={Attachment01Icon} />
+              Upload files
+            </MenuItem>
+            <MenuItem>
+              <HugeiconsIcon aria-hidden icon={Image01Icon} />
+              Add photos
+            </MenuItem>
+            <MenuItem>
+              <HugeiconsIcon aria-hidden icon={Camera01Icon} />
+              Take a photo
+            </MenuItem>
+          </AddMenu>
           <ModelSelector
             models={models}
             value={model}
@@ -75,6 +74,7 @@ function ChatComposer({
             side="top"
             render={<Button variant="ghost" size="sm" />}
           />
+          <ComposerSubmit />
         </ComposerFooter>
       </Composer>
     </div>

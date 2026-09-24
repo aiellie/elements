@@ -46,7 +46,7 @@ function MessageContent({
       <span
         aria-hidden
         data-slot="message-caret"
-        className="ms-0.5 hidden h-3.5 w-0.5 animate-caret-blink bg-current align-middle group-data-streaming/message:inline-block"
+        className="ms-0.5 hidden h-3.5 w-0.5 animate-caret-blink bg-current align-middle group-data-streaming/message:inline-block motion-reduce:animate-none"
       />
     </div>
   )

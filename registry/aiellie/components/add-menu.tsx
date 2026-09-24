@@ -37,9 +37,9 @@ function AddMenu({
           <TooltipIconButton
             tooltip={tooltip}
             side={side}
-            variant="outline"
             className={cn(
-              "size-8 shrink-0 rounded-full p-2 data-popup-open:bg-accent data-popup-open:[&_svg]:text-foreground",
+              "size-7 shrink-0 rounded-full p-1.5 data-popup-open:bg-accent data-popup-open:[&_svg]:text-foreground",
+              "[&>svg]:transition-transform [&>svg]:duration-150 [&>svg]:ease-out aria-expanded:[&>svg]:rotate-45 motion-reduce:[&>svg]:transition-none",
               className
             )}
           />

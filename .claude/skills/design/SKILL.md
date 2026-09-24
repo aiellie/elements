@@ -252,12 +252,19 @@ Motion is not in `tokens.json` — the token format has no motion family — so 
 | token | value | for |
 | --- | --- | --- |
 | `--duration-instant` | 80ms | press, hover on a control, row background |
-| `--duration-fast` | 150ms | popovers, dropdowns, tooltips, toasts entering |
-| `--duration-layout` | 280ms | resizable panels, sidebar collapse, accordions, dialogs, sheets |
+| `--duration-fast` | 150ms | a state the pointer answers: a chevron or plus turning, a toggle; popovers, dropdowns, tooltips, toasts entering |
+| `--duration-layout` | 280ms | something arriving or reshaping the page: resizable panels, sidebar collapse, accordions, dialogs, sheets, a set of suggestions coming in |
+| stagger | 70ms per item | the delay between items when several arrive together |
 | `--ease-out` | `cubic-bezier(.16, 1, .3, 1)` | everything entering or responding to input |
 | `--ease-in` | `cubic-bezier(.4, 0, 1, 1)` | everything leaving |
 
-Input is answered instantly; layout takes its time. Anything the pointer causes directly finishes in 80 ms — past about 100 ms a press stops feeling connected to the finger. Anything that reshapes the page runs at 280 ms, because a panel that snaps open makes the eye lose its place.
+Registry code can't use these tokens, so it writes the value: `duration-80`, `duration-150`, `duration-280`. A duration off this list, like `duration-200` or `duration-300`, is a bug.
+
+Input is answered instantly; layout takes its time. Anything the pointer causes directly finishes in 80 ms — past about 100 ms a press stops feeling connected to the finger. A state the pointer toggles, like a menu opening, takes 150 ms. Anything that arrives or reshapes the page runs at 280 ms, because a panel that snaps open makes the eye lose its place.
+
+**Every animation and transition has a `motion-reduce` escape.** `motion-reduce:transition-none` on a transition, `motion-reduce:animate-none` on an animation, on the same element. No exceptions: a spinner, a stagger, a colour fade and an opacity fade are all motion to someone who asked for less of it. The global rule in `globals.css` is only a backstop for the site. A consumer may not install the theme, so registry code never relies on it.
+
+**Transition the properties that change, never `all`.** `transition-[opacity,scale]` says what is moving and keeps everything else from being caught up in it. `transition-colors`, `transition-opacity` and `transition-transform` are fine, because each already names its properties. Tailwind v4's `scale-*`, `rotate-*` and `translate-*` set the `scale`, `rotate` and `translate` properties, so list those rather than `transform` inside a bracketed list.
 
 **Press feedback.** Every button, icon button and clickable card dents:
 
@@ -267,15 +274,27 @@ transition-transform duration-[80ms] ease-out active:scale-[0.97]
 
 Scale only — the fill does not darken on press, since hover already shifted it. Nothing else in the system scales; a hover that grows an element is not part of this vocabulary.
 
+**A trigger's icon may turn to show that what it opens is open**: a chevron by 180°, a plus by 45° into a close mark. It turns at 150 ms, keyed to the trigger's `aria-expanded`, and turns back when the menu closes.
+
 **Layout transitions** animate: resizable panels, sidebar collapse and expand, accordions, drawers. Animate `width`, `height` or `transform`, never `all`.
+
+**Entrances with a delay pair with `fill-mode-both`**, so an item isn't visible for a frame before its delay starts and doesn't snap back when it ends.
+
+**Stagger only a small set that arrives together**, like a row of suggestions or a fresh batch of chips: 70 ms per item, at 280 ms each. Never stagger a long list or anything that loads on scroll. A stagger needs a way to replay: key the container and bump the key, so the set remounts and a fresh one arrives rather than just appearing.
 
 **Streaming and loading** animate: skeleton shimmer, the caret on streaming text, a running agent's spinner. These are the one place a loop is allowed to run indefinitely, and they stop the moment the work does.
 
 Still open: overlay enter/exit and row-hover fades — the Motion card on this page demos both against no motion, with a switch.
 
-Everything else is static. No scroll-triggered reveals, no parallax, no staggered list entrances, no easing on colour changes other than the row-hover case above.
+Everything else is static. No scroll-triggered reveals, no parallax, no easing on colour changes other than the row-hover case above.
 
-**Reduced motion is honoured**, not approximated: under `prefers-reduced-motion: reduce`, every transition drops to 0 ms except opacity, which is kept so an overlay still fades rather than appearing out of nowhere. Press scale is disabled entirely.
+**Checklist for a new element**
+
+- `motion-reduce` on every transition and animation.
+- Every transition names its properties; none uses `all`.
+- Every duration is 80, 150 or 280 ms, and a stagger step is 70 ms.
+- Entrances with a delay carry `fill-mode-both`.
+- Anything that loops is streaming or loading, and stops when the work does.
 
 ### Themes
 
