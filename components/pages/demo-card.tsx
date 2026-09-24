@@ -1,16 +1,15 @@
-"use client";
+"use client"
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
-import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+import { cn } from "@/lib/utils"
 import {
   DemoActions,
   demoBackgroundClass,
   demoHref,
   type DemoBackground,
-} from "@/components/pages/demo-actions";
-
+} from "@/components/pages/demo-actions"
 
 export function DemoCard({
   href,
@@ -18,61 +17,59 @@ export function DemoCard({
   title,
   icon,
   description,
-  connection,
   item: itemProp,
   wide = false,
   children,
 }: {
-  href: string;
-  index: number;
-  title: string;
-  /** A glyph for what the card shows, set beside its title. */
-  icon?: IconSvgElement;
-  description: string;
-  connection?: string;
+  href: string
+  index: number
+  title: string
+  /** A glyph for what the card shows, set before its title. */
+  icon?: IconSvgElement
+  description: string
   /**
    * The registry item the card installs. Defaults to the last segment of
    * `href`, which is what every card's route is already named after.
    */
-  item?: string;
-  wide?: boolean;
-  children: React.ReactNode;
+  item?: string
+  wide?: boolean
+  children: React.ReactNode
 }) {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-  const [background, setBackground] = useState<DemoBackground>("default");
-  const item = itemProp ?? href.split("/").filter(Boolean).pop() ?? "";
+  const rootRef = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
+  const [background, setBackground] = useState<DemoBackground>("default")
+  const item = itemProp ?? href.split("/").filter(Boolean).pop() ?? ""
 
   useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
+    const root = rootRef.current
+    if (!root) return
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
-          setMounted(true);
-          observer.disconnect();
+          setMounted(true)
+          observer.disconnect()
         }
       },
-      { rootMargin: "240px 0px" },
-    );
-    observer.observe(root);
-    return () => observer.disconnect();
-  }, []);
+      { rootMargin: "240px 0px" }
+    )
+    observer.observe(root)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <div
       ref={rootRef}
       className={cn(
         "group/plate flex flex-col",
-        wide && "md:col-span-2 xl:col-span-3",
+        wide && "md:col-span-2 xl:col-span-3"
       )}
     >
       <div
         className={cn(
-          "border-foreground/10 flex items-center justify-center overflow-hidden rounded-xl border p-5 md:p-6",
-          "group-hover/plate:border-foreground/25 h-[340px] transition-colors",
+          "flex items-center justify-center overflow-hidden rounded-xl border border-foreground/10 p-5 md:p-6",
+          "h-[340px] transition-colors group-hover/plate:border-foreground/25",
           demoBackgroundClass(background),
-          wide && "md:h-[420px]",
+          wide && "md:h-[420px]"
         )}
       >
         {mounted ? (
@@ -92,29 +89,24 @@ export function DemoCard({
           aria-label={title}
           className="group/caption flex min-w-0 items-baseline gap-2.5"
         >
-          <span className="text-muted-foreground font-mono text-[11px] tabular-nums">
-            {String(index).padStart(2, "0")}
-          </span>
           {/* Centred rather than baselined: an icon has no baseline of its
               own, so the row would stand its bottom edge on the text's and
               float it above the title. The negative margin draws it in to the
-              title it belongs to, off the index. */}
+              title it belongs to. */}
           {icon ? (
             <HugeiconsIcon
               aria-hidden
               icon={icon}
               strokeWidth={1.75}
-              className="text-muted-foreground -me-1 size-3.5 shrink-0 self-center"
+              className="-me-1 size-3.5 shrink-0 self-center text-muted-foreground"
             />
           ) : null}
           <h3 className="text-[13.5px] font-medium underline-offset-4 group-hover/caption:underline">
             {title}
           </h3>
-          {connection ? (
-            <span className="text-muted-foreground font-mono text-[11px]">
-              {connection}
-            </span>
-          ) : null}
+          <span className="font-mono text-[11px] text-muted-foreground tabular-nums">
+            {String(index).padStart(2, "0")}
+          </span>
         </Link>
         <DemoActions
           item={item}
@@ -125,9 +117,9 @@ export function DemoCard({
           className="ms-auto self-center"
         />
       </div>
-      <p className="text-muted-foreground mt-1 text-[13px] leading-relaxed">
+      <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
         {description}
       </p>
     </div>
-  );
+  )
 }
