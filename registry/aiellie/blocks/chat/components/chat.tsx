@@ -19,6 +19,8 @@ type Conversation = {
   id: string
   title: string
   pinned?: boolean
+  /** Kept out of the sidebar, and gone once the page is left. */
+  temporary?: boolean
   messages: ChatMessage[]
 }
 
@@ -157,6 +159,8 @@ function Chat({
     index: 0,
   })
   const activeId = history.entries[history.index]
+  // Whether the new chat, once sent, is kept out of history.
+  const [temporaryDraft, setTemporaryDraft] = React.useState(false)
   const [activityOpen, setActivityOpen] = React.useState(false)
   const [draft, setDraft] = React.useState("")
   const [model, setModel] = React.useState(MODELS[0].id)
@@ -181,6 +185,7 @@ function Chat({
   const active = conversations.find(
     (conversation) => conversation.id === activeId
   )
+  const temporary = active ? Boolean(active.temporary) : temporaryDraft
   const status: ComposerStatus =
     streamingId !== null && streamingId === activeId ? "streaming" : "ready"
 
@@ -266,7 +271,7 @@ function Chat({
       const id = makeId("chat")
       const title = text.length > 40 ? `${text.slice(0, 40).trimEnd()}…` : text
       setConversations((all) => [
-        { id, title, messages: [question, reply] },
+        { id, title, temporary: temporaryDraft, messages: [question, reply] },
         ...all,
       ])
       setHistory((current) => ({
@@ -302,12 +307,21 @@ function Chat({
 
   const select = (id: string) => {
     if (id !== activeId) stop()
+    setTemporaryDraft(false)
     setHistory((current) => visit(current, id))
   }
 
   const startNewChat = () => {
     stop()
+    setTemporaryDraft(false)
     setHistory((current) => visit(current, null))
+  }
+
+  // A temporary chat that has started can't be made permanent, so turning it
+  // off leaves it for a new chat.
+  const setTemporary = (next: boolean) => {
+    if (active) startNewChat()
+    else setTemporaryDraft(next)
   }
 
   const toggleActivity = () => {
@@ -392,7 +406,9 @@ function Chat({
           className="h-full"
           left={
             <ChatSidebar
-              chats={conversations}
+              chats={conversations.filter(
+                (conversation) => !conversation.temporary
+              )}
               activeId={activeId}
               user={SAMPLE_USER}
               usage="72% left"
@@ -421,7 +437,13 @@ function Chat({
             ),
             main: (
               <ChatHeader
-                title={active?.title ?? "New chat"}
+                title={
+                  active?.title ?? (temporary ? "Temporary chat" : "New chat")
+                }
+                temporary={temporary}
+                onTemporaryChange={
+                  !active || active.temporary ? setTemporary : undefined
+                }
                 onNewChat={startNewChat}
                 onDelete={active ? () => remove(active.id) : undefined}
               />
@@ -433,6 +455,7 @@ function Chat({
             <ChatThread
               key={activeId ?? "new"}
               messages={active?.messages ?? []}
+              temporary={temporary}
               onSend={send}
               onRetry={retry}
               onEdit={edit}

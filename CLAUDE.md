@@ -85,7 +85,7 @@ To publish, log in with `npm login`, bump `version` in `packages/cli/package.jso
   - `wide` makes the card span the whole row; use it for blocks.
   - The demo mounts lazily, centred in a plate of fixed height: 340px, or 420px when `wide`.
 - `components/ui/` and `components/aiellie/` hold the UI used by the site chrome (`demo-actions`, `nav-button`). Most of these files are copies of registry items installed into this repo; `toast.tsx` exists only for the site. Nothing keeps the copies in sync with `registry/`, which is the source of truth, so they can fall behind it. To update a copy, copy the registry file over it, then point any `@/registry/aiellie/...` imports at the installed paths.
-- Site-only code: `components/shared/`, `components/pages/`, `lib/surfaces.tsx`, `lib/constants.ts` (nav pages, container width), `lib/categories.ts`, and `app/provider.tsx` (themes and toasts).
+- Site-only code: `components/shared/`, `components/pages/`, `lib/surfaces.tsx`, `lib/constants.ts` (nav pages, container width), `lib/categories.ts`, `lib/demos.tsx` (the demos `/demo/<name>` can open), and `app/provider.tsx` (themes and toasts).
 
 ## Building a feature
 
@@ -101,7 +101,7 @@ Once the plan is approved, build it in layers. For example, "build the chat page
 1. **Primitives.** Port anything missing from shadcn into `ui/` (see the next section), or build our own on `@base-ui/react` in `components/`.
 2. **Components.** A piece worth reusing outside this page becomes its own item in `components/`, with a general name (`composer`, `message`, `thread`). Each one installs on its own and knows nothing about the page.
 3. **Block.** The page's own parts are `chat-*.tsx` files in `blocks/chat/components/`, each built from the reusable pieces. For example, `chat-composer.tsx` is the composer plus the model selector, hooked up to send. Parts that only make sense on this page (the sidebar, the header, the empty state) exist only here. `chat.tsx` lays them out and holds the state, and `page.tsx` renders it. Block files install only with the block and get no cards; the home page previews the whole block.
-4. **Demos.** Every new `ui/` or `components/` item gets an `examples/<name>-demo.tsx` and a `DemoCard` on `/ui` or `/components`, inside its category's `CategorySection`.
+4. **Demos.** Every new `ui/` or `components/` item gets an `examples/<name>-demo.tsx`, a `DemoCard` on `/ui` or `/components` inside its category's `CategorySection`, and an entry in `DEMOS` in `lib/demos.tsx`. That entry is what gives the card its full-page view at `/demo/<name>`; without it the page is a 404.
 5. **Registry.** Add every new item to `registry.json` with its category, then run `pnpm registry:build`, `pnpm typecheck` and `pnpm lint`.
 
 ## Design feedback

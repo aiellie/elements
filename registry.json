@@ -399,6 +399,25 @@
       "categories": ["overlays"]
     },
     {
+      "name": "temporary-chat-toggle",
+      "type": "registry:component",
+      "title": "Temporary Chat Toggle",
+      "description": "An icon button that turns temporary chat on and off. It holds no state, so your app decides what a temporary chat leaves out.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/temporary-chat-toggle.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/temporary-chat-toggle.tsx"
+        }
+      ],
+      "categories": ["actions"]
+    },
+    {
       "name": "toolbar",
       "type": "registry:component",
       "title": "Toolbar",
@@ -617,6 +636,7 @@
         "@aiellie/tooltip-icon-button",
         "@aiellie/add-menu",
         "@aiellie/dictate-button",
+        "@aiellie/temporary-chat-toggle",
         "@aiellie/waveform",
         "@aiellie/model-selector",
         "@aiellie/models",

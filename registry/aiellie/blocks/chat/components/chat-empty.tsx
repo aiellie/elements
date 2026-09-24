@@ -1,10 +1,14 @@
 "use client"
 
+import { BubbleChatTemporaryIcon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+
 import { brandIcons } from "@/registry/aiellie/icons/brand-icons"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
   Empty,
   EmptyContent,
+  EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
@@ -18,16 +22,36 @@ const SUGGESTIONS = [
   "Brainstorm names",
 ]
 
-function ChatEmpty({ onSelect }: { onSelect: (prompt: string) => void }) {
+function ChatEmpty({
+  temporary = false,
+  onSelect,
+}: {
+  temporary?: boolean
+  onSelect: (prompt: string) => void
+}) {
   return (
     <Empty className="gap-5">
       <EmptyHeader>
         <EmptyMedia className="size-10 rounded-lg" variant="icon">
-          {brandIcons.elephant("size-6 text-foreground")}
+          {temporary ? (
+            <HugeiconsIcon
+              aria-hidden
+              icon={BubbleChatTemporaryIcon}
+              className="size-6 text-foreground"
+            />
+          ) : (
+            brandIcons.elephant("size-6 text-foreground")
+          )}
         </EmptyMedia>
         <EmptyTitle className="text-2xl font-light tracking-tight">
-          Ready when you are.
+          {temporary ? "Temporary chat" : "Ready when you are."}
         </EmptyTitle>
+        {temporary ? (
+          <EmptyDescription className="max-w-xs">
+            It won&apos;t appear in your history, and it won&apos;t use or
+            update your memory.
+          </EmptyDescription>
+        ) : null}
       </EmptyHeader>
       <EmptyContent className="max-w-md flex-row flex-wrap justify-center">
         {SUGGESTIONS.map((prompt) => (

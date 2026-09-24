@@ -1,8 +1,10 @@
 import type { ComponentType } from "react"
 
+import AddMenuDemo from "@/registry/aiellie/examples/add-menu-demo"
 import BadgeDemo from "@/registry/aiellie/examples/badge-demo"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
+import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
 import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
@@ -19,11 +21,13 @@ import SidebarDemo from "@/registry/aiellie/examples/sidebar-demo"
 import SkeletonDemo from "@/registry/aiellie/examples/skeleton-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import TabsDemo from "@/registry/aiellie/examples/tabs-demo"
+import TemporaryChatToggleDemo from "@/registry/aiellie/examples/temporary-chat-toggle-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
 import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
 import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
+import WaveformDemo from "@/registry/aiellie/examples/waveform-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
@@ -65,7 +69,13 @@ const DEMOS: Record<string, Demo> = {
     gallery: "/components",
     Demo: TooltipIconButtonDemo,
   },
+  "add-menu": { title: "Add Menu", gallery: "/components", Demo: AddMenuDemo },
   toolbar: { title: "Toolbar", gallery: "/components", Demo: ToolbarDemo },
+  "temporary-chat-toggle": {
+    title: "Temporary Chat Toggle",
+    gallery: "/components",
+    Demo: TemporaryChatToggleDemo,
+  },
   meter: { title: "Meter", gallery: "/components", Demo: MeterDemo },
   "help-menu": {
     title: "Help Menu",
@@ -82,9 +92,15 @@ const DEMOS: Record<string, Demo> = {
     gallery: "/components",
     Demo: ModelSelectorDemo,
   },
+  "dictate-button": {
+    title: "Dictate Button",
+    gallery: "/components",
+    Demo: DictateButtonDemo,
+  },
   panels: { title: "Panels", gallery: "/components", Demo: PanelsDemo },
   menu: { title: "Menu", gallery: "/components", Demo: MenuDemo },
   status: { title: "Status", gallery: "/components", Demo: StatusDemo },
+  waveform: { title: "Waveform", gallery: "/components", Demo: WaveformDemo },
   composer: { title: "Composer", gallery: "/components", Demo: ComposerDemo },
   message: { title: "Message", gallery: "/components", Demo: MessageDemo },
   thread: { title: "Thread", gallery: "/components", Demo: ThreadDemo },

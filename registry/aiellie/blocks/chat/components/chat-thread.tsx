@@ -13,11 +13,13 @@ import {
 
 function ChatThread({
   messages,
+  temporary,
   onSend,
   onRetry,
   onEdit,
 }: {
   messages: ChatMessage[]
+  temporary?: boolean
   onSend: (prompt: string) => void
   onRetry: (id: string) => void
   onEdit: (content: string) => void
@@ -26,7 +28,7 @@ function ChatThread({
     <Thread>
       <ThreadContent>
         {messages.length === 0 ? (
-          <ChatEmpty onSelect={onSend} />
+          <ChatEmpty temporary={temporary} onSelect={onSend} />
         ) : (
           <ChatMessages messages={messages} onRetry={onRetry} onEdit={onEdit} />
         )}
