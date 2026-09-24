@@ -1,7 +1,7 @@
 "use client"
 
 import {
-  Delete02Icon,
+  Delete01Icon,
   MoreHorizontalIcon,
   PencilEdit02Icon,
 } from "@hugeicons/core-free-icons"
@@ -56,7 +56,7 @@ function ChatHeader({
               <>
                 <MenuSeparator />
                 <MenuItem variant="destructive" onClick={onDelete}>
-                  <HugeiconsIcon icon={Delete02Icon} />
+                  <HugeiconsIcon icon={Delete01Icon} />
                   Delete chat
                 </MenuItem>
               </>

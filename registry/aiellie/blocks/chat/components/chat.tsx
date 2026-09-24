@@ -1,150 +1,30 @@
 "use client"
 
 import * as React from "react"
-import {
-  DropboxIcon,
-  FigmaIcon,
-  Github01Icon,
-  GoogleDriveIcon,
-  Notion01Icon,
-  SlackIcon,
-} from "@hugeicons/core-free-icons"
 
 import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import { ChatComposer } from "@/registry/aiellie/blocks/chat/components/chat-composer"
+import {
+  PREVIEW_REPLY,
+  SAMPLE_BRANCHES,
+  SAMPLE_CONVERSATIONS,
+  SAMPLE_PLUGINS,
+  SAMPLE_PROJECTS,
+  SAMPLE_USAGE,
+  SAMPLE_USER,
+  type ConversationStatus,
+} from "@/registry/aiellie/blocks/chat/components/chat-data"
 import { ChatHeader } from "@/registry/aiellie/blocks/chat/components/chat-header"
 import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat-messages"
 import { ChatNavHistory } from "@/registry/aiellie/blocks/chat/components/chat-nav-history"
+import { ChatSearch } from "@/registry/aiellie/blocks/chat/components/chat-search"
 import { ChatSidebar } from "@/registry/aiellie/blocks/chat/components/chat-sidebar"
 import { ChatThread } from "@/registry/aiellie/blocks/chat/components/chat-thread"
 import type { ComposerStatus } from "@/registry/aiellie/components/composer"
 import { Panels } from "@/registry/aiellie/components/panels"
-import type { PluginOption } from "@/registry/aiellie/components/plugin-selector"
-import type { ProjectOption } from "@/registry/aiellie/components/project-selector"
-import type { User } from "@/registry/aiellie/components/user-menu"
 import { MODELS } from "@/registry/aiellie/lib/models"
 import { SidebarProvider } from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
-
-type Conversation = {
-  id: string
-  title: string
-  pinned?: boolean
-  /** Kept out of the sidebar, and gone once the page is left. */
-  temporary?: boolean
-  messages: ChatMessage[]
-}
-
-// Sample chats. Load your own history in their place.
-const SAMPLE_CONVERSATIONS: Conversation[] = [
-  {
-    id: "tokens",
-    title: "Custom colors in Tailwind v4",
-    pinned: true,
-    messages: [
-      {
-        id: "tokens-1",
-        role: "user",
-        content: "How do I add a custom color in Tailwind v4?",
-      },
-      {
-        id: "tokens-2",
-        role: "assistant",
-        content:
-          "In v4 the theme lives in your CSS rather than in a config file. Add the color under @theme:\n\n@theme {\n  --color-brand: oklch(0.62 0.21 260);\n}\n\nThat gives you bg-brand, text-brand, border-brand and the rest, and opacity modifiers like bg-brand/10 work with nothing else to set up.",
-      },
-    ],
-  },
-  {
-    id: "debounce",
-    title: "Debouncing a search field",
-    messages: [
-      {
-        id: "debounce-1",
-        role: "user",
-        content: "What's a simple way to debounce a search field in React?",
-      },
-      {
-        id: "debounce-2",
-        role: "assistant",
-        content:
-          "Keep what's typed in state, and copy it to a second value only once typing pauses. An effect that sets a timeout on every change, and clears the one before it, does that in a few lines.\n\nThen search on the second value. The field stays responsive, and the search only runs when someone stops typing.",
-      },
-      {
-        id: "debounce-3",
-        role: "user",
-        content: "How long should the pause be?",
-      },
-      {
-        id: "debounce-4",
-        role: "assistant",
-        content:
-          "Somewhere around 200 to 300 milliseconds. Any shorter and it fires mid-word; much longer and the results feel like they're lagging behind.",
-      },
-    ],
-  },
-  {
-    id: "names",
-    title: "Names for a design system",
-    messages: [
-      {
-        id: "names-1",
-        role: "user",
-        content: "Give me three names for a quiet, monochrome design system.",
-      },
-      {
-        id: "names-2",
-        role: "assistant",
-        content:
-          "Graphite, for the pencil gray it lives in.\n\nHairline, after the borders that do most of its work.\n\nStill, because nothing in it moves unless you ask it to.",
-      },
-    ],
-  },
-  {
-    id: "notes",
-    title: "Summarize the release notes",
-    messages: [
-      {
-        id: "notes-1",
-        role: "user",
-        content: "Summarize these release notes in three bullet points.",
-      },
-      { id: "notes-2", role: "assistant", content: "", status: "failed" },
-    ],
-  },
-]
-
-// Sample signed-in person. Pass your own.
-const SAMPLE_USER: User = { name: "AI Ellie", plan: "Pro" }
-
-// Sample projects and plugins. Pass your own; the preview only shows which
-// are connected, and nothing reads a project or calls a plugin.
-const SAMPLE_PROJECTS: ProjectOption[] = [
-  { id: "website", name: "Website redesign" },
-  { id: "planning", name: "Q3 planning" },
-  { id: "onboarding", name: "Onboarding docs" },
-]
-
-const SAMPLE_BRANCHES = [
-  "main",
-  "feat/composer-tray",
-  "fix/attachment-preview",
-  "chore/update-deps",
-]
-
-const SAMPLE_PLUGINS: PluginOption[] = [
-  { id: "github", name: "GitHub", icon: Github01Icon },
-  { id: "drive", name: "Google Drive", icon: GoogleDriveIcon },
-  { id: "slack", name: "Slack", icon: SlackIcon },
-  { id: "notion", name: "Notion", icon: Notion01Icon },
-  { id: "figma", name: "Figma", icon: FigmaIcon },
-  { id: "dropbox", name: "Dropbox", icon: DropboxIcon },
-]
-
-// There is no model behind the preview. Replace `stream` below with your
-// model's response and the rest of the page works as it is.
-const PREVIEW_REPLY =
-  "This is a preview, so there's no model behind it. In your app, this is where the reply streams in, word by word, while the send button turns into stop.\n\nSwap the fake stream in the chat component for your model's response, and the rest of the page works as it is."
 
 const FIRST_WORD_DELAY = 500
 const WORD_DELAY = 35
@@ -175,13 +55,11 @@ function forget(history: History, id: string): History {
 // page only in a desktop shell.
 function Chat({
   onQuickChat,
-  onSearch,
   onActivity,
   onProjects,
   className,
 }: {
   onQuickChat?: () => void
-  onSearch?: () => void
   /** Called with the new state each time the bell is pressed. */
   onActivity?: (open: boolean) => void
   onProjects?: () => void
@@ -197,6 +75,7 @@ function Chat({
   // Whether the new chat, once sent, is kept out of history.
   const [temporaryDraft, setTemporaryDraft] = React.useState(false)
   const [activityOpen, setActivityOpen] = React.useState(false)
+  const [searchOpen, setSearchOpen] = React.useState(false)
   const [draft, setDraft] = React.useState("")
   const [model, setModel] = React.useState(MODELS[0].id)
   const [project, setProject] = React.useState<string | null>(null)
@@ -243,6 +122,15 @@ function Chat({
       )
     )
 
+  const setStatus = (conversationId: string, status?: ConversationStatus) =>
+    setConversations((all) =>
+      all.map((conversation) =>
+        conversation.id === conversationId
+          ? { ...conversation, status }
+          : conversation
+      )
+    )
+
   const stop = () => {
     if (timerRef.current) clearTimeout(timerRef.current)
     timerRef.current = null
@@ -250,6 +138,9 @@ function Chat({
     streamRef.current = null
     setStreamingId(null)
     if (!current) return
+
+    // A run that was stopped has neither finished nor failed.
+    setStatus(current.conversationId, undefined)
 
     // A reply stopped before its first word has nothing worth keeping.
     updateMessages(current.conversationId, (messages) =>
@@ -265,6 +156,7 @@ function Chat({
     let shown = 0
     streamRef.current = { conversationId, messageId }
     setStreamingId(conversationId)
+    setStatus(conversationId, "running")
 
     const tick = () => {
       shown += 1
@@ -284,6 +176,7 @@ function Chat({
         timerRef.current = null
         streamRef.current = null
         setStreamingId(null)
+        setStatus(conversationId, "completed")
       } else {
         timerRef.current = setTimeout(tick, WORD_DELAY)
       }
@@ -325,7 +218,17 @@ function Chat({
       }))
       stream(id, reply.id)
     } else {
-      updateMessages(activeId, (messages) => [...messages, question, reply])
+      // A sample chat can arrive mid-reply with nothing streaming it, so its
+      // reply is left where it got to.
+      updateMessages(activeId, (messages) => [
+        ...messages.map((message) =>
+          message.status === "streaming"
+            ? { ...message, status: "stopped" as const }
+            : message
+        ),
+        question,
+        reply,
+      ])
       stream(activeId, reply.id)
     }
   }
@@ -373,6 +276,8 @@ function Chat({
     onActivity?.(open)
   }
 
+  const saved = conversations.filter((conversation) => !conversation.temporary)
+
   const canGoBack = history.index > 0
   const canGoForward = history.index < history.entries.length - 1
 
@@ -393,7 +298,7 @@ function Chat({
           n: startNewChat,
           "[": () => go(-1),
           "]": () => go(1),
-          k: onSearch,
+          k: () => setSearchOpen((open) => !open),
         }[key]
     if (!action) return
     event.preventDefault()
@@ -449,16 +354,14 @@ function Chat({
           className="h-full"
           left={
             <ChatSidebar
-              chats={conversations.filter(
-                (conversation) => !conversation.temporary
-              )}
+              chats={saved}
               activeId={activeId}
               user={SAMPLE_USER}
-              usage="72% left"
+              usage={SAMPLE_USAGE}
               onNewChat={startNewChat}
               onQuickChat={onQuickChat}
               onProjects={onProjects}
-              onSearch={onSearch}
+              onSearch={() => setSearchOpen(true)}
               activityOpen={activityOpen}
               onActivity={toggleActivity}
               onSelect={select}
@@ -530,6 +433,12 @@ function Chat({
               inputRef={inputRef}
             />
           </div>
+          <ChatSearch
+            open={searchOpen}
+            onOpenChange={setSearchOpen}
+            chats={saved}
+            onSelect={select}
+          />
         </Panels>
       </SidebarProvider>
     </div>

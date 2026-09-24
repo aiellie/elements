@@ -141,6 +141,30 @@
       "categories": ["overlays"]
     },
     {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "A searchable list you move through with the keyboard, on its own or as a palette in a dialog.",
+      "dependencies": [
+        "cmdk",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/dialog",
+        "@aiellie/input-group",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/command.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/command.tsx"
+        }
+      ],
+      "categories": ["overlays"]
+    },
+    {
       "name": "sheet",
       "type": "registry:ui",
       "title": "Sheet",
@@ -218,6 +242,27 @@
           "path": "registry/aiellie/ui/input.tsx",
           "type": "registry:ui",
           "target": "components/ui/input.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "An input with icons, text or buttons set inside its edge, sharing one border.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/input",
+        "@aiellie/textarea",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/input-group.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/input-group.tsx"
         }
       ],
       "categories": ["inputs"]
@@ -754,6 +799,7 @@
         "@aiellie/temporary-chat-toggle",
         "@aiellie/attachment",
         "@aiellie/dialog",
+        "@aiellie/command",
         "@aiellie/project-selector",
         "@aiellie/plugin-selector",
         "@aiellie/work-in-menu",
@@ -791,6 +837,16 @@
           "path": "registry/aiellie/blocks/chat/components/chat-nav-history.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-nav-history.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-search.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-search.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-data.ts",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-data.ts"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-nav-chats.tsx",

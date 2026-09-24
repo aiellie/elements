@@ -6,12 +6,14 @@ import BranchesMenuDemo from "@/registry/aiellie/examples/branches-menu-demo"
 import AttachmentDemo from "@/registry/aiellie/examples/attachment-demo"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
+import CommandDemo from "@/registry/aiellie/examples/command-demo"
 import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
 import DialogDemo from "@/registry/aiellie/examples/dialog-demo"
 import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
+import InputGroupDemo from "@/registry/aiellie/examples/input-group-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
@@ -60,6 +62,11 @@ const DEMOS: Record<string, Demo> = {
   button: { title: "Button", gallery: "/ui", Demo: ButtonDemo },
   textarea: { title: "Textarea", gallery: "/ui", Demo: TextareaDemo },
   input: { title: "Input", gallery: "/ui", Demo: InputDemo },
+  "input-group": {
+    title: "Input Group",
+    gallery: "/ui",
+    Demo: InputGroupDemo,
+  },
   resizable: { title: "Resizable", gallery: "/ui", Demo: ResizableDemo },
   separator: { title: "Separator", gallery: "/ui", Demo: SeparatorDemo },
   sidebar: { title: "Sidebar", gallery: "/ui", Demo: SidebarDemo },
@@ -67,6 +74,7 @@ const DEMOS: Record<string, Demo> = {
   tooltip: { title: "Tooltip", gallery: "/ui", Demo: TooltipDemo },
   sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
   dialog: { title: "Dialog", gallery: "/ui", Demo: DialogDemo },
+  command: { title: "Command", gallery: "/ui", Demo: CommandDemo },
   skeleton: { title: "Skeleton", gallery: "/ui", Demo: SkeletonDemo },
   avatar: { title: "Avatar", gallery: "/ui", Demo: AvatarDemo },
   badge: { title: "Badge", gallery: "/ui", Demo: BadgeDemo },

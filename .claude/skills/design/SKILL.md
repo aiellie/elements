@@ -222,6 +222,10 @@ Keyboard focus is the only thing that triggers it: `focus-visible`, never `focus
 
 The active tab carries an `input` hairline in both themes, since the `shadow-sm` shadcn lifts it with resolves to none here. It gives way to `ring` under keyboard focus (`data-active:not-focus-visible:border-input`), so a focused active tab still shows focus.
 
+### Search inside a list
+
+**A search field at the top of a menu or command list is a row of the panel, not a field set inside it.** It runs edge to edge, has no fill, no border of its own and no rounding, and a `border-border/60` hairline under it divides it from the rows. Its search glyph sits in `muted-foreground/70` and lines up with the row icons below it. A clear button sits at its end, disabled at 30% rather than hidden while the field is empty, so the text's end doesn't shift as you type; clearing puts focus back in the field. A boxed input there would read as a second surface inside the panel, and it would steal a step of padding from every row. `MenuSearch` in `menu.tsx` and `CommandInput` in `ui/command.tsx` are the reference. A standalone search field elsewhere on the page is an ordinary input and keeps its border.
+
 ### Layers
 
 Eight layers, ten apart so one can be slipped in later without renumbering:

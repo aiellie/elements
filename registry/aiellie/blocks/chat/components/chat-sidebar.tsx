@@ -116,8 +116,8 @@ function ChatSidebar({
           onQuickChat={onQuickChat}
           onProjects={onProjects}
         />
-        <ChatNavPinned {...chats} />
-        <ChatNavRecents {...chats} />
+        <ChatNavPinned {...chats} activity={activityOpen} />
+        <ChatNavRecents {...chats} activity={activityOpen} />
       </SidebarContent>
       <SidebarFooter className="flex-row items-center gap-1 border-t border-border/50">
         <div className="min-w-0 flex-1">

@@ -2,13 +2,16 @@
 
 import * as React from "react"
 import {
+  Alert02Icon,
+  CheckmarkCircle02Icon,
   Delete01Icon,
+  Loading03Icon,
   MoreHorizontalIcon,
   PencilEdit01Icon,
   PinIcon,
   PinOffIcon,
 } from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
 import {
   Menu,
@@ -24,19 +27,72 @@ import {
   SidebarInput,
   SidebarMenu,
   SidebarMenuAction,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/registry/aiellie/ui/sidebar"
+import { cn } from "@/lib/utils"
 
-type ChatNavChat = { id: string; title: string; pinned?: boolean }
+type ChatNavStatus = "running" | "completed" | "failed"
+
+type ChatNavChat = {
+  id: string
+  title: string
+  pinned?: boolean
+  status?: ChatNavStatus
+}
 
 type ChatNavProps = {
   chats: ChatNavChat[]
   activeId: string | null
+  /** Shows where each chat's latest run stands. */
+  activity?: boolean
   onSelect: (id: string) => void
   onRename: (id: string, title: string) => void
   onTogglePin: (id: string) => void
   onDelete: (id: string) => void
+}
+
+// Fall back to Tailwind's own shades where the theme has no `--live` or
+// `--success`.
+const STATUS: Record<
+  ChatNavStatus,
+  { label: string; icon: IconSvgElement; className: string }
+> = {
+  running: {
+    label: "Running",
+    icon: Loading03Icon,
+    className:
+      "text-[color:var(--live,var(--color-blue-500))] [&_svg]:animate-spin motion-reduce:[&_svg]:animate-none",
+  },
+  completed: {
+    label: "Completed",
+    icon: CheckmarkCircle02Icon,
+    className: "text-[color:var(--success,var(--color-emerald-600))]",
+  },
+  failed: {
+    label: "Failed",
+    icon: Alert02Icon,
+    className: "text-destructive",
+  },
+}
+
+// Sits where the options button appears, so it gives way whenever that does.
+// On a touch screen the button never hides, so the mark moves in beside it.
+function ChatNavStatusMark({ status }: { status: ChatNavStatus }) {
+  const { label, icon, className } = STATUS[status]
+
+  return (
+    <SidebarMenuBadge
+      className={cn(
+        "min-w-5 px-0 transition-opacity duration-80 group-focus-within/menu-item:opacity-0 group-hover/menu-item:opacity-0 group-has-aria-expanded/menu-item:opacity-0 motion-reduce:transition-none pointer-coarse:end-7 pointer-coarse:opacity-100! [&_svg]:size-4",
+        className
+      )}
+    >
+      <HugeiconsIcon icon={icon} aria-hidden />
+      <span className="sr-only">{label}</span>
+    </SidebarMenuBadge>
+  )
 }
 
 // An empty name keeps the old one rather than naming the chat nothing.
@@ -91,6 +147,7 @@ function RenameField({
 function ChatNavItem({
   chat,
   activeId,
+  activity,
   onSelect,
   onRename,
   onTogglePin,
@@ -99,6 +156,7 @@ function ChatNavItem({
   const [renaming, setRenaming] = React.useState(false)
   const { closeSheet } = usePanels()
   const active = chat.id === activeId
+  const status = activity ? chat.status : undefined
 
   return (
     <SidebarMenuItem>
@@ -119,9 +177,11 @@ function ChatNavItem({
               onSelect(chat.id)
               closeSheet()
             }}
+            className={cn(status && "pointer-coarse:pe-14")}
           >
             <span>{chat.title}</span>
           </SidebarMenuButton>
+          {status ? <ChatNavStatusMark status={status} /> : null}
           <Menu>
             <MenuTrigger
               render={
@@ -165,7 +225,9 @@ function ChatNavGroup({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-muted-foreground/50">{label}</SidebarGroupLabel>
+      <SidebarGroupLabel className="text-muted-foreground/50">
+        {label}
+      </SidebarGroupLabel>
       <SidebarMenu className="gap-0.5">
         {chats.map((chat) => (
           <ChatNavItem key={chat.id} chat={chat} {...props} />
@@ -196,4 +258,4 @@ function ChatNavRecents({ chats, ...props }: ChatNavProps) {
 }
 
 export { ChatNavPinned, ChatNavRecents }
-export type { ChatNavProps }
+export type { ChatNavProps, ChatNavStatus }
