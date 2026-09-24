@@ -5,3 +5,5 @@
 5. facetime platform
 6. fix theme toggle to change the theme smoothly
 7. vercel analytics
+8. fix agents.md
+9. make it signin able

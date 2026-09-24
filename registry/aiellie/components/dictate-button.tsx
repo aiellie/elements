@@ -164,12 +164,11 @@ function DictateButton({
           <HugeiconsIcon
             aria-hidden
             icon={StopIcon}
-            strokeWidth={2}
             className="size-3.5"
           />
         </>
       ) : (
-        <HugeiconsIcon aria-hidden icon={Mic01Icon} strokeWidth={2} />
+        <HugeiconsIcon aria-hidden icon={Mic01Icon} />
       )}
     </TooltipIconButton>
   )
