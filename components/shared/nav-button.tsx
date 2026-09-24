@@ -3,6 +3,7 @@
 import { useSyncExternalStore, type ReactElement } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { Menu01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
 import {
@@ -73,7 +74,7 @@ interface NavPage {
  * `FloatingToolbarTab` and the theme pill, so the three read as one system.
  */
 const navButton = cn(
-  "flex items-center justify-center rounded-full text-foreground/45 outline-none transition-[background-color,color,scale] duration-150 hover:bg-foreground/[0.06] hover:text-foreground/90 active:scale-[0.96] focus-visible:ring-1 focus-visible:ring-foreground/20 motion-reduce:transition-none dark:hover:bg-foreground/[0.09]",
+  "flex items-center justify-center rounded-full text-foreground/45 transition-[background-color,color,scale] duration-150 outline-none hover:bg-foreground/[0.06] hover:text-foreground/90 focus-visible:ring-1 focus-visible:ring-foreground/20 active:scale-[0.96] motion-reduce:transition-none dark:hover:bg-foreground/[0.09]",
   "inline-flex h-6.5 items-center gap-1.5 rounded-md px-2 text-xs font-medium whitespace-nowrap",
   "data-[active=true]:bg-muted data-[active=true]:text-foreground",
   "data-[active=true]:hover:bg-muted data-[active=true]:hover:text-foreground",
@@ -92,8 +93,7 @@ function isCurrent(pathname: string, href: string) {
 }
 
 /**
- * One destination in the site nav: a glyph that carries a label from `sm` up,
- * lit in the accent while its section is the one on screen.
+ * One destination in the site nav, lit while its section is the one on screen.
  *
  * The button reads the pathname itself rather than being told whether it is
  * selected, so a nav is just its list of pages. Pass `active` to override that
@@ -112,22 +112,80 @@ function NavButton({
   const selected = active ?? isCurrent(pathname, href)
 
   return (
-    <NavTooltip label={label}>
-      <Link
-        href={href}
-        data-slot="nav-button"
-        data-active={selected}
-        aria-current={selected ? "page" : undefined}
-        className={cn(navButton, className)}
-        {...props}
-      >
-        <HugeiconsIcon icon={icon} strokeWidth={1.75} className="size-3.5" />
-        {/* Below `sm` the row collapses to glyphs, but the label stays in the
-            DOM so the link is still announced and still has an accessible name.
-            The tooltip is only the visual name for that collapsed state. */}
-        <span className="sr-only sm:not-sr-only">{label}</span>
-      </Link>
-    </NavTooltip>
+    <Link
+      href={href}
+      data-slot="nav-button"
+      data-active={selected}
+      aria-current={selected ? "page" : undefined}
+      className={cn(navButton, className)}
+      {...props}
+    >
+      <HugeiconsIcon icon={icon} strokeWidth={1.75} className="size-3.5" />
+      <span>{label}</span>
+    </Link>
+  )
+}
+
+/**
+ * The section links beside the logo. Below `sm` a row of them doesn't fit, so
+ * they fold into one menu instead of collapsing to glyphs with tooltips.
+ */
+function SiteNav({ pages }: { pages: NavPage[] }) {
+  const pathname = usePathname()
+  const selected = pages.some((page) => isCurrent(pathname, page.href))
+
+  return (
+    <>
+      <nav aria-label="Site" className="hidden items-center gap-0.5 sm:flex">
+        {pages.map((page) => (
+          <NavButton key={page.href} {...page} />
+        ))}
+      </nav>
+      <div className="sm:hidden">
+        <Menu>
+          <MenuTrigger
+            data-active={selected}
+            className={cn(
+              navButton,
+              "not-data-[active=true]:data-popup-open:bg-foreground/[0.06]",
+              "not-data-[active=true]:data-popup-open:text-foreground/90",
+              "dark:not-data-[active=true]:data-popup-open:bg-foreground/[0.09]"
+            )}
+          >
+            <HugeiconsIcon
+              aria-hidden
+              icon={Menu01Icon}
+              strokeWidth={1.75}
+              className="size-3.5"
+            />
+            <span className="sr-only">Site</span>
+          </MenuTrigger>
+          <MenuContent aria-label="Site">
+            {pages.map((item) => {
+              const current = isCurrent(pathname, item.href)
+
+              return (
+                <MenuLinkItem
+                  key={item.href}
+                  closeOnClick
+                  render={<Link href={item.href} />}
+                  data-active={current}
+                  aria-current={current ? "page" : undefined}
+                  className="data-[active=true]:text-foreground data-[active=true]:data-highlighted:text-foreground"
+                >
+                  <HugeiconsIcon
+                    icon={item.icon}
+                    strokeWidth={2}
+                    className="size-3.5"
+                  />
+                  {item.label}
+                </MenuLinkItem>
+              )
+            })}
+          </MenuContent>
+        </Menu>
+      </div>
+    </>
   )
 }
 
@@ -208,5 +266,5 @@ function NavMenu({
   )
 }
 
-export { NavButton, NavMenu, navButton, isCurrent }
+export { NavButton, NavMenu, SiteNav, navButton, isCurrent }
 export type { NavPage }

@@ -37,7 +37,7 @@ export function LoadStatus() {
   }, [])
 
   const ok = status !== null && status >= 200 && status < 400
-  const variant = status === null ? "live" : ok ? "success" : "destructive"
+  const variant = status === null ? "live" : ok ? "live" : "destructive"
 
   return (
     <Status

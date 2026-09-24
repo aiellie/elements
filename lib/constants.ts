@@ -20,7 +20,7 @@ export const CONTAINER = "mx-auto w-full max-w-7xl px-6 sm:px-10"
  */
 export const PAGES = {
   "/": {
-    eyebrow: "Blocks",
+    eyebrow: "Template",
     title: "Whole pages, ready to install",
     icon: DashboardSquare01Icon,
     description:
