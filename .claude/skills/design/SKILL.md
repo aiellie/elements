@@ -76,7 +76,7 @@ Contrast, in the light theme: `destructive` clears 4.5:1, but `live` (3.8:1) and
 
 ### Glass surfaces
 
-Anything that floats over the page — popovers, dropdowns, menus, dialogs, sheets, the command palette, a sticky header — is translucent rather than solid. The treatment is one fill plus one blur, and it never varies:
+Anything that floats over the page without dimming it — popovers, dropdowns, menus, hover cards, a sticky header — is translucent rather than solid. The treatment is one fill plus one blur, and it never varies:
 
 ```
 bg-popover supports-[backdrop-filter]:bg-background/60 backdrop-blur-xs
@@ -90,9 +90,11 @@ Three rules:
 - **No `muted-foreground` on glass over anything but a flat surface.** Secondary ink drops to roughly 2:1 against a busy ground. Inside a floating panel, captions and shortcut hints take `foreground` at `caption` size instead, and lean on size to stay quiet.
 - **One layer of glass at a time.** A dropdown opened inside a dialog sits on `popover`, opaque. Stacked translucency turns to mud and the blur compounds.
 
+**A panel over a scrim is solid, never glass.** Dialogs, sheets, drawers and the command palette sit on `bg-popover`, with no blur. A 60% fill composited over a dimmed page turns a muddy grey, and `muted-foreground` on it drops below 4.5:1. The scrim has already set the page apart, so the panel doesn't need translucency to read as on top. In dark mode `popover` is a step lighter than `background`, which keeps the panel's edge clear against the scrim.
+
 A modal's scrim is `overlay` — black at 50% light, 70% dark, with `blur-md` if the page beneath should read as genuinely out of focus. The scrim never carries text.
 
-Borders stay `border` on glass; a glass panel keeps its hairline, since the fill alone no longer defines where the surface ends. It also carries `shadow-md` or `shadow-lg` — see Elevation below.
+Borders stay `border` on glass; a glass panel keeps its hairline, since the fill alone no longer defines where the surface ends. It also carries `shadow-md` or `shadow-lg` — see Elevation below. A solid panel over a scrim keeps its hairline and its `shadow-lg` too.
 
 ### Elevation
 
@@ -412,7 +414,7 @@ Every value in the system. Generated from `tokens.json` — do not hand-edit her
 | `sidebar-accent-foreground` | `oklch(0.21 0.006 285.885)` | `oklch(0.985 0 0)` | Text on sidebar-accent. |
 | `sidebar-border` | `oklch(0.92 0.004 286.32)` | `#ffffff1a` | Sidebar rail edge and group separators. |
 | `sidebar-ring` | `oklch(0.552 0.016 285.938)` | `oklch(0.552 0.016 285.938)` | Focused border colour inside the sidebar. |
-| `glass` | `#ffffff99` | `#09090b99` | Background at 60%, the translucent fill behind popovers, dropdowns, menus, dialogs, sheets, the command palette and sticky headers. |
+| `glass` | `#ffffff99` | `#09090b99` | Background at 60%, the translucent fill behind popovers, dropdowns, menus and sticky headers. Never behind a panel over a scrim. |
 | `glass-strong` | `#ffffffcc` | `#09090bcc` | Background at 80%. |
 | `overlay` | `#00000080` | `#000000b3` | The scrim behind a dialog, sheet or drawer. |
 
@@ -473,8 +475,8 @@ Every value in the system. Generated from `tokens.json` — do not hand-edit her
 
 | token | value | use |
 | --- | --- | --- |
-| `blur-xs` | `4px` | The system default for glass: popovers, dropdowns, menus, dialogs, sticky headers. |
-| `blur-sm` | `8px` | Heavier separation for a full-screen layer — the command palette or a mobile sheet covering the page. |
+| `blur-xs` | `4px` | The system default for glass: popovers, dropdowns, menus, sticky headers. |
+| `blur-sm` | `8px` | Heavier separation for a glass layer that covers most of the page without a scrim. |
 | `blur-md` | `12px` | The scrim behind a modal, when the page underneath should read as out of focus rather than merely dimmed. |
 
 ## Z-index

@@ -10,6 +10,10 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import {
+  ChatAttachments,
+  type ChatAttachment,
+} from "@/registry/aiellie/blocks/chat/components/chat-attachments"
+import {
   Message,
   MessageActions,
   MessageContent,
@@ -25,6 +29,7 @@ type ChatMessage = {
   id: string
   role: "user" | "assistant"
   content: string
+  attachments?: ChatAttachment[]
   /** Left out once a reply has finished. */
   status?: "streaming" | "stopped" | "failed"
 }
@@ -69,6 +74,13 @@ function ChatMessages({
 
     return (
       <Message key={message.id} from={message.role} streaming={streaming}>
+        {message.attachments ? (
+          <ChatAttachments
+            attachments={message.attachments}
+            size="xs"
+            className="max-w-full"
+          />
+        ) : null}
         {message.content || streaming ? (
           <MessageContent>{message.content}</MessageContent>
         ) : null}
@@ -85,7 +97,7 @@ function ChatMessages({
               <HugeiconsIcon icon={RepeatIcon} />
             </TooltipIconButton>
           </div>
-        ) : streaming ? null : (
+        ) : streaming || !message.content ? null : (
           <MessageActions>
             <CopyButton text={message.content} />
             {message.role === "assistant" ? (

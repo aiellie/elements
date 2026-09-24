@@ -2,9 +2,11 @@ import type { ComponentType } from "react"
 
 import AddMenuDemo from "@/registry/aiellie/examples/add-menu-demo"
 import BadgeDemo from "@/registry/aiellie/examples/badge-demo"
+import AttachmentDemo from "@/registry/aiellie/examples/attachment-demo"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
 import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
+import DialogDemo from "@/registry/aiellie/examples/dialog-demo"
 import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
@@ -60,10 +62,12 @@ const DEMOS: Record<string, Demo> = {
   tabs: { title: "Tabs", gallery: "/ui", Demo: TabsDemo },
   tooltip: { title: "Tooltip", gallery: "/ui", Demo: TooltipDemo },
   sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
+  dialog: { title: "Dialog", gallery: "/ui", Demo: DialogDemo },
   skeleton: { title: "Skeleton", gallery: "/ui", Demo: SkeletonDemo },
   avatar: { title: "Avatar", gallery: "/ui", Demo: AvatarDemo },
   badge: { title: "Badge", gallery: "/ui", Demo: BadgeDemo },
   empty: { title: "Empty", gallery: "/ui", Demo: EmptyDemo },
+  attachment: { title: "Attachment", gallery: "/ui", Demo: AttachmentDemo },
   "tooltip-icon-button": {
     title: "Tooltip Icon Button",
     gallery: "/components",

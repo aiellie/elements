@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import { ChatComposer } from "@/registry/aiellie/blocks/chat/components/chat-composer"
 import { ChatHeader } from "@/registry/aiellie/blocks/chat/components/chat-header"
 import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat-messages"
@@ -252,12 +253,13 @@ function Chat({
     timerRef.current = setTimeout(tick, FIRST_WORD_DELAY)
   }
 
-  const send = (text: string) => {
+  const send = (text: string, attachments: ChatAttachment[] = []) => {
     stop()
     const question: ChatMessage = {
       id: makeId("message"),
       role: "user",
       content: text,
+      attachments: attachments.length > 0 ? attachments : undefined,
     }
     const reply: ChatMessage = {
       id: makeId("message"),
@@ -269,7 +271,9 @@ function Chat({
     if (activeId === null) {
       // The first message is what the chat is about, so it names the chat.
       const id = makeId("chat")
-      const title = text.length > 40 ? `${text.slice(0, 40).trimEnd()}…` : text
+      const about = text || attachments[0]?.name || "New chat"
+      const title =
+        about.length > 40 ? `${about.slice(0, 40).trimEnd()}…` : about
       setConversations((all) => [
         { id, title, temporary: temporaryDraft, messages: [question, reply] },
         ...all,

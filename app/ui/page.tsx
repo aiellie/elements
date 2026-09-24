@@ -1,4 +1,6 @@
 import {
+  Attachment01Icon,
+  Square01Icon,
   Tag01Icon,
   UserCircleIcon,
   Comment01Icon,
@@ -18,9 +20,11 @@ import { DemoCard } from "@/components/pages/demo-card"
 import { PageHero } from "@/components/pages/page-hero"
 import { cardCount } from "@/lib/categories"
 import { PAGES } from "@/lib/constants"
+import AttachmentDemo from "@/registry/aiellie/examples/attachment-demo"
 import BadgeDemo from "@/registry/aiellie/examples/badge-demo"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
+import DialogDemo from "@/registry/aiellie/examples/dialog-demo"
 import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
 import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
@@ -123,11 +127,20 @@ export default function UiPage() {
         >
           <SheetDemo />
         </DemoCard>
+        <DemoCard
+          href="/ui/dialog"
+          index={10}
+          title="Dialog"
+          icon={Square01Icon}
+          description="A panel in the middle of the screen, over a dimmed page"
+        >
+          <DialogDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="feedback">
         <DemoCard
           href="/ui/skeleton"
-          index={10}
+          index={11}
           title="Skeleton"
           icon={Loading03Icon}
           description="A placeholder that pulses while content loads"
@@ -136,7 +149,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/avatar"
-          index={11}
+          index={12}
           title="Avatar"
           icon={UserCircleIcon}
           description="A picture of someone, or their initials"
@@ -145,7 +158,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/badge"
-          index={12}
+          index={13}
           title="Badge"
           icon={Tag01Icon}
           description="A short label beside something, like a plan or a status"
@@ -154,12 +167,23 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/empty"
-          index={13}
+          index={14}
           title="Empty"
           icon={DashedLineCircleIcon}
           description="What a place shows before there is anything in it"
         >
           <EmptyDemo />
+        </DemoCard>
+      </CategorySection>
+      <CategorySection category="chat">
+        <DemoCard
+          href="/ui/attachment"
+          index={15}
+          title="Attachment"
+          icon={Attachment01Icon}
+          description="A file as a chip, with its upload state"
+        >
+          <AttachmentDemo />
         </DemoCard>
       </CategorySection>
     </div>

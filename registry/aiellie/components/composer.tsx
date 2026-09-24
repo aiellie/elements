@@ -16,6 +16,7 @@ type ComposerContextValue = {
   setValue: (value: string) => void
   busy: boolean
   disabled: boolean
+  canSubmit: boolean
   submit: () => void
   stop?: () => void
 }
@@ -38,6 +39,13 @@ function Composer({
   onStop,
   status = "ready",
   disabled = false,
+  hasAttachments = false,
+  onFilesAdd,
+  onDragEnter,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+  onPaste,
   className,
   children,
   ...props
@@ -45,16 +53,25 @@ function Composer({
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
-  /** Called with the trimmed text. Never called with an empty message. */
+  /** Called with the trimmed text, which is empty only when `hasAttachments` is set. */
   onSubmit: (value: string) => void
   onStop?: () => void
   status?: ComposerStatus
   disabled?: boolean
+  /** Lets a message with no text be sent, because files go with it. */
+  hasAttachments?: boolean
+  /** Called with files dropped or pasted onto the box. Without it, neither is caught. */
+  onFilesAdd?: (files: File[]) => void
 }) {
   const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue)
   const controlled = valueProp !== undefined
   const value = controlled ? valueProp : uncontrolledValue
   const busy = status === "submitted" || status === "streaming"
+  const canSubmit = !disabled && (value.trim() !== "" || hasAttachments)
+  const [dragging, setDragging] = React.useState(false)
+  // Enter and leave fire for every child the pointer crosses, so the box
+  // counts them rather than trusting the last one.
+  const dragDepth = React.useRef(0)
 
   const setValue = (next: string) => {
     if (!controlled) setUncontrolledValue(next)
@@ -62,25 +79,81 @@ function Composer({
   }
 
   const submit = () => {
-    const text = value.trim()
-    if (!text || busy || disabled) return
-    onSubmit(text)
+    if (!canSubmit || busy) return
+    onSubmit(value.trim())
     setValue("")
   }
 
+  const carriesFiles = (event: React.DragEvent) =>
+    onFilesAdd !== undefined && event.dataTransfer.types.includes("Files")
+
   return (
     <ComposerContext.Provider
-      value={{ value, setValue, busy, disabled, submit, stop: onStop }}
+      value={{
+        value,
+        setValue,
+        busy,
+        disabled,
+        canSubmit,
+        submit,
+        stop: onStop,
+      }}
     >
       <form
         data-slot="composer"
         data-status={status}
+        data-dragging={dragging || undefined}
         onSubmit={(event) => {
           event.preventDefault()
           submit()
         }}
+        onDragEnter={(event) => {
+          onDragEnter?.(event)
+          if (!carriesFiles(event)) return
+          event.preventDefault()
+          dragDepth.current += 1
+          setDragging(true)
+        }}
+        onDragOver={(event) => {
+          onDragOver?.(event)
+          if (carriesFiles(event)) event.preventDefault()
+        }}
+        onDragLeave={(event) => {
+          onDragLeave?.(event)
+          if (!carriesFiles(event)) return
+          dragDepth.current -= 1
+          if (dragDepth.current <= 0) setDragging(false)
+        }}
+        onDrop={(event) => {
+          onDrop?.(event)
+          if (!carriesFiles(event)) return
+          event.preventDefault()
+          dragDepth.current = 0
+          setDragging(false)
+          // A dropped folder arrives as an empty file that can't be read.
+          const files = Array.from(event.dataTransfer.items).flatMap((item) => {
+            if (item.kind !== "file" || item.webkitGetAsEntry()?.isDirectory)
+              return []
+            const file = item.getAsFile()
+            return file ? [file] : []
+          })
+          if (files.length > 0) onFilesAdd?.(files)
+        }}
+        onPaste={(event) => {
+          onPaste?.(event)
+          const files = Array.from(event.clipboardData.files)
+          // Some apps put a picture of copied text beside it; the text wins.
+          if (
+            !onFilesAdd ||
+            files.length === 0 ||
+            event.clipboardData.getData("text/plain")
+          )
+            return
+          event.preventDefault()
+          onFilesAdd(files)
+        }}
         className={cn(
-          "flex w-full flex-col gap-1 rounded-xl border border-input bg-background p-2 transition-colors has-[textarea:focus-visible]:border-ring motion-reduce:transition-none dark:bg-input/30",
+          "flex w-full flex-col gap-1 rounded-xl border border-input bg-background p-2 transition-colors has-[textarea:focus-visible]:border-ring data-dragging:border-dashed data-dragging:border-ring motion-reduce:transition-none dark:bg-input/30",
           className
         )}
         {...props}
@@ -148,7 +221,7 @@ function ComposerSubmit({
   className,
   ...props
 }: Omit<React.ComponentProps<typeof Button>, "type" | "children">) {
-  const { value, busy, disabled, stop } = useComposer()
+  const { busy, canSubmit, stop } = useComposer()
 
   return (
     <Button
@@ -165,7 +238,7 @@ function ComposerSubmit({
             }
           : undefined
       }
-      disabled={busy ? !stop : disabled || !value.trim()}
+      disabled={busy ? !stop : !canSubmit}
       className={cn("rounded-full", className)}
       {...props}
     >

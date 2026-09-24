@@ -121,6 +121,26 @@
       "categories": ["overlays"]
     },
     {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Base UI's dialog: a glass panel in the middle of the screen, over a dimmed page.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/dialog.tsx"
+        }
+      ],
+      "categories": ["overlays"]
+    },
+    {
       "name": "sheet",
       "type": "registry:ui",
       "title": "Sheet",
@@ -155,6 +175,23 @@
         }
       ],
       "categories": ["layout"]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "A file as a chip: a thumbnail or icon, its name and details, and actions like remove, with states for uploading, processing, failed and done, and a row that scrolls when there are many.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/attachment.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/attachment.tsx"
+        }
+      ],
+      "docs": "The shimmer while a file uploads and the fade at the row's edges come from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["chat"]
     },
     {
       "name": "use-mobile",
@@ -637,6 +674,8 @@
         "@aiellie/add-menu",
         "@aiellie/dictate-button",
         "@aiellie/temporary-chat-toggle",
+        "@aiellie/attachment",
+        "@aiellie/dialog",
         "@aiellie/waveform",
         "@aiellie/model-selector",
         "@aiellie/models",
@@ -700,6 +739,16 @@
           "path": "registry/aiellie/blocks/chat/components/chat-composer.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-composer.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-attachments.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-attachments.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-attachment-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-attachment-dialog.tsx"
         }
       ],
       "meta": {
