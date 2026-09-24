@@ -486,6 +486,25 @@
       "categories": ["actions"]
     },
     {
+      "name": "dictate-button",
+      "type": "registry:component",
+      "title": "Dictate Button",
+      "description": "A microphone button that types what you say into a field, using the browser's own speech recognition. It renders nothing where the browser has none.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/dictate-button.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/dictate-button.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
       "name": "model-selector",
       "type": "registry:component",
       "title": "Model Selector",
@@ -581,6 +600,7 @@
         "@aiellie/status",
         "@aiellie/tooltip-icon-button",
         "@aiellie/add-menu",
+        "@aiellie/dictate-button",
         "@aiellie/model-selector",
         "@aiellie/models",
         "@aiellie/composer",

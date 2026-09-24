@@ -9,6 +9,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { AddMenu } from "@/registry/aiellie/components/add-menu"
+import { DictateButton } from "@/registry/aiellie/components/dictate-button"
 import {
   Composer,
   ComposerFooter,
@@ -22,6 +23,7 @@ import { MODELS } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
 
 export default function ComposerDemo() {
+  const [value, setValue] = React.useState("")
   const [model, setModel] = React.useState("claude-opus")
   const [status, setStatus] = React.useState<ComposerStatus>("ready")
   const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -35,6 +37,8 @@ export default function ComposerDemo() {
 
   return (
     <Composer
+      value={value}
+      onValueChange={setValue}
       status={status}
       onSubmit={() => {
         setStatus("streaming")
@@ -69,6 +73,7 @@ export default function ComposerDemo() {
           side="top"
           render={<Button variant="ghost" size="sm" />}
         />
+        <DictateButton value={value} onValueChange={setValue} />
         <ComposerSubmit />
       </ComposerFooter>
     </Composer>

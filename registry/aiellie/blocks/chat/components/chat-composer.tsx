@@ -9,6 +9,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { AddMenu } from "@/registry/aiellie/components/add-menu"
+import { DictateButton } from "@/registry/aiellie/components/dictate-button"
 import {
   Composer,
   ComposerFooter,
@@ -74,6 +75,7 @@ function ChatComposer({
             side="top"
             render={<Button variant="ghost" size="sm" />}
           />
+          <DictateButton value={value} onValueChange={onValueChange} />
           <ComposerSubmit />
         </ComposerFooter>
       </Composer>
