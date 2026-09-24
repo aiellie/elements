@@ -143,6 +143,8 @@ Fourteen styles, each with its size, leading, weight and tracking fixed:
 - `code` (13px) sits inline on a `muted` ground; `code-block` is the same size with looser leading. `code-sm` is 11px for dense work — token and prop names in reference tables, paths, ids, and inline code inside `caption` or `body-sm`. `kbd` is 12px.
 - The code group runs one weight heavier at its small end: `code-sm` and `kbd` are `medium`, since mono at 11 and 12px goes thin against a `muted` fill.
 
+**A catalog page's eyebrow uses a pulsing `Status` with a `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays visually consistent with status-shaped labels elsewhere in the catalog. Use the default `live` variant for published catalog pages and `construction` for a page that is still being built, such as Docs.
+
 Emphasis comes from size and ink, not weight — the 80-unit spread between light and medium is too small to shout with. Italics are for citation only, and nothing in the UI is underlined except a link on hover.
 
 ### Radius

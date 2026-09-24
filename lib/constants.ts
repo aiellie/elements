@@ -17,10 +17,12 @@ export const CONTAINER = "mx-auto w-full max-w-7xl px-6 sm:px-10"
 
 /**
  * Each section page's opening copy, keyed by its path. The nav is built from
- * the same entries, so its label and icon are always the page's own.
+ * the same entries, so its label can differ from the hero's eyebrow without
+ * duplicating the rest of the page metadata.
  */
 export const PAGES = {
   "/": {
+    label: "Home",
     eyebrow: "Template",
     title: "Whole pages, ready to install",
     icon: DashboardSquare01Icon,
@@ -28,6 +30,7 @@ export const PAGES = {
       "Complete pages built from the components and primitives on this site. Start a new app with one, or add it to the app you have.",
   },
   "/components": {
+    label: "Components",
     eyebrow: "Components",
     title: "AI-native components",
     icon: AiElementsIcon,
@@ -35,6 +38,7 @@ export const PAGES = {
       "Everything designed here, from menus and toolbars to the pieces of a conversation. Each one installs on its own, into components/aiellie.",
   },
   "/ui": {
+    label: "UI",
     eyebrow: "UI",
     title: "Restyled primitives",
     icon: AiSwapIcon,
@@ -42,7 +46,9 @@ export const PAGES = {
       "shadcn's components in this system's style. Each one installs over your own copy in components/ui, and every call site keeps working.",
   },
   "/docs": {
-    eyebrow: "Docs",
+    label: "Docs",
+    eyebrow: "under construction",
+    eyebrowVariant: "construction",
     title: "Documentation is on the way",
     icon: BookOpen01Icon,
     description:
@@ -56,6 +62,6 @@ export const NAV_PAGES: NavPage[] = (
   ["/components", "/ui", "/docs"] as const
 ).map((href) => ({
   href,
-  label: PAGES[href].eyebrow,
+  label: PAGES[href].label,
   icon: PAGES[href].icon,
 }))

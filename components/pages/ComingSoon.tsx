@@ -1,11 +1,17 @@
 import { HugeiconsIcon } from "@hugeicons/react"
 
+import {
+  Status,
+  StatusIndicator,
+  StatusLabel,
+} from "@/components/aiellie/status"
 import type { PageMeta } from "@/components/pages/page-hero"
 
 type ComingSoonProps = PageMeta
 
 export function ComingSoon({
   eyebrow,
+  eyebrowVariant,
   title,
   icon,
   description,
@@ -23,20 +29,14 @@ export function ComingSoon({
           />
         </div>
 
-        <p className="text-code-sm text-muted-foreground">{eyebrow}</p>
+        <Status variant={eyebrowVariant} pulse>
+          <StatusIndicator />
+          <StatusLabel>{eyebrow}</StatusLabel>
+        </Status>
         <h1 className="mt-3 text-display">{title}</h1>
         <p className="mt-4 max-w-lg text-body-sm text-muted-foreground sm:text-body">
           {description}
         </p>
-
-        <div className="mt-8 inline-flex items-center gap-2 rounded-full border bg-background px-3 py-1.5 text-caption text-muted-foreground">
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-40 motion-reduce:animate-none" />
-            <span className="relative inline-flex size-2 rounded-full bg-success" />
-          </span>
-          Work in progress
-        </div>
-
         <div
           aria-hidden
           className="mt-12 grid w-full grid-cols-[auto_1fr_auto] items-center gap-3 text-code-sm text-muted-foreground"
