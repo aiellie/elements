@@ -10,23 +10,12 @@ import {
 } from "@/registry/aiellie/ui/tooltip"
 import { cn } from "@/lib/utils"
 
-/**
- * A row of controls that the keyboard treats as one stop. Tab reaches the
- * toolbar, the arrows walk it, and Tab again leaves — so a composer with eight
- * buttons on it costs one tab to pass rather than eight.
- *
- * The surface is the kit's: a glass pill the page shows through, sized to
- * its contents rather than stretched, so it can sit under a field or float
- * over a canvas without being told which.
- */
 function Toolbar({ className, ...props }: ToolbarPrimitive.Root.Props) {
   return (
     <ToolbarPrimitive.Root
       data-slot="toolbar"
       className={cn(
         "flex w-fit max-w-full min-w-0 items-center gap-1 rounded-xl border border-border/40 bg-background/70 p-1 dark:bg-background/70",
-        // Vertical is the same row turned, so the gap and the padding hold and
-        // only the direction changes.
         "data-[orientation=vertical]:w-fit data-[orientation=vertical]:flex-col",
         className
       )}
@@ -35,11 +24,6 @@ function Toolbar({ className, ...props }: ToolbarPrimitive.Root.Props) {
   )
 }
 
-/**
- * Controls that belong together, kept together. A group is one arrow-key
- * neighbourhood rather than a new tab stop, so it changes what the row looks
- * like without changing how it is walked.
- */
 function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
   return (
     <ToolbarPrimitive.Group
@@ -54,11 +38,6 @@ function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
   )
 }
 
-/**
- * One control. The pressed look answers to `aria-pressed`, so a toggle says it
- * is on through the same attribute a screen reader reads it from rather than
- * through a second piece of state kept beside it.
- */
 const toolbarButton = cn(
   "flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg text-foreground/55 transition-[background-color,color,scale] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] outline-none select-none",
   "hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-1 focus-visible:ring-foreground/5 active:scale-[0.94]",
@@ -88,9 +67,8 @@ function ToolbarButton({
 
   if (!tooltip) return button
 
-  // `render` hands the trigger to the button that is already there rather than
-  // wrapping it: a span around a toolbar item would sit between the row and
-  // the control it is walking to.
+  // A span around the trigger would sit between the row and the control it
+  // walks to.
   return (
     <Tooltip>
       <TooltipTrigger render={button} />
@@ -110,11 +88,6 @@ function ToolbarLink({ className, ...props }: ToolbarPrimitive.Link.Props) {
   )
 }
 
-/**
- * A field that lives in the row without trapping the arrows: Base UI hands the
- * caret the left and right keys while it is focused and gives them back to the
- * toolbar at either end of the text.
- */
 function ToolbarInput({ className, ...props }: ToolbarPrimitive.Input.Props) {
   return (
     <ToolbarPrimitive.Input
@@ -131,10 +104,6 @@ function ToolbarInput({ className, ...props }: ToolbarPrimitive.Input.Props) {
   )
 }
 
-/**
- * The rule between two runs of controls. It turns with the toolbar, so a
- * vertical row gets a horizontal rule without being told twice.
- */
 function ToolbarSeparator({
   className,
   ...props

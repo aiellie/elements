@@ -7,10 +7,6 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Button } from "@/registry/aiellie/ui/button"
 import { cn } from "@/lib/utils"
 
-/**
- * How close to the end still counts as being at it, so a pixel of rounding or
- * a small nudge doesn't let go of the newest message.
- */
 const END_THRESHOLD = 32
 
 type ThreadContextValue = {
@@ -32,11 +28,6 @@ function useThread() {
   return context
 }
 
-/**
- * The scrolling part of a conversation. It keeps to the newest message while a
- * reply streams in, lets go the moment someone scrolls up to read, and offers
- * a way back to the end until they return to it.
- */
 function Thread({ className, ...props }: React.ComponentProps<"div">) {
   const viewportRef = React.useRef<HTMLDivElement>(null)
   const followRef = React.useRef(true)
@@ -75,11 +66,6 @@ function Thread({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-/**
- * The column the messages sit in, inside the area that scrolls. The column is
- * what gets watched: when it grows while the view is following, the view moves
- * to its end, so a streaming reply stays in sight without anyone scrolling.
- */
 function ThreadContent({ className, ...props }: React.ComponentProps<"div">) {
   const { viewportRef, setAtEnd, followRef, jumpingRef } = useThread()
   const contentRef = React.useRef<HTMLDivElement>(null)
@@ -133,10 +119,6 @@ function ThreadContent({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-/**
- * The way back to the newest message. It fades out rather than unmounting, and
- * is inert while hidden, so it can't be tabbed to when there is nowhere to go.
- */
 function ThreadScrollButton({
   className,
   ...props

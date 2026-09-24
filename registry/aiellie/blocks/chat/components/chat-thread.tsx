@@ -11,11 +11,6 @@ import {
   ThreadScrollButton,
 } from "@/registry/aiellie/components/thread"
 
-/**
- * The middle of the page: the conversation so far, or the greeting when there
- * isn't one yet. Both sit in the same thread, so the page keeps one shape
- * whichever it is showing.
- */
 function ChatThread({
   messages,
   onSend,

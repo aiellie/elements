@@ -34,11 +34,8 @@ const ITEMS = [
   { id: "settings", label: "Settings", icon: Settings01Icon },
 ]
 
-/**
- * `collapsible="none"` keeps the sidebar inside this frame. The default,
- * off-canvas one is fixed to the edge of the window, which is where it belongs
- * in an app but not inside a card.
- */
+// `collapsible="none"` keeps the sidebar inside the card. The default is fixed
+// to the window's edge.
 export default function SidebarDemo() {
   const [active, setActive] = React.useState("inbox")
   const current = ITEMS.find((item) => item.id === active)
@@ -72,7 +69,6 @@ export default function SidebarDemo() {
                   )}
                 </SidebarMenuItem>
               ))}
-              {/* A row still loading, as it would while chats are fetched. */}
               <SidebarMenuItem>
                 <SidebarMenuSkeleton showIcon />
               </SidebarMenuItem>

@@ -7,7 +7,6 @@ import {
   ThreadScrollButton,
 } from "@/registry/aiellie/components/thread"
 
-/** Enough conversation to scroll, so the way back to the end has somewhere to lead. */
 const TURNS = [
   "Can you help me plan a small launch?",
   "Of course. What's launching, and who is it for?",

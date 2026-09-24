@@ -10,12 +10,8 @@ function subscribe(onChange: () => void) {
   return () => mql.removeEventListener("change", onChange)
 }
 
-/**
- * Whether the window is narrower than a tablet. It reads the media query as a
- * store rather than copying it into state from an effect, so it is right on
- * the first client render. The server has no window and assumes a wide one,
- * as shadcn's own hook does.
- */
+// Read as a store rather than copied from an effect, so the first client
+// render is right.
 export function useIsMobile() {
   return React.useSyncExternalStore(
     subscribe,

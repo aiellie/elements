@@ -2,14 +2,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-/**
- * One turn in a conversation. `from` decides its shape: what the person wrote
- * sits in a bubble at the end of the column, and what the assistant wrote runs
- * the full width as plain text, because a reply is read rather than glanced at.
- *
- * It is `from` rather than `role` because `role` already means something on an
- * element, and a screen reader would read it as that.
- */
+// `from` rather than `role`, which already means something on an element.
 function Message({
   from,
   streaming = false,
@@ -17,7 +10,6 @@ function Message({
   ...props
 }: React.ComponentProps<"div"> & {
   from: "user" | "assistant"
-  /** The reply is still being written: it shows a caret and reads as busy. */
   streaming?: boolean
 }) {
   return (
@@ -35,13 +27,6 @@ function Message({
   )
 }
 
-/**
- * The words. Line breaks in the text are kept, so plain text with blank lines
- * between paragraphs reads as paragraphs.
- *
- * The caret is part of the content rather than a separate piece, so it always
- * sits after the last word, and it only shows while the message is streaming.
- */
 function MessageContent({
   className,
   children,
@@ -67,11 +52,6 @@ function MessageContent({
   )
 }
 
-/**
- * The controls under a message: copy, retry, edit. On screens with a pointer
- * they wait until the message is hovered or one of them has focus. A touch
- * screen has no hover to reveal them with, so there they stay visible.
- */
 function MessageActions({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div

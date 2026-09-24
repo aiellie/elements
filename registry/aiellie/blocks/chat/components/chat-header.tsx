@@ -16,11 +16,6 @@ import {
 } from "@/registry/aiellie/components/menu"
 import { Button } from "@/registry/aiellie/ui/button"
 
-/**
- * What the main panel's header shows: what this chat is called, and what can
- * be done to it. The panels draw the header itself and put the sidebar's
- * toggle beside this.
- */
 function ChatHeader({
   title,
   onNewChat,

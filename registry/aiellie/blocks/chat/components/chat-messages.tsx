@@ -29,10 +29,6 @@ type ChatMessage = {
   status?: "streaming" | "stopped" | "failed"
 }
 
-/**
- * Copies a message and says so for a moment. The tick takes the copy mark's
- * place, so the confirmation shows up where the eye already is.
- */
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = React.useState(false)
 
@@ -59,11 +55,6 @@ function CopyButton({ text }: { text: string }) {
   )
 }
 
-/**
- * The conversation, message by message. A reply that is still streaming has no
- * actions yet, since copying or retrying half an answer is rarely what anyone
- * means. A failed one says so, with the retry right beside it.
- */
 function ChatMessages({
   messages,
   onRetry,

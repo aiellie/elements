@@ -8,17 +8,12 @@ import { Button } from "@/registry/aiellie/ui/button"
 import { Textarea } from "@/registry/aiellie/ui/textarea"
 import { cn } from "@/lib/utils"
 
-/**
- * Where the reply to the last message is. Named the way the AI SDK's `useChat`
- * names its status, so that value can be handed straight in, but nothing here
- * depends on it.
- */
+// Named like the AI SDK's `useChat` status, so that value can be handed in.
 type ComposerStatus = "ready" | "submitted" | "streaming" | "error"
 
 type ComposerContextValue = {
   value: string
   setValue: (value: string) => void
-  /** A reply is on its way, so the send button stops it instead. */
   busy: boolean
   disabled: boolean
   submit: () => void
@@ -35,13 +30,6 @@ function useComposer() {
   return context
 }
 
-/**
- * The box a message is written in, and the form that sends it.
- *
- * The text can be left to the composer or controlled from outside. Controlled
- * is for when something else writes into the box, like an edit that puts an
- * old message back. Either way it empties itself once a message is sent.
- */
 function Composer({
   value: valueProp,
   defaultValue = "",
@@ -59,7 +47,6 @@ function Composer({
   onValueChange?: (value: string) => void
   /** Called with the trimmed text. Never called with an empty message. */
   onSubmit: (value: string) => void
-  /** What the stop button does while a reply is on its way. */
   onStop?: () => void
   status?: ComposerStatus
   disabled?: boolean
@@ -104,12 +91,8 @@ function Composer({
   )
 }
 
-/**
- * The text itself. It grows with what is typed until it reaches its cap, then
- * scrolls. Enter sends and Shift+Enter starts a new line, except while an
- * input method is still composing a character, since that Enter belongs to the
- * character rather than to the message.
- */
+// An Enter pressed while an input method is composing belongs to the
+// character, not the message.
 function ComposerInput({
   className,
   onKeyDown,
@@ -151,7 +134,6 @@ function ComposerInput({
   )
 }
 
-/** The row under the text, for the controls that travel with a message. */
 function ComposerFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -162,11 +144,6 @@ function ComposerFooter({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-/**
- * Send, or stop while a reply is on its way. It is one button that changes
- * jobs rather than two that swap places, so the thing under the pointer is
- * always the thing to press next.
- */
 function ComposerSubmit({
   className,
   ...props
@@ -181,10 +158,8 @@ function ComposerSubmit({
       onClick={
         busy
           ? (event) => {
-              // Stopping turns this back into the send button before the
-              // click has finished, and a send button's click submits the
-              // form, so without this a message typed while the reply
-              // streamed would go out the moment the reply was stopped.
+              // Stopping turns this back into send before the click ends, and send's click
+              // would submit the form.
               event.preventDefault()
               stop?.()
             }

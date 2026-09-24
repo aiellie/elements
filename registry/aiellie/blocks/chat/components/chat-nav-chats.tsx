@@ -30,7 +30,6 @@ import {
 
 type ChatNavChat = { id: string; title: string; pinned?: boolean }
 
-/** What both lists are handed: every chat, and what can be done to one. */
 type ChatNavProps = {
   chats: ChatNavChat[]
   activeId: string | null
@@ -40,11 +39,7 @@ type ChatNavProps = {
   onDelete: (id: string) => void
 }
 
-/**
- * A chat's name, being changed in place. Enter or clicking away keeps the new
- * name and Escape puts the old one back. An empty name is taken to mean "never
- * mind" rather than a chat called nothing.
- */
+// An empty name keeps the old one rather than naming the chat nothing.
 function RenameField({
   title,
   onDone,
@@ -93,11 +88,6 @@ function RenameField({
   )
 }
 
-/**
- * One chat in a list, marked when it is the open one. Its menu renames, pins
- * or deletes it, and stays out of the way until the row is pointed at, except
- * on touch screens, where there is no pointing.
- */
 function ChatNavItem({
   chat,
   activeId,
@@ -107,8 +97,6 @@ function ChatNavItem({
   onDelete,
 }: Omit<ChatNavProps, "chats"> & { chat: ChatNavChat }) {
   const [renaming, setRenaming] = React.useState(false)
-  // On a phone the sidebar is a sheet over the chat, so picking a chat is also
-  // done with the sheet.
   const { closeSheet } = usePanels()
   const active = chat.id === activeId
 
@@ -168,7 +156,6 @@ function ChatNavItem({
   )
 }
 
-/** A labelled run of chats, gone altogether while it has none. */
 function ChatNavGroup({
   label,
   chats,
@@ -188,7 +175,6 @@ function ChatNavGroup({
   )
 }
 
-/** The chats kept at the top, whatever came after them. */
 function ChatNavPinned({ chats, ...props }: ChatNavProps) {
   return (
     <ChatNavGroup
@@ -199,7 +185,6 @@ function ChatNavPinned({ chats, ...props }: ChatNavProps) {
   )
 }
 
-/** Every other chat, newest first. */
 function ChatNavRecents({ chats, ...props }: ChatNavProps) {
   return (
     <ChatNavGroup

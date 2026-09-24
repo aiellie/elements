@@ -36,7 +36,6 @@ type User = {
   plan?: string
 }
 
-/** Up to two letters from a name, for when there is no picture. */
 function initials(name: string) {
   return name
     .split(/\s+/)
@@ -47,7 +46,6 @@ function initials(name: string) {
     .toUpperCase()
 }
 
-/** Their picture, or their initials while there is none. */
 function UserAvatar({ user }: { user: User }) {
   return (
     <Avatar size="sm">
@@ -57,16 +55,6 @@ function UserAvatar({ user }: { user: User }) {
   )
 }
 
-/**
- * Who is signed in, at the foot of a sidebar: a small picture and their name,
- * on a row the size of every other one. It opens a menu headed by who they
- * are and their plan, with what they can do with their account under it. It
- * is a sidebar row, so it goes inside a `SidebarProvider`, usually in
- * `SidebarFooter`.
- *
- * Each item calls its handler; one left out still shows, doing nothing, so
- * the menu keeps its shape while the app is wired up.
- */
 function UserMenu({
   user,
   usage,
@@ -95,11 +83,8 @@ function UserMenu({
             <UserAvatar user={user} />
             <span className="min-w-0 flex-1 truncate">{user.name}</span>
           </MenuTrigger>
-          {/* Opens upward from the foot of the sidebar, as wide as the row. */}
           <MenuContent side="top" className="w-(--anchor-width) min-w-48">
-            {/* Who this is, as a heading rather than a row to pick. On glass,
-                small text takes foreground ink, which holds its contrast over
-                whatever is behind the menu. */}
+            {/* Small text on glass takes foreground ink to hold its contrast. */}
             <div className="flex items-center gap-2 px-2 py-1.5">
               <UserAvatar user={user} />
               <span className="min-w-0 flex-1 truncate text-xs font-medium text-foreground">

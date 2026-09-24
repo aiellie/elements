@@ -24,14 +24,8 @@ function ResizablePanel({ ...props }: ResizablePrimitive.PanelProps) {
   return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />
 }
 
-/**
- * The hairline between two panels. At rest it is only the border; the grip
- * appears while the pointer is over its hit area, while it is being dragged,
- * and on keyboard focus, so a layout full of handles doesn't advertise every
- * one of them. The library reports hover and drag through
- * `data-separator`, which covers its widened hit area rather than the 1px
- * line itself.
- */
+// The library reports hover and drag on `data-separator`, which covers the
+// widened hit area rather than the 1px line itself.
 function ResizableHandle({
   withHandle,
   className,

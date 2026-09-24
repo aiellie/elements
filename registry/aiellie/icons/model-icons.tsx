@@ -1,20 +1,7 @@
 import type * as React from "react"
 
-/**
- * The model marks, keyed by vendor. A logo is not a glyph with a shape you
- * can choose, it is a specific mark in specific colours, so these are drawn
- * here rather than looked up in an icon set — the same exception
- * `code-icons` makes, and that `google-icons` makes, for the same reason.
- *
- * Each mark is written without `width` or `height` so the class sizing it
- * wins, and with `aria-hidden` since a mark stands beside the model name
- * rather than in place of it.
- *
- * The gradient ids inside a mark are prefixed per vendor. They are still
- * document-wide names, so a mark drawn twice on one page repeats them; the
- * duplicates resolve to identical definitions and draw correctly, but that
- * is the ceiling on what an id in a component can promise.
- */
+// Gradient ids are prefixed per vendor but still document-wide, so a mark
+// drawn twice repeats them. The duplicates are identical and draw correctly.
 type IconProps = React.SVGProps<SVGSVGElement>
 
 export const modelIcons = {
@@ -178,7 +165,6 @@ export const modelIcons = {
   ),
 }
 
-/** The products this set has a mark for, and the key each one answers to. */
 export type ModelIconName = keyof typeof modelIcons
 
 export type { IconProps as ModelIconProps }

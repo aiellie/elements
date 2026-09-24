@@ -18,15 +18,11 @@ import { cn } from "@/lib/utils"
 type Conversation = {
   id: string
   title: string
-  /** Kept in the sidebar's pinned list, above the recent chats. */
   pinned?: boolean
   messages: ChatMessage[]
 }
 
-/**
- * The chats the page starts with. They are here to be replaced: load your own
- * history in their place.
- */
+// Sample chats. Load your own history in their place.
 const SAMPLE_CONVERSATIONS: Conversation[] = [
   {
     id: "tokens",
@@ -105,39 +101,29 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
   },
 ]
 
-/** Who the preview is signed in as. Pass your own signed-in person instead. */
+// Sample signed-in person. Pass your own.
 const SAMPLE_USER: User = { name: "Ada Lovelace", plan: "Pro" }
 
-/**
- * What the preview answers with, since there is no model behind it. Replace
- * `stream` below with your model's response and the rest of the page works as
- * it is.
- */
+// There is no model behind the preview. Replace `stream` below with your
+// model's response and the rest of the page works as it is.
 const PREVIEW_REPLY =
   "This is a preview, so there's no model behind it. In your app, this is where the reply streams in, word by word, while the send button turns into stop.\n\nSwap the fake stream in the chat component for your model's response, and the rest of the page works as it is."
 
-/** How long the preview takes to start answering, then to write each word. */
 const FIRST_WORD_DELAY = 500
 const WORD_DELAY = 35
 
-/**
- * The chats opened so far, in order, and which one is on screen. Null is a new
- * chat. Back and forward move through it the way a browser moves through
- * pages.
- */
+// The chats opened so far, stepped through like browser history. Null is a
+// new chat.
 type History = { entries: (string | null)[]; index: number }
 
-/** Opens a chat as the next step, dropping whatever was ahead of this one. */
 function visit(history: History, id: string | null): History {
   if (history.entries[history.index] === id) return history
   const entries = [...history.entries.slice(0, history.index + 1), id]
   return { entries, index: entries.length - 1 }
 }
 
-/**
- * Forgets a deleted chat, along with any step that, without it, would only
- * repeat the one before.
- */
+// Also drops any step that, without the deleted chat, would only repeat the
+// one before.
 function forget(history: History, id: string): History {
   const entries: (string | null)[] = []
   let index = 0
@@ -148,22 +134,8 @@ function forget(history: History, id: string): History {
   return entries.length > 0 ? { entries, index } : { entries: [null], index: 0 }
 }
 
-/**
- * The chat page: your chats down the side, the open one in the middle, and the
- * composer underneath.
- *
- * The layout is `Panels`: the sidebar is its left panel, open to start with,
- * and the thread is the main one. Dragging the sidebar's edge resizes it, and
- * its toggle, or ⌘B, folds it away. On a phone there is no room beside the
- * thread, so the toggle opens the sidebar over the page in a sheet instead.
- *
- * ⌘N starts a new chat, and ⌘[ and ⌘] step back and forward through the
- * chats you have opened. ⌘⇧U turns activity on and off, lighting the bell;
- * what it shows is yours to supply. ⌘⇧N and ⌘K open quick chat and search,
- * also yours: the page has neither, so their buttons and keys do nothing
- * until you pass them. Most browsers keep ⌘N and ⌘⇧N for their own windows,
- * so those two reach the page only in a desktop shell.
- */
+// Most browsers keep ⌘N and ⌘⇧N for their own windows, so those two reach the
+// page only in a desktop shell.
 function Chat({
   onQuickChat,
   onSearch,
@@ -173,7 +145,7 @@ function Chat({
 }: {
   onQuickChat?: () => void
   onSearch?: () => void
-  /** Told whether activity is now up, each time the bell is pressed. */
+  /** Called with the new state each time the bell is pressed. */
   onActivity?: (open: boolean) => void
   onProjects?: () => void
   className?: string
@@ -185,7 +157,6 @@ function Chat({
     index: 0,
   })
   const activeId = history.entries[history.index]
-  // Whether activity is up. The bell shows it either way; what opens is yours.
   const [activityOpen, setActivityOpen] = React.useState(false)
   const [draft, setDraft] = React.useState("")
   const [model, setModel] = React.useState(MODELS[0].id)
@@ -227,7 +198,6 @@ function Chat({
       )
     )
 
-  /** Ends the reply being written, keeping whatever it had got to. */
   const stop = () => {
     if (timerRef.current) clearTimeout(timerRef.current)
     timerRef.current = null
@@ -245,7 +215,6 @@ function Chat({
     )
   }
 
-  /** The stand-in for a model: writes the preview reply out a word at a time. */
   const stream = (conversationId: string, messageId: string) => {
     const words = PREVIEW_REPLY.split(/(?<=\s)/)
     let shown = 0
@@ -326,7 +295,6 @@ function Chat({
     stream(activeId, messageId)
   }
 
-  /** Puts an old message back in the composer to be changed and sent again. */
   const edit = (content: string) => {
     setDraft(content)
     inputRef.current?.focus()
@@ -351,7 +319,6 @@ function Chat({
   const canGoBack = history.index > 0
   const canGoForward = history.index < history.entries.length - 1
 
-  /** One step back (-1) or forward (1) through the chats opened so far. */
   const go = (step: -1 | 1) => {
     const index = history.index + step
     if (index < 0 || index >= history.entries.length) return
@@ -371,7 +338,6 @@ function Chat({
           "]": () => go(1),
           k: onSearch,
         }[key]
-    // A key with nothing behind it is left to the browser.
     if (!action) return
     event.preventDefault()
     action()
@@ -419,8 +385,7 @@ function Chat({
         className
       )}
     >
-      {/* The sidebar's rows, and the header's name, read from this. It is
-          held open, since the panels are what fold the sidebar away. */}
+      {/* Held open, since the panels are what fold the sidebar away. */}
       <SidebarProvider open className="h-full min-h-0">
         <Panels
           defaultOpen={{ left: true }}
@@ -443,10 +408,7 @@ function Chat({
               onDelete={remove}
             />
           }
-          // The sidebar's header runs straight into its list.
           headerBorder={{ left: false }}
-          // The toggle leads the sidebar's header, ahead of back and forward,
-          // in the same corner as when the sidebar is shut.
           toggleAt={{ left: "start" }}
           headers={{
             left: (
@@ -466,10 +428,8 @@ function Chat({
             ),
           }}
         >
-          {/* Fills the panel, so the thread scrolls and the composer stays down. */}
           <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-            {/* Keyed by chat, so opening another one starts at its newest
-                message instead of wherever the last one was scrolled to. */}
+            {/* Keyed so opening another chat starts at its newest message. */}
             <ChatThread
               key={activeId ?? "new"}
               messages={active?.messages ?? []}

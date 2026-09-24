@@ -23,14 +23,6 @@ import {
   TooltipTrigger,
 } from "@/registry/aiellie/ui/tooltip"
 
-/**
- * Where to go for help: a question-mark button, named by its tooltip, that
- * opens a menu of the app's help and policy pages. It sits beside the user
- * menu at the foot of a sidebar, so the menu opens upward by default.
- *
- * Each item calls its handler; one left out still shows, doing nothing, so
- * the menu keeps its shape while the app is wired up.
- */
 function HelpMenu({
   onPrivacy,
   onHelp,
@@ -46,7 +38,6 @@ function HelpMenu({
 }) {
   return (
     <Menu>
-      {/* One button is both: the tooltip names it, the menu is what it opens. */}
       <Tooltip>
         <TooltipTrigger
           render={

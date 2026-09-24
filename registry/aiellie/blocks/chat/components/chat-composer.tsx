@@ -13,11 +13,6 @@ import { ModelSelector } from "@/registry/aiellie/components/model-selector"
 import type { ModelOption } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
 
-/**
- * The bottom of the page: the composer, with the model a message goes to picked
- * right beside the send button. It is held to the thread's width, so the text
- * being written lines up with the text being read.
- */
 function ChatComposer({
   value,
   onValueChange,

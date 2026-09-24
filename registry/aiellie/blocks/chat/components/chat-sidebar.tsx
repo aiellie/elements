@@ -24,20 +24,11 @@ import {
 } from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
 
-/**
- * Lit in the theme's live colour, or Tailwind's blue where a project has no
- * `--live`: this block can be installed without the aiellie theme. The fill is
- * the status formula, 4% at rest and 7% under the pointer. Written out whole,
- * since Tailwind only finds classes it can read as they are.
- */
+// Falls back to Tailwind's blue where the theme has no `--live`. Written out
+// whole, since Tailwind only finds classes it can read as they are.
 const liveOn =
   "bg-[color-mix(in_oklab,var(--live,var(--color-blue-500))_4%,transparent)] [&_svg]:text-[color:var(--live,var(--color-blue-500))] hover:bg-[color-mix(in_oklab,var(--live,var(--color-blue-500))_7%,transparent)] hover:[&_svg]:text-[color:var(--live,var(--color-blue-500))]"
 
-/**
- * The top of the sidebar: the app's name, which takes you back to a new chat,
- * and search and activity at the other end. Until the app has a mark, the name
- * is set in type alone.
- */
 function ChatSidebarHeader({
   onNewChat,
   onSearch,
@@ -46,7 +37,6 @@ function ChatSidebarHeader({
 }: {
   onNewChat: () => void
   onSearch?: () => void
-  /** Whether activity is up, which lights the bell and gives it a dot. */
   activityOpen: boolean
   onActivity: () => void
 }) {
@@ -90,15 +80,6 @@ function ChatSidebarHeader({
   )
 }
 
-/**
- * The chat's sidebar, top to bottom: the app's name with search and activity,
- * where to start something, the pinned chats, the recent ones, and who is
- * signed in, with help beside them.
- *
- * It fills whatever panel the chat puts it in, which folds it away and makes
- * it a sheet on a phone, so it never collapses by itself. Its rows need a
- * `SidebarProvider` above them, which the chat holds open around the panels.
- */
 function ChatSidebar({
   user,
   usage,
@@ -111,7 +92,7 @@ function ChatSidebar({
   ...chats
 }: ChatNavProps & {
   user: User
-  /** How much of their plan is left, shown in the user menu. */
+  /** How much of the plan is left, e.g. "72% left". */
   usage?: string
   onNewChat: () => void
   onQuickChat?: () => void

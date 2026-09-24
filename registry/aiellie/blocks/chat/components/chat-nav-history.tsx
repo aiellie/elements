@@ -5,11 +5,6 @@ import { HugeiconsIcon } from "@hugeicons/react"
 
 import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 
-/**
- * Back and forward through the chats you have opened, the way a browser steps
- * through pages. Each is off while there is nowhere further to go that way.
- * The chat binds ⌘[ and ⌘] to the same moves.
- */
 function ChatNavHistory({
   canGoBack,
   canGoForward,
@@ -39,7 +34,7 @@ function ChatNavHistory({
         onClick={onForward}
         className="size-7"
       >
-          <HugeiconsIcon icon={ArrowRight02Icon} className="rtl:-scale-x-100" />
+        <HugeiconsIcon icon={ArrowRight02Icon} className="rtl:-scale-x-100" />
       </TooltipIconButton>
     </div>
   )

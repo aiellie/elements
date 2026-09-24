@@ -5,8 +5,7 @@ import { SidebarProvider } from "@/registry/aiellie/ui/sidebar"
 
 export default function UserMenuDemo() {
   return (
-    // A sidebar row, so it needs the provider; `min-h-0` drops the provider's
-    // own full-height minimum, which is for a whole page.
+    // `min-h-0` drops the provider's full-page minimum height.
     <SidebarProvider className="min-h-0 w-full max-w-64">
       <UserMenu
         user={{ name: "Ada Lovelace", plan: "Free" }}

@@ -65,8 +65,6 @@ function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-// Links rest in the ink around them, so the description's links carry no
-// underline; the theme gives every link its hover colour.
 function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <div

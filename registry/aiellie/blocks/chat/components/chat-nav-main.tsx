@@ -21,24 +21,14 @@ import {
   TooltipTrigger,
 } from "@/registry/aiellie/ui/tooltip"
 
-/** A key hint as the tooltips draw it. */
 const kbd = "rounded-sm bg-background/15 px-1 font-sans"
 
-/**
- * The top of the sidebar: where to start something. On a phone the sidebar is
- * a sheet over the chat, so starting a chat puts the sheet away too.
- *
- * New chat is marked while a new chat is what's open. Quick chat is a
- * button of its own beside it, starting one somewhere lighter, which is yours
- * to supply. Each names its key in its tooltip.
- */
 function ChatNavMain({
   newChatOpen,
   onNewChat,
   onQuickChat,
   onProjects,
 }: {
-  /** Whether the open chat is a new one, with nothing sent yet. */
   newChatOpen: boolean
   onNewChat: () => void
   /** Left out, the button is there but does nothing. */

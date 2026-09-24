@@ -11,14 +11,6 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 import { cn } from "@/lib/utils"
 
-/**
- * Base UI's menu with this registry's surface on it — the popup, the rows and
- * the rules — so anything that needs a menu is styling none of it again.
- *
- * The trigger is deliberately left alone: a menu hangs off whatever opens it,
- * and every one of those already has a shape of its own. Pass `render` to make
- * an existing control the trigger rather than nesting a button inside one.
- */
 function Menu(props: MenuPrimitive.Root.Props) {
   return <MenuPrimitive.Root data-slot="menu" {...props} />
 }
@@ -27,25 +19,14 @@ function MenuTrigger(props: MenuPrimitive.Trigger.Props) {
   return <MenuPrimitive.Trigger data-slot="menu-trigger" {...props} />
 }
 
-/**
- * Glass is the default because a menu is a thing floating over the page rather
- * than part of it: the blur is what says so, and the fill stays translucent
- * enough for there to be something to blur. `variant="solid"` is for the times
- * the backdrop is busy enough that a blurred one is worse than no blur at all.
- */
 const menuPopup = (variant: "glass" | "solid") =>
   cn(
     "border border-border/40 bg-background/60 dark:bg-background/70",
     "min-w-40 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-xl p-1 shadow-xl transition-[opacity,scale] duration-150 ease-out data-starting-style:scale-95 data-starting-style:opacity-0 motion-reduce:transition-none data-closed:scale-95 data-closed:opacity-0",
-    // The positioner publishes the room left between the popup and the edge of
-    // the window; without a height to overflow, `overflow-y-auto` above does
-    // nothing and a long menu simply runs off the bottom of the screen with
-    // its last rows unreachable. Set here rather than on `MenuContent` so the
-    // submenus, which render through it, are capped as well.
+    // Without a height to overflow, a long menu runs off the screen. Set on the
+    // positioner so submenus are capped as well.
     "max-h-(--available-height)",
     variant === "glass" &&
-      // The border lightens with the fill — a solid edge around a soft panel
-      // reads as a card with a blurry picture in it.
       "border-border/40 bg-background/60 backdrop-blur-xs dark:bg-background/70"
   )
 
@@ -54,16 +35,8 @@ type PositionerProps = Pick<
   "align" | "alignOffset" | "side" | "sideOffset" | "collisionPadding"
 >
 
-/**
- * The box `showSearch` puts above the rows.
- *
- * The keystrokes are held back from the menu deliberately. Base UI gives every
- * menu typeahead — letters jump the highlight to the row that starts with them
- * — and it has no off switch, so without this the letters never reach the box
- * and the focus leaves it on the first one typed. Escape and the arrows are let
- * through on purpose: closing the menu and walking the rows are still the
- * menu's job while the caret is in here.
- */
+// Base UI's typeahead has no off switch, so printable keys are held back here
+// or they never reach the box.
 function MenuSearch({
   value,
   onValueChange,
@@ -97,10 +70,6 @@ function MenuSearch({
         value={value}
         onChange={(event) => onValueChange(event.target.value)}
         onKeyDown={(event) => {
-          // The keys the menu owns pass through: the arrows move the
-          // highlight, Escape shuts it, Enter takes the highlighted row. Only
-          // the printable ones are held back, and only because typeahead would
-          // otherwise read them as an attempt to jump to a row.
           const navigational =
             event.key.length > 1 || event.metaKey || event.ctrlKey
           if (!navigational) event.stopPropagation()
@@ -108,17 +77,14 @@ function MenuSearch({
         className="w-full bg-transparent text-xs text-foreground outline-none placeholder:text-muted-foreground/70"
       />
 
-      {/* Disabled rather than hidden while the field is empty: a control that
-          comes and goes shifts the field's end as you type, and the first
-          character would move the thing you were about to aim at. */}
+      {/* Disabled rather than hidden while empty, so the field's end doesn't shift as you type. */}
       <button
         type="button"
         data-slot="menu-search-clear"
         aria-label="Clear search"
         disabled={!value}
         onClick={(event) => {
-          // The menu closes on a press that reaches it, and this one is about
-          // the field rather than about choosing anything.
+          // The menu closes on any press that reaches it.
           event.stopPropagation()
           onValueChange("")
           inputRef.current?.focus()
@@ -176,10 +142,8 @@ function MenuContent({
           data-variant={variant}
           className={cn(
             menuPopup(variant),
-            // With a search box the popup stops being the scrolling element:
-            // the rows scroll under a box that stays put. `overflow-y-hidden`
-            // is what takes the scroll off the popup, since the base sets
-            // `overflow-y-auto` and the two are the same property.
+            // The base sets `overflow-y-auto`; hidden here so the rows scroll under a
+            // search box that stays put.
             showSearch && "flex flex-col overflow-y-hidden",
             className
           )}
@@ -192,11 +156,7 @@ function MenuContent({
                 onValueChange={setQuery}
                 placeholder={searchPlaceholder}
               />
-              {/* `-mx-1 px-1` reinstates the popup's own gutter inside the scroller,
-                  because the separators bleed into it with a matching `-mx-1`.
-                  Without it they hang 4px past this box and, since a scroller
-                  cannot be scrollable on one axis alone, that shows up as a
-                  horizontal scrollbar. */}
+              {/* Reinstates the gutter the separators bleed into, or they overhang and add a horizontal scrollbar. */}
               <div className="-mx-1 min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-1">
                 {empty ? (
                   <div className="px-2 py-1.5 text-xs text-muted-foreground/70">
@@ -216,11 +176,6 @@ function MenuContent({
   )
 }
 
-/**
- * One row, and the shape every other kind of row borrows. The icon sizing rule
- * is here rather than on each item so a menu can be written as an icon and a
- * word without either being wrapped in anything.
- */
 const menuItem = cn(
   "flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-xs font-medium text-muted-foreground transition-colors outline-none select-none",
   "data-highlighted:bg-foreground/[0.06] data-highlighted:text-foreground dark:data-highlighted:bg-foreground/[0.09]",
@@ -243,15 +198,9 @@ function MenuItem({
         menuItem,
         variant === "destructive" &&
           cn(
-            // The dark tint is the heavier one, as it is on the bubble and the
-            // button: the same alpha that reads as a warning over a light
-            // surface barely registers over a dark one, and over glass there
-            // is a translucent popup fill in the way of it as well.
+            // Dark takes the heavier tint: the same alpha barely registers there.
             "text-destructive data-highlighted:bg-destructive/5 data-highlighted:text-destructive dark:data-highlighted:bg-destructive/15",
-            // The shortcut is named separately because it sets a muted color
-            // of its own, so without this the row goes red around a grey
-            // keystroke. Highlighted only — at rest it stays quiet, as the
-            // shortcut does on every other row.
+            // The shortcut sets its own muted colour, so it has to be turned red too.
             "data-highlighted:**:data-[slot=menu-shortcut]:text-destructive"
           ),
         className
@@ -272,7 +221,6 @@ function MenuLinkItem({ className, ...props }: MenuPrimitive.LinkItem.Props) {
   )
 }
 
-/** The mark a chosen row carries. */
 function MenuIndicatorMark({ className }: { className?: string }) {
   return (
     <HugeiconsIcon
@@ -284,11 +232,6 @@ function MenuIndicatorMark({ className }: { className?: string }) {
   )
 }
 
-/**
- * A row that keeps its own state. The indicator sits at the end rather than the
- * start so a menu of them still reads as a list of words, and the space it
- * takes is held whether or not it is showing.
- */
 function MenuCheckboxItem({
   className,
   children,
@@ -369,7 +312,6 @@ function MenuSeparator({ className, ...props }: MenuPrimitive.Separator.Props) {
   )
 }
 
-/** The keystroke a row also answers to, set at the end of it. */
 function MenuShortcut({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
@@ -387,11 +329,6 @@ function MenuSub(props: MenuPrimitive.SubmenuRoot.Props) {
   return <MenuPrimitive.SubmenuRoot data-slot="menu-sub" {...props} />
 }
 
-/**
- * A row that opens another menu. Its chevron is logical rather than
- * left-to-right: in an RTL layout the submenu opens the other way, and an
- * arrow pointing the wrong way is worse than none.
- */
 function MenuSubTrigger({
   className,
   children,
@@ -435,10 +372,7 @@ function MenuSubContent({
   )
 }
 
-/**
- * What a row is called, for matching. The keystroke is left out on purpose: a
- * menu searched for "s" should not answer with every row that has ⌘S on it.
- */
+// Leaves the shortcut out, so searching "s" doesn't match every row with ⌘S.
 function labelOf(node: React.ReactNode): string {
   if (typeof node === "string" || typeof node === "number") return String(node)
   if (Array.isArray(node)) return node.map(labelOf).join(" ")
@@ -449,16 +383,8 @@ function labelOf(node: React.ReactNode): string {
   return ""
 }
 
-/**
- * The rows that answer to `query`, with the structure around them kept honest.
- * A group whose rows all went is dropped along with its label, and separators
- * go entirely — they mark the divisions of the whole menu, and a filtered menu
- * is a different list whose old divisions no longer describe it.
- *
- * A submenu is matched on its own trigger's label rather than on what is inside
- * it. Searching into one would mean flattening the tree and answering with rows
- * that are not where the search says they are.
- */
+// Drops groups left empty, and every separator. A submenu matches on its
+// trigger's label, not on what is inside it.
 function filterRows(children: React.ReactNode, query: string): React.ReactNode {
   const needle = query.trim().toLowerCase()
   if (needle === "") return children

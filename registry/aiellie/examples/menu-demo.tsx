@@ -57,14 +57,6 @@ import {
   MenuTrigger,
 } from "@/registry/aiellie/components/menu"
 
-/**
- * Every row the menu ships, in one popup: plain items with shortcuts, submenus
- * nested three deep, checkbox and radio rows that hold their own state, a
- * disabled row, a real link and the destructive row.
- *
- * The state here is only what a menu of this shape would already be reading
- * from somewhere — settings live outside the menu, so the demo holds them too.
- */
 export default function MenuDemo() {
   const [sidebar, setSidebar] = React.useState(true)
   const [statusBar, setStatusBar] = React.useState(false)
@@ -76,9 +68,6 @@ export default function MenuDemo() {
 
   return (
     <Menu>
-      {/* `render` makes the existing button the trigger rather than nesting one
-          button inside another. The chevron turns on the button's own
-          `aria-expanded`, so nothing has to be told the menu is open. */}
       <MenuTrigger render={<Button variant="outline" />}>
         Options
         <HugeiconsIcon
@@ -159,9 +148,6 @@ export default function MenuDemo() {
 
         <MenuSeparator />
 
-        {/* Checkbox and radio rows keep the menu open when clicked, which is
-            the primitive's default — a settings row you have to reopen the
-            menu to change twice is the wrong shape. */}
         <MenuGroup>
           <MenuGroupLabel>View</MenuGroupLabel>
           <MenuCheckboxItem checked={sidebar} onCheckedChange={setSidebar}>
@@ -320,7 +306,6 @@ export default function MenuDemo() {
             <HugeiconsIcon aria-hidden icon={HelpCircleIcon} />
             Help & Support
           </MenuItem>
-          {/* A real anchor, so cmd-click and open-in-new-tab still work. */}
           <MenuLinkItem
             href="https://base-ui.com/react/components/menu"
             target="_blank"

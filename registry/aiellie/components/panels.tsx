@@ -37,12 +37,7 @@ import { cn } from "@/lib/utils"
 
 type Side = "left" | "right" | "bottom"
 
-/**
- * Everything that differs from one side to the next. Sizes are the panel's
- * default, smallest and largest, in any unit the library takes; the key is the
- * letter that toggles it with ⌘ or Ctrl. `fill` is whether its toggle takes a
- * fill while the panel is open; without one, only the glyph says so.
- */
+// `fill` is whether a panel's toggle takes a fill while the panel is open.
 const PANELS = {
   left: {
     title: "Left",
@@ -50,7 +45,6 @@ const PANELS = {
     key: "b",
     openIcon: SidebarLeftIcon,
     closedIcon: LayoutAlignLeftIcon,
-    // It sits among the sidebar's own quiet buttons, so it stays as quiet.
     fill: false,
   },
   right: {
@@ -72,15 +66,9 @@ const PANELS = {
 } as const
 
 type PanelsContextValue = {
-  /** Whether each panel is on screen, its rail or, on a phone, its sheet. */
   isOpen: (side: Side) => boolean
   toggle: (side: Side) => void
-  /**
-   * Puts away whichever side panel is up as a sheet on a phone, and does
-   * nothing on a wide screen, where the panel sits beside the page. For
-   * content that is done once something in it is picked, like a list of
-   * pages.
-   */
+  /** Closes a side panel's sheet on a phone. Does nothing on a wide screen. */
   closeSheet: () => void
 }
 
@@ -92,18 +80,11 @@ function usePanels() {
   return context
 }
 
-/**
- * Opens and closes one panel, with a tooltip naming what it will do and the
- * key that does the same. With `close` it is a ghost × instead, for where the
- * panel is always open when the button is seen: its own header, or its sheet.
- */
 function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
   const { isOpen, toggle } = usePanels()
   const { title, key, openIcon, closedIcon, fill } = PANELS[side]
   const open = isOpen(side)
   const label = `${open ? "Hide" : "Show"} ${title.toLowerCase()} panel`
-  // Filled, the open toggle is lit to match its fill. Otherwise it stays
-  // muted like any quiet icon button, and only the glyph says it's open.
   const filled = open && !close && fill
 
   return (
@@ -114,7 +95,6 @@ function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
             data-slot="panel-toggle"
             variant={filled ? "secondary" : "ghost"}
             size="icon-sm"
-            // A close button only ever closes, so it isn't a pressed toggle.
             aria-pressed={close ? undefined : open}
             onClick={() => toggle(side)}
             className={cn(
@@ -124,8 +104,7 @@ function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
           />
         }
       >
-        {/* Keyed so the glyph remounts, and replays any entrance animation,
-            as it swaps. */}
+        {/* Keyed so the glyph remounts and replays its entrance as it swaps. */}
         <HugeiconsIcon
           key={String(open)}
           icon={close ? Cancel01Icon : open ? openIcon : closedIcon}
@@ -146,11 +125,6 @@ function PanelToggle({ side, close = false }: { side: Side; close?: boolean }) {
   )
 }
 
-/**
- * The bar across the top of a panel: its title, and its toggles at the end.
- * The title is the panel's name unless the page hands over a header of its
- * own, which gets the whole space between the toggles.
- */
 function PanelHeader({
   title,
   start,
@@ -187,20 +161,9 @@ function PanelHeader({
   )
 }
 
-/**
- * One collapsible panel and the handle on its inner edge. It stays mounted and
- * collapses to nothing rather than unmounting, because an unmounted panel
- * hands its space to whichever neighbour has room, which can throw the other
- * side out to its largest size.
- *
- * While it is shut, its handle is disabled and hidden, so a closed panel opens
- * from its toggle and not by pulling its edge back out. The handle can't
- * simply go away: with no separator between two panels, the library lets the
- * gap between their edges be dragged instead.
- *
- * Its content never gets smaller than the panel's smallest size, so as the
- * panel folds away the content slides out of view instead of squeezing.
- */
+// Collapses rather than unmounting: an unmounted panel hands its space to a
+// neighbour, which can throw the other side out to its largest size. The
+// handle is disabled, not removed, or the library lets the gap be dragged.
 function CollapsiblePanel({
   side,
   open,
@@ -214,14 +177,12 @@ function CollapsiblePanel({
   const [defaultSize, minSize, maxSize] = PANELS[side].size
 
   // Only a change of `open` moves the panel, so a drag that closes it isn't
-  // echoed back as an expand. The first pass runs on mount too, or an open
-  // panel soaks up whatever space the group has left over.
+  // echoed back as an expand.
   const syncedRef = React.useRef<boolean | null>(null)
   React.useEffect(() => {
     const panel = panelRef.current
     if (!panel || syncedRef.current === open) return
     syncedRef.current = open
-    // Reopening always comes back at the default size, whatever a drag left.
     if (open) panel.resize(defaultSize)
     else panel.collapse()
   }, [open, panelRef, defaultSize])
@@ -235,13 +196,11 @@ function CollapsiblePanel({
   )
 
   // `defaultSize` and `minSize` are only read on mount, so they have to agree
-  // with the first render, or a closed panel paints open once and claims its
-  // minimum from a neighbour.
+  // with the first render.
   const panel = (
     <ResizablePanel
       id={`panel-${side}`}
       panelRef={panelRef}
-      // Shut, nothing in it can be tabbed to or read out, toggles included.
       inert={!open}
       collapsible
       collapsedSize={0}
@@ -276,12 +235,6 @@ function CollapsiblePanel({
   )
 }
 
-/**
- * A panel's body, under its header. It scrolls on its own unless `scroll` is
- * off, in which case it fills the panel and leaves scrolling to its contents,
- * so a page can keep something at the bottom, like a composer, while the rest
- * moves.
- */
 function PanelBody({
   scroll = true,
   children,
@@ -301,10 +254,6 @@ function PanelBody({
   )
 }
 
-/**
- * On a phone the side panels don't fit beside the page, so they slide over it
- * as sheets instead, each with its own header and a × to close it.
- */
 function PanelSheet({
   side,
   header,
@@ -347,29 +296,12 @@ function PanelSheet({
   )
 }
 
-/** How long a panel takes to open or close from its toggle, in milliseconds. */
 const DURATION = 280
 
-/**
- * While a toggle is at work, every panel eases to its new size. A drag has to
- * follow the pointer exactly, so the transition is only on for that long.
- */
+// Only on while a toggle animates, since a drag has to follow the pointer.
 const ANIMATING =
   "data-animating:*:transition-[flex-grow] data-animating:*:duration-280 data-animating:*:ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:*:transition-none"
 
-/**
- * An app shell: the page in the middle, with a resizable panel on the left,
- * the right and along the bottom, each opened from the headers or with ⌘B, ⌘I
- * and ⌘J. Drag a panel's edge to resize it, or all the way in to close it.
- *
- * Only the panels given content are there, toggles and keys included, so a
- * page with a sidebar and nothing else passes `left` alone. Each header shows
- * the panel's name unless `headers` gives it something else, like the page's
- * title and its actions.
- *
- * It fills the window by default. Pass `className` to size it some other way,
- * e.g. `h-full` to fill a box.
- */
 function Panels({
   left,
   right,
@@ -388,14 +320,10 @@ function Panels({
   headers?: Partial<Record<Side | "main", React.ReactNode>>
   /** Which headers leave off the rule under them. Each has one by default. */
   headerBorder?: Partial<Record<Side | "main", boolean>>
-  /**
-   * Which end of its own header each panel's toggle sits at: "end" by
-   * default, or "start", ahead of whatever `headers` gives it.
-   */
+  /** "end" by default, or "start", ahead of whatever `headers` gives it. */
   toggleAt?: Partial<Record<Side, "start" | "end">>
   defaultOpen?: Partial<Record<Side, boolean>>
   className?: string
-  /** The page, in the main panel. */
   children: React.ReactNode
 }) {
   const isMobile = useIsMobile()
@@ -406,7 +334,6 @@ function Panels({
     () => ({ left: hasLeft, right: hasRight, bottom: hasBottom }),
     [hasLeft, hasRight, hasBottom]
   )
-  // The rails, on a wide screen.
   const [open, setOpen] = React.useState({
     left: false,
     right: false,
@@ -473,7 +400,6 @@ function Panels({
       })
     }
 
-  // The side rails stay shut on a phone, where the sheets stand in for them.
   const leftOpen = open.left && !isMobile
   const rightOpen = open.right && !isMobile
   const bottomToggle = has.bottom ? <PanelToggle side="bottom" /> : null
@@ -508,8 +434,6 @@ function Panels({
               className="flex flex-col"
               style={{ overflow: "hidden" }}
             >
-              {/* A panel's toggle sits in its own header while it is open, and
-                  falls back to this one, on the same side, once it closes. */}
               <PanelHeader
                 title={headers.main ?? "Main"}
                 border={headerBorder.main}
@@ -525,7 +449,6 @@ function Panels({
                   )
                 }
               />
-              {/* The page scrolls itself, so a footer inside it stays put. */}
               <PanelBody scroll={false}>{children}</PanelBody>
             </ResizablePanel>
             {has.bottom ? (

@@ -10,10 +10,6 @@ import {
   type ComposerStatus,
 } from "@/registry/aiellie/components/composer"
 
-/**
- * Sending pretends a reply is on its way for a couple of seconds, so the send
- * button can be seen turning into stop and back again.
- */
 export default function ComposerDemo() {
   const [status, setStatus] = React.useState<ComposerStatus>("ready")
   const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null)

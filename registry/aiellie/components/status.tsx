@@ -30,7 +30,6 @@ function Status({
   ...props
 }: useRender.ComponentProps<"span"> &
   VariantProps<typeof statusVariants> & {
-    /** Animate the indicator dot with a pulsing ping. */
     pulse?: boolean
   }) {
   const rootProps: useRender.ComponentProps<"span"> &
@@ -49,10 +48,6 @@ function Status({
   })
 }
 
-/**
- * Colored dot for a {@link Status}. Inherits the status color via
- * `currentColor`, so it always matches the surrounding variant.
- */
 function StatusIndicator({
   className,
   ...props
@@ -76,7 +71,6 @@ function StatusIndicator({
   )
 }
 
-/** Text label for a {@link Status}. */
 function StatusLabel({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
