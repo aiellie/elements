@@ -2,7 +2,10 @@
 
 import * as React from "react"
 
-import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
+import {
+  ChatAttachments,
+  type ChatAttachment,
+} from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import { ChatComposer } from "@/registry/aiellie/blocks/chat/components/chat-composer"
 import {
   PREVIEW_REPLY,
@@ -24,12 +27,18 @@ import type { ChatMode } from "@/registry/aiellie/blocks/chat/components/chat-sw
 import { ChatThread } from "@/registry/aiellie/blocks/chat/components/chat-thread"
 import type { ComposerStatus } from "@/registry/aiellie/components/composer"
 import { Panels } from "@/registry/aiellie/components/panels"
+import {
+  QuickChat,
+  type QuickChatMessage,
+} from "@/registry/aiellie/components/quick-chat"
 import { MODELS } from "@/registry/aiellie/lib/models"
 import { SidebarProvider } from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
 
 const FIRST_WORD_DELAY = 500
 const WORD_DELAY = 35
+const QUICK_REPLY =
+  "This stays separate from your main conversation, so you can handle a quick question without losing your place."
 
 // The chats opened so far, stepped through like browser history. Null is a
 // new chat.
@@ -61,6 +70,7 @@ function Chat({
   onProjects,
   className,
 }: {
+  /** Called after the quick chat panel opens. */
   onQuickChat?: () => void
   /** Called with the new state each time the bell is pressed. */
   onActivity?: (open: boolean) => void
@@ -85,6 +95,18 @@ function Chat({
   const [mode, setMode] = React.useState<ChatMode>("chat")
   const [activityOpen, setActivityOpen] = React.useState(false)
   const [searchOpen, setSearchOpen] = React.useState(false)
+  const [quickChatOpen, setQuickChatOpen] = React.useState(false)
+  const [quickMessages, setQuickMessages] = React.useState<QuickChatMessage[]>(
+    []
+  )
+  const [quickStreaming, setQuickStreaming] = React.useState(false)
+  const [quickDraft, setQuickDraft] = React.useState("")
+  const [quickModel, setQuickModel] = React.useState(MODELS[0].id)
+  const [quickProject, setQuickProject] = React.useState<string | null>(null)
+  const [quickPlugins, setQuickPlugins] = React.useState<string[]>([])
+  const [quickWorkIn, setQuickWorkIn] = React.useState("local")
+  const [quickBranches, setQuickBranches] = React.useState(SAMPLE_BRANCHES)
+  const [quickBranch, setQuickBranch] = React.useState(SAMPLE_BRANCHES[0])
   const [draft, setDraft] = React.useState("")
   const [model, setModel] = React.useState(MODELS[0].id)
   const [project, setProject] = React.useState<string | null>(null)
@@ -97,6 +119,7 @@ function Chat({
 
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  const quickTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
   const streamRef = React.useRef<{
     conversationId: string
     messageId: string
@@ -106,6 +129,7 @@ function Chat({
   React.useEffect(
     () => () => {
       if (timerRef.current) clearTimeout(timerRef.current)
+      if (quickTimerRef.current) clearTimeout(quickTimerRef.current)
     },
     []
   )
@@ -295,6 +319,52 @@ function Chat({
     else setTemporaryDraft(next)
   }
 
+  const openQuickChat = () => {
+    setQuickChatOpen(true)
+    onQuickChat?.()
+  }
+
+  const stopQuickChat = () => {
+    if (quickTimerRef.current) clearTimeout(quickTimerRef.current)
+    quickTimerRef.current = null
+    setQuickStreaming(false)
+    setQuickMessages((all) => all.filter((message) => !message.streaming))
+  }
+
+  const sendQuickChat = (
+    content: string,
+    attachments: ChatAttachment[] = []
+  ) => {
+    stopQuickChat()
+    const userId = makeId("message")
+    const replyId = makeId("message")
+    setQuickMessages((all) => [
+      ...all,
+      {
+        id: userId,
+        from: "user",
+        content,
+        attachments:
+          attachments.length > 0 ? (
+            <ChatAttachments attachments={attachments} size="xs" />
+          ) : undefined,
+      },
+      { id: replyId, from: "assistant", content: "", streaming: true },
+    ])
+    setQuickStreaming(true)
+    quickTimerRef.current = setTimeout(() => {
+      setQuickMessages((all) =>
+        all.map((message) =>
+          message.id === replyId
+            ? { ...message, content: QUICK_REPLY, streaming: false }
+            : message
+        )
+      )
+      setQuickStreaming(false)
+      quickTimerRef.current = null
+    }, FIRST_WORD_DELAY)
+  }
+
   const toggleActivity = () => {
     const open = !activityOpen
     setActivityOpen(open)
@@ -318,7 +388,7 @@ function Chat({
     if (!(event.metaKey || event.ctrlKey) || event.altKey) return
     const key = event.key.toLowerCase()
     const action = event.shiftKey
-      ? { n: onQuickChat, u: toggleActivity }[key]
+      ? { n: openQuickChat, u: toggleActivity }[key]
       : {
           n: startNewChat,
           "[": () => go(-1),
@@ -368,7 +438,7 @@ function Chat({
     <div
       data-slot="chat"
       className={cn(
-        "flex h-full min-h-0 w-full overflow-hidden bg-background text-foreground",
+        "relative flex h-full min-h-0 w-full overflow-hidden bg-background text-foreground",
         className
       )}
     >
@@ -386,7 +456,7 @@ function Chat({
               mode={mode}
               onModeChange={setMode}
               onNewChat={startNewChat}
-              onQuickChat={onQuickChat}
+              onQuickChat={openQuickChat}
               onProjects={onProjects}
               onSearch={() => setSearchOpen(true)}
               activityOpen={activityOpen}
@@ -468,6 +538,39 @@ function Chat({
           />
         </Panels>
       </SidebarProvider>
+      <QuickChat
+        open={quickChatOpen}
+        onOpenChange={setQuickChatOpen}
+        messages={quickMessages}
+        composer={
+          <ChatComposer
+            value={quickDraft}
+            onValueChange={setQuickDraft}
+            onSend={sendQuickChat}
+            onStop={stopQuickChat}
+            status={quickStreaming ? "streaming" : "ready"}
+            models={MODELS}
+            model={quickModel}
+            onModelChange={setQuickModel}
+            projects={SAMPLE_PROJECTS}
+            project={quickProject}
+            onProjectChange={setQuickProject}
+            plugins={SAMPLE_PLUGINS}
+            activePlugins={quickPlugins}
+            onPluginsChange={setQuickPlugins}
+            workIn={quickWorkIn}
+            onWorkInChange={setQuickWorkIn}
+            branches={quickBranches}
+            branch={quickBranch}
+            onBranchChange={setQuickBranch}
+            onBranchCreate={(name) => {
+              setQuickBranches((all) => [name, ...all])
+              setQuickBranch(name)
+            }}
+          />
+        }
+        className="absolute"
+      />
     </div>
   )
 }

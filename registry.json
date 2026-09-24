@@ -774,6 +774,28 @@
       "categories": ["chat"]
     },
     {
+      "name": "quick-chat",
+      "type": "registry:component",
+      "title": "Quick Chat",
+      "description": "A compact conversation panel that floats at the bottom corner of the current page, keeping a quick question separate from the main thread.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/composer",
+        "@aiellie/message",
+        "@aiellie/thread",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/quick-chat.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/quick-chat.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
       "name": "chat",
       "type": "registry:block",
       "title": "Chat",
@@ -810,6 +832,7 @@
         "@aiellie/composer",
         "@aiellie/message",
         "@aiellie/thread",
+        "@aiellie/quick-chat",
         "@aiellie/utils"
       ],
       "files": [

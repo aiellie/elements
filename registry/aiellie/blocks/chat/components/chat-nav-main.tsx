@@ -71,7 +71,10 @@ function ChatNavMain({
             tooltip="Quick chat"
             shortcut="⌘⇧N"
             aria-keyshortcuts="Meta+Shift+N"
-            onClick={onQuickChat}
+            onClick={() => {
+              onQuickChat?.()
+              closeSheet()
+            }}
             className="size-7.5 shrink-0"
           >
             <HugeiconsIcon icon={BubbleChatAddIcon} />

@@ -4,6 +4,7 @@ import {
   AddCircleIcon,
   AiBrain01Icon,
   BubbleChatTemporaryIcon,
+  BubbleChatAddIcon,
   CursorInfo02Icon,
   DashboardSpeed02Icon,
   FolderLibraryIcon,
@@ -36,6 +37,7 @@ import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
 import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
+import QuickChatDemo from "@/registry/aiellie/examples/quick-chat-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import TemporaryChatToggleDemo from "@/registry/aiellie/examples/temporary-chat-toggle-demo"
@@ -243,6 +245,15 @@ export default function ComponentsPage() {
           description="A simple thread component"
         >
           <ThreadDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/quick-chat"
+          index={21}
+          title="Quick Chat"
+          icon={BubbleChatAddIcon}
+          description="A compact conversation that floats over the current page"
+        >
+          <QuickChatDemo />
         </DemoCard>
       </CategorySection>
     </div>

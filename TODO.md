@@ -9,3 +9,4 @@
 9. make it signin able
 10. homepage
 11. update demo instructions to make them active like playing
+12. analyze the structure of how we r doing this and if it still makes sense
