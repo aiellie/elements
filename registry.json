@@ -659,7 +659,11 @@
       "type": "registry:block",
       "title": "Chat",
       "description": "A chat page: your chats in a sidebar, a thread that streams replies, and a composer with a model selector.",
-      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "fflate"
+      ],
       "registryDependencies": [
         "@aiellie/brand-icons",
         "@aiellie/button",

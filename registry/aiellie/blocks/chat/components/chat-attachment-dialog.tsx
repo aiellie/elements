@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Download04Icon, File02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
+import { zip } from "fflate"
 
 import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import { Button } from "@/registry/aiellie/ui/button"
@@ -150,14 +151,55 @@ function Preview({ attachment }: { attachment: ChatAttachment }) {
   )
 }
 
-function download(file: File) {
-  const url = URL.createObjectURL(file)
+function save(blob: Blob, name: string) {
+  const url = URL.createObjectURL(blob)
   const link = document.createElement("a")
   link.href = url
-  link.download = file.name
+  link.download = name
   link.click()
   // Revoked on the next turn, once the browser has started the download.
   setTimeout(() => URL.revokeObjectURL(url))
+}
+
+async function zipFolder(attachment: ChatAttachment) {
+  const entries = Object.fromEntries(
+    await Promise.all(
+      attachment.files.map(async (file) => [
+        file.webkitRelativePath || `${attachment.name}/${file.name}`,
+        new Uint8Array(await file.arrayBuffer()),
+      ])
+    )
+  )
+  const data = await new Promise<Uint8Array>((resolve, reject) =>
+    zip(entries, (error, zipped) => (error ? reject(error) : resolve(zipped)))
+  )
+  return new Blob([data as Uint8Array<ArrayBuffer>], {
+    type: "application/zip",
+  })
+}
+
+function DownloadButton({ attachment }: { attachment: ChatAttachment }) {
+  const [zipping, setZipping] = React.useState(false)
+
+  const download = async () => {
+    if (attachment.kind !== "folder") {
+      save(attachment.files[0], attachment.name)
+      return
+    }
+    setZipping(true)
+    try {
+      save(await zipFolder(attachment), `${attachment.name}.zip`)
+    } finally {
+      setZipping(false)
+    }
+  }
+
+  return (
+    <Button onClick={download} disabled={zipping}>
+      <HugeiconsIcon aria-hidden icon={Download04Icon} />
+      {zipping ? "Zipping…" : "Download"}
+    </Button>
+  )
 }
 
 function ChatAttachmentDialog({
@@ -195,13 +237,7 @@ function ChatAttachmentDialog({
               <DialogClose render={<Button variant="outline" />}>
                 Close
               </DialogClose>
-              {/* A folder would need zipping first, which the browser can't do alone. */}
-              {attachment.kind !== "folder" ? (
-                <Button onClick={() => download(attachment.files[0])}>
-                  <HugeiconsIcon aria-hidden icon={Download04Icon} />
-                  Download
-                </Button>
-              ) : null}
+              <DownloadButton key={attachment.id} attachment={attachment} />
             </DialogFooter>
           </>
         ) : null}
