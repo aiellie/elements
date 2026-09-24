@@ -1,5 +1,6 @@
 import {
   Activity03Icon,
+  AudioWave01Icon,
   AddCircleIcon,
   AiBrain01Icon,
   CursorInfo02Icon,
@@ -31,6 +32,7 @@ import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
 import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
+import WaveformDemo from "@/registry/aiellie/examples/waveform-demo"
 import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 export default function ComponentsPage() {
@@ -149,11 +151,20 @@ export default function ComponentsPage() {
         >
           <MeterDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/waveform"
+          index={12}
+          title="Waveform"
+          icon={AudioWave01Icon}
+          description="Live bars that follow a microphone, so you can see it hears you"
+        >
+          <WaveformDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="chat">
         <DemoCard
           href="/components/composer"
-          index={12}
+          index={13}
           title="Composer"
           icon={MessageEdit01Icon}
           description="A simple composer component"
@@ -162,7 +173,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message"
-          index={13}
+          index={14}
           title="Message"
           icon={Message01Icon}
           description="A simple message component"
@@ -171,7 +182,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={14}
+          index={15}
           title="Thread"
           icon={MessageMultiple01Icon}
           description="A simple thread component"

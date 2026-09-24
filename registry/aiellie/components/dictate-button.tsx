@@ -1,13 +1,14 @@
 "use client"
 
 import * as React from "react"
-import { Mic01Icon } from "@hugeicons/core-free-icons"
+import { Mic01Icon, StopIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import {
   TooltipIconButton,
   type TooltipIconButtonProps,
 } from "@/registry/aiellie/components/tooltip-icon-button"
+import { Waveform } from "@/registry/aiellie/components/waveform"
 import { cn } from "@/lib/utils"
 
 // TypeScript's DOM types don't include the recognizer itself yet, only its
@@ -67,7 +68,9 @@ function DictateButton({
     () => false
   )
   const [listening, setListening] = React.useState(false)
+  const [stream, setStream] = React.useState<MediaStream | null>(null)
   const recognition = React.useRef<Recognition | null>(null)
+  const session = React.useRef<object | null>(null)
   const written = React.useRef(value)
   const callbacks = React.useRef({ onValueChange, onError })
 
@@ -82,6 +85,11 @@ function DictateButton({
   }, [value, listening])
 
   React.useEffect(() => () => recognition.current?.abort(), [])
+
+  React.useEffect(
+    () => () => stream?.getTracks().forEach((track) => track.stop()),
+    [stream]
+  )
 
   if (!supported) return null
 
@@ -113,12 +121,26 @@ function DictateButton({
     }
     next.onend = () => {
       recognition.current = null
+      session.current = null
       setListening(false)
+      setStream(null)
     }
 
     recognition.current = next
     next.start()
     setListening(true)
+
+    // The recognizer keeps its audio to itself, so the waveform listens on a
+    // stream of its own. Without one it still shows, resting.
+    const current = {}
+    session.current = current
+    navigator.mediaDevices
+      ?.getUserMedia({ audio: true })
+      .then((audio) => {
+        if (session.current === current) setStream(audio)
+        else audio.getTracks().forEach((track) => track.stop())
+      })
+      .catch(() => {})
   }
 
   return (
@@ -129,20 +151,26 @@ function DictateButton({
       side={side}
       onClick={() => (listening ? recognition.current?.stop() : start())}
       className={cn(
-        "relative size-7 shrink-0 rounded-full p-1.5",
+        "size-7 shrink-0 rounded-full p-1.5 data-listening:w-auto data-listening:gap-1.5 data-listening:px-2.5",
         "data-listening:bg-blue-500/4 data-listening:hover:bg-blue-500/7 data-listening:[&_svg]:text-blue-500 data-listening:hover:[&_svg]:text-blue-500",
         "dark:data-listening:bg-blue-400/4 dark:data-listening:hover:bg-blue-400/7 dark:data-listening:[&_svg]:text-blue-400 dark:data-listening:hover:[&_svg]:text-blue-400",
         className
       )}
       {...props}
     >
-      <HugeiconsIcon aria-hidden icon={Mic01Icon} strokeWidth={2} />
       {listening ? (
-        <span
-          aria-hidden
-          className="absolute end-0.5 top-0.5 size-1.5 animate-pulse rounded-full bg-blue-500 motion-reduce:animate-none dark:bg-blue-400"
-        />
-      ) : null}
+        <>
+          <Waveform stream={stream} bars={16} />
+          <HugeiconsIcon
+            aria-hidden
+            icon={StopIcon}
+            strokeWidth={2}
+            className="size-3.5"
+          />
+        </>
+      ) : (
+        <HugeiconsIcon aria-hidden icon={Mic01Icon} strokeWidth={2} />
+      )}
     </TooltipIconButton>
   )
 }

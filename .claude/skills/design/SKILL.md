@@ -262,7 +262,7 @@ Registry code can't use these tokens, so it writes the value: `duration-80`, `du
 
 Input is answered instantly; layout takes its time. Anything the pointer causes directly finishes in 80 ms — past about 100 ms a press stops feeling connected to the finger. A state the pointer toggles, like a menu opening, takes 150 ms. Anything that arrives or reshapes the page runs at 280 ms, because a panel that snaps open makes the eye lose its place.
 
-**Every animation and transition has a `motion-reduce` escape.** `motion-reduce:transition-none` on a transition, `motion-reduce:animate-none` on an animation, on the same element. No exceptions: a spinner, a stagger, a colour fade and an opacity fade are all motion to someone who asked for less of it. The global rule in `globals.css` is only a backstop for the site. A consumer may not install the theme, so registry code never relies on it.
+**Every animation and transition has a `motion-reduce` escape.** `motion-reduce:transition-none` on a transition, `motion-reduce:animate-none` on an animation, on the same element. No exceptions: a spinner, a stagger, a colour fade and an opacity fade are all motion to someone who asked for less of it. The global rule in `globals.css` is only a backstop for the site. A consumer may not install the theme, so registry code never relies on it. Motion driven from JavaScript, like a waveform following the microphone, has no class to hang the escape on, so it checks `matchMedia("(prefers-reduced-motion: reduce)")` and holds still.
 
 **Transition the properties that change, never `all`.** `transition-[opacity,scale]` says what is moving and keeps everything else from being caught up in it. `transition-colors`, `transition-opacity` and `transition-transform` are fine, because each already names its properties. Tailwind v4's `scale-*`, `rotate-*` and `translate-*` set the `scale`, `rotate` and `translate` properties, so list those rather than `transform` inside a bracketed list.
 
@@ -294,6 +294,7 @@ Everything else is static. No scroll-triggered reveals, no parallax, no easing o
 **Checklist for a new element**
 
 - `motion-reduce` on every transition and animation.
+- Motion driven from JavaScript checks `prefers-reduced-motion` itself.
 - Every transition names its properties; none uses `all`.
 - Every duration is 80, 150 or 280 ms, and a stagger step is 70 ms.
 - Entrances with a delay carry `fill-mode-both`.

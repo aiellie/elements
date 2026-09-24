@@ -486,13 +486,29 @@
       "categories": ["actions"]
     },
     {
+      "name": "waveform",
+      "type": "registry:component",
+      "title": "Waveform",
+      "description": "Live bars that follow an audio stream, newest on the right, so a microphone can be seen to hear you. They hold still under reduced motion.",
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/waveform.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/waveform.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
       "name": "dictate-button",
       "type": "registry:component",
       "title": "Dictate Button",
-      "description": "A microphone button that types what you say into a field, using the browser's own speech recognition. It renders nothing where the browser has none.",
+      "description": "A microphone button that types what you say into a field, using the browser's own speech recognition, and grows into a live waveform while it listens. It renders nothing where the browser has none.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/tooltip-icon-button",
+        "@aiellie/waveform",
         "@aiellie/utils"
       ],
       "files": [
@@ -601,6 +617,7 @@
         "@aiellie/tooltip-icon-button",
         "@aiellie/add-menu",
         "@aiellie/dictate-button",
+        "@aiellie/waveform",
         "@aiellie/model-selector",
         "@aiellie/models",
         "@aiellie/composer",
