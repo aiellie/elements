@@ -209,16 +209,34 @@ function ComposerInput({
 
 // A tray that sits on top of the box, so it goes just before <Composer>, not
 // inside it. Inset past the box's corner, so it meets the straight edge.
-function ComposerHeader({ className, ...props }: React.ComponentProps<"div">) {
+// It stays mounted while closed, so it can fold away rather than vanish.
+function ComposerHeader({
+  open = true,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & {
+  open?: boolean
+}) {
   return (
     <div
       data-slot="composer-header"
-      className={cn(
-        "mx-5 flex flex-wrap items-center gap-1 rounded-t-xl bg-muted/60 px-1.5 py-1",
-        className
-      )}
-      {...props}
-    />
+      data-open={open || undefined}
+      inert={!open}
+      className="mx-5 grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-280 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none data-open:grid-rows-[1fr] data-open:opacity-100"
+    >
+      <div className="min-h-0 overflow-hidden">
+        <div
+          className={cn(
+            "flex flex-wrap items-center gap-1 rounded-t-xl bg-muted/60 px-1.5 py-1",
+            className
+          )}
+          {...props}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
   )
 }
 

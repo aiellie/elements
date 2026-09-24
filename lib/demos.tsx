@@ -2,6 +2,7 @@ import type { ComponentType } from "react"
 
 import AddMenuDemo from "@/registry/aiellie/examples/add-menu-demo"
 import BadgeDemo from "@/registry/aiellie/examples/badge-demo"
+import BranchesMenuDemo from "@/registry/aiellie/examples/branches-menu-demo"
 import AttachmentDemo from "@/registry/aiellie/examples/attachment-demo"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
@@ -32,6 +33,7 @@ import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
 import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
 import WaveformDemo from "@/registry/aiellie/examples/waveform-demo"
+import WorkInMenuDemo from "@/registry/aiellie/examples/work-in-menu-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
@@ -107,6 +109,16 @@ const DEMOS: Record<string, Demo> = {
     title: "Plugin Selector",
     gallery: "/components",
     Demo: PluginSelectorDemo,
+  },
+  "work-in-menu": {
+    title: "Work In Menu",
+    gallery: "/components",
+    Demo: WorkInMenuDemo,
+  },
+  "branches-menu": {
+    title: "Branches Menu",
+    gallery: "/components",
+    Demo: BranchesMenuDemo,
   },
   "dictate-button": {
     title: "Dictate Button",

@@ -3,16 +3,18 @@
 import * as React from "react"
 import {
   Attachment01Icon,
+  ComputerScreenShareIcon,
+  Folder01Icon,
   FolderLibraryIcon,
   Github01Icon,
   GoogleDriveIcon,
-  Image01Icon,
   PuzzleIcon,
   SlackIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { AddMenu } from "@/registry/aiellie/components/add-menu"
+import { BranchesMenu } from "@/registry/aiellie/components/branches-menu"
 import { DictateButton } from "@/registry/aiellie/components/dictate-button"
 import {
   Composer,
@@ -33,15 +35,16 @@ import {
 } from "@/registry/aiellie/components/menu"
 import { ModelSelector } from "@/registry/aiellie/components/model-selector"
 import {
-  PluginSelector,
+  PluginChips,
   PluginSelectorItems,
   type PluginOption,
 } from "@/registry/aiellie/components/plugin-selector"
 import {
   ProjectSelector,
-  ProjectSelectorItems,
+  projectSelectorItems,
   type ProjectOption,
 } from "@/registry/aiellie/components/project-selector"
+import { WorkInMenu } from "@/registry/aiellie/components/work-in-menu"
 import { MODELS } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
 
@@ -68,7 +71,13 @@ export default function ComposerDemo() {
   const [value, setValue] = React.useState("")
   const [model, setModel] = React.useState("claude-opus")
   const [project, setProject] = React.useState<string | null>("website")
-  const [plugins, setPlugins] = React.useState<string[]>([])
+  // Kept while the tray folds away, so it doesn't empty before it closes.
+  const [shownProject, setShownProject] = React.useState(project)
+  if (project !== null && project !== shownProject) setShownProject(project)
+  const [plugins, setPlugins] = React.useState<string[]>(["github"])
+  const [workIn, setWorkIn] = React.useState("local")
+  const [branches, setBranches] = React.useState(["main", "feat/tray"])
+  const [branch, setBranch] = React.useState("main")
   const [status, setStatus] = React.useState<ComposerStatus>("ready")
   const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -81,26 +90,32 @@ export default function ComposerDemo() {
 
   return (
     <div className="flex w-full max-w-md flex-col">
-      {project || plugins.length > 0 ? (
-        <ComposerHeader>
-          {project ? (
-            <ProjectSelector
-              projects={PROJECTS}
-              value={project}
-              onValueChange={setProject}
-              render={trayButton}
-            />
-          ) : null}
-          {plugins.length > 0 ? (
-            <PluginSelector
-              plugins={PLUGINS}
-              value={plugins}
-              onValueChange={setPlugins}
-              render={trayButton}
-            />
-          ) : null}
-        </ComposerHeader>
-      ) : null}
+      <ComposerHeader open={project !== null}>
+        {shownProject ? (
+          <ProjectSelector
+            projects={PROJECTS}
+            value={shownProject}
+            onValueChange={setProject}
+            className="hover:bg-background has-aria-expanded:bg-background dark:hover:bg-background/60 dark:has-aria-expanded:bg-background/60"
+          />
+        ) : null}
+        <WorkInMenu
+          value={workIn}
+          onValueChange={setWorkIn}
+          onConnect={() => {}}
+          render={trayButton}
+        />
+        <BranchesMenu
+          branches={branches}
+          value={branch}
+          onValueChange={setBranch}
+          onCreate={(name) => {
+            setBranches((all) => [name, ...all])
+            setBranch(name)
+          }}
+          render={trayButton}
+        />
+      </ComposerHeader>
       <Composer
         value={value}
         onValueChange={setValue}
@@ -114,17 +129,30 @@ export default function ComposerDemo() {
           setStatus("ready")
         }}
       >
+        <PluginChips
+          plugins={PLUGINS}
+          value={plugins}
+          onValueChange={setPlugins}
+          className="px-1 pt-1"
+        />
         <ComposerInput />
         <ComposerFooter>
           <AddMenu className="me-auto">
-            <MenuItem>
-              <HugeiconsIcon aria-hidden icon={Attachment01Icon} />
-              Upload files
-            </MenuItem>
-            <MenuItem>
-              <HugeiconsIcon aria-hidden icon={Image01Icon} />
-              Add photos
-            </MenuItem>
+            <MenuGroup>
+              <MenuGroupLabel>Attach</MenuGroupLabel>
+              <MenuItem>
+                <HugeiconsIcon aria-hidden icon={Attachment01Icon} />
+                Upload files
+              </MenuItem>
+              <MenuItem>
+                <HugeiconsIcon aria-hidden icon={Folder01Icon} />
+                Upload folder
+              </MenuItem>
+              <MenuItem>
+                <HugeiconsIcon aria-hidden icon={ComputerScreenShareIcon} />
+                Take screenshot
+              </MenuItem>
+            </MenuGroup>
             <MenuSeparator />
             <MenuGroup>
               <MenuGroupLabel>Connect</MenuGroupLabel>
@@ -133,12 +161,17 @@ export default function ComposerDemo() {
                   <HugeiconsIcon aria-hidden icon={FolderLibraryIcon} />
                   Projects
                 </MenuSubTrigger>
-                <MenuSubContent className="min-w-48">
-                  <ProjectSelectorItems
-                    projects={PROJECTS}
-                    value={project}
-                    onValueChange={setProject}
-                  />
+                <MenuSubContent
+                  showSearch
+                  searchPlaceholder="Search projects"
+                  emptyMessage="No projects match"
+                  className="min-w-56"
+                >
+                  {projectSelectorItems({
+                    projects: PROJECTS,
+                    value: project,
+                    onValueChange: setProject,
+                  })}
                 </MenuSubContent>
               </MenuSub>
               <MenuSub>

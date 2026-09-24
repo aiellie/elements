@@ -283,6 +283,8 @@ Scale only: the button doesn't also nudge down, and the fill doesn't darken on p
 
 **Layout transitions** animate: resizable panels, sidebar collapse and expand, accordions, drawers. Animate `width`, `height` or `transform`, never `all`.
 
+**A region that appears inside a layout folds open and shut; it never pops in.** A tray above the composer, a row of chips, a banner: keep it mounted, and move `grid-template-rows` between `0fr` and `1fr` with opacity, at 280 ms, with an inner `overflow-hidden` wrapper. Mark it `inert` while shut, and keep its last contents while it folds away, so it doesn't empty before it closes. `ComposerHeader` is the reference.
+
 **Entrances with a delay pair with `fill-mode-both`**, so an item isn't visible for a frame before its delay starts and doesn't snap back when it ends.
 
 **Stagger only a small set that arrives together**, like a row of suggestions or a fresh batch of chips: 70 ms per item, at 280 ms each. Never stagger a long list or anything that loads on scroll. A stagger needs a way to replay: key the container and bump the key, so the set remounts and a fresh one arrives rather than just appearing.

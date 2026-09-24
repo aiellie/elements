@@ -115,7 +115,7 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
 ]
 
 // Sample signed-in person. Pass your own.
-const SAMPLE_USER: User = { name: "Ada Lovelace", plan: "Pro" }
+const SAMPLE_USER: User = { name: "AI Ellie", plan: "Pro" }
 
 // Sample projects and plugins. Pass your own; the preview only shows which
 // are connected, and nothing reads a project or calls a plugin.
@@ -123,6 +123,13 @@ const SAMPLE_PROJECTS: ProjectOption[] = [
   { id: "website", name: "Website redesign" },
   { id: "planning", name: "Q3 planning" },
   { id: "onboarding", name: "Onboarding docs" },
+]
+
+const SAMPLE_BRANCHES = [
+  "main",
+  "feat/composer-tray",
+  "fix/attachment-preview",
+  "chore/update-deps",
 ]
 
 const SAMPLE_PLUGINS: PluginOption[] = [
@@ -194,6 +201,9 @@ function Chat({
   const [model, setModel] = React.useState(MODELS[0].id)
   const [project, setProject] = React.useState<string | null>(null)
   const [plugins, setPlugins] = React.useState<string[]>([])
+  const [workIn, setWorkIn] = React.useState("local")
+  const [branches, setBranches] = React.useState(SAMPLE_BRANCHES)
+  const [branch, setBranch] = React.useState(SAMPLE_BRANCHES[0])
   // The chat a reply is being written into, which is not always the open one.
   const [streamingId, setStreamingId] = React.useState<string | null>(null)
 
@@ -508,6 +518,15 @@ function Chat({
               plugins={SAMPLE_PLUGINS}
               activePlugins={plugins}
               onPluginsChange={setPlugins}
+              workIn={workIn}
+              onWorkInChange={setWorkIn}
+              branches={branches}
+              branch={branch}
+              onBranchChange={setBranch}
+              onBranchCreate={(name) => {
+                setBranches((all) => [name, ...all])
+                setBranch(name)
+              }}
               inputRef={inputRef}
             />
           </div>

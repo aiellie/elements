@@ -8,7 +8,7 @@ export default function UserMenuDemo() {
     // `min-h-0` drops the provider's full-page minimum height.
     <SidebarProvider className="min-h-0 w-full max-w-64">
       <UserMenu
-        user={{ name: "Ada Lovelace", plan: "Free" }}
+        user={{ name: "AI Ellie", plan: "Free" }}
         usage="40% left"
       />
     </SidebarProvider>

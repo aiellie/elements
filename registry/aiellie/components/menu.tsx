@@ -113,6 +113,7 @@ function MenuContent({
   showSearch = false,
   searchPlaceholder,
   emptyMessage = "No matches",
+  footer,
   children,
   ...props
 }: MenuPrimitive.Popup.Props &
@@ -121,11 +122,14 @@ function MenuContent({
     showSearch?: boolean
     searchPlaceholder?: string
     emptyMessage?: string
+    /** Rows pinned under the list, which the search never filters. Given the search text when it is a function. */
+    footer?: React.ReactNode | ((query: string) => React.ReactNode)
   }) {
   const [query, setQuery] = React.useState("")
 
   const rows = showSearch ? filterRows(children, query) : children
   const empty = showSearch && query !== "" && React.Children.count(rows) === 0
+  const pinned = typeof footer === "function" ? footer(query) : footer
 
   return (
     <MenuPrimitive.Portal>
@@ -170,6 +174,14 @@ function MenuContent({
           ) : (
             children
           )}
+          {pinned ? (
+            <div
+              data-slot="menu-footer"
+              className="-mx-1 mt-1 shrink-0 border-t border-border/60 px-1 pt-1"
+            >
+              {pinned}
+            </div>
+          ) : null}
         </MenuPrimitive.Popup>
       </MenuPrimitive.Positioner>
     </MenuPrimitive.Portal>

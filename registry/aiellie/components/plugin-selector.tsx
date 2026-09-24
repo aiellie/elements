@@ -18,7 +18,9 @@ import {
   MenuSeparator,
   MenuTrigger,
 } from "@/registry/aiellie/components/menu"
+import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 import { Button } from "@/registry/aiellie/ui/button"
+import { cn } from "@/lib/utils"
 
 type PluginOption = {
   id: string
@@ -57,6 +59,59 @@ function PluginSelectorItems({
       {plugin.name}
     </MenuCheckboxItem>
   ))
+}
+
+/** The plugins turned on, one chip each with its own remove button. */
+function PluginChips({
+  plugins,
+  value,
+  onValueChange,
+  className,
+}: {
+  plugins: PluginOption[]
+  value: string[]
+  onValueChange: (value: string[]) => void
+  className?: string
+}) {
+  const selected = plugins.filter((plugin) => value.includes(plugin.id))
+  if (selected.length === 0) return null
+
+  return (
+    <div
+      data-slot="plugin-chips"
+      className={cn("flex flex-wrap items-center gap-1", className)}
+    >
+      {selected.map((plugin) => (
+        <span
+          key={plugin.id}
+          data-slot="plugin-chip"
+          className="group/chip inline-flex h-6 items-center gap-0.5 rounded-full border bg-background ps-0.5 pe-2 text-xs text-foreground dark:bg-input/30"
+        >
+          {/* The mark turns into the way to turn the plugin off on hover. */}
+          <TooltipIconButton
+            tooltip={`Turn off ${plugin.name}`}
+            side="top"
+            onClick={() =>
+              onValueChange(value.filter((id) => id !== plugin.id))
+            }
+            className="group/remove size-5 rounded-full p-0.5 [&_svg]:size-3.5 [&_svg]:text-foreground"
+          >
+            <HugeiconsIcon
+              aria-hidden
+              icon={plugin.icon}
+              className="group-hover/chip:hidden group-focus-visible/remove:hidden"
+            />
+            <HugeiconsIcon
+              aria-hidden
+              icon={Cancel01Icon}
+              className="hidden group-hover/chip:block group-focus-visible/remove:block"
+            />
+          </TooltipIconButton>
+          {plugin.name}
+        </span>
+      ))}
+    </div>
+  )
 }
 
 function PluginSelector({
@@ -132,5 +187,5 @@ function PluginSelector({
   )
 }
 
-export { PluginSelector, PluginSelectorItems }
+export { PluginChips, PluginSelector, PluginSelectorItems }
 export type { PluginOption }

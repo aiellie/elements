@@ -7,7 +7,9 @@ import {
   CursorInfo02Icon,
   DashboardSpeed02Icon,
   FolderLibraryIcon,
+  GitBranchIcon,
   HelpCircleIcon,
+  LaptopIcon,
   LayoutThreeColumnIcon,
   LayoutTopIcon,
   Mic01Icon,
@@ -24,6 +26,7 @@ import { PageHero } from "@/components/pages/page-hero"
 import { cardCount } from "@/lib/categories"
 import { PAGES } from "@/lib/constants"
 import AddMenuDemo from "@/registry/aiellie/examples/add-menu-demo"
+import BranchesMenuDemo from "@/registry/aiellie/examples/branches-menu-demo"
 import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
 import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
@@ -39,6 +42,7 @@ import TemporaryChatToggleDemo from "@/registry/aiellie/examples/temporary-chat-
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
 import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 import WaveformDemo from "@/registry/aiellie/examples/waveform-demo"
+import WorkInMenuDemo from "@/registry/aiellie/examples/work-in-menu-demo"
 import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 export default function ComponentsPage() {
@@ -133,8 +137,26 @@ export default function ComponentsPage() {
           <PluginSelectorDemo />
         </DemoCard>
         <DemoCard
-          href="/components/dictate-button"
+          href="/components/work-in-menu"
           index={10}
+          title="Work In Menu"
+          icon={LaptopIcon}
+          description="Where work runs: local, a worktree or the cloud"
+        >
+          <WorkInMenuDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/branches-menu"
+          index={11}
+          title="Branches Menu"
+          icon={GitBranchIcon}
+          description="Search the branches, or create and check out a new one"
+        >
+          <BranchesMenuDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/dictate-button"
+          index={12}
           title="Dictate Button"
           icon={Mic01Icon}
           description="Speak instead of typing, into any field"
@@ -145,7 +167,7 @@ export default function ComponentsPage() {
       <CategorySection category="layout">
         <DemoCard
           href="/components/panels"
-          index={11}
+          index={13}
           title="Panels"
           icon={LayoutThreeColumnIcon}
           description="An app shell with resizable panels on three sides"
@@ -157,7 +179,7 @@ export default function ComponentsPage() {
       <CategorySection category="overlays">
         <DemoCard
           href="/components/menu"
-          index={12}
+          index={14}
           title="Menu"
           icon={Menu01Icon}
           description="A simple menu component"
@@ -168,7 +190,7 @@ export default function ComponentsPage() {
       <CategorySection category="feedback">
         <DemoCard
           href="/components/status"
-          index={13}
+          index={15}
           title="Status"
           icon={Activity03Icon}
           description="A simple status component"
@@ -177,7 +199,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/meter"
-          index={14}
+          index={16}
           title="Meter"
           icon={DashboardSpeed02Icon}
           description="How full something is, like a context window or a credit balance"
@@ -186,7 +208,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/waveform"
-          index={15}
+          index={17}
           title="Waveform"
           icon={AudioWave01Icon}
           description="Live bars that follow a microphone, so you can see it hears you"
@@ -197,7 +219,7 @@ export default function ComponentsPage() {
       <CategorySection category="chat">
         <DemoCard
           href="/components/composer"
-          index={16}
+          index={18}
           title="Composer"
           icon={MessageEdit01Icon}
           description="A simple composer component"
@@ -206,7 +228,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message"
-          index={17}
+          index={19}
           title="Message"
           icon={Message01Icon}
           description="A simple message component"
@@ -215,7 +237,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={18}
+          index={20}
           title="Thread"
           icon={MessageMultiple01Icon}
           description="A simple thread component"
