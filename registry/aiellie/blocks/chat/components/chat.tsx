@@ -19,6 +19,7 @@ import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat
 import { ChatNavHistory } from "@/registry/aiellie/blocks/chat/components/chat-nav-history"
 import { ChatSearch } from "@/registry/aiellie/blocks/chat/components/chat-search"
 import { ChatSidebar } from "@/registry/aiellie/blocks/chat/components/chat-sidebar"
+import type { ChatMode } from "@/registry/aiellie/blocks/chat/components/chat-switcher"
 import { ChatThread } from "@/registry/aiellie/blocks/chat/components/chat-thread"
 import type { ComposerStatus } from "@/registry/aiellie/components/composer"
 import { Panels } from "@/registry/aiellie/components/panels"
@@ -74,6 +75,7 @@ function Chat({
   const activeId = history.entries[history.index]
   // Whether the new chat, once sent, is kept out of history.
   const [temporaryDraft, setTemporaryDraft] = React.useState(false)
+  const [mode, setMode] = React.useState<ChatMode>("chat")
   const [activityOpen, setActivityOpen] = React.useState(false)
   const [searchOpen, setSearchOpen] = React.useState(false)
   const [draft, setDraft] = React.useState("")
@@ -358,6 +360,8 @@ function Chat({
               activeId={activeId}
               user={SAMPLE_USER}
               usage={SAMPLE_USAGE}
+              mode={mode}
+              onModeChange={setMode}
               onNewChat={startNewChat}
               onQuickChat={onQuickChat}
               onProjects={onProjects}

@@ -9,8 +9,11 @@ import {
   type ChatNavProps,
 } from "@/registry/aiellie/blocks/chat/components/chat-nav-chats"
 import { ChatNavMain } from "@/registry/aiellie/blocks/chat/components/chat-nav-main"
+import {
+  ChatSwitcher,
+  type ChatMode,
+} from "@/registry/aiellie/blocks/chat/components/chat-switcher"
 import { HelpMenu } from "@/registry/aiellie/components/help-menu"
-import { usePanels } from "@/registry/aiellie/components/panels"
 import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 import { UserMenu, type User } from "@/registry/aiellie/components/user-menu"
 import {
@@ -19,7 +22,6 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
@@ -30,31 +32,23 @@ const liveOn =
   "bg-[color-mix(in_oklab,var(--live,var(--color-blue-500))_4%,transparent)] [&_svg]:text-[color:var(--live,var(--color-blue-500))] hover:bg-[color-mix(in_oklab,var(--live,var(--color-blue-500))_7%,transparent)] hover:[&_svg]:text-[color:var(--live,var(--color-blue-500))]"
 
 function ChatSidebarHeader({
-  onNewChat,
+  mode,
+  onModeChange,
   onSearch,
   activityOpen,
   onActivity,
 }: {
-  onNewChat: () => void
+  mode: ChatMode
+  onModeChange: (mode: ChatMode) => void
   onSearch?: () => void
   activityOpen: boolean
   onActivity: () => void
 }) {
-  const { closeSheet } = usePanels()
-
   return (
     <SidebarHeader className="flex-row items-center gap-1 py-0">
       <SidebarMenu className="w-fit">
         <SidebarMenuItem>
-          <SidebarMenuButton
-            onClick={() => {
-              onNewChat()
-              closeSheet()
-            }}
-            className="text-md w-fit font-medium"
-          >
-            <span>Chat</span>
-          </SidebarMenuButton>
+          <ChatSwitcher value={mode} onValueChange={onModeChange} />
         </SidebarMenuItem>
       </SidebarMenu>
       <div className="ms-auto flex items-center gap-0.5">
@@ -83,6 +77,8 @@ function ChatSidebarHeader({
 function ChatSidebar({
   user,
   usage,
+  mode,
+  onModeChange,
   onNewChat,
   onQuickChat,
   onProjects,
@@ -94,6 +90,8 @@ function ChatSidebar({
   user: User
   /** How much of the plan is left, e.g. "72% left". */
   usage?: string
+  mode: ChatMode
+  onModeChange: (mode: ChatMode) => void
   onNewChat: () => void
   onQuickChat?: () => void
   onProjects?: () => void
@@ -104,7 +102,8 @@ function ChatSidebar({
   return (
     <Sidebar collapsible="none" className="w-full bg-background">
       <ChatSidebarHeader
-        onNewChat={onNewChat}
+        mode={mode}
+        onModeChange={onModeChange}
         onSearch={onSearch}
         activityOpen={activityOpen}
         onActivity={onActivity}
