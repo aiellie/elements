@@ -466,6 +466,26 @@
       "categories": ["actions"]
     },
     {
+      "name": "add-menu",
+      "type": "registry:component",
+      "title": "Add Menu",
+      "description": "A plus button with a tooltip that opens a menu of things to add, like files or photos.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/menu",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/add-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/add-menu.tsx"
+        }
+      ],
+      "categories": ["actions"]
+    },
+    {
       "name": "model-selector",
       "type": "registry:component",
       "title": "Model Selector",
@@ -494,7 +514,7 @@
       "name": "composer",
       "type": "registry:component",
       "title": "Composer",
-      "description": "The box a message is written in: a field that grows as you type, a row for controls, and a send button that turns into stop while a reply streams.",
+      "description": "The box a message is written in: a one-line field that grows as you type, with room for an add menu before it, a send button after it that turns into stop while a reply streams, and a row for controls beneath.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/button",
@@ -560,6 +580,7 @@
         "@aiellie/menu",
         "@aiellie/status",
         "@aiellie/tooltip-icon-button",
+        "@aiellie/add-menu",
         "@aiellie/model-selector",
         "@aiellie/models",
         "@aiellie/composer",

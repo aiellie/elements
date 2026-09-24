@@ -1,7 +1,14 @@
 "use client"
 
 import * as React from "react"
+import {
+  Attachment01Icon,
+  Camera01Icon,
+  Image01Icon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 
+import { AddMenu } from "@/registry/aiellie/components/add-menu"
 import {
   Composer,
   ComposerFooter,
@@ -9,8 +16,13 @@ import {
   ComposerSubmit,
   type ComposerStatus,
 } from "@/registry/aiellie/components/composer"
+import { MenuItem } from "@/registry/aiellie/components/menu"
+import { ModelSelector } from "@/registry/aiellie/components/model-selector"
+import { MODELS } from "@/registry/aiellie/lib/models"
+import { Button } from "@/registry/aiellie/ui/button"
 
 export default function ComposerDemo() {
+  const [model, setModel] = React.useState("claude-opus")
   const [status, setStatus] = React.useState<ComposerStatus>("ready")
   const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -34,9 +46,30 @@ export default function ComposerDemo() {
       }}
       className="max-w-md"
     >
+      <AddMenu>
+        <MenuItem>
+          <HugeiconsIcon aria-hidden icon={Attachment01Icon} />
+          Upload files
+        </MenuItem>
+        <MenuItem>
+          <HugeiconsIcon aria-hidden icon={Image01Icon} />
+          Add photos
+        </MenuItem>
+        <MenuItem>
+          <HugeiconsIcon aria-hidden icon={Camera01Icon} />
+          Take a photo
+        </MenuItem>
+      </AddMenu>
       <ComposerInput />
+      <ComposerSubmit />
       <ComposerFooter>
-        <ComposerSubmit />
+        <ModelSelector
+          models={MODELS}
+          value={model}
+          onValueChange={setModel}
+          side="top"
+          render={<Button variant="ghost" size="sm" />}
+        />
       </ComposerFooter>
     </Composer>
   )

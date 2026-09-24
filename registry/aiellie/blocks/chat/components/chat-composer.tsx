@@ -1,7 +1,14 @@
 "use client"
 
 import * as React from "react"
+import {
+  Attachment01Icon,
+  Camera01Icon,
+  Image01Icon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 
+import { AddMenu } from "@/registry/aiellie/components/add-menu"
 import {
   Composer,
   ComposerFooter,
@@ -9,6 +16,7 @@ import {
   ComposerSubmit,
   type ComposerStatus,
 } from "@/registry/aiellie/components/composer"
+import { MenuItem } from "@/registry/aiellie/components/menu"
 import { ModelSelector } from "@/registry/aiellie/components/model-selector"
 import type { ModelOption } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
@@ -43,7 +51,22 @@ function ChatComposer({
         onStop={onStop}
         status={status}
       >
+        <AddMenu>
+          <MenuItem>
+            <HugeiconsIcon aria-hidden icon={Attachment01Icon} />
+            Upload files
+          </MenuItem>
+          <MenuItem>
+            <HugeiconsIcon aria-hidden icon={Image01Icon} />
+            Add photos
+          </MenuItem>
+          <MenuItem>
+            <HugeiconsIcon aria-hidden icon={Camera01Icon} />
+            Take a photo
+          </MenuItem>
+        </AddMenu>
         <ComposerInput ref={inputRef} />
+        <ComposerSubmit />
         <ComposerFooter>
           <ModelSelector
             models={models}
@@ -52,7 +75,6 @@ function ChatComposer({
             side="top"
             render={<Button variant="ghost" size="sm" />}
           />
-          <ComposerSubmit />
         </ComposerFooter>
       </Composer>
     </div>

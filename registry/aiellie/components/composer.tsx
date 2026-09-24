@@ -79,8 +79,10 @@ function Composer({
           event.preventDefault()
           submit()
         }}
+        // The input, submit and footer place themselves, so a child without a
+        // placement (an add menu) lands in the free cell before the input.
         className={cn(
-          "flex w-full flex-col gap-1 rounded-xl border border-input bg-background p-2 transition-colors has-[textarea:focus-visible]:border-ring dark:bg-input/30",
+          "grid w-full grid-cols-[auto_minmax(0,1fr)_auto] items-end gap-x-2 gap-y-1",
           className
         )}
         {...props}
@@ -126,7 +128,7 @@ function ComposerInput({
         }
       }}
       className={cn(
-        "max-h-48 min-h-10 resize-none border-0 bg-transparent px-2.5 py-1.5 focus-visible:border-0 dark:bg-transparent",
+        "col-start-2 row-start-1 max-h-48 min-h-8 resize-none rounded-xl bg-background px-3 py-1 leading-5.5",
         className
       )}
       {...props}
@@ -138,7 +140,10 @@ function ComposerFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="composer-footer"
-      className={cn("flex items-center gap-1", className)}
+      className={cn(
+        "col-start-2 row-start-2 flex items-center gap-1",
+        className
+      )}
       {...props}
     />
   )
@@ -153,7 +158,7 @@ function ComposerSubmit({
   return (
     <Button
       data-slot="composer-submit"
-      size="icon-sm"
+      size="icon"
       type={busy ? "button" : "submit"}
       onClick={
         busy
@@ -166,7 +171,7 @@ function ComposerSubmit({
           : undefined
       }
       disabled={busy ? !stop : disabled || !value.trim()}
-      className={cn("ms-auto rounded-full", className)}
+      className={cn("col-start-3 row-start-1 rounded-full", className)}
       {...props}
     >
       <HugeiconsIcon icon={busy ? StopIcon : ArrowUp02Icon} strokeWidth={2} />
