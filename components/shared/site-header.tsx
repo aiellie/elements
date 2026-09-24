@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import { Logo } from "./logo"
 import Link from "next/link"
 import { NavButton } from "./nav-button"
-
+import { GitHubLink } from "./github-link"
 
 export function SiteHeader() {
   return (
@@ -23,6 +23,7 @@ export function SiteHeader() {
             </nav>
           </div>
         </div>
+        <GitHubLink />
       </div>
     </header>
   )

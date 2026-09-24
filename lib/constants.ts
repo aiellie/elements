@@ -10,8 +10,8 @@ import type { NavPage } from "@/components/shared/nav-button"
 export const ORG_URL = "https://aiellie.dev"
 export const BASE_URL = "https://aiellie.app"
 export const CLOUD_URL = "https://cloud.aiellie.app"
-export const STATUS_URL = "https://status.aiellie.app"
-
+export const STATUS_URL = "https://status.aiellie.dev"
+export const GITHUB_URL = "https://github.com/aiellie/elements"
 export const CONTAINER = "mx-auto w-full max-w-7xl px-6 sm:px-10"
 
 /**
