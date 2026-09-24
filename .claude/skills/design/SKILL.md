@@ -228,6 +228,10 @@ The active tab carries an `input` hairline in both themes, since the `shadow-sm`
 
 **A section label can fold its list.** The label becomes the button, with a chevron after it that shows on hover and stays while the list is folded, turning 90° at 150 ms. The list folds the way any in-layout region does (see Motion). A section's other controls, like its filter, sit at the label's end and appear on hover, on focus, while their menu is open, and always on touch.
 
+**A row title that doesn't fit fades out; it never ends in an ellipsis.** The last 24px of the row fade with a mask, only when the title overflows. Hovering the row scrolls the title once to its end, after a 300 ms pause so a passing pointer doesn't set it off, at a pace set by its length rather than a fixed duration. It stays at the end while hovered, the fade moving to the start edge, and slides back at 150 ms when the pointer leaves.
+
+**A row's status mark is the `Status` dot, with no pill around it.** Running is `live` and pulsing; finished but not yet opened is `live` and still; failed is `destructive`. Finished and read carries no mark, since nothing is left to act on. The mark shows whether or not the activity view is on; turning activity on narrows the list to the rows that carry one.
+
 ### Search inside a list
 
 **A search field at the top of a menu or command list is a row of the panel, not a field set inside it.** It runs edge to edge, has no fill, no border of its own and no rounding, and a `border-border/60` hairline under it divides it from the rows. Its search glyph sits in `muted-foreground/70` and lines up with the row icons below it. A clear button sits at its end, disabled at 30% rather than hidden while the field is empty, so the text's end doesn't shift as you type; clearing puts focus back in the field. A boxed input there would read as a second surface inside the panel, and it would steal a step of padding from every row. `MenuSearch` in `menu.tsx` and `CommandInput` in `ui/command.tsx` are the reference. A standalone search field elsewhere on the page is an ordinary input and keeps its border.

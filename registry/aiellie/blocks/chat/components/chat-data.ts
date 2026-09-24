@@ -23,8 +23,10 @@ type Conversation = {
   pinned?: boolean
   /** Kept out of the sidebar, and gone once the page is left. */
   temporary?: boolean
-  /** Where its latest run stands. Shown in the sidebar while activity is on. */
+  /** Where its latest run stands. */
   status?: ConversationStatus
+  /** Finished while it wasn't open, and not opened since. */
+  unread?: boolean
   messages: ChatMessage[]
 }
 
@@ -35,7 +37,7 @@ const SAMPLE_USAGE = "72% left"
 const SAMPLE_CONVERSATIONS: Conversation[] = [
   {
     id: "middleware",
-    title: "Refactor the auth middleware",
+    title: "Move the session check into the auth middleware",
     status: "running",
     messages: [
       {
@@ -57,6 +59,7 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
     id: "tokens",
     title: "Custom colors in Tailwind v4",
     pinned: true,
+    status: "completed",
     messages: [
       {
         id: "tokens-1",
@@ -75,6 +78,7 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
     id: "bundle",
     title: "Audit the bundle size",
     status: "completed",
+    unread: true,
     messages: [
       {
         id: "bundle-1",

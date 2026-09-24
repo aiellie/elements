@@ -3,7 +3,10 @@
 import { FilterHorizontalIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import type { ChatNavChat } from "@/registry/aiellie/blocks/chat/components/chat-nav-chats"
+import {
+  markOf,
+  type ChatNavChat,
+} from "@/registry/aiellie/blocks/chat/components/chat-nav-chats"
 import {
   Menu,
   MenuCheckboxItem,
@@ -22,7 +25,7 @@ type ChatNavSort = "recent" | "oldest" | "name"
 
 type ChatNavView = {
   sort: ChatNavSort
-  /** Keeps chats that are running, or failed, above the rest. */
+  /** Keeps chats that are running, failed or unread above the rest. */
   activeFirst: boolean
 }
 
@@ -34,8 +37,7 @@ const SORTS: { id: ChatNavSort; name: string }[] = [
 
 const DEFAULT_VIEW: ChatNavView = { sort: "recent", activeFirst: false }
 
-const needsAttention = (chat: ChatNavChat) =>
-  chat.status === "running" || chat.status === "failed"
+const needsAttention = (chat: ChatNavChat) => markOf(chat) !== null
 
 // Chats arrive newest first, so "oldest" is only that order turned around.
 function arrange(chats: ChatNavChat[], view: ChatNavView) {
@@ -101,7 +103,7 @@ function ChatNavFilter({
               onViewChange({ ...view, activeFirst })
             }
           >
-            Running and failed first
+            Needs attention first
           </MenuCheckboxItem>
         </MenuGroup>
       </MenuContent>

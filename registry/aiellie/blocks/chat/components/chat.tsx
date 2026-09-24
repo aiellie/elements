@@ -12,6 +12,7 @@ import {
   SAMPLE_PROJECTS,
   SAMPLE_USAGE,
   SAMPLE_USER,
+  type Conversation,
   type ConversationStatus,
 } from "@/registry/aiellie/blocks/chat/components/chat-data"
 import { ChatHeader } from "@/registry/aiellie/blocks/chat/components/chat-header"
@@ -73,6 +74,12 @@ function Chat({
     index: 0,
   })
   const activeId = history.entries[history.index]
+  // Read when a reply finishes, which can be long after the render that
+  // started it.
+  const activeIdRef = React.useRef(activeId)
+  React.useEffect(() => {
+    activeIdRef.current = activeId
+  }, [activeId])
   // Whether the new chat, once sent, is kept out of history.
   const [temporaryDraft, setTemporaryDraft] = React.useState(false)
   const [mode, setMode] = React.useState<ChatMode>("chat")
@@ -124,14 +131,24 @@ function Chat({
       )
     )
 
-  const setStatus = (conversationId: string, status?: ConversationStatus) =>
+  const updateConversation = (
+    conversationId: string,
+    patch: Partial<Conversation>
+  ) =>
     setConversations((all) =>
       all.map((conversation) =>
         conversation.id === conversationId
-          ? { ...conversation, status }
+          ? { ...conversation, ...patch }
           : conversation
       )
     )
+
+  const setStatus = (conversationId: string, status?: ConversationStatus) =>
+    updateConversation(conversationId, { status })
+
+  const markRead = (conversationId: string | null) => {
+    if (conversationId) updateConversation(conversationId, { unread: false })
+  }
 
   const stop = () => {
     if (timerRef.current) clearTimeout(timerRef.current)
@@ -178,7 +195,11 @@ function Chat({
         timerRef.current = null
         streamRef.current = null
         setStreamingId(null)
-        setStatus(conversationId, "completed")
+        // A reply that lands in a chat nobody is looking at waits as unread.
+        updateConversation(conversationId, {
+          status: "completed",
+          unread: activeIdRef.current !== conversationId,
+        })
       } else {
         timerRef.current = setTimeout(tick, WORD_DELAY)
       }
@@ -253,14 +274,16 @@ function Chat({
     inputRef.current?.focus()
   }
 
+  // Leaving a chat leaves its reply running, so it can finish in the
+  // background and wait as unread. Only sending again stops it, since the
+  // preview streams one reply at a time.
   const select = (id: string) => {
-    if (id !== activeId) stop()
+    markRead(id)
     setTemporaryDraft(false)
     setHistory((current) => visit(current, id))
   }
 
   const startNewChat = () => {
-    stop()
     setTemporaryDraft(false)
     setHistory((current) => visit(current, null))
   }
@@ -286,7 +309,7 @@ function Chat({
   const go = (step: -1 | 1) => {
     const index = history.index + step
     if (index < 0 || index >= history.entries.length) return
-    stop()
+    markRead(history.entries[index])
     setHistory({ ...history, index })
   }
 

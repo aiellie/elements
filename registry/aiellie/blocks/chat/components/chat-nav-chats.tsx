@@ -2,17 +2,14 @@
 
 import * as React from "react"
 import {
-  Alert02Icon,
   ArrowRight01Icon,
-  CheckmarkCircle02Icon,
   Delete01Icon,
-  Loading03Icon,
   MoreHorizontalIcon,
   PencilEdit01Icon,
   PinIcon,
   PinOffIcon,
 } from "@hugeicons/core-free-icons"
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+import { HugeiconsIcon } from "@hugeicons/react"
 
 import {
   arrange,
@@ -27,6 +24,11 @@ import {
   MenuTrigger,
 } from "@/registry/aiellie/components/menu"
 import { usePanels } from "@/registry/aiellie/components/panels"
+import {
+  Status,
+  StatusIndicator,
+  StatusLabel,
+} from "@/registry/aiellie/components/status"
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -46,12 +48,14 @@ type ChatNavChat = {
   title: string
   pinned?: boolean
   status?: ChatNavStatus
+  /** Finished while it wasn't open, and not opened since. */
+  unread?: boolean
 }
 
 type ChatNavProps = {
   chats: ChatNavChat[]
   activeId: string | null
-  /** Shows where each chat's latest run stands. */
+  /** Lists only the chats that carry a mark: running, failed or unread. */
   activity?: boolean
   onSelect: (id: string) => void
   onRename: (id: string, title: string) => void
@@ -59,45 +63,81 @@ type ChatNavProps = {
   onDelete: (id: string) => void
 }
 
-// Fall back to Tailwind's own shades where the theme has no `--live` or
-// `--success`.
-const STATUS: Record<
-  ChatNavStatus,
-  { label: string; icon: IconSvgElement; className: string }
+type ChatNavMark = "running" | "unread" | "failed"
+
+// A finished chat that has been read needs nothing, so it carries no mark.
+function markOf(chat: ChatNavChat): ChatNavMark | null {
+  if (chat.status === "running") return "running"
+  if (chat.status === "failed") return "failed"
+  if (chat.status === "completed" && chat.unread) return "unread"
+  return null
+}
+
+const MARKS: Record<
+  ChatNavMark,
+  { label: string; variant: "live" | "destructive"; pulse: boolean }
 > = {
-  running: {
-    label: "Running",
-    icon: Loading03Icon,
-    className:
-      "text-[color:var(--live,var(--color-blue-500))] [&_svg]:animate-spin motion-reduce:[&_svg]:animate-none",
-  },
-  completed: {
-    label: "Completed",
-    icon: CheckmarkCircle02Icon,
-    className: "text-[color:var(--success,var(--color-emerald-600))]",
-  },
-  failed: {
-    label: "Failed",
-    icon: Alert02Icon,
-    className: "text-destructive",
-  },
+  running: { label: "Running", variant: "live", pulse: true },
+  unread: { label: "Unread", variant: "live", pulse: false },
+  failed: { label: "Failed", variant: "destructive", pulse: false },
 }
 
 // Sits where the options button appears, so it gives way whenever that does.
 // On a touch screen the button never hides, so the mark moves in beside it.
-function ChatNavStatusMark({ status }: { status: ChatNavStatus }) {
-  const { label, icon, className } = STATUS[status]
+function ChatNavStatusMark({ mark }: { mark: ChatNavMark }) {
+  const { label, variant, pulse } = MARKS[mark]
 
   return (
-    <SidebarMenuBadge
-      className={cn(
-        "min-w-5 px-0 transition-opacity duration-80 group-focus-within/menu-item:opacity-0 group-hover/menu-item:opacity-0 group-has-aria-expanded/menu-item:opacity-0 motion-reduce:transition-none pointer-coarse:end-7 pointer-coarse:opacity-100! [&_svg]:size-4",
-        className
-      )}
-    >
-      <HugeiconsIcon icon={icon} aria-hidden />
-      <span className="sr-only">{label}</span>
+    <SidebarMenuBadge className="min-w-5 px-0 transition-opacity duration-80 group-focus-within/menu-item:opacity-0 group-hover/menu-item:opacity-0 group-has-aria-expanded/menu-item:opacity-0 motion-reduce:transition-none pointer-coarse:end-7 pointer-coarse:opacity-100!">
+      <Status
+        variant={variant}
+        pulse={pulse}
+        className="border-0 bg-transparent p-0 dark:bg-transparent"
+      >
+        <StatusIndicator />
+        <StatusLabel className="sr-only">{label}</StatusLabel>
+      </Status>
     </SidebarMenuBadge>
+  )
+}
+
+// A title too long for its row fades out rather than ending in an ellipsis.
+// Hovering the row scrolls it once to its end, and leaving scrolls it back. The
+// fade moves to the start as the scroll begins, not the moment the row is
+// hovered, so a passing pointer doesn't flicker it.
+function ChatNavTitle({ title }: { title: string }) {
+  const ref = React.useRef<HTMLSpanElement>(null)
+  const [overflow, setOverflow] = React.useState(0)
+
+  React.useEffect(() => {
+    const element = ref.current
+    if (!element) return
+    const measure = () =>
+      setOverflow(Math.max(0, element.scrollWidth - element.clientWidth))
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [title])
+
+  return (
+    <span
+      ref={ref}
+      data-overflow={overflow > 0 || undefined}
+      style={
+        {
+          "--overflow": `${overflow}px`,
+          // Paced by length rather than a fixed duration, so a long title
+          // doesn't race past and a short one doesn't crawl.
+          "--scroll-duration": `${Math.max(400, overflow * 25)}ms`,
+        } as React.CSSProperties
+      }
+      className="text-clip! transition-[mask-image] transition-discrete duration-0 group-hover/menu-item:delay-300 data-overflow:[mask-image:linear-gradient(to_right,#000_calc(100%-1.5rem),transparent)] group-hover/menu-item:data-overflow:[mask-image:linear-gradient(to_right,transparent,#000_1.5rem)] motion-reduce:transition-none rtl:data-overflow:[mask-image:linear-gradient(to_left,#000_calc(100%-1.5rem),transparent)] rtl:group-hover/menu-item:data-overflow:[mask-image:linear-gradient(to_left,transparent,#000_1.5rem)]"
+    >
+      <span className="inline-block transition-[translate] duration-150 ease-out group-hover/menu-item:translate-x-[calc(var(--overflow)*-1)] group-hover/menu-item:delay-300 group-hover/menu-item:duration-(--scroll-duration) group-hover/menu-item:ease-linear motion-reduce:transition-none rtl:group-hover/menu-item:translate-x-(--overflow)">
+        {title}
+      </span>
+    </span>
   )
 }
 
@@ -153,7 +193,6 @@ function RenameField({
 function ChatNavItem({
   chat,
   activeId,
-  activity,
   onSelect,
   onRename,
   onTogglePin,
@@ -162,7 +201,7 @@ function ChatNavItem({
   const [renaming, setRenaming] = React.useState(false)
   const { closeSheet } = usePanels()
   const active = chat.id === activeId
-  const status = activity ? chat.status : undefined
+  const mark = markOf(chat)
 
   return (
     <SidebarMenuItem>
@@ -183,11 +222,11 @@ function ChatNavItem({
               onSelect(chat.id)
               closeSheet()
             }}
-            className={cn(status && "pointer-coarse:pe-14")}
+            className={cn(mark && "pointer-coarse:pe-14")}
           >
-            <span>{chat.title}</span>
+            <ChatNavTitle title={chat.title} />
           </SidebarMenuButton>
-          {status ? <ChatNavStatusMark status={status} /> : null}
+          {mark ? <ChatNavStatusMark mark={mark} /> : null}
           <Menu>
             <MenuTrigger
               render={
@@ -283,11 +322,16 @@ function ChatNavGroup({
   )
 }
 
+// With activity on, a section keeps only its marked chats, and one with none
+// left drops out.
+const shown = (chats: ChatNavChat[], activity?: boolean) =>
+  activity ? chats.filter((chat) => markOf(chat)) : chats
+
 function ChatNavPinned({ chats, ...props }: ChatNavProps) {
   return (
     <ChatNavGroup
       label="Pinned"
-      chats={chats.filter((chat) => chat.pinned)}
+      chats={shown(chats, props.activity).filter((chat) => chat.pinned)}
       {...props}
     />
   )
@@ -297,11 +341,11 @@ function ChatNavRecents({ chats, ...props }: ChatNavProps) {
   return (
     <ChatNavGroup
       label="Recents"
-      chats={chats.filter((chat) => !chat.pinned)}
+      chats={shown(chats, props.activity).filter((chat) => !chat.pinned)}
       {...props}
     />
   )
 }
 
-export { ChatNavPinned, ChatNavRecents }
+export { ChatNavPinned, ChatNavRecents, markOf }
 export type { ChatNavChat, ChatNavProps, ChatNavStatus }

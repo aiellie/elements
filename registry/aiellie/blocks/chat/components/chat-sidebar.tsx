@@ -7,6 +7,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import {
   ChatNavPinned,
   ChatNavRecents,
+  markOf,
   type ChatNavProps,
 } from "@/registry/aiellie/blocks/chat/components/chat-nav-chats"
 import { ChatNavMain } from "@/registry/aiellie/blocks/chat/components/chat-nav-main"
@@ -167,6 +168,11 @@ function ChatSidebar({
         <div className="flex flex-col">
           <ChatNavPinned {...chats} activity={activityOpen} />
           <ChatNavRecents {...chats} activity={activityOpen} />
+          {activityOpen && !chats.chats.some(markOf) ? (
+            <p className="px-4 py-2 text-xs text-muted-foreground">
+              Nothing needs you right now.
+            </p>
+          ) : null}
         </div>
       </SidebarContent>
       <SidebarFooter className="flex-row items-center gap-1 border-t border-border/50">
