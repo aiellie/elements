@@ -22,6 +22,10 @@ export default function StatusDemo() {
           <StatusIndicator />
           <StatusLabel>Degraded</StatusLabel>
         </Status>
+        <Status variant="construction" pulse>
+          <StatusIndicator />
+          <StatusLabel>Under construction</StatusLabel>
+        </Status>
       </div>
     </div>
   )
