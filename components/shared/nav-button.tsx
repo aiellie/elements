@@ -133,7 +133,7 @@ function SiteNav({ pages }: { pages: NavPage[] }) {
       </nav>
       <div className="sm:hidden">
         <Menu>
-          <MenuTrigger data-active={selected} className={navButton}>
+          <MenuTrigger className={navButton}>
             <HugeiconsIcon
               aria-hidden
               icon={Menu01Icon}
