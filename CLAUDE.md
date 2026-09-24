@@ -142,6 +142,10 @@ Our own primitives (menu, toolbar) have no upstream API to preserve, so you're f
 - Each part is a function component that sets `data-slot="<kebab-name>"` and passes `className` last into `cn()`. Put every export in one `export { … }` block at the bottom of the file, together with any reusable class strings (`buttonVariants`, `menuItem`, `toolbarButton`).
 - Use Hugeicons only: `<HugeiconsIcon icon={…} />` from `@hugeicons/react`, with glyphs from `@hugeicons/core-free-icons`. Mark decorative icons `aria-hidden`.
 - `components.json` sets `rtl: true`, so use logical utilities (`ms-`, `pe-`, `start-`, `inline-end`) and flip directional glyphs with `rtl:-scale-x-100`.
-- Comments explain why, in full sentences, at about the density of `menu.tsx`.
+- Comment sparingly. Most code gets no comment at all.
+  - No docblocks that say what a component is, what it's for, or how its parts fit together. The name, the props and the demo already say that.
+  - A comment earns its place only by explaining something the code can't: a workaround, a browser or Base UI quirk, or a choice that looks wrong but is deliberate. Keep it to a line or two.
+  - A prop may get a one-line `/** … */` when its name alone doesn't say what it does.
+  - `menu.tsx` is the reference for house style, not for comment density. Its long comments predate this rule.
 - Prettier settings: no semicolons, double quotes, and Tailwind classes sorted inside `cn()` and `cva()`.
 - Commit messages follow `type(scope): what changed so why`, e.g. `feat(registry): ship popover and input so a dismissible panel can be previewed and installed`. Scopes in use are `registry`, `catalog` (gallery pages and demo cards), `theme`, or the component's name.

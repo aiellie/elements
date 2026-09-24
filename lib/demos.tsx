@@ -8,6 +8,7 @@ import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
+import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
@@ -65,6 +66,7 @@ const DEMOS: Record<string, Demo> = {
     Demo: TooltipIconButtonDemo,
   },
   toolbar: { title: "Toolbar", gallery: "/components", Demo: ToolbarDemo },
+  meter: { title: "Meter", gallery: "/components", Demo: MeterDemo },
   "help-menu": {
     title: "Help Menu",
     gallery: "/components",

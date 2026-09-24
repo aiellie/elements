@@ -431,6 +431,22 @@
       "categories": ["feedback"]
     },
     {
+      "name": "meter",
+      "type": "registry:component",
+      "title": "Meter",
+      "description": "A reading inside a known range, like a context window or a credit balance, with a label, a formatted value and a fill that can turn to a status tone.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/meter.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/meter.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
       "name": "tooltip-icon-button",
       "type": "registry:component",
       "title": "Tooltip Icon Button",

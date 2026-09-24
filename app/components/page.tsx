@@ -2,6 +2,7 @@ import {
   Activity03Icon,
   AiBrain01Icon,
   CursorInfo02Icon,
+  DashboardSpeed02Icon,
   HelpCircleIcon,
   LayoutThreeColumnIcon,
   LayoutTopIcon,
@@ -19,6 +20,7 @@ import { PAGES } from "@/lib/constants"
 import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
+import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
@@ -116,11 +118,20 @@ export default function ComponentsPage() {
         >
           <StatusDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/meter"
+          index={9}
+          title="Meter"
+          icon={DashboardSpeed02Icon}
+          description="How full something is, like a context window or a credit balance"
+        >
+          <MeterDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="chat">
         <DemoCard
           href="/components/composer"
-          index={9}
+          index={10}
           title="Composer"
           icon={MessageEdit01Icon}
           description="A simple composer component"
@@ -129,7 +140,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message"
-          index={10}
+          index={11}
           title="Message"
           icon={Message01Icon}
           description="A simple message component"
@@ -138,7 +149,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={11}
+          index={12}
           title="Thread"
           icon={MessageMultiple01Icon}
           description="A simple thread component"
