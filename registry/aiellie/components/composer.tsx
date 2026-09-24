@@ -214,7 +214,7 @@ function ComposerHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="composer-header"
       className={cn(
-        "mx-5 flex flex-wrap items-center gap-1 rounded-t-xl bg-muted px-1.5 py-1",
+        "mx-5 flex flex-wrap items-center gap-1 rounded-t-xl bg-muted/60 px-1.5 py-1",
         className
       )}
       {...props}
