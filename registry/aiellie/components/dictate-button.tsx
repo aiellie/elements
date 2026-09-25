@@ -152,8 +152,7 @@ function DictateButton({
       onClick={() => (listening ? recognition.current?.stop() : start())}
       className={cn(
         "size-7 shrink-0 rounded-full p-1.5 data-listening:w-auto data-listening:gap-1.5 data-listening:px-2.5",
-        "data-listening:bg-blue-500/4 data-listening:hover:bg-blue-500/7 data-listening:[&_svg]:text-blue-500 data-listening:hover:[&_svg]:text-blue-500",
-        "dark:data-listening:bg-blue-400/4 dark:data-listening:hover:bg-blue-400/7 dark:data-listening:[&_svg]:text-blue-400 dark:data-listening:hover:[&_svg]:text-blue-400",
+        "data-listening:bg-live/4 data-listening:hover:bg-live/7 data-listening:[&_svg]:text-live data-listening:hover:[&_svg]:text-live",
         className
       )}
       {...props}
@@ -161,11 +160,7 @@ function DictateButton({
       {listening ? (
         <>
           <Waveform stream={stream} bars={16} />
-          <HugeiconsIcon
-            aria-hidden
-            icon={StopIcon}
-            className="size-3.5"
-          />
+          <HugeiconsIcon aria-hidden icon={StopIcon} className="size-3.5" />
         </>
       ) : (
         <HugeiconsIcon aria-hidden icon={Mic01Icon} />

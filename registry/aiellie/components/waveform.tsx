@@ -80,7 +80,7 @@ function Waveform({
       aria-hidden
       data-slot="waveform"
       className={cn(
-        "flex h-3.5 shrink-0 items-center gap-0.5 text-blue-500 dark:text-blue-400",
+        "flex h-3.5 shrink-0 items-center gap-0.5 text-live",
         className
       )}
       {...props}

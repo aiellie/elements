@@ -28,10 +28,8 @@ import {
 } from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
 
-// Falls back to Tailwind's blue where the theme has no `--live`. Written out
-// whole, since Tailwind only finds classes it can read as they are.
 const liveOn =
-  "bg-[color-mix(in_oklab,var(--live,var(--color-blue-500))_4%,transparent)] [&_svg]:text-[color:var(--live,var(--color-blue-500))] hover:bg-[color-mix(in_oklab,var(--live,var(--color-blue-500))_7%,transparent)] hover:[&_svg]:text-[color:var(--live,var(--color-blue-500))]"
+  "bg-live/4 [&_svg]:text-live hover:bg-live/7 hover:[&_svg]:text-live"
 
 // Fades an edge of the list only while more of it is hidden past that edge.
 function useScrollFade() {

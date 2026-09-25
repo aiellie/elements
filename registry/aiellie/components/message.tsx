@@ -106,7 +106,7 @@ function MessagePart({
             <span
               aria-hidden
               data-slot="message-caret"
-              className="ms-0.5 hidden h-3.5 w-0.5 animate-caret-blink bg-[color:var(--live,currentColor)] align-middle motion-reduce:animate-none"
+              className="ms-0.5 hidden h-3.5 w-0.5 animate-caret-blink bg-live align-middle motion-reduce:animate-none"
             />
           </>
         ),

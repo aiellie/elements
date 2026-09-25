@@ -13,7 +13,7 @@ const statusVariants = cva(
           "border-emerald-500/10 bg-emerald-500/4 text-emerald-700 dark:border-emerald-400/5 dark:bg-emerald-400/10 dark:text-emerald-400",
         destructive:
           "border-destructive/10 bg-destructive/6 text-destructive dark:border-destructive/25 dark:bg-destructive/10",
-        live: "border-blue-500/20 bg-blue-500/6 text-[#526FFF] dark:border-blue-400/20 dark:bg-blue-400/6 dark:text-blue-400",
+        live: "border-live/20 bg-live/4 text-live",
         construction:
           "border-yellow-500/20 bg-yellow-500/6 text-yellow-700 dark:border-yellow-400/20 dark:bg-yellow-400/6 dark:text-yellow-400",
       },

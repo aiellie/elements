@@ -56,7 +56,7 @@ Three statuses, built the same way. Each has an ink and two fills — 4% resting
 | status | ink (light / dark) | resting fill | hover fill |
 | --- | --- | --- | --- |
 | `destructive` | red-600 / red-400 | `destructive-bg` 4% | `destructive-bg-hover` 7% |
-| `live` | blue-500 / blue-400 | `live-bg` 4% | `live-bg-hover` 7% |
+| `live` | `#526FFF` / `oklch(0.7 0.17 270)` | `live-bg` 4% | `live-bg-hover` 7% |
 | `success` | emerald-600 / emerald-400 | `success-bg` 4% | `success-bg-hover` 7% |
 
 `live` means streaming, running, connected, in progress. `success` means completed, passing, saved. Anything else — pending, queued, draft, idle — is neutral: `muted` fill, `muted-foreground` ink. Resist adding a fourth hue.
@@ -67,6 +67,8 @@ The formula, as static class strings:
 bg-destructive/4 text-destructive          — a static badge or row
 bg-destructive/4 hover:bg-destructive/7    — the same thing when it is clickable
 ```
+
+**`live` is always the `live` token, never a blue shade.** Registry code and site code alike write `text-live`, `bg-live/4`, `hover:bg-live/7` and `border-live/20`. No `dark:` twin, since `--live` already changes with the theme, and no fallback colour.
 
 The 7% step is only for items that are genuinely interactive. A status badge sitting in a table cell stays at 4% and never lights up on hover.
 

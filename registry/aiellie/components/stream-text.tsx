@@ -77,12 +77,9 @@ function splitWords(text: string, inlineCode: boolean) {
   return { lead, words }
 }
 
-// `live` comes with the aiellie theme. Without it the words keep the body ink.
-const liveText = "text-[color:var(--live,currentColor)]"
-
 const wordClass = cn(
   "transition-[opacity,filter,color] duration-280 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
-  "starting:text-[color:var(--live,currentColor)] starting:opacity-0 starting:blur-xs"
+  "starting:text-live starting:opacity-0 starting:blur-xs"
 )
 
 // Cloned across a line break, so code that wraps keeps its padding and corners
@@ -134,7 +131,7 @@ function renderWords(
       ;(chip ?? nodes).push(
         <span
           key={index}
-          className={cn(wordClass, index >= freshFrom && liveText)}
+          className={cn(wordClass, index >= freshFrom && "text-live")}
         >
           {word.text}
         </span>
@@ -340,7 +337,7 @@ function StreamText({
         <span
           aria-hidden
           data-slot="stream-text-caret"
-          className="ms-0.5 inline-block h-3.5 w-0.5 animate-caret-blink bg-[color:var(--live,currentColor)] align-middle motion-reduce:animate-none"
+          className="ms-0.5 inline-block h-3.5 w-0.5 animate-caret-blink bg-live align-middle motion-reduce:animate-none"
         />
       ) : null}
     </span>
