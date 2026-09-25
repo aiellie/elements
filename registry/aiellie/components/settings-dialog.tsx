@@ -165,6 +165,7 @@ function ApiKeysSection({
   keys: SettingsApiKey[]
   onChange: (keys: SettingsApiKey[]) => void
 }) {
+  const sectionRef = React.useRef<HTMLElement>(null)
   const nameRef = React.useRef<HTMLInputElement>(null)
   const [creating, setCreating] = React.useState(false)
   const [draftName, setDraftName] = React.useState("")
@@ -191,6 +192,7 @@ function ApiKeysSection({
     setRevealOpen(true)
     setCopied(false)
     setCreating(false)
+    sectionRef.current?.parentElement?.scrollTo({ top: 0 })
   }
 
   function revoke(keyId: string) {
@@ -211,7 +213,12 @@ function ApiKeysSection({
   }
 
   return (
-    <section id={id} aria-label="API keys" className="flex flex-col p-6 pt-4">
+    <section
+      ref={sectionRef}
+      id={id}
+      aria-label="API keys"
+      className="flex flex-col p-6 pt-4"
+    >
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 flex-col gap-1">
           <p className="text-sm font-medium">API keys</p>
