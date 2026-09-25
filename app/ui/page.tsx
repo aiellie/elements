@@ -1,4 +1,5 @@
 import {
+  CursorPointer01Icon,
   Flag01Icon,
   Attachment01Icon,
   Square01Icon,
@@ -31,6 +32,7 @@ import ButtonDemo from "@/registry/aiellie/examples/button-demo"
 import CommandDemo from "@/registry/aiellie/examples/command-demo"
 import DialogDemo from "@/registry/aiellie/examples/dialog-demo"
 import PopoverDemo from "@/registry/aiellie/examples/popover-demo"
+import HoverCardDemo from "@/registry/aiellie/examples/hover-card-demo"
 import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
 import InputGroupDemo from "@/registry/aiellie/examples/input-group-demo"
@@ -172,8 +174,17 @@ export default function UiPage() {
           <PopoverDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/command"
+          href="/ui/hover-card"
           index={14}
+          title="Hover Card"
+          icon={CursorPointer01Icon}
+          description="A glass card that opens while you hover or focus its trigger"
+        >
+          <HoverCardDemo />
+        </DemoCard>
+        <DemoCard
+          href="/ui/command"
+          index={15}
           title="Command"
           icon={CommandIcon}
           description="A searchable list you move through with the keyboard"
@@ -184,7 +195,7 @@ export default function UiPage() {
       <CategorySection category="feedback">
         <DemoCard
           href="/ui/skeleton"
-          index={15}
+          index={16}
           title="Skeleton"
           icon={Loading03Icon}
           description="A placeholder that pulses while content loads"
@@ -193,7 +204,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/avatar"
-          index={16}
+          index={17}
           title="Avatar"
           icon={UserCircleIcon}
           description="A picture of someone, or their initials"
@@ -202,7 +213,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/badge"
-          index={17}
+          index={18}
           title="Badge"
           icon={Tag01Icon}
           description="A short label beside something, like a plan or a status"
@@ -211,7 +222,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/empty"
-          index={18}
+          index={19}
           title="Empty"
           icon={DashedLineCircleIcon}
           description="What a place shows before there is anything in it"
@@ -222,7 +233,7 @@ export default function UiPage() {
       <CategorySection category="chat">
         <DemoCard
           href="/ui/attachment"
-          index={19}
+          index={20}
           title="Attachment"
           icon={Attachment01Icon}
           description="A file as a chip, with its upload state"

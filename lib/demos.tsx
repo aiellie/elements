@@ -19,8 +19,10 @@ import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import DateDividerDemo from "@/registry/aiellie/examples/date-divider-demo"
 import MarkerDemo from "@/registry/aiellie/examples/marker-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
+import HoverCardDemo from "@/registry/aiellie/examples/hover-card-demo"
 import PopoverDemo from "@/registry/aiellie/examples/popover-demo"
 import StreamTextDemo from "@/registry/aiellie/examples/stream-text-demo"
+import NavBarsDemo from "@/registry/aiellie/examples/nav-bars-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
 import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
@@ -36,6 +38,7 @@ import TabsDemo from "@/registry/aiellie/examples/tabs-demo"
 import TemporaryChatToggleDemo from "@/registry/aiellie/examples/temporary-chat-toggle-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
+import ThreadTranscriptDemo from "@/registry/aiellie/examples/thread-transcript-demo"
 import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
 import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
@@ -81,6 +84,7 @@ const DEMOS: Record<string, Demo> = {
   sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
   dialog: { title: "Dialog", gallery: "/ui", Demo: DialogDemo },
   popover: { title: "Popover", gallery: "/ui", Demo: PopoverDemo },
+  "hover-card": { title: "Hover Card", gallery: "/ui", Demo: HoverCardDemo },
   command: { title: "Command", gallery: "/ui", Demo: CommandDemo },
   skeleton: { title: "Skeleton", gallery: "/ui", Demo: SkeletonDemo },
   avatar: { title: "Avatar", gallery: "/ui", Demo: AvatarDemo },
@@ -141,6 +145,11 @@ const DEMOS: Record<string, Demo> = {
     Demo: DictateButtonDemo,
   },
   panels: { title: "Panels", gallery: "/components", Demo: PanelsDemo },
+  "nav-bars": {
+    title: "Nav Bars",
+    gallery: "/components",
+    Demo: NavBarsDemo,
+  },
   menu: { title: "Menu", gallery: "/components", Demo: MenuDemo },
   status: { title: "Status", gallery: "/components", Demo: StatusDemo },
   waveform: { title: "Waveform", gallery: "/components", Demo: WaveformDemo },
@@ -152,6 +161,11 @@ const DEMOS: Record<string, Demo> = {
     Demo: DateDividerDemo,
   },
   thread: { title: "Thread", gallery: "/components", Demo: ThreadDemo },
+  "thread-transcript": {
+    title: "Thread Transcript",
+    gallery: "/components",
+    Demo: ThreadTranscriptDemo,
+  },
   "quick-chat": {
     title: "Quick Chat",
     gallery: "/components",

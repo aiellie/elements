@@ -137,6 +137,22 @@
       "categories": ["overlays"]
     },
     {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "Base UI's preview card as a glass panel that opens while its trigger is hovered or focused.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/hover-card.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/hover-card.tsx"
+        }
+      ],
+      "categories": ["overlays"]
+    },
+    {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
@@ -840,6 +856,40 @@
           "path": "registry/aiellie/components/thread.tsx",
           "type": "registry:component",
           "target": "components/aiellie/thread.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "nav-bars",
+      "type": "registry:component",
+      "title": "Nav Bars",
+      "description": "A rail of short bars for a page's sections or a thread's turns, marking what's in view. Hover for a list, a peek at one item, or a rail that expands into labels.",
+      "registryDependencies": ["@aiellie/hover-card", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/nav-bars.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/nav-bars.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
+      "name": "thread-transcript",
+      "type": "registry:component",
+      "title": "Thread Transcript",
+      "description": "Nav bars wired to a thread: one bar per turn, marking the turns in view and jumping to the one you pick.",
+      "registryDependencies": [
+        "@aiellie/thread",
+        "@aiellie/nav-bars",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/thread-transcript.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/thread-transcript.tsx"
         }
       ],
       "categories": ["chat"]
