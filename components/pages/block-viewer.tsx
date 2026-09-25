@@ -164,7 +164,10 @@ function ViewportControls() {
           <HugeiconsIcon aria-hidden icon={option.icon} />
         </TooltipIconButton>
       ))}
-      <Separator orientation="vertical" className="mx-1 h-4 self-center" />
+      <Separator
+        orientation="vertical"
+        className="mx-1 data-vertical:h-4 data-vertical:self-center"
+      />
       <TooltipIconButton
         tooltip="Open in new tab"
         aria-label="Open in new tab"
@@ -175,7 +178,10 @@ function ViewportControls() {
       >
         <HugeiconsIcon aria-hidden icon={FullScreenIcon} />
       </TooltipIconButton>
-      <Separator orientation="vertical" className="mx-1 h-4 self-center" />
+      <Separator
+        orientation="vertical"
+        className="mx-1 data-vertical:h-4 data-vertical:self-center"
+      />
       <TooltipIconButton
         tooltip="Refresh preview"
         aria-label="Refresh preview"
@@ -227,7 +233,10 @@ function BlockViewerToolbar() {
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <Separator orientation="vertical" className="mx-1 h-4 self-center" />
+      <Separator
+        orientation="vertical"
+        className="mx-1 data-vertical:h-4 data-vertical:self-center"
+      />
       <a
         href={`#${item.name}`}
         className="min-w-0 flex-1 truncate text-sm font-medium"
@@ -236,7 +245,10 @@ function BlockViewerToolbar() {
       </a>
       <div className="ms-auto flex shrink-0 items-center gap-2">
         <ViewportControls />
-        <Separator orientation="vertical" className="mx-1 h-4 self-center" />
+        <Separator
+          orientation="vertical"
+          className="mx-1 data-vertical:h-4 data-vertical:self-center"
+        />
         <InstallButton />
       </div>
     </div>
@@ -273,7 +285,7 @@ function BlockViewerPreview() {
         <ResizableHandle
           id="block-preview-handle"
           withHandle
-          className="w-3 border-0 bg-transparent after:w-3 [&>div]:bg-muted-foreground/50"
+          className="z-10 w-0 border-0 bg-transparent after:start-0 after:w-3 after:translate-x-0 [&>div]:h-8 [&>div]:translate-x-1 [&>div]:bg-muted-foreground/50 [&>div]:opacity-100 rtl:[&>div]:-translate-x-1"
         />
         <ResizablePanel
           id="block-preview-space"

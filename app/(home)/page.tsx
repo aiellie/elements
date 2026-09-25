@@ -1,5 +1,4 @@
 import { BlockDisplay } from "@/components/pages/block-display"
-import { CategorySection } from "@/components/pages/category-separator"
 import { InstallCommand } from "@/components/pages/install-command"
 import { PageHero } from "@/components/pages/page-hero"
 import { cardCount } from "@/lib/categories"
@@ -13,9 +12,7 @@ export default function Page() {
         count={cardCount("registry:block")}
         actions={<InstallCommand command="npx aiellie init" />}
       />
-      <CategorySection category="chat">
-        <BlockDisplay name="chat" />
-      </CategorySection>
+      <BlockDisplay name="chat" />
     </div>
   )
 }
