@@ -1,6 +1,6 @@
 "use client"
 
-import { BubbleChatTemporaryIcon } from "@hugeicons/core-free-icons"
+import { BubbleChatTemporaryIcon, Key01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { brandIcons } from "@/registry/aiellie/icons/brand-icons"
@@ -25,9 +25,12 @@ const SUGGESTIONS = [
 function ChatEmpty({
   temporary = false,
   onSelect,
+  onAddKey,
 }: {
   temporary?: boolean
   onSelect: (prompt: string) => void
+  /** Offered while replies are samples, for want of an API key. */
+  onAddKey?: () => void
 }) {
   return (
     <Empty className="gap-5">
@@ -50,6 +53,15 @@ function ChatEmpty({
           <EmptyDescription className="max-w-xs">
             It won&apos;t appear in your history, and it won&apos;t use or
             update your memory.
+          </EmptyDescription>
+        ) : null}
+        {onAddKey ? (
+          <EmptyDescription className="flex items-center gap-1 text-xs">
+            Replies are samples for now.
+            <Button variant="ghost" size="xs" onClick={onAddKey}>
+              <HugeiconsIcon icon={Key01Icon} aria-hidden />
+              Add an API key
+            </Button>
           </EmptyDescription>
         ) : null}
       </EmptyHeader>

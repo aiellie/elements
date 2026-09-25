@@ -36,12 +36,15 @@ function ChatThread({
   onSend,
   onRetry,
   onEdit,
+  onAddKey,
 }: {
   messages: ChatMessage[]
   temporary?: boolean
   onSend: (prompt: string) => void
   onRetry: (id: string) => void
   onEdit: (content: string) => void
+  /** Offered while replies are samples, for want of an API key. */
+  onAddKey?: () => void
 }) {
   const { isOpen } = usePanels()
   const turns = turnsOf(messages)
@@ -53,7 +56,11 @@ function ChatThread({
           <ThreadContent>
             {messages.length === 0 ? (
               <ThreadItem className="flex flex-1 flex-col">
-                <ChatEmpty temporary={temporary} onSelect={onSend} />
+                <ChatEmpty
+                  temporary={temporary}
+                  onSelect={onSend}
+                  onAddKey={onAddKey}
+                />
               </ThreadItem>
             ) : (
               <ChatMessages

@@ -69,7 +69,7 @@ const trayButton = (
 
 export default function ComposerDemo() {
   const [value, setValue] = React.useState("")
-  const [model, setModel] = React.useState("claude-opus")
+  const [model, setModel] = React.useState(MODELS[0].id)
   const [project, setProject] = React.useState<string | null>("website")
   // Kept while the tray folds away, so it doesn't empty before it closes.
   const [shownProject, setShownProject] = React.useState(project)

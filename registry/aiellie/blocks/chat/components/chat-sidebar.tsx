@@ -126,11 +126,14 @@ function ChatSidebar({
   onSearch,
   activityOpen,
   onActivity,
+  userMenu,
   ...chats
 }: ChatNavProps & {
   user: User
   /** How much of the plan is left, e.g. "72% left". */
   usage?: string
+  /** Passed on to the user menu, for its settings dialog. */
+  userMenu?: Omit<React.ComponentProps<typeof UserMenu>, "user" | "usage">
   mode: ChatMode
   onModeChange: (mode: ChatMode) => void
   onNewChat: () => void
@@ -175,7 +178,7 @@ function ChatSidebar({
       </SidebarContent>
       <SidebarFooter className="flex-row items-center gap-1 border-t border-border/50">
         <div className="min-w-0 flex-1">
-          <UserMenu user={user} usage={usage} />
+          <UserMenu {...userMenu} user={user} usage={usage} />
         </div>
         <HelpMenu />
       </SidebarFooter>

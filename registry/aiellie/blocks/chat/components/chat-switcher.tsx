@@ -40,7 +40,7 @@ function ChatSwitcher({
     <Menu>
       <MenuTrigger
         data-slot="chat-switcher"
-        render={<SidebarMenuButton className="text-md w-fit font-medium" />}
+        render={<SidebarMenuButton className="text-lg w-fit font-medium" />}
       >
         <span className="sr-only">Mode: </span>
         <span>{selected.name}</span>

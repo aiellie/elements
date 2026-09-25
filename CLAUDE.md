@@ -40,7 +40,7 @@ A file's folder decides its item `type` and where it installs:
 | --- | --- | --- | --- |
 | `ui/` | shadcn components we restyled (button, tooltip) | `registry:ui` | `components/ui/<name>.tsx`, replacing the consumer's own shadcn file |
 | `components/` | everything we designed, from building blocks to AI pieces (menu, toolbar, status, model-selector) | `registry:component` | `components/aiellie/<name>.tsx` |
-| `blocks/<name>/` | a whole page: `page.tsx`, plus parts private to the block in `components/` | `registry:block` | `page.tsx` → `app/<name>/page.tsx` |
+| `blocks/<name>/` | a whole page: `page.tsx`, plus parts private to the block in `components/`, and a `route.ts` if it needs a server route | `registry:block` | `page.tsx` → `app/<name>/page.tsx`, `route.ts` → `app/api/<name>/route.ts` |
 | `icons/`, `lib/` | vendor marks; data and helpers (`models.ts`, `utils.ts`) | `registry:component` / `registry:lib` | `components/aiellie/icons/`, `lib/` |
 | `hooks/` | React hooks that ported shadcn components import (`use-mobile`) | `registry:hook` | `hooks/<name>.ts` |
 | `examples/` | `<item>-demo.tsx` with a default export; used by the site only | none | not published |
@@ -54,7 +54,8 @@ Rules that keep installs working:
 - Every file under `registry/aiellie/`, except those in `examples/`, belongs to an item in `registry.json`. An item's `name` is the file's basename; a block is named after its folder.
 - Inside `registry/`, import other registry files as `@/registry/aiellie/<folder>/<name>`, and import `cn` from `@/lib/utils`. Never import site code (`@/components/...`, `lib/surfaces`, `lib/constants`). On install, the shadcn CLI rewrites these imports so each one points at wherever that file landed, matching files by basename. Keep basenames unique across the registry.
 - Every registry file that a file imports must be listed in its item's `registryDependencies` (as `@aiellie/<name>`). Otherwise the file never gets installed and the import breaks. Every npm package the file imports goes in `dependencies`.
-- A block lists every file it ships: `page.tsx` as `registry:page`, and its `components/*.tsx` as `registry:component` targeted under `components/aiellie/`. It depends on every item it composes. The page installs as a Next route, so it needs a default export.
+- A block lists every file it ships: `page.tsx` as `registry:page`, its `components/*.tsx` as `registry:component` targeted under `components/aiellie/`, and a `route.ts` as `registry:file` targeted at `app/api/<name>/route.ts`. It depends on every item it composes. The page installs as a Next route, so it needs a default export.
+- The site serves a block's route from the same path, so the block's preview works here too: `app/api/chat/route.ts` re-exports `POST` from the registry file. Next reads route segment config like `maxDuration` statically, so the site's file declares its own rather than re-exporting it.
 - Registry code only gets to use shadcn's standard theme tokens (`background`, `muted`, `sidebar`, `border`, `ring`, …), the `live` token from our theme (`text-live`, `bg-live/4`; never a raw blue), Tailwind's own utilities, and `tw-animate-css` (listed in `dependencies`, like `tooltip` and `message` do). The site's extras (`text-h2`, `glass`, `press`, `bg-overlay`, `animate-blink`, the `--z-*` layers) don't exist in a consumer's project. Don't try to ship new theme variables either: this CLI writes `cssVars.theme` under a `.theme` class instead of `@theme`, and `css` can't declare a variable inside `@theme`.
 
 The `theme` item is the exception to living under `registry/aiellie/`: it publishes the site's own `app/globals.css`, byte for byte, as a file that replaces a consumer's stylesheet. Any change to `app/globals.css` therefore ships to new apps on the next deploy. Keep it self-contained: every package it `@import`s must be in the theme item's `dependencies`.
@@ -85,6 +86,7 @@ To publish, log in with `npm login`, bump `version` in `packages/cli/package.jso
   - `wide` makes the card span the whole row; use it for blocks.
   - The demo mounts lazily, centred in a plate of fixed height: 340px, or 420px when `wide`.
 - `components/ui/` and `components/aiellie/` hold the UI used by the site chrome (`demo-actions`, `nav-button`). Most of these files are copies of registry items installed into this repo; `toast.tsx` exists only for the site. Nothing keeps the copies in sync with `registry/`, which is the source of truth, so they can fall behind it. To update a copy, copy the registry file over it, then point any `@/registry/aiellie/...` imports at the installed paths.
+- The chat block replies for real once someone adds a provider key in Settings → Providers. Keys stay in the browser's localStorage (`chat-ai.ts`) and go out per request to `/api/chat`, which calls the provider through the AI SDK and never falls back to keys in the environment. Without a key it streams its sample replies, so the gallery preview works on its own. Model ids in `lib/models.ts` are Vercel AI Gateway ids; `vendorId` holds a vendor's own id where it differs.
 - Site-only code: `components/shared/`, `components/pages/`, `lib/surfaces.tsx`, `lib/constants.ts` (nav pages, container width), `lib/categories.ts`, `lib/demos.tsx` (the demos `/demo/<name>` can open), and `app/provider.tsx` (themes and toasts).
 
 ## Building a feature

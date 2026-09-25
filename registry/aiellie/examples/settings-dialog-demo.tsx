@@ -5,6 +5,7 @@ import { Settings01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { SettingsDialog } from "@/registry/aiellie/components/settings-dialog"
+import { PROVIDERS } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
 
 export default function SettingsDialogDemo() {
@@ -34,6 +35,7 @@ export default function SettingsDialogDemo() {
             createdAt: "2026-08-02",
           },
         ]}
+        providers={PROVIDERS}
       />
     </>
   )

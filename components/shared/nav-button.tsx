@@ -94,11 +94,12 @@ function isCurrent(pathname: string, href: string) {
 function NavButton({
   href,
   label,
+  icon,
   active,
   className,
   ...props
 }: Omit<React.ComponentProps<typeof Link>, "href" | "children"> &
-  Omit<NavPage, "icon"> & { active?: boolean }) {
+  NavPage & { active?: boolean }) {
   const pathname = usePathname()
   const selected = active ?? isCurrent(pathname, href)
 
@@ -111,6 +112,11 @@ function NavButton({
       className={cn(navButton, className)}
       {...props}
     >
+      <HugeiconsIcon
+        aria-hidden
+        icon={icon}
+        className="size-3.5"
+      />
       <span>{label}</span>
     </Link>
   )
@@ -128,7 +134,12 @@ function SiteNav({ pages }: { pages: NavPage[] }) {
     <>
       <nav aria-label="Site" className="hidden items-center gap-0.5 sm:flex">
         {pages.map((page) => (
-          <NavButton key={page.href} href={page.href} label={page.label} />
+          <NavButton
+            key={page.href}
+            href={page.href}
+            label={page.label}
+            icon={page.icon}
+          />
         ))}
       </nav>
       <div className="sm:hidden">

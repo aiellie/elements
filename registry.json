@@ -35,7 +35,7 @@
       "name": "models",
       "type": "registry:lib",
       "title": "Models",
-      "description": "The model catalogue a selector is handed: the option shape, the vendor headings, the grouping, and a list to start from.",
+      "description": "The model catalogue a selector is handed: the option shape, the vendor headings, the grouping, a list to start from, and the providers whose keys reach them.",
       "registryDependencies": ["@aiellie/model-icons"],
       "files": [
         {
@@ -553,7 +553,7 @@
       "name": "settings-dialog",
       "type": "registry:component",
       "title": "Settings Dialog",
-      "description": "A wide, resizable settings window with persistent navigation on the left and the active account, appearance, or API keys section on the right.",
+      "description": "A wide, resizable settings window with persistent navigation on the left and the active account, appearance, model provider keys, or API keys section on the right.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/avatar",
@@ -561,6 +561,7 @@
         "@aiellie/button",
         "@aiellie/dialog",
         "@aiellie/input",
+        "@aiellie/input-group",
         "@aiellie/resizable",
         "@aiellie/sidebar"
       ],
@@ -986,11 +987,15 @@
       "name": "chat",
       "type": "registry:block",
       "title": "Chat",
-      "description": "A chat page: your chats in a sidebar, a thread that streams replies, and a composer with a model selector.",
+      "description": "A chat page: your chats in a sidebar, a thread that streams replies from OpenAI, Anthropic, Google or the Vercel AI Gateway with your own key, and a composer with a model selector.",
       "dependencies": [
         "@hugeicons/react",
         "@hugeicons/core-free-icons",
-        "fflate"
+        "fflate",
+        "ai",
+        "@ai-sdk/openai",
+        "@ai-sdk/anthropic",
+        "@ai-sdk/google"
       ],
       "registryDependencies": [
         "@aiellie/brand-icons",
@@ -1033,6 +1038,11 @@
           "path": "registry/aiellie/blocks/chat/page.tsx",
           "type": "registry:page",
           "target": "app/chat/page.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/route.ts",
+          "type": "registry:file",
+          "target": "app/api/chat/route.ts"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat.tsx",
@@ -1128,6 +1138,11 @@
           "path": "registry/aiellie/blocks/chat/components/chat-attachment-dialog.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-attachment-dialog.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-ai.ts",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-ai.ts"
         }
       ],
       "meta": {

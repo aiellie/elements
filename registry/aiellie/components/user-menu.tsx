@@ -65,6 +65,9 @@ function UserMenu({
   onInvite,
   onSettings,
   onSettingsSave,
+  settings,
+  settingsOpen: settingsOpenProp,
+  onSettingsOpenChange,
   onLogOut,
 }: {
   user: User
@@ -74,9 +77,22 @@ function UserMenu({
   onInvite?: () => void
   onSettings?: () => void
   onSettingsSave?: (values: SettingsValues) => void
+  /** What the settings dialog starts from each time it opens. */
+  settings?: Pick<
+    React.ComponentProps<typeof SettingsDialog>,
+    "theme" | "apiKeys" | "providers" | "providerKeys" | "defaultSection"
+  >
+  /** Controls the settings dialog, so something else can open it too. */
+  settingsOpen?: boolean
+  onSettingsOpenChange?: (open: boolean) => void
   onLogOut?: () => void
 }) {
-  const [settingsOpen, setSettingsOpen] = React.useState(false)
+  const [settingsOpenState, setSettingsOpenState] = React.useState(false)
+  const settingsOpen = settingsOpenProp ?? settingsOpenState
+  const setSettingsOpen = (open: boolean) => {
+    setSettingsOpenState(open)
+    onSettingsOpenChange?.(open)
+  }
 
   return (
     <>
@@ -131,6 +147,7 @@ function UserMenu({
         </SidebarMenuItem>
       </SidebarMenu>
       <SettingsDialog
+        {...settings}
         user={user}
         open={settingsOpen}
         onOpenChange={setSettingsOpen}

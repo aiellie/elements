@@ -2,6 +2,9 @@
 
 import * as React from "react"
 import {
+  AiNetworkIcon,
+  ArrowUpRight01Icon,
+  Cancel01Icon,
   ComputerIcon,
   Copy01Icon,
   Key01Icon,
@@ -11,6 +14,8 @@ import {
   Sun03Icon,
   Tick02Icon,
   UserAccountIcon,
+  ViewIcon,
+  ViewOffSlashIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -38,6 +43,12 @@ import {
 } from "@/registry/aiellie/ui/dialog"
 import { Input } from "@/registry/aiellie/ui/input"
 import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/registry/aiellie/ui/input-group"
+import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
@@ -53,7 +64,7 @@ import {
 } from "@/registry/aiellie/ui/sidebar"
 
 type SettingsTheme = "system" | "light" | "dark"
-type SettingsSection = "general" | "appearance" | "api-keys"
+type SettingsSection = "general" | "appearance" | "providers" | "api-keys"
 
 type SettingsUser = {
   name: string
@@ -71,11 +82,25 @@ type SettingsApiKey = {
   createdAt: string
 }
 
+/** A model provider whose key the person brings, like OpenAI or a gateway. */
+type SettingsProvider = {
+  id: string
+  name: string
+  /** Which models its key reaches, in a few words. */
+  description?: string
+  /** Where a key for it is made. */
+  keysUrl?: string
+  /** How its keys begin, shown in an empty field. */
+  placeholder?: string
+}
+
 type SettingsValues = {
   name: string
   email: string
   theme: SettingsTheme
   apiKeys: SettingsApiKey[]
+  /** Keyed by provider id. A provider without a key is left out. */
+  providerKeys: Record<string, string>
 }
 
 const THEMES: {
@@ -95,6 +120,7 @@ const SECTIONS: {
 }[] = [
   { id: "general", label: "General", icon: UserAccountIcon },
   { id: "appearance", label: "Appearance", icon: PaintBoardIcon },
+  { id: "providers", label: "Providers", icon: AiNetworkIcon },
   { id: "api-keys", label: "API keys", icon: Key01Icon },
 ]
 
@@ -369,16 +395,148 @@ function ApiKeysSection({
   )
 }
 
+function ProviderKeyField({
+  id,
+  provider,
+  value,
+  onChange,
+}: {
+  id: string
+  provider: SettingsProvider
+  value: string
+  onChange: (value: string) => void
+}) {
+  const inputRef = React.useRef<HTMLInputElement>(null)
+  const [shown, setShown] = React.useState(false)
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-end justify-between gap-3">
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <label htmlFor={id} className="text-sm font-medium">
+            {provider.name}
+          </label>
+          {provider.description ? (
+            <p
+              id={`${id}-description`}
+              className="text-xs text-muted-foreground"
+            >
+              {provider.description}
+            </p>
+          ) : null}
+        </div>
+        {provider.keysUrl ? (
+          <a
+            href={provider.keysUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="flex shrink-0 items-center gap-0.5 text-xs text-muted-foreground transition-colors duration-80 outline-none hover:text-foreground focus-visible:text-foreground motion-reduce:transition-none"
+          >
+            Get a key
+            <HugeiconsIcon
+              icon={ArrowUpRight01Icon}
+              aria-hidden
+              className="size-3 rtl:-scale-x-100"
+            />
+          </a>
+        ) : null}
+      </div>
+      <InputGroup>
+        <InputGroupInput
+          ref={inputRef}
+          id={id}
+          type={shown ? "text" : "password"}
+          value={value}
+          placeholder={provider.placeholder}
+          autoComplete="off"
+          spellCheck={false}
+          // Keeps password managers from offering to save or fill it.
+          data-1p-ignore
+          data-lpignore="true"
+          aria-describedby={
+            provider.description ? `${id}-description` : undefined
+          }
+          onChange={(event) => onChange(event.target.value)}
+          className="font-mono"
+        />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton
+            size="icon-xs"
+            aria-label={shown ? "Hide key" : "Show key"}
+            aria-pressed={shown}
+            onClick={() => setShown(!shown)}
+          >
+            <HugeiconsIcon icon={shown ? ViewOffSlashIcon : ViewIcon} />
+          </InputGroupButton>
+          {/* Disabled rather than hidden while empty, so the field's end stays put. */}
+          <InputGroupButton
+            size="icon-xs"
+            aria-label="Clear key"
+            disabled={!value}
+            onClick={() => {
+              onChange("")
+              inputRef.current?.focus()
+            }}
+          >
+            <HugeiconsIcon icon={Cancel01Icon} />
+          </InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+
+function ProvidersSection({
+  id,
+  providers,
+  keys,
+  onChange,
+}: {
+  id: string
+  providers: SettingsProvider[]
+  keys: Record<string, string>
+  onChange: (keys: Record<string, string>) => void
+}) {
+  return (
+    <section id={id} aria-label="Providers" className="flex flex-col p-6 pt-4">
+      <div className="flex flex-col gap-1">
+        <p className="text-sm font-medium">Providers</p>
+        <p className="text-xs text-muted-foreground">
+          Keys for the models you chat with. They stay in this browser and go
+          out only with your own requests.
+        </p>
+      </div>
+      <div className="flex flex-col gap-4 pt-4">
+        {providers.map((provider) => (
+          <ProviderKeyField
+            key={provider.id}
+            id={`${id}-${provider.id}`}
+            provider={provider}
+            value={keys[provider.id] ?? ""}
+            onChange={(value) => onChange({ ...keys, [provider.id]: value })}
+          />
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function SettingsDialogForm({
   user,
   initialTheme,
   initialApiKeys,
+  providers,
+  initialProviderKeys,
+  initialSection,
   onOpenChange,
   onSave,
 }: {
   user: SettingsUser
   initialTheme: SettingsTheme
   initialApiKeys: SettingsApiKey[]
+  providers: SettingsProvider[]
+  initialProviderKeys: Record<string, string>
+  initialSection: SettingsSection
   onOpenChange: (open: boolean) => void
   onSave?: (values: SettingsValues) => void
 }) {
@@ -387,15 +545,33 @@ function SettingsDialogForm({
   const [email, setEmail] = React.useState(user.email ?? "")
   const [theme, setTheme] = React.useState<SettingsTheme>(initialTheme)
   const [apiKeys, setApiKeys] = React.useState(initialApiKeys)
-  const [section, setSection] = React.useState<SettingsSection>("general")
-  const current = SECTIONS.find((item) => item.id === section) ?? SECTIONS[0]
+  const [providerKeys, setProviderKeys] = React.useState(initialProviderKeys)
+  const sections = SECTIONS.filter(
+    (item) => item.id !== "providers" || providers.length > 0
+  )
+  const [section, setSection] = React.useState<SettingsSection>(
+    sections.some((item) => item.id === initialSection)
+      ? initialSection
+      : "general"
+  )
+  const current = sections.find((item) => item.id === section) ?? sections[0]
 
   return (
     <form
       className="h-full min-h-0 overflow-hidden"
       onSubmit={(event) => {
         event.preventDefault()
-        onSave?.({ name, email, theme, apiKeys })
+        onSave?.({
+          name,
+          email,
+          theme,
+          apiKeys,
+          providerKeys: Object.fromEntries(
+            Object.entries(providerKeys).flatMap(([provider, key]) =>
+              key.trim() ? [[provider, key.trim()]] : []
+            )
+          ),
+        })
         onOpenChange(false)
       }}
     >
@@ -411,7 +587,7 @@ function SettingsDialogForm({
               <SidebarContent>
                 <SidebarGroup className="p-4 pt-6">
                   <SidebarMenu className="gap-1">
-                    {SECTIONS.map((item) => (
+                    {sections.map((item) => (
                       <SidebarMenuItem key={item.id}>
                         <SidebarMenuButton
                           type="button"
@@ -442,7 +618,7 @@ function SettingsDialogForm({
                   Settings: {current.label}
                 </DialogTitle>
                 <DialogDescription className="sr-only">
-                  Manage your account, appearance, and API keys.
+                  Manage your account, appearance, and keys.
                 </DialogDescription>
                 <Breadcrumb>
                   <BreadcrumbList>
@@ -550,6 +726,13 @@ function SettingsDialogForm({
                       ))}
                     </div>
                   </section>
+                ) : section === "providers" ? (
+                  <ProvidersSection
+                    id={`${id}-providers-panel`}
+                    providers={providers}
+                    keys={providerKeys}
+                    onChange={setProviderKeys}
+                  />
                 ) : (
                   <ApiKeysSection
                     id={`${id}-api-keys-panel`}
@@ -581,6 +764,9 @@ function SettingsDialog({
   user,
   theme = "system",
   apiKeys = [],
+  providers = [],
+  providerKeys = {},
+  defaultSection = "general",
   open,
   onOpenChange,
   onSave,
@@ -588,6 +774,11 @@ function SettingsDialog({
   user: SettingsUser
   theme?: SettingsTheme
   apiKeys?: SettingsApiKey[]
+  /** Providers the person brings a key for. Without any, the section is left out. */
+  providers?: SettingsProvider[]
+  providerKeys?: Record<string, string>
+  /** The section shown each time it opens. */
+  defaultSection?: SettingsSection
   open: boolean
   onOpenChange: (open: boolean) => void
   onSave?: (values: SettingsValues) => void
@@ -599,6 +790,9 @@ function SettingsDialog({
           user={user}
           initialTheme={theme}
           initialApiKeys={apiKeys}
+          providers={providers}
+          initialProviderKeys={providerKeys}
+          initialSection={defaultSection}
           onOpenChange={onOpenChange}
           onSave={onSave}
         />
@@ -608,4 +802,11 @@ function SettingsDialog({
 }
 
 export { SettingsDialog }
-export type { SettingsApiKey, SettingsTheme, SettingsUser, SettingsValues }
+export type {
+  SettingsApiKey,
+  SettingsProvider,
+  SettingsSection,
+  SettingsTheme,
+  SettingsUser,
+  SettingsValues,
+}

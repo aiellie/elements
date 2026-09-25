@@ -274,6 +274,11 @@ The active tab carries an `input` hairline in both themes, since the `shadow-sm`
 - While a reply streams, a caret blinks after the last part only, and the message carries `aria-busy`. The caret is a 2px bar in `live`, the streaming status ink. `StreamText` draws the same bar, and a part that holds one drops its own, so there is never a second caret.
 - `StreamText` writes a reply out whole words at a time. Each word fades in from 0 opacity and `blur-xs` over 280 ms, and the newest words hold the `live` ink until more arrive. Registry code reads it as `var(--live, currentColor)`, since `live` ships with the aiellie theme rather than with shadcn.
 - Reactions sit on the bubble by DOM order. They take no `z-index`.
+- A failed reply says why beside its `Failed` status, in the footer's `caption` ink, with Retry after it: "The API key was refused" tells the person what to do, where `Failed` alone doesn't.
+
+### Secret fields
+
+**A key the person pastes in is a password field in an `InputGroup`, with show and clear buttons at its end.** Show flips it to plain text and back (`ViewIcon`, `ViewOffSlashIcon`). Clear stays disabled while the field is empty rather than hiding, so the field's end doesn't shift, and it puts focus back in the field. The field is `font-mono`, since a key is an id, and it carries `data-1p-ignore` and `data-lpignore` so password managers don't offer to save a key as a login. Where the key comes from goes at the end of the label row as a quiet "Get a key" link with an up-right arrow, never as a button. The Providers section of the settings dialog is the reference.
 
 ### Layers
 

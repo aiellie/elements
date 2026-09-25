@@ -40,6 +40,8 @@ type ChatMessage = {
   attachments?: ChatAttachment[]
   /** Left out once a reply has finished. */
   status?: "streaming" | "stopped" | "failed"
+  /** Why a failed reply failed. */
+  error?: string
   createdAt?: Date
 }
 
@@ -127,10 +129,13 @@ function ChatMessages({
               ) : null}
               {message.status === "failed" ? (
                 <MessageFooter>
-                  <Status variant="destructive">
+                  <Status variant="destructive" className="shrink-0">
                     <StatusIndicator />
                     <StatusLabel>Failed</StatusLabel>
                   </Status>
+                  {message.error ? (
+                    <span className="min-w-0">{message.error}</span>
+                  ) : null}
                   <MessageAction
                     tooltip="Retry"
                     onClick={() => onRetry(message.id)}
