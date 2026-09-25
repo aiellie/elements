@@ -89,7 +89,7 @@ function MenuSearch({
           onValueChange("")
           inputRef.current?.focus()
         }}
-        className="flex size-5 shrink-0 items-center justify-center rounded-md text-muted-foreground/70 transition-colors outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-1 focus-visible:ring-foreground/5 disabled:pointer-events-none disabled:opacity-30 motion-reduce:transition-none dark:hover:bg-foreground/[0.09]"
+        className="flex size-5 shrink-0 items-center justify-center rounded-md border border-transparent text-muted-foreground/70 transition-colors outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:border-ring disabled:pointer-events-none disabled:opacity-30 motion-reduce:transition-none dark:hover:bg-foreground/[0.09]"
       >
         <HugeiconsIcon
           aria-hidden

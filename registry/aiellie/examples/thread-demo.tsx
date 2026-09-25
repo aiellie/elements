@@ -1,6 +1,10 @@
 "use client"
 
-import { Message, MessageContent } from "@/registry/aiellie/components/message"
+import {
+  Message,
+  MessageContent,
+  MessagePart,
+} from "@/registry/aiellie/components/message"
 import {
   Thread,
   ThreadContent,
@@ -24,8 +28,14 @@ export default function ThreadDemo() {
       <Thread>
         <ThreadContent className="gap-4 px-3 py-4">
           {TURNS.map((text, index) => (
-            <Message key={index} from={index % 2 === 0 ? "user" : "assistant"}>
-              <MessageContent>{text}</MessageContent>
+            <Message
+              key={index}
+              align={index % 2 === 0 ? "end" : "start"}
+              variant={index % 2 === 0 ? "secondary" : "ghost"}
+            >
+              <MessageContent>
+                <MessagePart>{text}</MessagePart>
+              </MessageContent>
             </Message>
           ))}
         </ThreadContent>

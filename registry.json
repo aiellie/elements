@@ -739,9 +739,16 @@
       "name": "message",
       "type": "registry:component",
       "title": "Message",
-      "description": "One turn in a conversation: the person's words in a bubble, the assistant's as plain text with a caret while it is still being written.",
-      "dependencies": ["tw-animate-css"],
-      "registryDependencies": ["@aiellie/utils"],
+      "description": "One turn in a conversation: a bubble or plain text in six variants, with an avatar, header, footer, timestamp, reactions, hover actions and a caret while the reply streams.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
       "files": [
         {
           "path": "registry/aiellie/components/message.tsx",

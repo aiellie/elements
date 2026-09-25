@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const statusVariants = cva(
-  "group/status inline-flex w-fit shrink-0 items-center gap-1.5 overflow-hidden rounded-4xl border px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-colors focus-visible:ring-1 focus-visible:ring-foreground/5 motion-reduce:transition-none [&>svg]:pointer-events-none [&>svg]:size-3!",
+  "group/status inline-flex w-fit shrink-0 items-center gap-1.5 overflow-hidden rounded-4xl border px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring motion-reduce:transition-none dark:focus-visible:border-ring [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
       variant: {
@@ -14,7 +14,8 @@ const statusVariants = cva(
         destructive:
           "border-destructive/10 bg-destructive/6 text-destructive dark:border-destructive/25 dark:bg-destructive/10",
         live: "border-blue-500/20 bg-blue-500/6 text-[#526FFF] dark:border-blue-400/20 dark:bg-blue-400/6 dark:text-blue-400",
-        construction: "border-yellow-500/20 bg-yellow-500/6 text-yellow-700 dark:border-yellow-400/20 dark:bg-yellow-400/6 dark:text-yellow-400",
+        construction:
+          "border-yellow-500/20 bg-yellow-500/6 text-yellow-700 dark:border-yellow-400/20 dark:bg-yellow-400/6 dark:text-yellow-400",
       },
     },
     defaultVariants: {

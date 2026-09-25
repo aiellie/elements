@@ -11,7 +11,11 @@ import {
   ComposerSubmit,
   type ComposerStatus,
 } from "@/registry/aiellie/components/composer"
-import { Message, MessageContent } from "@/registry/aiellie/components/message"
+import {
+  Message,
+  MessageContent,
+  MessagePart,
+} from "@/registry/aiellie/components/message"
 import {
   Thread,
   ThreadContent,
@@ -150,13 +154,16 @@ function QuickChat({
             messages.map((message) => (
               <Message
                 key={message.id}
-                from={message.from}
+                align={message.from === "user" ? "end" : "start"}
+                variant={message.from === "user" ? "secondary" : "ghost"}
                 streaming={message.streaming}
               >
-                {message.attachments}
-                {message.content || message.streaming ? (
-                  <MessageContent>{message.content}</MessageContent>
-                ) : null}
+                <MessageContent>
+                  {message.attachments}
+                  {message.content || message.streaming ? (
+                    <MessagePart>{message.content}</MessagePart>
+                  ) : null}
+                </MessageContent>
               </Message>
             ))
           ) : (

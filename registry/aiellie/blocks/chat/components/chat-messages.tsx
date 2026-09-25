@@ -15,15 +15,17 @@ import {
 } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import {
   Message,
+  MessageAction,
   MessageActions,
   MessageContent,
+  MessageFooter,
+  MessagePart,
 } from "@/registry/aiellie/components/message"
 import {
   Status,
   StatusIndicator,
   StatusLabel,
 } from "@/registry/aiellie/components/status"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 
 type ChatMessage = {
   id: string
@@ -44,7 +46,7 @@ function CopyButton({ text }: { text: string }) {
   }, [copied])
 
   return (
-    <TooltipIconButton
+    <MessageAction
       tooltip={copied ? "Copied" : "Copy"}
       onClick={async () => {
         try {
@@ -56,7 +58,7 @@ function CopyButton({ text }: { text: string }) {
       }}
     >
       <HugeiconsIcon icon={copied ? Tick02Icon : Copy01Icon} />
-    </TooltipIconButton>
+    </MessageAction>
   )
 }
 
@@ -73,50 +75,59 @@ function ChatMessages({
     const streaming = message.status === "streaming"
 
     return (
-      <Message key={message.id} from={message.role} streaming={streaming}>
-        {message.attachments ? (
-          <ChatAttachments
-            attachments={message.attachments}
-            size="xs"
-            className="max-w-full"
-          />
-        ) : null}
-        {message.content || streaming ? (
-          <MessageContent>{message.content}</MessageContent>
-        ) : null}
-        {message.status === "failed" ? (
-          <div className="flex items-center gap-2">
-            <Status variant="destructive">
-              <StatusIndicator />
-              <StatusLabel>Failed</StatusLabel>
-            </Status>
-            <TooltipIconButton
-              tooltip="Retry"
-              onClick={() => onRetry(message.id)}
-            >
-              <HugeiconsIcon icon={RepeatIcon} />
-            </TooltipIconButton>
-          </div>
-        ) : streaming || !message.content ? null : (
-          <MessageActions>
-            <CopyButton text={message.content} />
-            {message.role === "assistant" ? (
-              <TooltipIconButton
+      <Message
+        key={message.id}
+        align={message.role === "user" ? "end" : "start"}
+        variant={message.role === "user" ? "secondary" : "ghost"}
+        streaming={streaming}
+      >
+        <MessageContent>
+          {message.attachments ? (
+            <ChatAttachments
+              attachments={message.attachments}
+              size="xs"
+              className="max-w-full group-data-[align=end]/message:self-end"
+            />
+          ) : null}
+          {message.content || streaming ? (
+            <MessagePart>{message.content}</MessagePart>
+          ) : null}
+          {message.status === "failed" ? (
+            <MessageFooter>
+              <Status variant="destructive">
+                <StatusIndicator />
+                <StatusLabel>Failed</StatusLabel>
+              </Status>
+              <MessageAction
                 tooltip="Retry"
                 onClick={() => onRetry(message.id)}
               >
                 <HugeiconsIcon icon={RepeatIcon} />
-              </TooltipIconButton>
-            ) : (
-              <TooltipIconButton
-                tooltip="Edit"
-                onClick={() => onEdit(message.content)}
-              >
-                <HugeiconsIcon icon={PencilEdit01Icon} />
-              </TooltipIconButton>
-            )}
-          </MessageActions>
-        )}
+              </MessageAction>
+            </MessageFooter>
+          ) : streaming || !message.content ? null : (
+            <MessageFooter>
+              <MessageActions>
+                <CopyButton text={message.content} />
+                {message.role === "assistant" ? (
+                  <MessageAction
+                    tooltip="Retry"
+                    onClick={() => onRetry(message.id)}
+                  >
+                    <HugeiconsIcon icon={RepeatIcon} />
+                  </MessageAction>
+                ) : (
+                  <MessageAction
+                    tooltip="Edit"
+                    onClick={() => onEdit(message.content)}
+                  >
+                    <HugeiconsIcon icon={PencilEdit01Icon} />
+                  </MessageAction>
+                )}
+              </MessageActions>
+            </MessageFooter>
+          )}
+        </MessageContent>
       </Message>
     )
   })

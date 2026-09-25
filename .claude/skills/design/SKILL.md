@@ -240,6 +240,18 @@ The active tab carries an `input` hairline in both themes, since the `shadow-sm`
 
 **A search field at the top of a menu or command list is a row of the panel, not a field set inside it.** It runs edge to edge, has no fill, no border of its own and no rounding, and a `border-border/60` hairline under it divides it from the rows. Its search glyph sits in `muted-foreground/70` and lines up with the row icons below it. A clear button sits at its end, disabled at 30% rather than hidden while the field is empty, so the text's end doesn't shift as you type; clearing puts focus back in the field. A boxed input there would read as a second surface inside the panel, and it would steal a step of padding from every row. `MenuSearch` in `menu.tsx` and `CommandInput` in `ui/command.tsx` are the reference. A standalone search field elsewhere on the page is an ordinary input and keeps its border.
 
+### Messages
+
+**A message bubble is `secondary` unless the conversation asks for something else.** `primary` is still available as a variant, but it is never the default: it is the fill of the one primary action in a view, and a thread full of solid dark bubbles would compete with it. A person's turn sits on the end in `secondary`; the assistant's turn is `ghost`, plain text with no bubble.
+
+- Bubbles round at `radius-xl` (18px), and the last part of a turn tucks its tail to `radius-sm` on the speaker's side. Parts in a row sit 4px apart, so they read as one turn.
+- Text is `body-sm` with 24px leading, so a one-line bubble is 32px tall, like a control. Timestamps are `caption` in `muted-foreground`, in the sans with `tabular-nums`, not in mono: mono is for code.
+- `tinted` is a light `primary` wash (6% light, 10% dark), not a raw hue. It moves to the brand hue once one is picked.
+- `destructive` follows the status formula: 4% at rest, 7% on hover, in both themes.
+- A clickable bubble shows focus with its border in `ring`. It has no ring.
+- While a reply streams, a caret blinks after the last part only, and the message carries `aria-busy`.
+- Reactions sit on the bubble by DOM order. They take no `z-index`.
+
 ### Layers
 
 Eight layers, ten apart so one can be slipped in later without renumbering:

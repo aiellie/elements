@@ -1,41 +1,76 @@
 "use client"
 
-import { Copy01Icon, RepeatIcon } from "@hugeicons/core-free-icons"
+import {
+  Copy01Icon,
+  RepeatIcon,
+  SparklesIcon,
+  ThumbsUpIcon,
+} from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import {
   Message,
+  MessageAction,
   MessageActions,
+  MessageAvatar,
   MessageContent,
+  MessageFooter,
+  MessageGroup,
+  MessageHeader,
+  MessagePart,
+  MessageReactions,
+  MessageTime,
 } from "@/registry/aiellie/components/message"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 
 export default function MessageDemo() {
   return (
-    <div className="flex w-full max-w-md flex-col gap-4">
-      <Message from="user">
-        <MessageContent>What does the blinking caret mean?</MessageContent>
-      </Message>
-      <Message from="assistant">
+    <MessageGroup className="w-full max-w-md gap-4">
+      <Message align="end">
         <MessageContent>
-          That the reply is still being written. It goes once the last word is
-          in, and the actions underneath come back.
+          <MessagePart>Can you split this into two messages?</MessagePart>
+          <MessagePart className="mb-2">
+            Like a quick follow-up.
+            <MessageReactions>👍</MessageReactions>
+          </MessagePart>
+          <MessageFooter>
+            <MessageTime dateTime="2026-09-25T09:41">09:41</MessageTime>
+          </MessageFooter>
         </MessageContent>
-        <MessageActions>
-          <TooltipIconButton tooltip="Copy">
-            <HugeiconsIcon icon={Copy01Icon} />
-          </TooltipIconButton>
-          <TooltipIconButton tooltip="Retry">
-            <HugeiconsIcon icon={RepeatIcon} />
-          </TooltipIconButton>
-        </MessageActions>
       </Message>
-      <Message from="user">
-        <MessageContent>Show me.</MessageContent>
+      <Message variant="ghost">
+        <MessageAvatar>
+          <HugeiconsIcon icon={SparklesIcon} aria-hidden />
+        </MessageAvatar>
+        <MessageContent>
+          <MessageHeader>Assistant</MessageHeader>
+          <MessagePart>
+            Parts that follow each other stack tightly, and only the last one
+            gets the tail. Hover this reply to see its actions.
+          </MessagePart>
+          <MessageFooter>
+            <MessageTime dateTime="2026-09-25T09:42">09:42</MessageTime>
+            <MessageActions>
+              <MessageAction tooltip="Copy">
+                <HugeiconsIcon icon={Copy01Icon} />
+              </MessageAction>
+              <MessageAction tooltip="Good reply">
+                <HugeiconsIcon icon={ThumbsUpIcon} />
+              </MessageAction>
+              <MessageAction tooltip="Retry">
+                <HugeiconsIcon icon={RepeatIcon} />
+              </MessageAction>
+            </MessageActions>
+          </MessageFooter>
+        </MessageContent>
       </Message>
-      <Message from="assistant" streaming>
-        <MessageContent>Like this, while the words are</MessageContent>
+      <Message variant="ghost" streaming>
+        <MessageAvatar>
+          <HugeiconsIcon icon={SparklesIcon} aria-hidden />
+        </MessageAvatar>
+        <MessageContent>
+          <MessagePart>And while a reply is still being written</MessagePart>
+        </MessageContent>
       </Message>
-    </div>
+    </MessageGroup>
   )
 }

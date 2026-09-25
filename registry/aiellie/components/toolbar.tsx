@@ -39,8 +39,8 @@ function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
 }
 
 const toolbarButton = cn(
-  "flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg text-foreground/55 transition-[background-color,color,scale] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] outline-none select-none",
-  "hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-1 focus-visible:ring-foreground/5 active:scale-90",
+  "flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-transparent text-foreground/55 transition-[background-color,border-color,color,scale] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] outline-none select-none",
+  "hover:bg-foreground/[0.06] hover:text-foreground focus-visible:border-ring active:scale-90",
   "aria-pressed:bg-foreground/[0.06] aria-pressed:text-foreground",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
   "motion-reduce:transition-none dark:hover:bg-foreground/[0.09] dark:aria-pressed:bg-foreground/[0.09]",
@@ -93,8 +93,8 @@ function ToolbarInput({ className, ...props }: ToolbarPrimitive.Input.Props) {
     <ToolbarPrimitive.Input
       data-slot="toolbar-input"
       className={cn(
-        "h-7 w-28 min-w-0 rounded-lg bg-background/70 px-2 text-xs text-foreground transition-colors outline-none",
-        "placeholder:text-muted-foreground/70 hover:bg-background focus-visible:bg-background/70 focus-visible:ring-1 focus-visible:ring-foreground/5",
+        "h-7 w-28 min-w-0 rounded-lg border border-transparent bg-background/70 px-2 text-xs text-foreground transition-colors outline-none",
+        "placeholder:text-muted-foreground/70 hover:bg-background focus-visible:border-ring focus-visible:bg-background/70",
         "data-disabled:pointer-events-none data-disabled:opacity-50",
         "motion-reduce:transition-none dark:hover:bg-foreground/[0.09] dark:focus-visible:bg-foreground/[0.09]",
         className
