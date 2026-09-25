@@ -29,6 +29,7 @@ async function BlockDisplay({ name }: { name: string }) {
         name: item.name,
         title: item.title,
         description: item.description,
+        icon: item.icon,
       }}
       tree={tree}
       highlightedFiles={highlightedFiles}

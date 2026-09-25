@@ -210,6 +210,8 @@ Four rules:
 
 **The home block preview does not repeat a category separator.** The page hero already names and counts the block collection, so render the block viewer directly beneath it. Category separators remain useful on gallery pages where several categories share one page; repeating one above the home's only preview adds hierarchy without information.
 
+**Block viewer metadata belongs in a caption below the preview, not in its toolbar.** Follow the demo-card order: a small muted Hugeicon beside the title, then the description on the next line. Keep the toolbar for view and installation controls so metadata stays readable without competing with interaction.
+
 A 32px control with a 12px corner (`radius-md`) has 10px of straight edge on each side — that ratio is what keeps the tight density from looking like a pill. If a control gets shorter than 28px, drop it to `radius-sm`.
 
 ### Focus and edges

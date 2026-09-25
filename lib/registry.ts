@@ -2,8 +2,15 @@ import "server-only"
 
 import { readFile } from "node:fs/promises"
 import path from "node:path"
+import { AiBrain01Icon, Hold05Icon } from "@hugeicons/core-free-icons"
+import type { IconSvgElement } from "@hugeicons/react"
 
 import registry from "@/registry.json"
+
+const REGISTRY_ICONS = {
+  AiBrain01Icon,
+  Hold05Icon,
+} satisfies Record<string, IconSvgElement>
 
 type RegistryItemType = (typeof registry.items)[number]["type"]
 
@@ -19,6 +26,7 @@ type RegistryItem = {
   type: RegistryItemType
   title: string
   description: string
+  icon?: IconSvgElement
   files: RegistryFile[]
 }
 
@@ -54,6 +62,9 @@ async function getRegistryItem(name: string): Promise<RegistryItem | null> {
   const item = registry.items.find((candidate) => candidate.name === name)
   if (!item || !("files" in item)) return null
 
+  const meta = "meta" in item ? item.meta : null
+  const iconName = meta && "icon" in meta ? meta.icon : null
+
   const files = await Promise.all(
     item.files.map(async (file) => ({
       path: file.path,
@@ -68,6 +79,10 @@ async function getRegistryItem(name: string): Promise<RegistryItem | null> {
     type: item.type,
     title: item.title,
     description: item.description,
+    icon:
+      typeof iconName === "string" && iconName in REGISTRY_ICONS
+        ? REGISTRY_ICONS[iconName as keyof typeof REGISTRY_ICONS]
+        : undefined,
     files,
   }
 }

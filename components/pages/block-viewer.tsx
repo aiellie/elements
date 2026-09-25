@@ -38,7 +38,10 @@ type HighlightedRegistryFile = RegistryFile & {
   highlightedContent: string
 }
 
-type BlockViewerItem = Pick<RegistryItem, "name" | "title" | "description">
+type BlockViewerItem = Pick<
+  RegistryItem,
+  "name" | "title" | "description" | "icon"
+>
 type BlockViewerView = "preview" | "code"
 type Viewport = "desktop" | "tablet" | "mobile" | null
 
@@ -216,7 +219,7 @@ function InstallButton() {
 }
 
 function BlockViewerToolbar() {
-  const { item, view, setView } = useBlockViewer()
+  const { view, setView } = useBlockViewer()
 
   return (
     <div className="hidden min-w-0 items-center gap-2 lg:flex">
@@ -233,16 +236,6 @@ function BlockViewerToolbar() {
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <Separator
-        orientation="vertical"
-        className="mx-1 data-vertical:h-4 data-vertical:self-center"
-      />
-      <a
-        href={`#${item.name}`}
-        className="min-w-0 flex-1 truncate text-sm font-medium"
-      >
-        {item.description.replace(/\.$/, "")}
-      </a>
       <div className="ms-auto flex shrink-0 items-center gap-2">
         <ViewportControls />
         <Separator
@@ -442,19 +435,34 @@ function BlockViewerCode() {
 }
 
 function BlockViewerMobile() {
-  const { item } = useBlockViewer()
-
   return (
-    <div className="flex flex-col gap-2 lg:hidden">
-      <div className="flex items-center gap-2 px-2">
-        <p className="line-clamp-1 text-sm font-medium">{item.description}</p>
-        <span className="ms-auto shrink-0 font-mono text-xs text-muted-foreground">
-          {item.name}
-        </span>
-      </div>
+    <div className="lg:hidden">
       <div className="h-[min(680px,75svh)] overflow-hidden rounded-xl border border-border/60 bg-background">
         <PreviewFrame />
       </div>
+    </div>
+  )
+}
+
+function BlockViewerCaption() {
+  const { item } = useBlockViewer()
+
+  return (
+    <div data-slot="block-viewer-caption">
+      <div className="flex items-baseline gap-2.5">
+        {item.icon ? (
+          <HugeiconsIcon
+            aria-hidden
+            icon={item.icon}
+            strokeWidth={1.75}
+            className="-me-1 size-3.5 shrink-0 self-center text-muted-foreground"
+          />
+        ) : null}
+        <h2 className="text-[13.5px] font-medium">{item.title}</h2>
+      </div>
+      <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
+        {item.description}
+      </p>
     </div>
   )
 }
@@ -487,6 +495,7 @@ function BlockViewer({
         <BlockViewerPreview />
         <BlockViewerCode />
         <BlockViewerMobile />
+        <BlockViewerCaption />
         <style>{`
           .dark [data-slot="block-viewer-code"] pre span {
             color: var(--shiki-dark) !important;
