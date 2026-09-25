@@ -187,7 +187,7 @@ function ChatShare({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger render={<Button variant="outline" size="sm" />}>
+      <DialogTrigger render={<Button variant="ghost" size="sm" />}>
         <HugeiconsIcon
           icon={Share08Icon}
           data-icon="inline-start"
