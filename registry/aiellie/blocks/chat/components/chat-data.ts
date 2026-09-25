@@ -21,6 +21,8 @@ type Conversation = {
   id: string
   title: string
   pinned?: boolean
+  /** Kept out of the sidebar, but not deleted. */
+  archived?: boolean
   /** Kept out of the sidebar, and gone once the page is left. */
   temporary?: boolean
   /** Where its latest run stands. */
@@ -33,6 +35,9 @@ type Conversation = {
 const SAMPLE_USER: User = { name: "AI Ellie", plan: "Pro" }
 
 const SAMPLE_USAGE = "72% left"
+
+// Where a shared chat can be read. Point it at your own share route.
+const shareUrlOf = (id: string) => `https://example.com/share/${id}`
 
 const SAMPLE_CONVERSATIONS: Conversation[] = [
   {
@@ -191,5 +196,6 @@ export {
   SAMPLE_PROJECTS,
   SAMPLE_USAGE,
   SAMPLE_USER,
+  shareUrlOf,
 }
 export type { Conversation, ConversationStatus }

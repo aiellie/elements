@@ -15,6 +15,7 @@ import {
   SAMPLE_PROJECTS,
   SAMPLE_USAGE,
   SAMPLE_USER,
+  shareUrlOf,
   type Conversation,
   type ConversationStatus,
 } from "@/registry/aiellie/blocks/chat/components/chat-data"
@@ -95,6 +96,7 @@ function Chat({
   const [mode, setMode] = React.useState<ChatMode>("chat")
   const [activityOpen, setActivityOpen] = React.useState(false)
   const [searchOpen, setSearchOpen] = React.useState(false)
+  const [shareOpen, setShareOpen] = React.useState(false)
   const [quickChatOpen, setQuickChatOpen] = React.useState(false)
   const [quickMessages, setQuickMessages] = React.useState<QuickChatMessage[]>(
     []
@@ -379,7 +381,11 @@ function Chat({
     onActivity?.(open)
   }
 
-  const saved = conversations.filter((conversation) => !conversation.temporary)
+  const openSaved = active && !active.temporary ? active : undefined
+
+  const saved = conversations.filter(
+    (conversation) => !conversation.temporary && !conversation.archived
+  )
 
   const canGoBack = history.index > 0
   const canGoForward = history.index < history.entries.length - 1
@@ -430,6 +436,40 @@ function Chat({
       )
     )
 
+  const archive = (id: string) => {
+    setConversations((all) =>
+      all.map((conversation) =>
+        conversation.id === id
+          ? { ...conversation, archived: true }
+          : conversation
+      )
+    )
+    // Archiving the open chat leaves a new one in its place, as deleting does.
+    if (id === activeId) startNewChat()
+  }
+
+  // A reply still streaming is copied as far as it has got.
+  const fork = (id: string) => {
+    const source = conversations.find((conversation) => conversation.id === id)
+    if (!source) return
+    const copy: Conversation = {
+      id: makeId("chat"),
+      title: `${source.title} (fork)`,
+      messages: source.messages.map((message) => ({
+        ...message,
+        id: makeId("message"),
+        status: message.status === "streaming" ? "stopped" : message.status,
+      })),
+    }
+    setConversations((all) => [copy, ...all])
+    select(copy.id)
+  }
+
+  const share = (id: string) => {
+    if (id !== activeId) select(id)
+    setShareOpen(true)
+  }
+
   const remove = (id: string) => {
     if (streamRef.current?.conversationId === id) stop()
     setConversations((all) =>
@@ -472,6 +512,9 @@ function Chat({
               onSelect={select}
               onRename={rename}
               onTogglePin={togglePin}
+              onArchive={archive}
+              onShare={share}
+              onFork={fork}
               onDelete={remove}
             />
           }
@@ -496,6 +539,21 @@ function Chat({
                   !active || active.temporary ? setTemporary : undefined
                 }
                 onNewChat={startNewChat}
+                messages={active?.messages ?? []}
+                // A temporary chat can only be deleted: it has no place in the
+                // sidebar to pin or archive into, and nothing to share.
+                shareUrl={openSaved ? shareUrlOf(openSaved.id) : undefined}
+                shareOpen={shareOpen}
+                onShareOpenChange={setShareOpen}
+                pinned={openSaved?.pinned}
+                onRename={
+                  openSaved ? (title) => rename(openSaved.id, title) : undefined
+                }
+                onTogglePin={
+                  openSaved ? () => togglePin(openSaved.id) : undefined
+                }
+                onArchive={openSaved ? () => archive(openSaved.id) : undefined}
+                onFork={openSaved ? () => fork(openSaved.id) : undefined}
                 onDelete={active ? () => remove(active.id) : undefined}
               />
             ),

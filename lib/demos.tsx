@@ -17,6 +17,7 @@ import InputGroupDemo from "@/registry/aiellie/examples/input-group-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
+import PopoverDemo from "@/registry/aiellie/examples/popover-demo"
 import StreamTextDemo from "@/registry/aiellie/examples/stream-text-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
@@ -76,6 +77,7 @@ const DEMOS: Record<string, Demo> = {
   tooltip: { title: "Tooltip", gallery: "/ui", Demo: TooltipDemo },
   sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
   dialog: { title: "Dialog", gallery: "/ui", Demo: DialogDemo },
+  popover: { title: "Popover", gallery: "/ui", Demo: PopoverDemo },
   command: { title: "Command", gallery: "/ui", Demo: CommandDemo },
   skeleton: { title: "Skeleton", gallery: "/ui", Demo: SkeletonDemo },
   avatar: { title: "Avatar", gallery: "/ui", Demo: AvatarDemo },

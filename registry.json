@@ -121,6 +121,22 @@
       "categories": ["overlays"]
     },
     {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Base UI's popover as a glass panel that floats beside its trigger, for small forms and details.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/popover.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/popover.tsx"
+        }
+      ],
+      "categories": ["overlays"]
+    },
+    {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
@@ -841,6 +857,10 @@
         "@aiellie/menu",
         "@aiellie/status",
         "@aiellie/tooltip-icon-button",
+        "@aiellie/tooltip",
+        "@aiellie/popover",
+        "@aiellie/separator",
+        "@aiellie/input",
         "@aiellie/add-menu",
         "@aiellie/dictate-button",
         "@aiellie/temporary-chat-toggle",
@@ -916,6 +936,21 @@
           "path": "registry/aiellie/blocks/chat/components/chat-header.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-header.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-title.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-title.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-options.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-options.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-share.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-share.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-thread.tsx",
