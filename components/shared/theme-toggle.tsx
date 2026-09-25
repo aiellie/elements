@@ -8,11 +8,8 @@ import { HugeiconsIcon } from "@hugeicons/react"
 
 import { cn } from "@/lib/utils"
 import { useMetaColor } from "@/hooks/use-meta-color"
-import {
-  iconSwap,
-  iconSwapIn,
-  iconSwapOut,
-} from "@/lib/surfaces"
+import { setThemeWithTransition } from "@/components/theme-provider"
+import { iconSwap, iconSwapIn, iconSwapOut } from "@/lib/surfaces"
 import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 
 export const DARK_MODE_FORWARD_TYPE = "dark-mode-forward"
@@ -30,7 +27,10 @@ export function useThemeToggle() {
   }, [metaColor, setMetaColor])
 
   const toggleTheme = React.useCallback(() => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark")
+    setThemeWithTransition(
+      setTheme,
+      resolvedTheme === "dark" ? "light" : "dark"
+    )
   }, [resolvedTheme, setTheme])
 
   return { toggleTheme, resolvedTheme, setTheme }

@@ -2,6 +2,25 @@
 
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes"
+import { flushSync } from "react-dom"
+
+function setThemeWithTransition(
+  setTheme: (theme: string) => void,
+  theme: string
+) {
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches
+
+  if (!document.startViewTransition || prefersReducedMotion) {
+    setTheme(theme)
+    return
+  }
+
+  document.startViewTransition(() => {
+    flushSync(() => setTheme(theme))
+  })
+}
 
 function ThemeProvider({
   children,
@@ -55,7 +74,10 @@ function ThemeHotkey() {
         return
       }
 
-      setTheme(resolvedTheme === "dark" ? "light" : "dark")
+      setThemeWithTransition(
+        setTheme,
+        resolvedTheme === "dark" ? "light" : "dark"
+      )
     }
 
     window.addEventListener("keydown", onKeyDown)
@@ -68,4 +90,4 @@ function ThemeHotkey() {
   return null
 }
 
-export { ThemeProvider }
+export { ThemeProvider, setThemeWithTransition }
