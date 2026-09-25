@@ -441,6 +441,26 @@
       "categories": ["layout"]
     },
     {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "shadcn's breadcrumb: a compact path that shows where the current page sits in a hierarchy.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/breadcrumb.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/breadcrumb.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
       "name": "user-menu",
       "type": "registry:component",
       "title": "User Menu",
@@ -450,6 +470,7 @@
         "@aiellie/avatar",
         "@aiellie/badge",
         "@aiellie/menu",
+        "@aiellie/settings-dialog",
         "@aiellie/sidebar"
       ],
       "files": [
@@ -524,6 +545,30 @@
           "path": "registry/aiellie/components/menu.tsx",
           "type": "registry:component",
           "target": "components/aiellie/menu.tsx"
+        }
+      ],
+      "categories": ["overlays"]
+    },
+    {
+      "name": "settings-dialog",
+      "type": "registry:component",
+      "title": "Settings Dialog",
+      "description": "A wide, resizable settings window with persistent navigation on the left and the active account or appearance section on the right.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/avatar",
+        "@aiellie/breadcrumb",
+        "@aiellie/button",
+        "@aiellie/dialog",
+        "@aiellie/input",
+        "@aiellie/resizable",
+        "@aiellie/sidebar"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/settings-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/settings-dialog.tsx"
         }
       ],
       "categories": ["overlays"]

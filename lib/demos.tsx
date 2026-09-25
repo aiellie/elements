@@ -5,6 +5,7 @@ import BadgeDemo from "@/registry/aiellie/examples/badge-demo"
 import BranchesMenuDemo from "@/registry/aiellie/examples/branches-menu-demo"
 import AttachmentDemo from "@/registry/aiellie/examples/attachment-demo"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
+import BreadcrumbDemo from "@/registry/aiellie/examples/breadcrumb-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
 import CommandDemo from "@/registry/aiellie/examples/command-demo"
 import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
@@ -30,6 +31,7 @@ import QuickChatDemo from "@/registry/aiellie/examples/quick-chat-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
 import SeparatorDemo from "@/registry/aiellie/examples/separator-demo"
+import SettingsDialogDemo from "@/registry/aiellie/examples/settings-dialog-demo"
 import SheetDemo from "@/registry/aiellie/examples/sheet-demo"
 import SidebarDemo from "@/registry/aiellie/examples/sidebar-demo"
 import SkeletonDemo from "@/registry/aiellie/examples/skeleton-demo"
@@ -80,6 +82,11 @@ const DEMOS: Record<string, Demo> = {
   marker: { title: "Marker", gallery: "/ui", Demo: MarkerDemo },
   sidebar: { title: "Sidebar", gallery: "/ui", Demo: SidebarDemo },
   tabs: { title: "Tabs", gallery: "/ui", Demo: TabsDemo },
+  breadcrumb: {
+    title: "Breadcrumb",
+    gallery: "/ui",
+    Demo: BreadcrumbDemo,
+  },
   tooltip: { title: "Tooltip", gallery: "/ui", Demo: TooltipDemo },
   sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
   dialog: { title: "Dialog", gallery: "/ui", Demo: DialogDemo },
@@ -151,6 +158,11 @@ const DEMOS: Record<string, Demo> = {
     Demo: NavBarsDemo,
   },
   menu: { title: "Menu", gallery: "/components", Demo: MenuDemo },
+  "settings-dialog": {
+    title: "Settings Dialog",
+    gallery: "/components",
+    Demo: SettingsDialogDemo,
+  },
   status: { title: "Status", gallery: "/components", Demo: StatusDemo },
   waveform: { title: "Waveform", gallery: "/components", Demo: WaveformDemo },
   composer: { title: "Composer", gallery: "/components", Demo: ComposerDemo },

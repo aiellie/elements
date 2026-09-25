@@ -21,8 +21,9 @@ import {
   Message01Icon,
   MessageEdit01Icon,
   MessageMultiple01Icon,
-  TypeCursorIcon,
   PuzzleIcon,
+  Settings01Icon,
+  TypeCursorIcon,
   UserAccountIcon,
 } from "@hugeicons/core-free-icons"
 import { CategorySection } from "@/components/pages/category-separator"
@@ -44,6 +45,7 @@ import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
 import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
 import QuickChatDemo from "@/registry/aiellie/examples/quick-chat-demo"
+import SettingsDialogDemo from "@/registry/aiellie/examples/settings-dialog-demo"
 import StreamTextDemo from "@/registry/aiellie/examples/stream-text-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
@@ -205,11 +207,20 @@ export default function ComponentsPage() {
         >
           <MenuDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/settings-dialog"
+          index={16}
+          title="Settings Dialog"
+          icon={Settings01Icon}
+          description="Profile and appearance settings in one focused dialog"
+        >
+          <SettingsDialogDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="feedback">
         <DemoCard
           href="/components/status"
-          index={16}
+          index={17}
           title="Status"
           icon={Activity03Icon}
           description="A simple status component"
@@ -218,7 +229,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/meter"
-          index={17}
+          index={18}
           title="Meter"
           icon={DashboardSpeed02Icon}
           description="How full something is, like a context window or a credit balance"
@@ -227,7 +238,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/waveform"
-          index={18}
+          index={19}
           title="Waveform"
           icon={AudioWave01Icon}
           description="Live bars that follow a microphone, so you can see it hears you"
@@ -238,7 +249,7 @@ export default function ComponentsPage() {
       <CategorySection category="chat">
         <DemoCard
           href="/components/composer"
-          index={19}
+          index={20}
           title="Composer"
           icon={MessageEdit01Icon}
           description="A simple composer component"
@@ -247,7 +258,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message"
-          index={20}
+          index={21}
           title="Message"
           icon={Message01Icon}
           description="A simple message component"
@@ -256,7 +267,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/date-divider"
-          index={21}
+          index={22}
           title="Date Divider"
           icon={Calendar03Icon}
           description="The day and time across a thread, between two rules"
@@ -265,7 +276,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={22}
+          index={23}
           title="Thread"
           icon={MessageMultiple01Icon}
           description="A simple thread component"
@@ -274,7 +285,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread-transcript"
-          index={23}
+          index={24}
           title="Thread Transcript"
           icon={LeftToRightListBulletIcon}
           description="A rail of your turns beside a thread that jumps to each one"
@@ -283,7 +294,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/quick-chat"
-          index={24}
+          index={25}
           title="Quick Chat"
           icon={BubbleChatAddIcon}
           description="A compact conversation that floats over the current page"
@@ -292,7 +303,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/stream-text"
-          index={25}
+          index={26}
           title="Stream Text"
           icon={TypeCursorIcon}
           description="A streamed reply written out word by word, at a steady pace"

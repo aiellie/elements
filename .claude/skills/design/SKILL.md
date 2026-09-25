@@ -38,11 +38,19 @@ Separate surfaces with `border` and light, not with shadow. `card` is flush with
 Four rules that belong in `globals.css` rather than in any component:
 
 ```css
-html { @apply overscroll-y-none scroll-smooth; }
-*   { scrollbar-color: var(--border) transparent; }
-a   { @apply hover:text-link; }
+html {
+  @apply overscroll-y-none scroll-smooth;
+}
+* {
+  scrollbar-color: var(--border) transparent;
+}
+a {
+  @apply hover:text-link;
+}
 button:not(:disabled),
-[role="button"]:not(:disabled) { cursor: pointer; }
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
 ```
 
 Scrollbars are furniture: the `border` hairline on no track at all, so a scrolling region doesn't announce itself with a grey gutter. `overscroll-y-none` kills the rubber-band bounce that makes a fixed header look unmoored; `scroll-smooth` is overridden to `auto` under reduced motion. The cursor rule exists because Tailwind's preflight leaves buttons on the default arrow — a disabled button keeps it, which is the intended signal.
@@ -53,11 +61,11 @@ Scrollbars are furniture: the `border` hairline on no track at all, so a scrolli
 
 Three statuses, built the same way. Each has an ink and two fills — 4% resting, 7% on hover — and nothing else:
 
-| status | ink (light / dark) | resting fill | hover fill |
-| --- | --- | --- | --- |
-| `destructive` | red-600 / red-400 | `destructive-bg` 4% | `destructive-bg-hover` 7% |
-| `live` | `#526FFF` / `oklch(0.7 0.17 270)` | `live-bg` 4% | `live-bg-hover` 7% |
-| `success` | emerald-600 / emerald-400 | `success-bg` 4% | `success-bg-hover` 7% |
+| status        | ink (light / dark)                | resting fill        | hover fill                |
+| ------------- | --------------------------------- | ------------------- | ------------------------- |
+| `destructive` | red-600 / red-400                 | `destructive-bg` 4% | `destructive-bg-hover` 7% |
+| `live`        | `#526FFF` / `oklch(0.7 0.17 270)` | `live-bg` 4%        | `live-bg-hover` 7%        |
+| `success`     | emerald-600 / emerald-400         | `success-bg` 4%     | `success-bg-hover` 7%     |
 
 `live` means streaming, running, connected, in progress. `success` means completed, passing, saved. Anything else — pending, queued, draft, idle — is neutral: `muted` fill, `muted-foreground` ink. Resist adding a fourth hue.
 
@@ -102,15 +110,15 @@ Borders stay `border` on glass; a glass panel keeps its hairline, since the fill
 
 **Only things that float carry a shadow.** A card, a button, an input, a table, the sidebar — all flat. They are separated by their ground and a `border` hairline, never by a lift.
 
-| layer | shadow |
-| --- | --- |
-| card, button, input, table, sidebar, banner | none |
-| dropdown, popover, menu, tooltip, toast | `shadow-md` |
-| dialog, sheet, drawer, command palette | `shadow-lg` |
+| layer                                       | shadow      |
+| ------------------------------------------- | ----------- |
+| card, button, input, table, sidebar, banner | none        |
+| dropdown, popover, menu, tooltip, toast     | `shadow-md` |
+| dialog, sheet, drawer, command palette      | `shadow-lg` |
 
 Tailwind's smaller names — `shadow-2xs`, `shadow-xs`, `shadow-sm` — all resolve to `none`, so an inherited shadcn Card comes in flat without editing its class string, the same way the weight ramp works. `shadow-xl` and `shadow-2xl` are capped at `shadow-lg`: nothing in the system goes deeper than a dialog.
 
-The shadow exists to do a job glass cannot. A translucent panel shares its colour with the page behind it, so blur alone reads as a smudge rather than a layer — the shadow is what says *this is on top*. That is why the two always travel together, and why a flat surface needs neither.
+The shadow exists to do a job glass cannot. A translucent panel shares its colour with the page behind it, so blur alone reads as a smudge rather than a layer — the shadow is what says _this is on top_. That is why the two always travel together, and why a flat surface needs neither.
 
 Both values are near-black at low opacity, deeper in dark mode, where a shadow has less contrast to work with. There is no coloured or brand-tinted shadow, and no `inset`.
 
@@ -122,13 +130,13 @@ Both load from Google Fonts as variable faces across 100–900, so the 350/400/4
 
 Weights keep Tailwind's names so inherited components need no edits, but the values are the system's:
 
-| class | value | | class | value |
-| --- | --- | --- | --- | --- |
-| `font-thin` | 250 | | `font-medium` | 430 |
-| `font-extralight` | 300 | | `font-semibold` | 430 |
-| `font-light` | 350 | | `font-bold` | 430 |
-| `font-normal` | 400 | | `font-extrabold` | 430 |
-| | | | `font-black` | 430 |
+| class             | value |     | class            | value |
+| ----------------- | ----- | --- | ---------------- | ----- |
+| `font-thin`       | 250   |     | `font-medium`    | 430   |
+| `font-extralight` | 300   |     | `font-semibold`  | 430   |
+| `font-light`      | 350   |     | `font-bold`      | 430   |
+| `font-normal`     | 400   |     | `font-extrabold` | 430   |
+|                   |       |     | `font-black`     | 430   |
 
 Nothing resolves above 430. A shadcn card title marked `font-semibold` and a button marked `font-medium` render at the same weight, which is the point: pull a block or a template in and it comes out quiet without touching its class strings. Set this up in Tailwind v4 with `@theme { --font-weight-medium: 430; --font-weight-semibold: 430; … }`.
 
@@ -153,14 +161,14 @@ Emphasis comes from size and ink, not weight — the 80-unit spread between ligh
 
 The base is `radius`, 0.875rem — 14px. Every other step is derived from it exactly the way shadcn derives its own, so setting `--radius: 0.875rem` makes the inherited `rounded-*` classes land on this set without edits:
 
-| token | value | for |
-| --- | --- | --- |
-| `radius-sm` | 10px | things nested inside something already rounded |
-| `radius-md` | 12px | dense controls: inputs, selects, small buttons, menu items, tabs |
-| `radius-lg` | **14px** | the default: buttons, badges, popovers, dropdowns, tooltips, toasts, sidebar items |
-| `radius-xl` | 18px | containers that hold components: cards, dialogs, sheets, image frames |
-| `radius-2xl` | 24px | large full-width surfaces only — hero and marketing panels |
-| `radius-full` | pill | switches, circular icon buttons, avatars, progress tracks, status dots |
+| token         | value    | for                                                                                |
+| ------------- | -------- | ---------------------------------------------------------------------------------- |
+| `radius-sm`   | 10px     | things nested inside something already rounded                                     |
+| `radius-md`   | 12px     | dense controls: inputs, selects, small buttons, menu items, tabs                   |
+| `radius-lg`   | **14px** | the default: buttons, badges, popovers, dropdowns, tooltips, toasts, sidebar items |
+| `radius-xl`   | 18px     | containers that hold components: cards, dialogs, sheets, image frames              |
+| `radius-2xl`  | 24px     | large full-width surfaces only — hero and marketing panels                         |
+| `radius-full` | pill     | switches, circular icon buttons, avatars, progress tracks, status dots             |
 
 `radius-lg` is the one to reach for when unsure. The shape of the system is a 14px corner; the steps either side exist to keep nesting honest, not to give every component its own curve.
 
@@ -179,17 +187,17 @@ A 4px grid with one 2px half-step, at editor density — the reference points ar
 
 Controls are 32px, not shadcn's 36px. That one change is most of what makes the density read as an editor rather than a web app:
 
-| element | size | padding | internal gap |
-| --- | --- | --- | --- |
-| button | `h-8` 32px | `px-3` | `gap-2` |
-| small button, icon button | `h-7` 28px / `size-7` | `px-2` | — |
-| input, select, combobox | `h-8` 32px | `px-3` | — |
-| menu item, table row, list row | `h-8` 32px | `px-2` | `gap-2` |
-| card, dialog, popover | — | `p-4` | `gap-3` |
-| sidebar item | `h-7.5` 30px | `px-2` | `gap-2` |
-| page gutter | — | `px-6` | — |
-| between sections | — | — | `gap-6` |
-| between page regions | — | — | `gap-8` |
+| element                        | size                  | padding | internal gap |
+| ------------------------------ | --------------------- | ------- | ------------ |
+| button                         | `h-8` 32px            | `px-3`  | `gap-2`      |
+| small button, icon button      | `h-7` 28px / `size-7` | `px-2`  | —            |
+| input, select, combobox        | `h-8` 32px            | `px-3`  | —            |
+| menu item, table row, list row | `h-8` 32px            | `px-2`  | `gap-2`      |
+| card, dialog, popover          | —                     | `p-4`   | `gap-3`      |
+| sidebar item                   | `h-7.5` 30px          | `px-2`  | `gap-2`      |
+| page gutter                    | —                     | `px-6`  | —            |
+| between sections               | —                     | —       | `gap-6`      |
+| between page regions           | —                     | —       | `gap-8`      |
 
 Sidebar items are the one row that runs shorter than a control, at 30px, the half-step between the two. A sidebar is a long list read at a glance: at 32px it read as tall, and at 28px as cramped. Its rows, the rename field, the loading row and any icon button beside a row (quick chat, say) all sit at 30px, and the row's action and badge sit 5px from its top to stay centred. Group labels keep 32px, since they space the sections rather than being rows.
 
@@ -232,7 +240,11 @@ Keyboard focus is the only thing that triggers it: `focus-visible`, never `focus
 
 ### Tabs
 
-**Tabs are the segmented track only: `TabsList` on its default variant.** Never use `variant="line"`. The underline marks the current view with a 2px bar in `foreground`, a heavier mark than anything else in the system uses for "selected". Everywhere else, the current item is a quiet fill: sidebar rows and menu items on `accent`, and the active tab on `background` inside a `muted` track. The `line` variant stays in `ui/tabs.tsx` only because the port keeps shadcn's API, so an install doesn't break anyone's call sites. Don't show it in demos, blocks or components.
+**Tabs that switch peer views use the segmented track: `TabsList` on its default variant.** Never use `variant="line"`. The underline marks the current view with a 2px bar in `foreground`, a heavier mark than anything else in the system uses for "selected". The `line` variant stays in `ui/tabs.tsx` only because the port keeps shadcn's API, so an install doesn't break anyone's call sites. Don't show it in demos, blocks or components.
+
+**A persistent settings rail is a sidebar, not tabs.** Compose it from `SidebarProvider`, a non-collapsible `Sidebar`, and `SidebarMenuButton` rows; each destination is a 30px left-aligned row with an icon and label, and the current row takes `sidebar-accent`. Keep the selected section as ordinary controlled view state rather than giving the rail tab semantics. Name the active section again with the `Breadcrumb` primitive as `Settings › Section`, so the rail establishes the map while the right pane establishes the current place; do not hand-build the separator or breadcrumb semantics.
+
+**A settings dialog with a persistent rail has a medium footprint, not a full-screen one.** Cap it at 768px wide and 480px tall (`sm:max-w-3xl h-3/4 max-h-120`). Keep its header and footer fixed inside that frame and let only the active content pane scroll, so a short section does not turn into a mostly empty window.
 
 The active tab carries an `input` hairline in both themes, since the `shadow-sm` shadcn lifts it with resolves to none here. It gives way to `ring` under keyboard focus (`data-active:not-focus-visible:border-input`), so a focused active tab still shows focus.
 
@@ -267,16 +279,16 @@ The active tab carries an `input` hairline in both themes, since the `shadow-sm`
 
 Eight layers, ten apart so one can be slipped in later without renumbering:
 
-| token | value | layer |
-| --- | --- | --- |
-| `z-base` | 0 | page content |
-| `z-raised` | 10 | sticky table headers, pinned rows |
-| `z-sticky` | 20 | app header, sidebar rail, sticky toolbars |
-| `z-dropdown` | 30 | dropdowns, popovers, selects, context menus |
-| `z-overlay` | 40 | the scrim behind a modal |
-| `z-modal` | 50 | dialogs, sheets, drawers, command palette |
-| `z-toast` | 60 | toasts and notifications |
-| `z-tooltip` | 70 | tooltips |
+| token        | value | layer                                       |
+| ------------ | ----- | ------------------------------------------- |
+| `z-base`     | 0     | page content                                |
+| `z-raised`   | 10    | sticky table headers, pinned rows           |
+| `z-sticky`   | 20    | app header, sidebar rail, sticky toolbars   |
+| `z-dropdown` | 30    | dropdowns, popovers, selects, context menus |
+| `z-overlay`  | 40    | the scrim behind a modal                    |
+| `z-modal`    | 50    | dialogs, sheets, drawers, command palette   |
+| `z-toast`    | 60    | toasts and notifications                    |
+| `z-tooltip`  | 70    | tooltips                                    |
 
 Two of these are ordered the way they are for a specific reason. **Toasts sit above modals**, because a save failure that appears behind the form that caused it is a bug. **Tooltips sit above everything**, because a tooltip can be triggered from a control inside a dialog or inside a toast.
 
@@ -292,14 +304,14 @@ Use them as `z-[var(--z-modal)]` rather than Tailwind's numeric `z-50`, so the n
 
 Motion is not in `tokens.json` — the token format has no motion family — so these are the values, to be declared alongside the rest in `@theme`:
 
-| token | value | for |
-| --- | --- | --- |
-| `--duration-instant` | 80ms | press, hover on a control, row background |
-| `--duration-fast` | 150ms | a state the pointer answers: a chevron or plus turning, a toggle; popovers, dropdowns, tooltips, toasts entering |
-| `--duration-layout` | 280ms | something arriving or reshaping the page: resizable panels, sidebar collapse, accordions, dialogs, sheets, a set of suggestions coming in |
-| stagger | 70ms per item | the delay between items when several arrive together |
-| `--ease-out` | `cubic-bezier(.16, 1, .3, 1)` | everything entering or responding to input |
-| `--ease-in` | `cubic-bezier(.4, 0, 1, 1)` | everything leaving |
+| token                | value                         | for                                                                                                                                       |
+| -------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `--duration-instant` | 80ms                          | press, hover on a control, row background                                                                                                 |
+| `--duration-fast`    | 150ms                         | a state the pointer answers: a chevron or plus turning, a toggle; popovers, dropdowns, tooltips, toasts entering                          |
+| `--duration-layout`  | 280ms                         | something arriving or reshaping the page: resizable panels, sidebar collapse, accordions, dialogs, sheets, a set of suggestions coming in |
+| stagger              | 70ms per item                 | the delay between items when several arrive together                                                                                      |
+| `--ease-out`         | `cubic-bezier(.16, 1, .3, 1)` | everything entering or responding to input                                                                                                |
+| `--ease-in`          | `cubic-bezier(.4, 0, 1, 1)`   | everything leaving                                                                                                                        |
 
 Registry code can't use these tokens, so it writes the value: `duration-80`, `duration-150`, `duration-280`. A duration off this list, like `duration-200` or `duration-300`, is a bug.
 
@@ -367,9 +379,9 @@ Icons come from Hugeicons (`@hugeicons/react` with `@hugeicons/core-free-icons`)
 
 The running list of icons this registry reuses, so a component reaches for the same mark every time rather than picking a new one. Fill it in as projects land — a row belongs here once the same icon has been used in two places.
 
-| purpose | icon | notes |
-| --- | --- | --- |
-| _(empty)_ | | |
+| purpose   | icon | notes |
+| --------- | ---- | ----- |
+| _(empty)_ |      |       |
 
 Add a row with the exact export name from `@hugeicons/core-free-icons` so it can be pasted straight into an import, and say what it means in this system rather than what it depicts — "a run in progress", not "a circle with an arrow".
 
@@ -383,17 +395,17 @@ Assets are copied, never approximated — a mark is never drawn from a descripti
 
 ## What's missing
 
-| asset | what's needed | status |
-| --- | --- | --- |
-| Wordmark | SVG, the full name set as it should always appear | — |
-| Lettermark / glyph | SVG, the square mark for tight spaces | — |
-| App icon | SVG or 1024px PNG, the rounded-square form | — |
-| Favicon | 32px and 16px, plus the SVG it's cut from | — |
-| Mark on dark | The variant for dark surfaces, if it isn't just an ink swap | — |
-| Monochrome mark | Single-ink version for stamps, watermarks and print | — |
-| Background / OG placeholder | 1200×630 share image, and whatever fills an empty hero | — |
-| Avatar | The default identity image, if it isn't the generated gradient | — |
-| Screenshot frame | The chrome product screenshots sit in, for docs and marketing | — |
+| asset                       | what's needed                                                  | status |
+| --------------------------- | -------------------------------------------------------------- | ------ |
+| Wordmark                    | SVG, the full name set as it should always appear              | —      |
+| Lettermark / glyph          | SVG, the square mark for tight spaces                          | —      |
+| App icon                    | SVG or 1024px PNG, the rounded-square form                     | —      |
+| Favicon                     | 32px and 16px, plus the SVG it's cut from                      | —      |
+| Mark on dark                | The variant for dark surfaces, if it isn't just an ink swap    | —      |
+| Monochrome mark             | Single-ink version for stamps, watermarks and print            | —      |
+| Background / OG placeholder | 1200×630 share image, and whatever fills an empty hero         | —      |
+| Avatar                      | The default identity image, if it isn't the generated gradient | —      |
+| Screenshot frame            | The chrome product screenshots sit in, for docs and marketing  | —      |
 
 Files land under `assets/<Group>/` when they arrive — `assets/Logos/`, `assets/Images/` — one group per row above, each group with its own `README.md` saying what its files are for. A single-ink SVG needs its ink named in that README, since an `<img>` can't inherit `currentColor`.
 
@@ -418,141 +430,140 @@ Every value in the system. Generated from `tokens.json` — do not hand-edit her
 
 ## Color
 
-| token | light | dark | use |
-| --- | --- | --- | --- |
-| `background` | `oklch(1 0 0)` | `oklch(0.141 0.005 285.823)` | Page ground. |
-| `foreground` | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)` | Default text and icon ink on background, card, popover, muted and secondary. |
-| `card` | `oklch(1 0 0)` | `oklch(0.21 0.006 285.885)` | Raised container ground. |
-| `card-foreground` | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)` | Text on card. |
-| `popover` | `oklch(1 0 0)` | `oklch(0.21 0.006 285.885)` | Ground for popovers, dropdowns, command menus and tooltips that float over the page. |
-| `popover-foreground` | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)` | Text on popover. |
-| `primary` | `oklch(0.21 0.006 285.885)` | `oklch(0.92 0.004 286.32)` | Solid fill of the one primary action per view. |
-| `primary-foreground` | `oklch(0.985 0 0)` | `oklch(0.21 0.006 285.885)` | Text and icons on primary (17. |
-| `secondary` | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Fill of secondary buttons and quiet chips. |
-| `secondary-foreground` | `oklch(0.21 0.006 285.885)` | `oklch(0.985 0 0)` | Text on secondary. |
-| `muted` | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Inset ground: table headers, code blocks, skeletons, disabled fields. |
-| `muted-foreground` | `oklch(0.53 0.016 285.938)` | `oklch(0.705 0.015 286.067)` | Secondary text: labels, captions, timestamps, placeholder. |
-| `accent` | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Hover and active ground for rows, menu items and ghost buttons. |
-| `accent-foreground` | `oklch(0.21 0.006 285.885)` | `oklch(0.985 0 0)` | Text on accent. |
-| `link` | `oklch(0.546 0.245 262.881)` | `oklch(0.623 0.214 259.815)` | Link ink, shown on hover — links rest in the ink around them. |
-| `selection` | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Text-selection highlight. |
-| `destructive` | `oklch(0.577 0.245 27.325)` | `oklch(0.704 0.191 22.216)` | Status ink for destructive: icons, dots, and the text of a destructive row or badge. |
-| `destructive-foreground` | `oklch(0.985 0 0)` | `oklch(0.141 0.005 285.823)` | Text on a destructive fill (4. |
-| `destructive-bg` | `#e7000b0a` | `#ff64670a` | Destructive at 4%. |
-| `destructive-bg-hover` | `#e7000b12` | `#ff646712` | Destructive at 7%. |
-| `live` | `oklch(0.623 0.214 259.815)` | `oklch(0.707 0.165 254.624)` | Status ink for live — streaming, running, connected, in progress. |
-| `live-bg` | `#2b7fff0a` | `#51a2ff0a` | Live at 4%. |
-| `live-bg-hover` | `#2b7fff12` | `#51a2ff12` | Live at 7%. |
-| `success` | `oklch(0.596 0.145 163.225)` | `oklch(0.765 0.177 163.223)` | Status ink for success — completed, passing, saved. |
-| `success-bg` | `#0099660a` | `#00d4920a` | Success at 4%. |
-| `success-bg-hover` | `#00996612` | `#00d49212` | Success at 7%. |
-| `border` | `oklch(0.92 0.004 286.32)` | `#ffffff1a` | Hairline separators and container edges. |
-| `input` | `oklch(0.92 0.004 286.32)` | `#ffffff26` | Field and control edges at rest. |
-| `ring` | `oklch(0.552 0.016 285.938)` | `oklch(0.552 0.016 285.938)` | The focused border colour, not a ring. |
-| `sidebar` | `oklch(0.985 0 0)` | `oklch(0.21 0.006 285.885)` | Sidebar ground: one step off background, set apart by tone rather than a heavy border. |
-| `sidebar-foreground` | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)` | Sidebar text. |
-| `sidebar-primary` | `oklch(0.21 0.006 285.885)` | `oklch(0.92 0.004 286.32)` | Solid fill of the active sidebar item or a sidebar CTA. |
-| `sidebar-primary-foreground` | `oklch(0.985 0 0)` | `oklch(0.21 0.006 285.885)` | Text on sidebar-primary. |
-| `sidebar-accent` | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Hover and current-item ground inside the sidebar. |
-| `sidebar-accent-foreground` | `oklch(0.21 0.006 285.885)` | `oklch(0.985 0 0)` | Text on sidebar-accent. |
-| `sidebar-border` | `oklch(0.92 0.004 286.32)` | `#ffffff1a` | Sidebar rail edge and group separators. |
-| `sidebar-ring` | `oklch(0.552 0.016 285.938)` | `oklch(0.552 0.016 285.938)` | Focused border colour inside the sidebar. |
-| `glass` | `#ffffff99` | `#09090b99` | Background at 60%, the translucent fill behind popovers, dropdowns, menus and sticky headers. Never behind a panel over a scrim. |
-| `glass-strong` | `#ffffffcc` | `#09090bcc` | Background at 80%. |
-| `overlay` | `#00000080` | `#000000b3` | The scrim behind a dialog, sheet or drawer. |
+| token                        | light                        | dark                         | use                                                                                                                              |
+| ---------------------------- | ---------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `background`                 | `oklch(1 0 0)`               | `oklch(0.141 0.005 285.823)` | Page ground.                                                                                                                     |
+| `foreground`                 | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)`           | Default text and icon ink on background, card, popover, muted and secondary.                                                     |
+| `card`                       | `oklch(1 0 0)`               | `oklch(0.21 0.006 285.885)`  | Raised container ground.                                                                                                         |
+| `card-foreground`            | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)`           | Text on card.                                                                                                                    |
+| `popover`                    | `oklch(1 0 0)`               | `oklch(0.21 0.006 285.885)`  | Ground for popovers, dropdowns, command menus and tooltips that float over the page.                                             |
+| `popover-foreground`         | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)`           | Text on popover.                                                                                                                 |
+| `primary`                    | `oklch(0.21 0.006 285.885)`  | `oklch(0.92 0.004 286.32)`   | Solid fill of the one primary action per view.                                                                                   |
+| `primary-foreground`         | `oklch(0.985 0 0)`           | `oklch(0.21 0.006 285.885)`  | Text and icons on primary (17.                                                                                                   |
+| `secondary`                  | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Fill of secondary buttons and quiet chips.                                                                                       |
+| `secondary-foreground`       | `oklch(0.21 0.006 285.885)`  | `oklch(0.985 0 0)`           | Text on secondary.                                                                                                               |
+| `muted`                      | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Inset ground: table headers, code blocks, skeletons, disabled fields.                                                            |
+| `muted-foreground`           | `oklch(0.53 0.016 285.938)`  | `oklch(0.705 0.015 286.067)` | Secondary text: labels, captions, timestamps, placeholder.                                                                       |
+| `accent`                     | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Hover and active ground for rows, menu items and ghost buttons.                                                                  |
+| `accent-foreground`          | `oklch(0.21 0.006 285.885)`  | `oklch(0.985 0 0)`           | Text on accent.                                                                                                                  |
+| `link`                       | `oklch(0.546 0.245 262.881)` | `oklch(0.623 0.214 259.815)` | Link ink, shown on hover — links rest in the ink around them.                                                                    |
+| `selection`                  | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Text-selection highlight.                                                                                                        |
+| `destructive`                | `oklch(0.577 0.245 27.325)`  | `oklch(0.704 0.191 22.216)`  | Status ink for destructive: icons, dots, and the text of a destructive row or badge.                                             |
+| `destructive-foreground`     | `oklch(0.985 0 0)`           | `oklch(0.141 0.005 285.823)` | Text on a destructive fill (4.                                                                                                   |
+| `destructive-bg`             | `#e7000b0a`                  | `#ff64670a`                  | Destructive at 4%.                                                                                                               |
+| `destructive-bg-hover`       | `#e7000b12`                  | `#ff646712`                  | Destructive at 7%.                                                                                                               |
+| `live`                       | `oklch(0.623 0.214 259.815)` | `oklch(0.707 0.165 254.624)` | Status ink for live — streaming, running, connected, in progress.                                                                |
+| `live-bg`                    | `#2b7fff0a`                  | `#51a2ff0a`                  | Live at 4%.                                                                                                                      |
+| `live-bg-hover`              | `#2b7fff12`                  | `#51a2ff12`                  | Live at 7%.                                                                                                                      |
+| `success`                    | `oklch(0.596 0.145 163.225)` | `oklch(0.765 0.177 163.223)` | Status ink for success — completed, passing, saved.                                                                              |
+| `success-bg`                 | `#0099660a`                  | `#00d4920a`                  | Success at 4%.                                                                                                                   |
+| `success-bg-hover`           | `#00996612`                  | `#00d49212`                  | Success at 7%.                                                                                                                   |
+| `border`                     | `oklch(0.92 0.004 286.32)`   | `#ffffff1a`                  | Hairline separators and container edges.                                                                                         |
+| `input`                      | `oklch(0.92 0.004 286.32)`   | `#ffffff26`                  | Field and control edges at rest.                                                                                                 |
+| `ring`                       | `oklch(0.552 0.016 285.938)` | `oklch(0.552 0.016 285.938)` | The focused border colour, not a ring.                                                                                           |
+| `sidebar`                    | `oklch(0.985 0 0)`           | `oklch(0.21 0.006 285.885)`  | Sidebar ground: one step off background, set apart by tone rather than a heavy border.                                           |
+| `sidebar-foreground`         | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)`           | Sidebar text.                                                                                                                    |
+| `sidebar-primary`            | `oklch(0.21 0.006 285.885)`  | `oklch(0.92 0.004 286.32)`   | Solid fill of the active sidebar item or a sidebar CTA.                                                                          |
+| `sidebar-primary-foreground` | `oklch(0.985 0 0)`           | `oklch(0.21 0.006 285.885)`  | Text on sidebar-primary.                                                                                                         |
+| `sidebar-accent`             | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Hover and current-item ground inside the sidebar.                                                                                |
+| `sidebar-accent-foreground`  | `oklch(0.21 0.006 285.885)`  | `oklch(0.985 0 0)`           | Text on sidebar-accent.                                                                                                          |
+| `sidebar-border`             | `oklch(0.92 0.004 286.32)`   | `#ffffff1a`                  | Sidebar rail edge and group separators.                                                                                          |
+| `sidebar-ring`               | `oklch(0.552 0.016 285.938)` | `oklch(0.552 0.016 285.938)` | Focused border colour inside the sidebar.                                                                                        |
+| `glass`                      | `#ffffff99`                  | `#09090b99`                  | Background at 60%, the translucent fill behind popovers, dropdowns, menus and sticky headers. Never behind a panel over a scrim. |
+| `glass-strong`               | `#ffffffcc`                  | `#09090bcc`                  | Background at 80%.                                                                                                               |
+| `overlay`                    | `#00000080`                  | `#000000b3`                  | The scrim behind a dialog, sheet or drawer.                                                                                      |
 
 ## Font weight
 
-| token | value | use |
-| --- | --- | --- |
-| `thin` | `250` | Tailwind font-thin. |
-| `extralight` | `300` | Tailwind font-extralight. |
-| `light` | `350` | Tailwind font-light. |
-| `normal` | `400` | Tailwind font-normal. |
-| `medium` | `430` | Tailwind font-medium. |
-| `semibold` | `430` | Tailwind font-semibold, capped to 430. |
-| `bold` | `430` | Tailwind font-bold, capped to 430. |
-| `extrabold` | `430` | Tailwind font-extrabold, capped to 430. |
-| `black` | `430` | Tailwind font-black, capped to 430. |
+| token        | value | use                                     |
+| ------------ | ----- | --------------------------------------- |
+| `thin`       | `250` | Tailwind font-thin.                     |
+| `extralight` | `300` | Tailwind font-extralight.               |
+| `light`      | `350` | Tailwind font-light.                    |
+| `normal`     | `400` | Tailwind font-normal.                   |
+| `medium`     | `430` | Tailwind font-medium.                   |
+| `semibold`   | `430` | Tailwind font-semibold, capped to 430.  |
+| `bold`       | `430` | Tailwind font-bold, capped to 430.      |
+| `extrabold`  | `430` | Tailwind font-extrabold, capped to 430. |
+| `black`      | `430` | Tailwind font-black, capped to 430.     |
 
 ## Radius
 
-| token | value | use |
-| --- | --- | --- |
-| `radius` | `0.875rem` | The base, 14px. |
-| `radius-sm` | `0.625rem` | 10px. |
-| `radius-md` | `0.75rem` | 12px. |
-| `radius-lg` | `0.875rem` | 14px, the default and the one to reach for when unsure. |
-| `radius-xl` | `1.125rem` | 18px. |
-| `radius-2xl` | `1.5rem` | 24px. |
-| `radius-full` | `9999px` | Pills and circles only: switches, circular icon buttons, avatars, progress tracks, status dots, count badges. |
+| token         | value      | use                                                                                                           |
+| ------------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
+| `radius`      | `0.875rem` | The base, 14px.                                                                                               |
+| `radius-sm`   | `0.625rem` | 10px.                                                                                                         |
+| `radius-md`   | `0.75rem`  | 12px.                                                                                                         |
+| `radius-lg`   | `0.875rem` | 14px, the default and the one to reach for when unsure.                                                       |
+| `radius-xl`   | `1.125rem` | 18px.                                                                                                         |
+| `radius-2xl`  | `1.5rem`   | 24px.                                                                                                         |
+| `radius-full` | `9999px`   | Pills and circles only: switches, circular icon buttons, avatars, progress tracks, status dots, count badges. |
 
 ## Spacing
 
-| token | value | use |
-| --- | --- | --- |
-| `space-0.5` | `2px` | The half-step. |
-| `space-1` | `4px` | Tight pairs that read as one object: a chip's vertical padding, the gap between stacked label and field, icon to counter inside a badge. |
-| `space-2` | `8px` | The workhorse gap: icon to text, button to button in a row, checkbox to label, items in a menu. |
-| `space-3` | `12px` | Horizontal padding inside controls — buttons, inputs, selects — and the gap between a card's title and its body. |
-| `space-4` | `16px` | Padding inside cards, dialogs, popovers and panels; the gap between fields in a form. |
-| `space-5` | `20px` | The in-between step for a container that needs more air than 16px without jumping to a section gap. |
-| `space-6` | `24px` | Page gutters and the gap between sections inside a page or card group. |
-| `space-8` | `32px` | Separation between major regions of a page — a header block and the content under it. |
-| `space-12` | `48px` | Major breaks on docs and marketing pages: between a hero and the first section. |
-| `space-16` | `64px` | The largest step, for the top and bottom of a long-form page. |
+| token       | value  | use                                                                                                                                      |
+| ----------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `space-0.5` | `2px`  | The half-step.                                                                                                                           |
+| `space-1`   | `4px`  | Tight pairs that read as one object: a chip's vertical padding, the gap between stacked label and field, icon to counter inside a badge. |
+| `space-2`   | `8px`  | The workhorse gap: icon to text, button to button in a row, checkbox to label, items in a menu.                                          |
+| `space-3`   | `12px` | Horizontal padding inside controls — buttons, inputs, selects — and the gap between a card's title and its body.                         |
+| `space-4`   | `16px` | Padding inside cards, dialogs, popovers and panels; the gap between fields in a form.                                                    |
+| `space-5`   | `20px` | The in-between step for a container that needs more air than 16px without jumping to a section gap.                                      |
+| `space-6`   | `24px` | Page gutters and the gap between sections inside a page or card group.                                                                   |
+| `space-8`   | `32px` | Separation between major regions of a page — a header block and the content under it.                                                    |
+| `space-12`  | `48px` | Major breaks on docs and marketing pages: between a hero and the first section.                                                          |
+| `space-16`  | `64px` | The largest step, for the top and bottom of a long-form page.                                                                            |
 
 ## Shadow
 
-| token | light | dark |
-| --- | --- | --- |
-| `shadow-2xs` | `none` | `none` |
-| `shadow-xs` | `none` | `none` |
-| `shadow-sm` | `none` | `none` |
-| `shadow-md` | `0 4px 12px -2px #00000014, 0 2px 4px -2px #0000000f` | `0 4px 12px -2px #00000066, 0 2px 4px -2px #00000052` |
-| `shadow-lg` | `0 12px 28px -6px #0000001f, 0 4px 8px -4px #00000014` | `0 12px 28px -6px #00000080, 0 4px 8px -4px #00000066` |
-| `shadow-xl` | `0 12px 28px -6px #0000001f, 0 4px 8px -4px #00000014` | `0 12px 28px -6px #00000080, 0 4px 8px -4px #00000066` |
+| token        | light                                                  | dark                                                   |
+| ------------ | ------------------------------------------------------ | ------------------------------------------------------ |
+| `shadow-2xs` | `none`                                                 | `none`                                                 |
+| `shadow-xs`  | `none`                                                 | `none`                                                 |
+| `shadow-sm`  | `none`                                                 | `none`                                                 |
+| `shadow-md`  | `0 4px 12px -2px #00000014, 0 2px 4px -2px #0000000f`  | `0 4px 12px -2px #00000066, 0 2px 4px -2px #00000052`  |
+| `shadow-lg`  | `0 12px 28px -6px #0000001f, 0 4px 8px -4px #00000014` | `0 12px 28px -6px #00000080, 0 4px 8px -4px #00000066` |
+| `shadow-xl`  | `0 12px 28px -6px #0000001f, 0 4px 8px -4px #00000014` | `0 12px 28px -6px #00000080, 0 4px 8px -4px #00000066` |
 | `shadow-2xl` | `0 12px 28px -6px #0000001f, 0 4px 8px -4px #00000014` | `0 12px 28px -6px #00000080, 0 4px 8px -4px #00000066` |
 
 ## Blur
 
-| token | value | use |
-| --- | --- | --- |
-| `blur-xs` | `4px` | The system default for glass: popovers, dropdowns, menus, sticky headers. |
-| `blur-sm` | `8px` | Heavier separation for a glass layer that covers most of the page without a scrim. |
+| token     | value  | use                                                                                                       |
+| --------- | ------ | --------------------------------------------------------------------------------------------------------- |
+| `blur-xs` | `4px`  | The system default for glass: popovers, dropdowns, menus, sticky headers.                                 |
+| `blur-sm` | `8px`  | Heavier separation for a glass layer that covers most of the page without a scrim.                        |
 | `blur-md` | `12px` | The scrim behind a modal, when the page underneath should read as out of focus rather than merely dimmed. |
 
 ## Z-index
 
-| token | value | use |
-| --- | --- | --- |
-| `z-base` | `0` | Page content. |
-| `z-raised` | `10` | In-flow elements that must clear their siblings: a sticky table header, a pinned row, a focused cell in a grid. |
-| `z-sticky` | `20` | Page furniture that stays put while content scrolls under it: the app header, the sidebar rail, a sticky toolbar. |
-| `z-dropdown` | `30` | Layers anchored to a trigger: dropdowns, popovers, selects, comboboxes, context menus, the autocomplete list. |
-| `z-overlay` | `40` | The scrim behind a modal layer. |
-| `z-modal` | `50` | Layers that own the screen: dialogs, sheets, drawers, the command palette. |
-| `z-toast` | `60` | Toasts and notifications, which must stay readable over a dialog — a save failure that appears behind the form that caused it is a bug. |
-| `z-tooltip` | `70` | The top of the stack. |
+| token        | value | use                                                                                                                                     |
+| ------------ | ----- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `z-base`     | `0`   | Page content.                                                                                                                           |
+| `z-raised`   | `10`  | In-flow elements that must clear their siblings: a sticky table header, a pinned row, a focused cell in a grid.                         |
+| `z-sticky`   | `20`  | Page furniture that stays put while content scrolls under it: the app header, the sidebar rail, a sticky toolbar.                       |
+| `z-dropdown` | `30`  | Layers anchored to a trigger: dropdowns, popovers, selects, comboboxes, context menus, the autocomplete list.                           |
+| `z-overlay`  | `40`  | The scrim behind a modal layer.                                                                                                         |
+| `z-modal`    | `50`  | Layers that own the screen: dialogs, sheets, drawers, the command palette.                                                              |
+| `z-toast`    | `60`  | Toasts and notifications, which must stay readable over a dialog — a save failure that appears behind the form that caused it is a bug. |
+| `z-tooltip`  | `70`  | The top of the stack.                                                                                                                   |
 
 ## Type scale
 
-| style | family | size / leading | weight | tracking |
-| --- | --- | --- | --- | --- |
-| `display` | sans | 36px / 40px | 350 | -0.02em |
-| `h1` | sans | 30px / 36px | 350 | -0.02em |
-| `h2` | sans | 24px / 32px | 430 | -0.015em |
-| `h3` | sans | 20px / 28px | 430 | -0.01em |
-| `h4` | sans | 16px / 24px | 430 | 0 |
-| `body` | sans | 16px / 26px | 400 | 0 |
-| `body-sm` | sans | 14px / 20px | 400 | 0 |
-| `label` | sans | 14px / 20px | 430 | 0 |
-| `caption` | sans | 12px / 16px | 400 | 0 |
-| `overline` | sans | 11px / 16px | 430 | 0.06em |
-| `code` | mono | 13px / 20px | 400 | 0 |
-| `code-sm` | mono | 11px / 16px | 430 | 0 |
-| `code-block` | mono | 13px / 22px | 400 | 0 |
-| `kbd` | mono | 12px / 16px | 430 | 0 |
-
+| style        | family | size / leading | weight | tracking |
+| ------------ | ------ | -------------- | ------ | -------- |
+| `display`    | sans   | 36px / 40px    | 350    | -0.02em  |
+| `h1`         | sans   | 30px / 36px    | 350    | -0.02em  |
+| `h2`         | sans   | 24px / 32px    | 430    | -0.015em |
+| `h3`         | sans   | 20px / 28px    | 430    | -0.01em  |
+| `h4`         | sans   | 16px / 24px    | 430    | 0        |
+| `body`       | sans   | 16px / 26px    | 400    | 0        |
+| `body-sm`    | sans   | 14px / 20px    | 400    | 0        |
+| `label`      | sans   | 14px / 20px    | 430    | 0        |
+| `caption`    | sans   | 12px / 16px    | 400    | 0        |
+| `overline`   | sans   | 11px / 16px    | 430    | 0.06em   |
+| `code`       | mono   | 13px / 20px    | 400    | 0        |
+| `code-sm`    | mono   | 11px / 16px    | 430    | 0        |
+| `code-block` | mono   | 13px / 22px    | 400    | 0        |
+| `kbd`        | mono   | 12px / 16px    | 430    | 0        |
 
 **Families.** `sans` Geist, ui-sans-serif, system-ui, sans-serif · `mono` "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace
