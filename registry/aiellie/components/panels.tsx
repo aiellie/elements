@@ -130,18 +130,23 @@ function PanelHeader({
   start,
   end,
   border = true,
+  glass = false,
 }: {
   title: React.ReactNode
   start?: React.ReactNode
   end?: React.ReactNode
   /** Off, the header runs straight into the panel, as a sidebar's does. */
   border?: boolean
+  /** Lays the header over the panel's top edge, so the body scrolls under it. */
+  glass?: boolean
 }) {
   return (
     <header
       className={cn(
         "flex h-10 shrink-0 items-center gap-2 bg-background px-3",
-        border && "border-b"
+        border && "border-b",
+        glass &&
+          "absolute inset-x-0 top-0 z-[var(--z-sticky,20)] bg-popover backdrop-blur-xs supports-[backdrop-filter]:bg-background/60"
       )}
     >
       {start}
@@ -343,6 +348,7 @@ function Panels({
   bottom,
   headers = {},
   headerBorder = {},
+  glassHeader = false,
   toggleAt = {},
   defaultOpen = { left: true, right: false, bottom: false },
   className,
@@ -355,6 +361,8 @@ function Panels({
   headers?: Partial<Record<Side | "main", React.ReactNode>>
   /** Which headers leave off the rule under them. Each has one by default. */
   headerBorder?: Partial<Record<Side | "main", boolean>>
+  /** Main content scrolls under its header, so it must pad its own top 40px. */
+  glassHeader?: boolean
   /** "end" by default, or "start", ahead of whatever `headers` gives it. */
   toggleAt?: Partial<Record<Side, "start" | "end">>
   defaultOpen?: Partial<Record<Side, boolean>>
@@ -476,12 +484,13 @@ function Panels({
           >
             <ResizablePanel
               id="panel-main"
-              className="flex flex-col"
+              className={cn("flex flex-col", glassHeader && "relative isolate")}
               style={{ overflow: "hidden" }}
             >
               <PanelHeader
                 title={headers.main ?? "Main"}
                 border={headerBorder.main}
+                glass={glassHeader}
                 start={
                   has.left && !leftOpen ? <PanelToggle side="left" /> : null
                 }

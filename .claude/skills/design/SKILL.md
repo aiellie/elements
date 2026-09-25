@@ -104,17 +104,19 @@ Three rules:
 
 A modal's scrim is `overlay` — black at 50% light, 70% dark, with `blur-md` if the page beneath should read as genuinely out of focus. The scrim never carries text.
 
-Borders stay `border` on glass; a glass panel keeps its hairline, since the fill alone no longer defines where the surface ends. It also carries `shadow-md` or `shadow-lg` — see Elevation below. A solid panel over a scrim keeps its hairline and its `shadow-lg` too.
+Borders stay `border` on glass; a glass panel keeps its hairline, since the fill alone no longer defines where the surface ends. A panel that floats also carries `shadow-md` or `shadow-lg` — see Elevation below. A solid panel over a scrim keeps its hairline and its `shadow-lg` too.
+
+**A header that content scrolls under is glass, laid over the content rather than stacked above it.** In-flow glass over a flat `background` is just `background`, so the header has to sit over the scroll area for the blur to show anything. The chat's main header is the reference: `Panels` with `glassHeader` lays it over the top of the main panel, and the thread pads its own top by the header's 40px plus its usual 24px, so the first message rests exactly where it would under a solid header. The header keeps its `border` hairline and carries no shadow. It's docked to an edge rather than floating, and the hairline already says where it ends. A header inside something that is already glass, like quick chat, or on a panel over a scrim, like a sheet, stays solid under the rules above.
 
 ### Elevation
 
 **Only things that float carry a shadow.** A card, a button, an input, a table, the sidebar — all flat. They are separated by their ground and a `border` hairline, never by a lift.
 
-| layer                                       | shadow      |
-| ------------------------------------------- | ----------- |
-| card, button, input, table, sidebar, banner | none        |
-| dropdown, popover, menu, tooltip, toast     | `shadow-md` |
-| dialog, sheet, drawer, command palette      | `shadow-lg` |
+| layer                                                            | shadow      |
+| ---------------------------------------------------------------- | ----------- |
+| card, button, input, table, sidebar, banner, docked glass header | none        |
+| dropdown, popover, menu, tooltip, toast                          | `shadow-md` |
+| dialog, sheet, drawer, command palette                           | `shadow-lg` |
 
 Tailwind's smaller names — `shadow-2xs`, `shadow-xs`, `shadow-sm` — all resolve to `none`, so an inherited shadcn Card comes in flat without editing its class string, the same way the weight ramp works. `shadow-xl` and `shadow-2xl` are capped at `shadow-lg`: nothing in the system goes deeper than a dialog.
 

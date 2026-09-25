@@ -703,6 +703,7 @@ function Chat({
             />
           }
           headerBorder={{ left: false }}
+          glassHeader
           toggleAt={{ left: "start" }}
           headers={{
             left: (

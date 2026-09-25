@@ -53,7 +53,8 @@ function ChatThread({
     <ThreadProvider autoScroll defaultScrollPosition="last-anchor">
       <Thread>
         <ThreadViewport aria-label="Conversation">
-          <ThreadContent>
+          {/* Room for the glass header over the top, plus the usual 24px. */}
+          <ThreadContent className="pt-16">
             {messages.length === 0 ? (
               <ThreadItem className="flex flex-1 flex-col">
                 <ChatEmpty
