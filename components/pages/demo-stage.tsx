@@ -11,7 +11,7 @@ import {
   type DemoBackground,
 } from "@/components/pages/demo-actions"
 import { ThemeToggle } from "@/components/shared/theme-toggle"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/registry/aiellie/ui/button"
 import { cn } from "@/lib/utils"
 
 /**
