@@ -959,6 +959,7 @@
         "@aiellie/date-divider",
         "@aiellie/stream-text",
         "@aiellie/thread",
+        "@aiellie/thread-transcript",
         "@aiellie/quick-chat",
         "@aiellie/utils"
       ],

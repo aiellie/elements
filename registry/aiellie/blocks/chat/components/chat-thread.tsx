@@ -5,6 +5,8 @@ import {
   ChatMessages,
   type ChatMessage,
 } from "@/registry/aiellie/blocks/chat/components/chat-messages"
+import type { NavBarsItem } from "@/registry/aiellie/components/nav-bars"
+import { usePanels } from "@/registry/aiellie/components/panels"
 import {
   Thread,
   ThreadContent,
@@ -13,6 +15,20 @@ import {
   ThreadScrollButton,
   ThreadViewport,
 } from "@/registry/aiellie/components/thread"
+import { ThreadTranscript } from "@/registry/aiellie/components/thread-transcript"
+
+// One item per question, with the reply that answered it underneath.
+function turnsOf(messages: ChatMessage[]): NavBarsItem[] {
+  return messages.flatMap((message, index) => {
+    if (message.role !== "user") return []
+    const reply = messages[index + 1]
+    return {
+      id: message.id,
+      label: message.content || message.attachments?.[0]?.name || "Attachment",
+      description: reply?.role === "assistant" ? reply.content : undefined,
+    }
+  })
+}
 
 function ChatThread({
   messages,
@@ -27,6 +43,9 @@ function ChatThread({
   onRetry: (id: string) => void
   onEdit: (content: string) => void
 }) {
+  const { isOpen } = usePanels()
+  const turns = turnsOf(messages)
+
   return (
     <ThreadProvider autoScroll defaultScrollPosition="last-anchor">
       <Thread>
@@ -45,6 +64,10 @@ function ChatThread({
             )}
           </ThreadContent>
         </ThreadViewport>
+        {/* In the sidebar's place while it's folded away. */}
+        {!isOpen("left") && turns.length > 1 ? (
+          <ThreadTranscript variant="peek" items={turns} />
+        ) : null}
         <ThreadScrollButton />
       </Thread>
     </ThreadProvider>
