@@ -27,17 +27,26 @@ import {
   MessageContent,
   MessagePart,
 } from "@/registry/aiellie/components/message"
+import {
+  Thread,
+  ThreadContent,
+  ThreadItem,
+  ThreadProvider,
+  ThreadScrollButton,
+  ThreadViewport,
+} from "@/registry/aiellie/components/thread"
 import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 import { Button } from "@/registry/aiellie/ui/button"
 import { Input } from "@/registry/aiellie/ui/input"
 import {
-  Popover,
-  PopoverContent,
-  PopoverDescription,
-  PopoverHeader,
-  PopoverTitle,
-  PopoverTrigger,
-} from "@/registry/aiellie/ui/popover"
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/registry/aiellie/ui/dialog"
 
 type ChatShareVisibility = "private" | "link"
 
@@ -54,8 +63,6 @@ const VISIBILITY = {
   },
 } as const
 
-const PREVIEW_MESSAGES = 4
-
 function ChatSharePreview({
   title,
   messages,
@@ -64,30 +71,37 @@ function ChatSharePreview({
   messages: ChatMessage[]
 }) {
   return (
-    <figure
-      aria-label="Preview"
-      className="flex flex-col gap-2 overflow-hidden rounded-sm border bg-background p-3"
-    >
-      <figcaption className="flex items-baseline justify-between gap-2">
+    <figure className="flex flex-col overflow-hidden rounded-sm border bg-background">
+      <figcaption className="flex items-baseline justify-between gap-2 border-b px-3 py-2">
         <span className="truncate text-xs font-medium">{title}</span>
         <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
           {messages.length} {messages.length === 1 ? "message" : "messages"}
         </span>
       </figcaption>
-      <div className="flex max-h-36 flex-col gap-2 overflow-hidden [mask-image:linear-gradient(to_bottom,#000_calc(100%-1.5rem),transparent)]">
-        {messages.slice(0, PREVIEW_MESSAGES).map((message) => (
-          <Message
-            key={message.id}
-            align={message.role === "user" ? "end" : "start"}
-            variant={message.role === "user" ? "secondary" : "ghost"}
-          >
-            <MessageContent>
-              <MessagePart className="px-2 py-0.5 text-xs leading-5 group-data-[variant=ghost]/message:p-0">
-                {message.content}
-              </MessagePart>
-            </MessageContent>
-          </Message>
-        ))}
+      <div className="flex h-56 flex-col">
+        <ThreadProvider defaultScrollPosition="start">
+          <Thread>
+            <ThreadViewport aria-label="Preview">
+              <ThreadContent className="gap-2 px-3 py-3">
+                {messages.map((message) => (
+                  <ThreadItem key={message.id} messageId={message.id}>
+                    <Message
+                      align={message.role === "user" ? "end" : "start"}
+                      variant={message.role === "user" ? "secondary" : "ghost"}
+                    >
+                      <MessageContent>
+                        <MessagePart className="px-2 py-0.5 text-xs leading-5 group-data-[variant=ghost]/message:p-0">
+                          {message.content}
+                        </MessagePart>
+                      </MessageContent>
+                    </Message>
+                  </ThreadItem>
+                ))}
+              </ThreadContent>
+            </ThreadViewport>
+            <ThreadScrollButton />
+          </Thread>
+        </ThreadProvider>
       </div>
     </figure>
   )
@@ -111,10 +125,9 @@ function ChatShareLink({ url, disabled }: { url: string; disabled: boolean }) {
         disabled={disabled}
         aria-label="Share link"
         onFocus={(event) => event.currentTarget.select()}
-        className="h-7 text-xs"
+        className="text-xs"
       />
       <Button
-        size="sm"
         disabled={disabled}
         onClick={async () => {
           try {
@@ -173,31 +186,25 @@ function ChatShare({
   ]
 
   return (
-    <Popover open={open} onOpenChange={onOpenChange}>
-      <PopoverTrigger render={<Button variant="ghost" size="sm" />}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogTrigger render={<Button variant="outline" size="sm" />}>
         <HugeiconsIcon
           icon={Share08Icon}
           data-icon="inline-start"
           aria-hidden
         />
         Share
-      </PopoverTrigger>
-      <PopoverContent align="end" className="w-80">
-        <PopoverHeader>
-          <PopoverTitle>Share chat</PopoverTitle>
-          <PopoverDescription className="text-xs">
-            {current.description}
-          </PopoverDescription>
-        </PopoverHeader>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Share chat</DialogTitle>
+          <DialogDescription>{current.description}</DialogDescription>
+        </DialogHeader>
         <ChatSharePreview title={title} messages={messages} />
         <Menu>
           <MenuTrigger
             render={
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full justify-start"
-              />
+              <Button variant="outline" className="w-full justify-start" />
             }
           >
             <HugeiconsIcon
@@ -229,7 +236,7 @@ function ChatShare({
           </MenuContent>
         </Menu>
         <ChatShareLink url={url} disabled={!shared} />
-        <div className="flex items-center gap-1 border-t pt-3">
+        <DialogFooter className="flex-row items-center gap-1 sm:justify-start">
           <span className="me-auto text-xs text-muted-foreground">
             Post it to
           </span>
@@ -237,6 +244,7 @@ function ChatShare({
             <TooltipIconButton
               key={target.label}
               tooltip={target.label}
+              side="top"
               disabled={!shared}
               onClick={() =>
                 window.open(target.href, "_blank", "noopener,noreferrer")
@@ -246,9 +254,9 @@ function ChatShare({
               <HugeiconsIcon icon={target.icon} aria-hidden />
             </TooltipIconButton>
           ))}
-        </div>
-      </PopoverContent>
-    </Popover>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 

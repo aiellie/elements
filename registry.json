@@ -858,7 +858,6 @@
         "@aiellie/status",
         "@aiellie/tooltip-icon-button",
         "@aiellie/tooltip",
-        "@aiellie/popover",
         "@aiellie/separator",
         "@aiellie/input",
         "@aiellie/add-menu",

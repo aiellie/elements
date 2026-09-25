@@ -37,7 +37,7 @@ function PopoverContent({
         <PopoverPrimitive.Popup
           data-slot="popover-content"
           className={cn(
-            "flex w-72 origin-(--transform-origin) flex-col gap-3 rounded-lg border border-border/40 bg-popover p-4 text-sm text-popover-foreground shadow-md outline-none supports-[backdrop-filter]:bg-background/60 supports-[backdrop-filter]:backdrop-blur-xs dark:supports-[backdrop-filter]:bg-background/70",
+            "flex w-64 origin-(--transform-origin) flex-col gap-3 rounded-xl border border-border/40 bg-popover p-4 text-sm text-popover-foreground shadow-md outline-none supports-[backdrop-filter]:bg-background/60 supports-[backdrop-filter]:backdrop-blur-xs dark:supports-[backdrop-filter]:bg-background/70",
             "transition-[opacity,scale] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] data-ending-style:scale-95 data-ending-style:opacity-0 data-ending-style:ease-[cubic-bezier(0.4,0,1,1)] data-starting-style:scale-95 data-starting-style:opacity-0 motion-reduce:transition-none",
             className
           )}
@@ -75,7 +75,7 @@ function PopoverDescription({
   return (
     <PopoverPrimitive.Description
       data-slot="popover-description"
-      className={cn("text-muted-foreground", className)}
+      className={cn("text-muted-foreground text-xs", className)}
       {...props}
     />
   )
