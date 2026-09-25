@@ -11,7 +11,7 @@ import {
   MenuContent,
   MenuLinkItem,
   MenuTrigger,
-} from "@/components/aiellie/menu"
+} from "@/registry/aiellie/components/menu"
 import { buttonVariants } from "@/components/ui/button"
 import {
   Tooltip,

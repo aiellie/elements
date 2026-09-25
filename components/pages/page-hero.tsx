@@ -4,7 +4,7 @@ import {
   Status,
   StatusIndicator,
   StatusLabel,
-} from "@/components/aiellie/status"
+} from "@/registry/aiellie/components/status"
 import { cn } from "@/lib/utils"
 
 /**

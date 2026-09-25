@@ -13,7 +13,7 @@ import {
   iconSwapIn,
   iconSwapOut,
 } from "@/lib/surfaces"
-import { TooltipIconButton } from "@/components/aiellie/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 
 export const DARK_MODE_FORWARD_TYPE = "dark-mode-forward"
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-import { Status, StatusIndicator, StatusLabel } from "@/components/aiellie/status"
+import { Status, StatusIndicator, StatusLabel } from "@/registry/aiellie/components/status"
 
 async function checkStatus() {
   try {
