@@ -237,17 +237,20 @@ function Chat({
 
   const send = (text: string, attachments: ChatAttachment[] = []) => {
     stop()
+    const createdAt = new Date()
     const question: ChatMessage = {
       id: makeId("message"),
       role: "user",
       content: text,
       attachments: attachments.length > 0 ? attachments : undefined,
+      createdAt,
     }
     const reply: ChatMessage = {
       id: makeId("message"),
       role: "assistant",
       content: "",
       status: "streaming",
+      createdAt,
     }
 
     if (activeId === null) {

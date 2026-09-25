@@ -1,4 +1,5 @@
 import {
+  Calendar03Icon,
   Activity03Icon,
   AudioWave01Icon,
   AddCircleIcon,
@@ -35,6 +36,7 @@ import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
+import DateDividerDemo from "@/registry/aiellie/examples/date-divider-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
 import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
@@ -240,8 +242,17 @@ export default function ComponentsPage() {
           <MessageDemo />
         </DemoCard>
         <DemoCard
-          href="/components/thread"
+          href="/components/date-divider"
           index={20}
+          title="Date Divider"
+          icon={Calendar03Icon}
+          description="The day and time across a thread, between two rules"
+        >
+          <DateDividerDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/thread"
+          index={21}
           title="Thread"
           icon={MessageMultiple01Icon}
           description="A simple thread component"
@@ -250,7 +261,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/quick-chat"
-          index={21}
+          index={22}
           title="Quick Chat"
           icon={BubbleChatAddIcon}
           description="A compact conversation that floats over the current page"
@@ -259,7 +270,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/stream-text"
-          index={22}
+          index={23}
           title="Stream Text"
           icon={TypeCursorIcon}
           description="A streamed reply written out word by word, at a steady pace"

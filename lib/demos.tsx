@@ -16,6 +16,8 @@ import InputDemo from "@/registry/aiellie/examples/input-demo"
 import InputGroupDemo from "@/registry/aiellie/examples/input-group-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MeterDemo from "@/registry/aiellie/examples/meter-demo"
+import DateDividerDemo from "@/registry/aiellie/examples/date-divider-demo"
+import MarkerDemo from "@/registry/aiellie/examples/marker-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import PopoverDemo from "@/registry/aiellie/examples/popover-demo"
 import StreamTextDemo from "@/registry/aiellie/examples/stream-text-demo"
@@ -72,6 +74,7 @@ const DEMOS: Record<string, Demo> = {
   },
   resizable: { title: "Resizable", gallery: "/ui", Demo: ResizableDemo },
   separator: { title: "Separator", gallery: "/ui", Demo: SeparatorDemo },
+  marker: { title: "Marker", gallery: "/ui", Demo: MarkerDemo },
   sidebar: { title: "Sidebar", gallery: "/ui", Demo: SidebarDemo },
   tabs: { title: "Tabs", gallery: "/ui", Demo: TabsDemo },
   tooltip: { title: "Tooltip", gallery: "/ui", Demo: TooltipDemo },
@@ -143,6 +146,11 @@ const DEMOS: Record<string, Demo> = {
   waveform: { title: "Waveform", gallery: "/components", Demo: WaveformDemo },
   composer: { title: "Composer", gallery: "/components", Demo: ComposerDemo },
   message: { title: "Message", gallery: "/components", Demo: MessageDemo },
+  "date-divider": {
+    title: "Date Divider",
+    gallery: "/components",
+    Demo: DateDividerDemo,
+  },
   thread: { title: "Thread", gallery: "/components", Demo: ThreadDemo },
   "quick-chat": {
     title: "Quick Chat",

@@ -36,6 +36,17 @@ const SAMPLE_USER: User = { name: "AI Ellie", plan: "Pro" }
 
 const SAMPLE_USAGE = "72% left"
 
+// Sample times are set from when the page loads, so the preview always has a
+// chat from today, one from yesterday and older ones.
+const minutesAgo = (minutes: number) => new Date(Date.now() - minutes * 60_000)
+
+const daysAgo = (days: number, hours: number, minutes: number) => {
+  const date = new Date()
+  date.setDate(date.getDate() - days)
+  date.setHours(hours, minutes, 0, 0)
+  return date
+}
+
 // Where a shared chat can be read. Point it at your own share route.
 const shareUrlOf = (id: string) => `https://example.com/share/${id}`
 
@@ -47,12 +58,14 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
     messages: [
       {
         id: "middleware-1",
+        createdAt: minutesAgo(3),
         role: "user",
         content:
           "Move the session check out of each route and into the middleware, and keep the tests passing.",
       },
       {
         id: "middleware-2",
+        createdAt: minutesAgo(3),
         role: "assistant",
         content:
           "Reading the middleware and the six routes that check the session themselves. Four of them do it the same way, so those can go first",
@@ -68,11 +81,13 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
     messages: [
       {
         id: "tokens-1",
+        createdAt: daysAgo(1, 17, 16),
         role: "user",
         content: "How do I add a custom color in Tailwind v4?",
       },
       {
         id: "tokens-2",
+        createdAt: daysAgo(1, 17, 16),
         role: "assistant",
         content:
           "In v4 the theme lives in your CSS rather than in a config file. Add the color under @theme:\n\n@theme {\n  --color-brand: oklch(0.62 0.21 260);\n}\n\nThat gives you bg-brand, text-brand, border-brand and the rest, and opacity modifiers like bg-brand/10 work with nothing else to set up.",
@@ -87,11 +102,13 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
     messages: [
       {
         id: "bundle-1",
+        createdAt: daysAgo(4, 10, 2),
         role: "user",
         content: "Find what's making the dashboard bundle so big.",
       },
       {
         id: "bundle-2",
+        createdAt: daysAgo(4, 10, 3),
         role: "assistant",
         content:
           "Most of it is the charting library, pulled in whole by one import on the settings page. Importing the two charts it uses on their own brings the bundle from 412 KB down to 268 KB.\n\nThe date library is next, at 38 KB, and the browser's own Intl.DateTimeFormat covers everything it's used for.",
@@ -104,22 +121,26 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
     messages: [
       {
         id: "debounce-1",
+        createdAt: daysAgo(19, 17, 16),
         role: "user",
         content: "What's a simple way to debounce a search field in React?",
       },
       {
         id: "debounce-2",
+        createdAt: daysAgo(19, 17, 16),
         role: "assistant",
         content:
           "Keep what's typed in state, and copy it to a second value only once typing pauses. An effect that sets a timeout on every change, and clears the one before it, does that in a few lines.\n\nThen search on the second value. The field stays responsive, and the search only runs when someone stops typing.",
       },
       {
         id: "debounce-3",
+        createdAt: daysAgo(2, 9, 30),
         role: "user",
         content: "How long should the pause be?",
       },
       {
         id: "debounce-4",
+        createdAt: daysAgo(2, 9, 31),
         role: "assistant",
         content:
           "Somewhere around 200 to 300 milliseconds. Any shorter and it fires mid-word; much longer and the results feel like they're lagging behind.",
@@ -132,11 +153,13 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
     messages: [
       {
         id: "names-1",
+        createdAt: daysAgo(400, 14, 45),
         role: "user",
         content: "Give me three names for a quiet, monochrome design system.",
       },
       {
         id: "names-2",
+        createdAt: daysAgo(400, 14, 46),
         role: "assistant",
         content:
           "Graphite, for the pencil gray it lives in.\n\nHairline, after the borders that do most of its work.\n\nStill, because nothing in it moves unless you ask it to.",
@@ -150,10 +173,17 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
     messages: [
       {
         id: "notes-1",
+        createdAt: minutesAgo(48),
         role: "user",
         content: "Summarize these release notes in three bullet points.",
       },
-      { id: "notes-2", role: "assistant", content: "", status: "failed" },
+      {
+        id: "notes-2",
+        role: "assistant",
+        content: "",
+        status: "failed",
+        createdAt: minutesAgo(48),
+      },
     ],
   },
 ]

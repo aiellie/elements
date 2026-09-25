@@ -300,6 +300,22 @@
       "categories": ["layout"]
     },
     {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "A quiet line of text in a list or thread, on its own, under a rule, or between two rules.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/marker.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/marker.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
@@ -776,6 +792,21 @@
       "categories": ["chat"]
     },
     {
+      "name": "date-divider",
+      "type": "registry:component",
+      "title": "Date Divider",
+      "description": "A rule across a thread with the day and time between it, like Yesterday at 5:16 PM.",
+      "registryDependencies": ["@aiellie/marker"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/date-divider.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/date-divider.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
       "name": "stream-text",
       "type": "registry:component",
       "title": "Stream Text",
@@ -875,6 +906,7 @@
         "@aiellie/models",
         "@aiellie/composer",
         "@aiellie/message",
+        "@aiellie/date-divider",
         "@aiellie/stream-text",
         "@aiellie/thread",
         "@aiellie/quick-chat",
