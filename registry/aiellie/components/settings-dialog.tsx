@@ -3,9 +3,13 @@
 import * as React from "react"
 import {
   ComputerIcon,
+  Copy01Icon,
+  Key01Icon,
   Moon02Icon,
   PaintBoardIcon,
+  PlusSignIcon,
   Sun03Icon,
+  Tick02Icon,
   UserAccountIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -49,7 +53,7 @@ import {
 } from "@/registry/aiellie/ui/sidebar"
 
 type SettingsTheme = "system" | "light" | "dark"
-type SettingsSection = "general" | "appearance"
+type SettingsSection = "general" | "appearance" | "api-keys"
 
 type SettingsUser = {
   name: string
@@ -58,10 +62,20 @@ type SettingsUser = {
   avatar?: string
 }
 
+type SettingsApiKey = {
+  id: string
+  name: string
+  /** Shown in full only in the moment after the key is created. */
+  secret: string
+  /** Calendar date, `YYYY-MM-DD`. */
+  createdAt: string
+}
+
 type SettingsValues = {
   name: string
   email: string
   theme: SettingsTheme
+  apiKeys: SettingsApiKey[]
 }
 
 const THEMES: {
@@ -74,6 +88,64 @@ const THEMES: {
   { value: "dark", label: "Dark", icon: Moon02Icon },
 ]
 
+const SECTIONS: {
+  id: SettingsSection
+  label: string
+  icon: typeof ComputerIcon
+}[] = [
+  { id: "general", label: "General", icon: UserAccountIcon },
+  { id: "appearance", label: "Appearance", icon: PaintBoardIcon },
+  { id: "api-keys", label: "API keys", icon: Key01Icon },
+]
+
+function maskSecret(secret: string) {
+  if (secret.length <= 8) return "••••••••"
+  return `${secret.slice(0, 3)}••••${secret.slice(-4)}`
+}
+
+function formatCreated(createdAt: string) {
+  const date = new Date(`${createdAt.slice(0, 10)}T12:00:00`)
+  if (Number.isNaN(date.getTime())) return createdAt
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  })
+}
+
+function today() {
+  const date = new Date()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+  return `${date.getFullYear()}-${month}-${day}`
+}
+
+function createSecret() {
+  const bytes = crypto.getRandomValues(new Uint8Array(16))
+  const body = Array.from(bytes, (byte) =>
+    byte.toString(16).padStart(2, "0")
+  ).join("")
+  return `sk-${body}`
+}
+
+function Fold({
+  open,
+  children,
+}: {
+  open: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <div
+      data-open={open || undefined}
+      inert={!open}
+      className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-280 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none data-open:grid-rows-[1fr] data-open:opacity-100"
+    >
+      <div className="min-h-0 overflow-hidden">{children}</div>
+    </div>
+  )
+}
+
 function initials(name: string) {
   return name
     .split(/\s+/)
@@ -84,14 +156,222 @@ function initials(name: string) {
     .toUpperCase()
 }
 
+function ApiKeysSection({
+  id,
+  keys,
+  onChange,
+}: {
+  id: string
+  keys: SettingsApiKey[]
+  onChange: (keys: SettingsApiKey[]) => void
+}) {
+  const nameRef = React.useRef<HTMLInputElement>(null)
+  const [creating, setCreating] = React.useState(false)
+  const [draftName, setDraftName] = React.useState("")
+  const [revealed, setRevealed] = React.useState<SettingsApiKey | null>(null)
+  const [revealOpen, setRevealOpen] = React.useState(false)
+  const [copied, setCopied] = React.useState(false)
+  const [confirmingId, setConfirmingId] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    if (creating) nameRef.current?.focus()
+  }, [creating])
+
+  function createKey() {
+    const name = draftName.trim()
+    if (!name) return
+    const key: SettingsApiKey = {
+      id: crypto.randomUUID(),
+      name,
+      secret: createSecret(),
+      createdAt: today(),
+    }
+    onChange([key, ...keys])
+    setRevealed(key)
+    setRevealOpen(true)
+    setCopied(false)
+    setCreating(false)
+  }
+
+  function revoke(keyId: string) {
+    onChange(keys.filter((key) => key.id !== keyId))
+    setConfirmingId(null)
+    if (revealed?.id === keyId) setRevealOpen(false)
+  }
+
+  async function copySecret() {
+    if (!revealed) return
+    try {
+      await navigator.clipboard.writeText(revealed.secret)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1500)
+    } catch {
+      setCopied(false)
+    }
+  }
+
+  return (
+    <section id={id} aria-label="API keys" className="flex flex-col p-6 pt-4">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex min-w-0 flex-col gap-1">
+          <p className="text-sm font-medium">API keys</p>
+          <p className="text-xs text-muted-foreground">
+            Authenticate requests from your own apps. A key is shown in full
+            only when you create it.
+          </p>
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={creating}
+          onClick={() => {
+            setDraftName("")
+            setCreating(true)
+          }}
+          className="shrink-0"
+        >
+          <HugeiconsIcon icon={PlusSignIcon} aria-hidden />
+          New key
+        </Button>
+      </div>
+
+      <Fold open={creating}>
+        <div className="pt-4">
+          <div className="flex flex-col gap-3 rounded-lg border p-3">
+            <label
+              htmlFor={`${id}-name`}
+              className="flex flex-col gap-1 text-sm font-medium"
+            >
+              Name
+              <Input
+                ref={nameRef}
+                id={`${id}-name`}
+                value={draftName}
+                placeholder="Production"
+                autoComplete="off"
+                onChange={(event) => setDraftName(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key !== "Enter") return
+                  event.preventDefault()
+                  createKey()
+                }}
+              />
+            </label>
+            <div className="flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setCreating(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={!draftName.trim()}
+                onClick={createKey}
+              >
+                Create key
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Fold>
+
+      <Fold open={revealOpen}>
+        <div className="pt-4">
+          {revealed ? (
+            <div className="flex flex-col gap-2 rounded-lg border bg-muted p-3">
+              <p className="text-sm font-medium">{revealed.name}</p>
+              <p className="text-xs text-muted-foreground">
+                Copy this key now. This is the only time it is shown.
+              </p>
+              <p className="font-mono text-sm break-all">{revealed.secret}</p>
+              <div className="flex gap-2">
+                <Button type="button" variant="outline" onClick={copySecret}>
+                  <HugeiconsIcon
+                    icon={copied ? Tick02Icon : Copy01Icon}
+                    aria-hidden
+                  />
+                  {copied ? "Copied" : "Copy"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setRevealOpen(false)}
+                >
+                  Done
+                </Button>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </Fold>
+
+      <div className="pt-4">
+        {keys.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No API keys yet.</p>
+        ) : (
+          <ul className="overflow-hidden rounded-lg border">
+            {keys.map((key) => (
+              <li
+                key={key.id}
+                className="flex items-center gap-3 border-b px-3 py-2 last:border-b-0"
+              >
+                <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                  <p className="truncate text-sm font-medium">{key.name}</p>
+                  <p className="truncate text-xs text-muted-foreground">
+                    <span className="font-mono">{maskSecret(key.secret)}</span>
+                    <span aria-hidden> · </span>
+                    {formatCreated(key.createdAt)}
+                  </p>
+                </div>
+                {confirmingId === key.id ? (
+                  <div className="flex shrink-0 gap-1">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => setConfirmingId(null)}
+                    >
+                      Keep
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={() => revoke(key.id)}
+                    >
+                      Revoke
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="shrink-0"
+                    onClick={() => setConfirmingId(key.id)}
+                  >
+                    Revoke
+                  </Button>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </section>
+  )
+}
+
 function SettingsDialogForm({
   user,
   initialTheme,
+  initialApiKeys,
   onOpenChange,
   onSave,
 }: {
   user: SettingsUser
   initialTheme: SettingsTheme
+  initialApiKeys: SettingsApiKey[]
   onOpenChange: (open: boolean) => void
   onSave?: (values: SettingsValues) => void
 }) {
@@ -99,52 +379,47 @@ function SettingsDialogForm({
   const [name, setName] = React.useState(user.name)
   const [email, setEmail] = React.useState(user.email ?? "")
   const [theme, setTheme] = React.useState<SettingsTheme>(initialTheme)
+  const [apiKeys, setApiKeys] = React.useState(initialApiKeys)
   const [section, setSection] = React.useState<SettingsSection>("general")
+  const current = SECTIONS.find((item) => item.id === section) ?? SECTIONS[0]
 
   return (
     <form
-      className="h-full"
+      className="h-full min-h-0 overflow-hidden"
       onSubmit={(event) => {
         event.preventDefault()
-        onSave?.({ name, email, theme })
+        onSave?.({ name, email, theme, apiKeys })
         onOpenChange(false)
       }}
     >
       <SidebarProvider className="h-full min-h-0">
-        <ResizablePanelGroup>
-          <ResizablePanel defaultSize="34%" minSize="24%" maxSize="42%">
+        <ResizablePanelGroup className="h-full min-h-0">
+          <ResizablePanel
+            defaultSize="34%"
+            minSize="24%"
+            maxSize="42%"
+            className="min-h-0"
+          >
             <Sidebar collapsible="none" className="w-full">
               <SidebarContent>
                 <SidebarGroup className="p-4 pt-6">
                   <SidebarMenu className="gap-1">
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        type="button"
-                        isActive={section === "general"}
-                        aria-current={
-                          section === "general" ? "page" : undefined
-                        }
-                        aria-controls={`${id}-general-panel`}
-                        onClick={() => setSection("general")}
-                      >
-                        <HugeiconsIcon icon={UserAccountIcon} aria-hidden />
-                        <span>General</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        type="button"
-                        isActive={section === "appearance"}
-                        aria-current={
-                          section === "appearance" ? "page" : undefined
-                        }
-                        aria-controls={`${id}-appearance-panel`}
-                        onClick={() => setSection("appearance")}
-                      >
-                        <HugeiconsIcon icon={PaintBoardIcon} aria-hidden />
-                        <span>Appearance</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
+                    {SECTIONS.map((item) => (
+                      <SidebarMenuItem key={item.id}>
+                        <SidebarMenuButton
+                          type="button"
+                          isActive={section === item.id}
+                          aria-current={
+                            section === item.id ? "page" : undefined
+                          }
+                          aria-controls={`${id}-${item.id}-panel`}
+                          onClick={() => setSection(item.id)}
+                        >
+                          <HugeiconsIcon icon={item.icon} aria-hidden />
+                          <span>{item.label}</span>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
                   </SidebarMenu>
                 </SidebarGroup>
               </SidebarContent>
@@ -153,14 +428,14 @@ function SettingsDialogForm({
 
           <ResizableHandle withHandle />
 
-          <ResizablePanel minSize="45%">
-            <div className="flex h-full flex-col">
+          <ResizablePanel minSize="45%" className="min-h-0">
+            <div className="flex h-full min-h-0 flex-col">
               <DialogHeader className="shrink-0 p-6 pb-4">
                 <DialogTitle className="sr-only">
-                  Settings: {section === "general" ? "General" : "Appearance"}
+                  Settings: {current.label}
                 </DialogTitle>
                 <DialogDescription className="sr-only">
-                  Manage your account and preferences.
+                  Manage your account, appearance, and API keys.
                 </DialogDescription>
                 <Breadcrumb>
                   <BreadcrumbList>
@@ -174,9 +449,7 @@ function SettingsDialogForm({
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                      <BreadcrumbPage>
-                        {section === "general" ? "General" : "Appearance"}
-                      </BreadcrumbPage>
+                      <BreadcrumbPage>{current.label}</BreadcrumbPage>
                     </BreadcrumbItem>
                   </BreadcrumbList>
                 </Breadcrumb>
@@ -241,7 +514,7 @@ function SettingsDialogForm({
                       </div>
                     </div>
                   </section>
-                ) : (
+                ) : section === "appearance" ? (
                   <section
                     id={`${id}-appearance-panel`}
                     aria-label="Appearance"
@@ -270,6 +543,12 @@ function SettingsDialogForm({
                       ))}
                     </div>
                   </section>
+                ) : (
+                  <ApiKeysSection
+                    id={`${id}-api-keys-panel`}
+                    keys={apiKeys}
+                    onChange={setApiKeys}
+                  />
                 )}
               </div>
 
@@ -294,22 +573,25 @@ function SettingsDialogForm({
 function SettingsDialog({
   user,
   theme = "system",
+  apiKeys = [],
   open,
   onOpenChange,
   onSave,
 }: {
   user: SettingsUser
   theme?: SettingsTheme
+  apiKeys?: SettingsApiKey[]
   open: boolean
   onOpenChange: (open: boolean) => void
   onSave?: (values: SettingsValues) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="h-3/4 max-h-120 gap-0 overflow-hidden p-0 sm:max-w-3xl [&>[data-slot=dialog-close]]:end-4 [&>[data-slot=dialog-close]]:top-4">
+      <DialogContent className="h-3/4 max-h-120 grid-rows-[minmax(0,1fr)] gap-0 overflow-hidden p-0 sm:max-w-3xl [&>[data-slot=dialog-close]]:end-4 [&>[data-slot=dialog-close]]:top-4">
         <SettingsDialogForm
           user={user}
           initialTheme={theme}
+          initialApiKeys={apiKeys}
           onOpenChange={onOpenChange}
           onSave={onSave}
         />
@@ -319,4 +601,4 @@ function SettingsDialog({
 }
 
 export { SettingsDialog }
-export type { SettingsTheme, SettingsUser, SettingsValues }
+export type { SettingsApiKey, SettingsTheme, SettingsUser, SettingsValues }

@@ -553,7 +553,7 @@
       "name": "settings-dialog",
       "type": "registry:component",
       "title": "Settings Dialog",
-      "description": "A wide, resizable settings window with persistent navigation on the left and the active account or appearance section on the right.",
+      "description": "A wide, resizable settings window with persistent navigation on the left and the active account, appearance, or API keys section on the right.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/avatar",
@@ -690,6 +690,26 @@
           "path": "registry/aiellie/components/waveform.tsx",
           "type": "registry:component",
           "target": "components/aiellie/waveform.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
+      "name": "toast",
+      "type": "registry:component",
+      "title": "Toast",
+      "description": "Stacked and anchored notifications with actions, semantic status icons and swipe-to-dismiss behavior.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/toast.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/toast.tsx"
         }
       ],
       "categories": ["feedback"]

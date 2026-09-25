@@ -39,6 +39,7 @@ import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import TabsDemo from "@/registry/aiellie/examples/tabs-demo"
 import TemporaryChatToggleDemo from "@/registry/aiellie/examples/temporary-chat-toggle-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
+import ToastDemo from "@/registry/aiellie/examples/toast-demo"
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
 import ThreadTranscriptDemo from "@/registry/aiellie/examples/thread-transcript-demo"
 import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
@@ -165,6 +166,7 @@ const DEMOS: Record<string, Demo> = {
   },
   status: { title: "Status", gallery: "/components", Demo: StatusDemo },
   waveform: { title: "Waveform", gallery: "/components", Demo: WaveformDemo },
+  toast: { title: "Toast", gallery: "/components", Demo: ToastDemo },
   composer: { title: "Composer", gallery: "/components", Demo: ComposerDemo },
   message: { title: "Message", gallery: "/components", Demo: MessageDemo },
   "date-divider": {

@@ -20,6 +20,20 @@ export default function SettingsDialogDemo() {
         open={open}
         onOpenChange={setOpen}
         user={{ name: "AI Ellie", email: "ellie@example.com" }}
+        apiKeys={[
+          {
+            id: "key_production",
+            name: "Production",
+            secret: "sk-live-7f2a9c1e4b80",
+            createdAt: "2026-03-12",
+          },
+          {
+            id: "key_local",
+            name: "Local",
+            secret: "sk-test-91c4e0aa33d1",
+            createdAt: "2026-08-02",
+          },
+        ]}
       />
     </>
   )
