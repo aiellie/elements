@@ -27,6 +27,7 @@ import {
   StatusLabel,
 } from "@/registry/aiellie/components/status"
 import { StreamText } from "@/registry/aiellie/components/stream-text"
+import { ThreadItem } from "@/registry/aiellie/components/thread"
 
 type ChatMessage = {
   id: string
@@ -76,66 +77,71 @@ function ChatMessages({
     const streaming = message.status === "streaming"
 
     return (
-      <Message
+      <ThreadItem
         key={message.id}
-        align={message.role === "user" ? "end" : "start"}
-        variant={message.role === "user" ? "secondary" : "ghost"}
-        streaming={streaming}
+        messageId={message.id}
+        scrollAnchor={message.role === "user"}
       >
-        <MessageContent>
-          {message.attachments ? (
-            <ChatAttachments
-              attachments={message.attachments}
-              size="xs"
-              className="max-w-full group-data-[align=end]/message:self-end"
-            />
-          ) : null}
-          {message.content || streaming ? (
-            <MessagePart>
-              {message.role === "assistant" ? (
-                <StreamText text={message.content} streaming={streaming} />
-              ) : (
-                message.content
-              )}
-            </MessagePart>
-          ) : null}
-          {message.status === "failed" ? (
-            <MessageFooter>
-              <Status variant="destructive">
-                <StatusIndicator />
-                <StatusLabel>Failed</StatusLabel>
-              </Status>
-              <MessageAction
-                tooltip="Retry"
-                onClick={() => onRetry(message.id)}
-              >
-                <HugeiconsIcon icon={RepeatIcon} />
-              </MessageAction>
-            </MessageFooter>
-          ) : streaming || !message.content ? null : (
-            <MessageFooter>
-              <MessageActions>
-                <CopyButton text={message.content} />
+        <Message
+          align={message.role === "user" ? "end" : "start"}
+          variant={message.role === "user" ? "secondary" : "ghost"}
+          streaming={streaming}
+        >
+          <MessageContent>
+            {message.attachments ? (
+              <ChatAttachments
+                attachments={message.attachments}
+                size="xs"
+                className="max-w-full group-data-[align=end]/message:self-end"
+              />
+            ) : null}
+            {message.content || streaming ? (
+              <MessagePart>
                 {message.role === "assistant" ? (
-                  <MessageAction
-                    tooltip="Retry"
-                    onClick={() => onRetry(message.id)}
-                  >
-                    <HugeiconsIcon icon={RepeatIcon} />
-                  </MessageAction>
+                  <StreamText text={message.content} streaming={streaming} />
                 ) : (
-                  <MessageAction
-                    tooltip="Edit"
-                    onClick={() => onEdit(message.content)}
-                  >
-                    <HugeiconsIcon icon={PencilEdit01Icon} />
-                  </MessageAction>
+                  message.content
                 )}
-              </MessageActions>
-            </MessageFooter>
-          )}
-        </MessageContent>
-      </Message>
+              </MessagePart>
+            ) : null}
+            {message.status === "failed" ? (
+              <MessageFooter>
+                <Status variant="destructive">
+                  <StatusIndicator />
+                  <StatusLabel>Failed</StatusLabel>
+                </Status>
+                <MessageAction
+                  tooltip="Retry"
+                  onClick={() => onRetry(message.id)}
+                >
+                  <HugeiconsIcon icon={RepeatIcon} />
+                </MessageAction>
+              </MessageFooter>
+            ) : streaming || !message.content ? null : (
+              <MessageFooter>
+                <MessageActions>
+                  <CopyButton text={message.content} />
+                  {message.role === "assistant" ? (
+                    <MessageAction
+                      tooltip="Retry"
+                      onClick={() => onRetry(message.id)}
+                    >
+                      <HugeiconsIcon icon={RepeatIcon} />
+                    </MessageAction>
+                  ) : (
+                    <MessageAction
+                      tooltip="Edit"
+                      onClick={() => onEdit(message.content)}
+                    >
+                      <HugeiconsIcon icon={PencilEdit01Icon} />
+                    </MessageAction>
+                  )}
+                </MessageActions>
+              </MessageFooter>
+            )}
+          </MessageContent>
+        </Message>
+      </ThreadItem>
     )
   })
 }

@@ -780,8 +780,13 @@
       "name": "thread",
       "type": "registry:component",
       "title": "Thread",
-      "description": "The scrolling part of a conversation. It keeps to the newest message while a reply streams, and offers a way back once you scroll away.",
-      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "description": "The scrolling part of a conversation, on shadcn's message scroller. It anchors each new turn near the top, follows a streaming reply only while you are at the end, opens a saved chat at its last turn, and keeps your place when older messages load.",
+      "dependencies": [
+        "@shadcn/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "docs": "The bottom fade comes from shadcn/tailwind.css. Add `@import \"shadcn/tailwind.css\";` to your global stylesheet if it is not there already.",
       "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
       "files": [
         {

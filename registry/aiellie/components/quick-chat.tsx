@@ -20,7 +20,10 @@ import { StreamText } from "@/registry/aiellie/components/stream-text"
 import {
   Thread,
   ThreadContent,
+  ThreadItem,
+  ThreadProvider,
   ThreadScrollButton,
+  ThreadViewport,
 } from "@/registry/aiellie/components/thread"
 import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 import { cn } from "@/lib/utils"
@@ -149,41 +152,54 @@ function QuickChat({
           <HugeiconsIcon icon={Cancel01Icon} aria-hidden />
         </TooltipIconButton>
       </header>
-      <Thread>
-        <ThreadContent className="gap-4 px-3 py-4">
-          {messages.length > 0 ? (
-            messages.map((message) => (
-              <Message
-                key={message.id}
-                align={message.from === "user" ? "end" : "start"}
-                variant={message.from === "user" ? "secondary" : "ghost"}
-                streaming={message.streaming}
-              >
-                <MessageContent>
-                  {message.attachments}
-                  {message.content || message.streaming ? (
-                    <MessagePart>
-                      {message.from === "assistant" ? (
-                        <StreamText
-                          text={message.content}
-                          streaming={message.streaming}
-                        />
-                      ) : (
-                        message.content
-                      )}
-                    </MessagePart>
-                  ) : null}
-                </MessageContent>
-              </Message>
-            ))
-          ) : (
-            <p className="m-auto max-w-56 text-center text-xs leading-5 text-foreground/60">
-              {empty}
-            </p>
-          )}
-        </ThreadContent>
-        <ThreadScrollButton />
-      </Thread>
+      <ThreadProvider autoScroll defaultScrollPosition="last-anchor">
+        <Thread>
+          <ThreadViewport
+            aria-label={typeof title === "string" ? title : "Conversation"}
+          >
+            <ThreadContent className="gap-4 px-3 py-4">
+              {messages.length > 0 ? (
+                messages.map((message) => (
+                  <ThreadItem
+                    key={message.id}
+                    messageId={message.id}
+                    scrollAnchor={message.from === "user"}
+                  >
+                    <Message
+                      align={message.from === "user" ? "end" : "start"}
+                      variant={message.from === "user" ? "secondary" : "ghost"}
+                      streaming={message.streaming}
+                    >
+                      <MessageContent>
+                        {message.attachments}
+                        {message.content || message.streaming ? (
+                          <MessagePart>
+                            {message.from === "assistant" ? (
+                              <StreamText
+                                text={message.content}
+                                streaming={message.streaming}
+                              />
+                            ) : (
+                              message.content
+                            )}
+                          </MessagePart>
+                        ) : null}
+                      </MessageContent>
+                    </Message>
+                  </ThreadItem>
+                ))
+              ) : (
+                <ThreadItem className="m-auto">
+                  <p className="max-w-56 text-center text-xs leading-5 text-foreground/60">
+                    {empty}
+                  </p>
+                </ThreadItem>
+              )}
+            </ThreadContent>
+          </ThreadViewport>
+          <ThreadScrollButton />
+        </Thread>
+      </ThreadProvider>
       <div
         data-slot="quick-chat-footer"
         className={cn("shrink-0", !composer && "p-3 pt-0")}
