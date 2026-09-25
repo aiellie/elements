@@ -17,6 +17,7 @@ import InputGroupDemo from "@/registry/aiellie/examples/input-group-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
+import StreamTextDemo from "@/registry/aiellie/examples/stream-text-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
 import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
@@ -145,6 +146,11 @@ const DEMOS: Record<string, Demo> = {
     title: "Quick Chat",
     gallery: "/components",
     Demo: QuickChatDemo,
+  },
+  "stream-text": {
+    title: "Stream Text",
+    gallery: "/components",
+    Demo: StreamTextDemo,
   },
 }
 

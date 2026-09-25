@@ -16,6 +16,7 @@ import {
   MessageContent,
   MessagePart,
 } from "@/registry/aiellie/components/message"
+import { StreamText } from "@/registry/aiellie/components/stream-text"
 import {
   Thread,
   ThreadContent,
@@ -161,7 +162,16 @@ function QuickChat({
                 <MessageContent>
                   {message.attachments}
                   {message.content || message.streaming ? (
-                    <MessagePart>{message.content}</MessagePart>
+                    <MessagePart>
+                      {message.from === "assistant" ? (
+                        <StreamText
+                          text={message.content}
+                          streaming={message.streaming}
+                        />
+                      ) : (
+                        message.content
+                      )}
+                    </MessagePart>
                   ) : null}
                 </MessageContent>
               </Message>

@@ -249,7 +249,8 @@ The active tab carries an `input` hairline in both themes, since the `shadow-sm`
 - `tinted` is a light `primary` wash (6% light, 10% dark), not a raw hue. It moves to the brand hue once one is picked.
 - `destructive` follows the status formula: 4% at rest, 7% on hover, in both themes.
 - A clickable bubble shows focus with its border in `ring`. It has no ring.
-- While a reply streams, a caret blinks after the last part only, and the message carries `aria-busy`.
+- While a reply streams, a caret blinks after the last part only, and the message carries `aria-busy`. The caret is a 2px bar in `live`, the streaming status ink. `StreamText` draws the same bar, and a part that holds one drops its own, so there is never a second caret.
+- `StreamText` writes a reply out whole words at a time. Each word fades in from 0 opacity and `blur-xs` over 280 ms, and the newest words hold the `live` ink until more arrive. Registry code reads it as `var(--live, currentColor)`, since `live` ships with the aiellie theme rather than with shadcn.
 - Reactions sit on the bubble by DOM order. They take no `z-index`.
 
 ### Layers

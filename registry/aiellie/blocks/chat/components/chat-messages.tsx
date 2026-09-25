@@ -26,6 +26,7 @@ import {
   StatusIndicator,
   StatusLabel,
 } from "@/registry/aiellie/components/status"
+import { StreamText } from "@/registry/aiellie/components/stream-text"
 
 type ChatMessage = {
   id: string
@@ -90,7 +91,13 @@ function ChatMessages({
             />
           ) : null}
           {message.content || streaming ? (
-            <MessagePart>{message.content}</MessagePart>
+            <MessagePart>
+              {message.role === "assistant" ? (
+                <StreamText text={message.content} streaming={streaming} />
+              ) : (
+                message.content
+              )}
+            </MessagePart>
           ) : null}
           {message.status === "failed" ? (
             <MessageFooter>

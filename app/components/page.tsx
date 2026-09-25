@@ -18,6 +18,7 @@ import {
   Message01Icon,
   MessageEdit01Icon,
   MessageMultiple01Icon,
+  TypeCursorIcon,
   PuzzleIcon,
   UserAccountIcon,
 } from "@hugeicons/core-free-icons"
@@ -38,6 +39,7 @@ import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
 import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
 import QuickChatDemo from "@/registry/aiellie/examples/quick-chat-demo"
+import StreamTextDemo from "@/registry/aiellie/examples/stream-text-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import TemporaryChatToggleDemo from "@/registry/aiellie/examples/temporary-chat-toggle-demo"
@@ -254,6 +256,15 @@ export default function ComponentsPage() {
           description="A compact conversation that floats over the current page"
         >
           <QuickChatDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/stream-text"
+          index={22}
+          title="Stream Text"
+          icon={TypeCursorIcon}
+          description="A streamed reply written out word by word, at a steady pace"
+        >
+          <StreamTextDemo />
         </DemoCard>
       </CategorySection>
     </div>

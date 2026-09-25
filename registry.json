@@ -760,6 +760,23 @@
       "categories": ["chat"]
     },
     {
+      "name": "stream-text",
+      "type": "registry:component",
+      "title": "Stream Text",
+      "description": "A streamed reply written out whole words at a time, at the rate the stream arrives, so bursts and pauses read as one steady cadence.",
+      "dependencies": ["tw-animate-css"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/stream-text.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/stream-text.tsx"
+        }
+      ],
+      "docs": "The caret's blink comes from tw-animate-css. Newest words and the caret use the `--live` colour from @aiellie/theme, and fall back to the text colour without it.",
+      "categories": ["chat"]
+    },
+    {
       "name": "thread",
       "type": "registry:component",
       "title": "Thread",
@@ -784,6 +801,7 @@
       "registryDependencies": [
         "@aiellie/composer",
         "@aiellie/message",
+        "@aiellie/stream-text",
         "@aiellie/thread",
         "@aiellie/tooltip-icon-button",
         "@aiellie/utils"
@@ -833,6 +851,7 @@
         "@aiellie/models",
         "@aiellie/composer",
         "@aiellie/message",
+        "@aiellie/stream-text",
         "@aiellie/thread",
         "@aiellie/quick-chat",
         "@aiellie/utils"

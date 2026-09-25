@@ -43,7 +43,7 @@
   /* Status. live is a placeholder blue-500 until the brand hue is chosen. */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --live: oklch(0.525 0.235 270);
+  --live: #526FFF;
   --success: oklch(0.596 0.145 163.225);
 
   /* Link ink, used on hover. Placeholder until the brand hue lands — blue-600

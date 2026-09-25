@@ -70,7 +70,7 @@ function MessageContent({ className, ...props }: React.ComponentProps<"div">) {
       className={cn(
         "flex w-full min-w-0 flex-col gap-2 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end",
         "[&>[data-slot=message-part]+[data-slot=message-part]]:-mt-1",
-        "group-data-streaming/message:[&>[data-slot=message-part]:not(:has(~[data-slot=message-part]))>[data-slot=message-caret]]:inline-block",
+        "group-data-streaming/message:[&>[data-slot=message-part]:not(:has(~[data-slot=message-part])):not(:has([data-slot=stream-text]))>[data-slot=message-caret]]:inline-block",
         className
       )}
       {...props}
@@ -106,7 +106,7 @@ function MessagePart({
             <span
               aria-hidden
               data-slot="message-caret"
-              className="ms-0.5 hidden h-3.5 w-0.5 animate-caret-blink bg-current align-middle motion-reduce:animate-none"
+              className="ms-0.5 hidden h-3.5 w-0.5 animate-caret-blink bg-[color:var(--live,currentColor)] align-middle motion-reduce:animate-none"
             />
           </>
         ),
