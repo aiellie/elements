@@ -519,7 +519,7 @@ function Chat({
       files: attachments,
       attachments:
         attachments.length > 0 ? (
-          <ChatAttachments attachments={attachments} size="xs" />
+          <ChatAttachments attachments={attachments} size="sm" />
         ) : undefined,
     }
     const replyId = makeId("message")

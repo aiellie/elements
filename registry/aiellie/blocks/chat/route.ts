@@ -15,7 +15,16 @@ export const maxDuration = 60
 // The thread shows plain text with inline code, so the reply is asked to keep
 // to that rather than arriving as raw Markdown.
 const INSTRUCTIONS =
-  "You are a helpful assistant in a chat app. Reply in plain prose paragraphs. Wrap code, commands, file names and identifiers in single backticks. Don't use Markdown headings, lists, tables, bold or fenced code blocks."
+  'You are a helpful assistant in a chat app. Reply in plain prose paragraphs. Wrap code, commands, file names and identifiers in single backticks. Don\'t use Markdown headings, lists, tables, bold or fenced code blocks. Files the person attaches come as images, PDFs, or text inside <file name="…"> tags.'
+
+// What the models behind every provider here can all read.
+const FILE_TYPES = new Set([
+  "image/png",
+  "image/jpeg",
+  "image/gif",
+  "image/webp",
+  "application/pdf",
+])
 
 const PROVIDERS = {
   gateway: (apiKey: string) => createGateway({ apiKey }),
@@ -41,6 +50,38 @@ function describeError(error: unknown) {
   return message || "Something went wrong."
 }
 
+// Keeps text, and files sent inline as data. A file given by address would
+// have this server fetch whatever a request names.
+function clean(messages: UIMessage[]): UIMessage[] {
+  return messages.map((message) => ({
+    id: String(message.id),
+    role: message.role === "assistant" ? "assistant" : "user",
+    parts: (Array.isArray(message.parts) ? message.parts : []).flatMap(
+      (part): UIMessage["parts"] => {
+        if (part.type === "text" && typeof part.text === "string") {
+          return [{ type: "text", text: part.text }]
+        }
+        if (
+          part.type === "file" &&
+          FILE_TYPES.has(part.mediaType) &&
+          typeof part.url === "string" &&
+          part.url.startsWith(`data:${part.mediaType};base64,`)
+        ) {
+          return [
+            {
+              type: "file",
+              mediaType: part.mediaType,
+              filename: part.filename,
+              url: part.url,
+            },
+          ]
+        }
+        return []
+      }
+    ),
+  }))
+}
+
 // The key comes with each request and is never stored. The route never falls
 // back to keys in the environment, so it can't spend yours on someone else.
 export async function POST(request: Request) {
@@ -55,14 +96,18 @@ export async function POST(request: Request) {
     provider: keyof typeof PROVIDERS
     model: string
   }
-  if (!Object.hasOwn(PROVIDERS, provider) || typeof model !== "string") {
+  if (
+    !Object.hasOwn(PROVIDERS, provider) ||
+    typeof model !== "string" ||
+    !Array.isArray(messages)
+  ) {
     return new Response("Unknown provider or model.", { status: 400 })
   }
 
   const result = streamText({
     model: PROVIDERS[provider](key)(model),
     instructions: INSTRUCTIONS,
-    messages: await convertToModelMessages(messages),
+    messages: await convertToModelMessages(clean(messages)),
     abortSignal: request.signal,
   })
 

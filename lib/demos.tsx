@@ -3,7 +3,6 @@ import type { ComponentType } from "react"
 import AddMenuDemo from "@/registry/aiellie/examples/add-menu-demo"
 import BadgeDemo from "@/registry/aiellie/examples/badge-demo"
 import BranchesMenuDemo from "@/registry/aiellie/examples/branches-menu-demo"
-import AttachmentDemo from "@/registry/aiellie/examples/attachment-demo"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import BreadcrumbDemo from "@/registry/aiellie/examples/breadcrumb-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
@@ -12,6 +11,7 @@ import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
 import DialogDemo from "@/registry/aiellie/examples/dialog-demo"
 import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
+import AttachmentsDemo from "@/registry/aiellie/examples/attachments-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
 import InputGroupDemo from "@/registry/aiellie/examples/input-group-demo"
@@ -98,7 +98,6 @@ const DEMOS: Record<string, Demo> = {
   avatar: { title: "Avatar", gallery: "/ui", Demo: AvatarDemo },
   badge: { title: "Badge", gallery: "/ui", Demo: BadgeDemo },
   empty: { title: "Empty", gallery: "/ui", Demo: EmptyDemo },
-  attachment: { title: "Attachment", gallery: "/ui", Demo: AttachmentDemo },
   "tooltip-icon-button": {
     title: "Tooltip Icon Button",
     gallery: "/components",
@@ -168,6 +167,11 @@ const DEMOS: Record<string, Demo> = {
   waveform: { title: "Waveform", gallery: "/components", Demo: WaveformDemo },
   toast: { title: "Toast", gallery: "/components", Demo: ToastDemo },
   composer: { title: "Composer", gallery: "/components", Demo: ComposerDemo },
+  attachments: {
+    title: "Attachments",
+    gallery: "/components",
+    Demo: AttachmentsDemo,
+  },
   message: { title: "Message", gallery: "/components", Demo: MessageDemo },
   "date-divider": {
     title: "Date Divider",

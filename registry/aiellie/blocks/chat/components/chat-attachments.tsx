@@ -1,28 +1,17 @@
 "use client"
 
 import * as React from "react"
-import {
-  Cancel01Icon,
-  File02Icon,
-  Folder01Icon,
-} from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
+import { File02Icon, Folder01Icon } from "@hugeicons/core-free-icons"
 
 import {
   ChatAttachmentDialog,
   describe,
 } from "@/registry/aiellie/blocks/chat/components/chat-attachment-dialog"
 import {
-  Attachment,
-  AttachmentAction,
-  AttachmentActions,
-  AttachmentContent,
-  AttachmentDescription,
-  AttachmentGroup,
-  AttachmentMedia,
-  AttachmentTitle,
-  AttachmentTrigger,
-} from "@/registry/aiellie/ui/attachment"
+  AttachmentFile,
+  AttachmentImage,
+  Attachments,
+} from "@/registry/aiellie/components/attachments"
 
 type ChatAttachment = {
   id: string
@@ -76,12 +65,12 @@ function toAttachments(files: File[]): ChatAttachment[] {
 
 function ChatAttachments({
   attachments,
-  size = "sm",
+  size = "default",
   onRemove,
   className,
 }: {
   attachments: ChatAttachment[]
-  size?: "default" | "sm" | "xs"
+  size?: "default" | "sm"
   /** Left out where the files can no longer be taken back, as in a sent message. */
   onRemove?: (id: string) => void
   className?: string
@@ -91,54 +80,37 @@ function ChatAttachments({
   const [shown, setShown] = React.useState<ChatAttachment | null>(null)
   const [open, setOpen] = React.useState(false)
 
+  const show = (attachment: ChatAttachment) => {
+    setShown(attachment)
+    setOpen(true)
+  }
+
   return (
     <>
       {attachments.length > 0 ? (
-        <AttachmentGroup className={className}>
-          {attachments.map((attachment) => (
-            <Attachment key={attachment.id} size={size}>
-              <AttachmentTrigger
-                onClick={() => {
-                  setShown(attachment)
-                  setOpen(true)
-                }}
-              >
-                <span className="sr-only">Open {attachment.name}</span>
-              </AttachmentTrigger>
-              <AttachmentMedia
-                variant={attachment.kind === "image" ? "image" : "icon"}
-                className="text-muted-foreground"
-              >
-                {attachment.kind === "image" && attachment.url ? (
-                  // An object URL has nothing for next/image to optimise.
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={attachment.url} alt="" />
-                ) : (
-                  <HugeiconsIcon
-                    aria-hidden
-                    icon={
-                      attachment.kind === "folder" ? Folder01Icon : File02Icon
-                    }
-                  />
-                )}
-              </AttachmentMedia>
-              <AttachmentContent>
-                <AttachmentTitle>{attachment.name}</AttachmentTitle>
-                <AttachmentDescription>
-                  {describe(attachment)}
-                </AttachmentDescription>
-              </AttachmentContent>
-              {onRemove ? (
-                <AttachmentActions>
-                  <AttachmentAction onClick={() => onRemove(attachment.id)}>
-                    <HugeiconsIcon aria-hidden icon={Cancel01Icon} />
-                    <span className="sr-only">Remove {attachment.name}</span>
-                  </AttachmentAction>
-                </AttachmentActions>
-              ) : null}
-            </Attachment>
-          ))}
-        </AttachmentGroup>
+        <Attachments size={size} className={className}>
+          {attachments.map((attachment) => {
+            const remove = onRemove ? () => onRemove(attachment.id) : undefined
+            return attachment.kind === "image" && attachment.url ? (
+              <AttachmentImage
+                key={attachment.id}
+                src={attachment.url}
+                name={attachment.name}
+                onOpen={() => show(attachment)}
+                onRemove={remove}
+              />
+            ) : (
+              <AttachmentFile
+                key={attachment.id}
+                icon={attachment.kind === "folder" ? Folder01Icon : File02Icon}
+                name={attachment.name}
+                description={describe(attachment)}
+                onOpen={() => show(attachment)}
+                onRemove={remove}
+              />
+            )
+          })}
+        </Attachments>
       ) : null}
       <ChatAttachmentDialog
         attachment={shown}

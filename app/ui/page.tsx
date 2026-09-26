@@ -1,7 +1,6 @@
 import {
   CursorPointer01Icon,
   Flag01Icon,
-  Attachment01Icon,
   Square01Icon,
   Tag01Icon,
   UserCircleIcon,
@@ -26,7 +25,6 @@ import { DemoCard } from "@/components/pages/demo-card"
 import { PageHero } from "@/components/pages/page-hero"
 import { cardCount } from "@/lib/categories"
 import { PAGES } from "@/lib/constants"
-import AttachmentDemo from "@/registry/aiellie/examples/attachment-demo"
 import BadgeDemo from "@/registry/aiellie/examples/badge-demo"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import BreadcrumbDemo from "@/registry/aiellie/examples/breadcrumb-demo"
@@ -239,17 +237,6 @@ export default function UiPage() {
           description="What a place shows before there is anything in it"
         >
           <EmptyDemo />
-        </DemoCard>
-      </CategorySection>
-      <CategorySection category="chat">
-        <DemoCard
-          href="/ui/attachment"
-          index={21}
-          title="Attachment"
-          icon={Attachment01Icon}
-          description="A file as a chip, with its upload state"
-        >
-          <AttachmentDemo />
         </DemoCard>
       </CategorySection>
     </div>

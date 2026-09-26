@@ -1,8 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { DefaultChatTransport, readUIMessageStream, type UIMessage } from "ai"
+import { DefaultChatTransport, readUIMessageStream } from "ai"
 
+import { toUIMessages } from "@/registry/aiellie/blocks/chat/components/chat-files"
 import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat-messages"
 import {
   routeOf,
@@ -67,25 +68,6 @@ function useProviderKeys() {
   return [keys, writeKeys] as const
 }
 
-// Attachments go by name for now, so the model at least knows they're there.
-function toUIMessages(messages: ChatMessage[]): UIMessage[] {
-  return messages.flatMap((message) => {
-    const names = message.attachments?.map((attachment) => attachment.name)
-    const text = [
-      message.content,
-      names?.length && `Attached: ${names.join(", ")}`,
-    ]
-      .filter(Boolean)
-      .join("\n\n")
-    if (!text || message.status === "failed") return []
-    return {
-      id: message.id,
-      role: message.role,
-      parts: [{ type: "text", text }],
-    }
-  })
-}
-
 const transport = new DefaultChatTransport({ api: API })
 
 // Calls `onText` with the whole reply so far, each time more of it arrives.
@@ -112,7 +94,7 @@ async function streamReply({
     trigger: "submit-message",
     chatId,
     messageId: undefined,
-    messages: toUIMessages(messages),
+    messages: await toUIMessages(messages),
     abortSignal: signal,
     headers: { Authorization: `Bearer ${route.key}` },
     body: { provider: route.provider, model: route.model },

@@ -114,8 +114,7 @@ function ChatMessages({
               {message.attachments ? (
                 <ChatAttachments
                   attachments={message.attachments}
-                  size="xs"
-                  className="max-w-full group-data-[align=end]/message:self-end"
+                  className="group-data-[align=end]/message:self-end"
                 />
               ) : null}
               {message.content || streaming ? (

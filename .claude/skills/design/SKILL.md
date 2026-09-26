@@ -278,6 +278,10 @@ The active tab carries an `input` hairline in both themes, since the `shadow-sm`
 - Reactions sit on the bubble by DOM order. They take no `z-index`.
 - A failed reply says why beside its `Failed` status, in the footer's `caption` ink, with Retry after it: "The API key was refused" tells the person what to do, where `Failed` alone doesn't.
 
+### Attachments
+
+**An image shows as a square of itself; anything else is a chip.** A picture says what it is better than its file name, so an image attachment is only its thumbnail, cropped square with `object-cover`, and its name goes to the accessible label. A file or folder is a chip: its icon on a `muted` tile, its name, and its kind and size in `caption` ink. Squares and chips share one height, 56px or 40px in tight spots like quick chat, so a mixed row lines up. Both round at `radius-lg` with a `border/60` hairline, and the row scrolls sideways with a mask fade rather than wrapping. The remove button is a 20px circle in the top-end corner, on a `background/80` backing with `blur-xs` so it reads over any photo, and it shows on hover, on focus and always on touch. `components/attachments.tsx` is the reference.
+
 ### Secret fields
 
 **A key the person pastes in is a password field in an `InputGroup`, with show and clear buttons at its end.** Show flips it to plain text and back (`ViewIcon`, `ViewOffSlashIcon`). Clear stays disabled while the field is empty rather than hiding, so the field's end doesn't shift, and it puts focus back in the field. The field is `font-mono`, since a key is an id, and it carries `data-1p-ignore` and `data-lpignore` so password managers don't offer to save a key as a login. Where the key comes from goes at the end of the label row as a quiet "Get a key" link with an up-right arrow, never as a button. The Providers section of the settings dialog is the reference.

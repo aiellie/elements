@@ -246,4 +246,4 @@ function ChatAttachmentDialog({
   )
 }
 
-export { ChatAttachmentDialog, describe, formatSize }
+export { ChatAttachmentDialog, describe, formatSize, isText }
