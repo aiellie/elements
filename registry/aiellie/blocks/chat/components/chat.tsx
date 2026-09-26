@@ -28,12 +28,12 @@ import {
 } from "@/registry/aiellie/blocks/chat/components/chat-data"
 import { ChatHeader } from "@/registry/aiellie/blocks/chat/components/chat-header"
 import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat-messages"
-import { ChatNavHistory } from "@/registry/aiellie/blocks/chat/components/chat-nav-history"
 import { ChatSearch } from "@/registry/aiellie/blocks/chat/components/chat-search"
 import { ChatSidebar } from "@/registry/aiellie/blocks/chat/components/chat-sidebar"
 import type { ChatMode } from "@/registry/aiellie/blocks/chat/components/chat-switcher"
 import { ChatThread } from "@/registry/aiellie/blocks/chat/components/chat-thread"
 import type { ComposerStatus } from "@/registry/aiellie/components/composer"
+import { HistoryButtons } from "@/registry/aiellie/components/history-buttons"
 import { Panels } from "@/registry/aiellie/components/panels"
 import {
   QuickChat,
@@ -851,7 +851,7 @@ function Chat({
           toggleAt={{ left: "start" }}
           headers={{
             left: (
-              <ChatNavHistory
+              <HistoryButtons
                 canGoBack={canGoBack}
                 canGoForward={canGoForward}
                 onBack={() => go(-1)}

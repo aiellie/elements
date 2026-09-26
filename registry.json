@@ -46,6 +46,22 @@
       ]
     },
     {
+      "name": "editable-title",
+      "type": "registry:component",
+      "title": "Editable Title",
+      "description": "A heading you click to rename in place: Enter keeps the new name, Escape keeps the old one. Also exports the hook behind the field, for renaming anywhere else.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/input", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/editable-title.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/editable-title.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
       "name": "highlight-code",
       "type": "registry:lib",
       "title": "Highlight Code",
@@ -572,6 +588,53 @@
       "categories": ["overlays"]
     },
     {
+      "name": "share-dialog",
+      "type": "registry:component",
+      "title": "Share Dialog",
+      "description": "Sharing something by link: who can open it, the link to copy, a preview slot, and buttons to post it to X, LinkedIn or Reddit.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/dialog",
+        "@aiellie/input",
+        "@aiellie/menu",
+        "@aiellie/tooltip-icon-button"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/share-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/share-dialog.tsx"
+        }
+      ],
+      "categories": ["overlays"]
+    },
+    {
+      "name": "file-preview",
+      "type": "registry:component",
+      "title": "File Preview",
+      "description": "A file opened in a dialog: an image, a PDF, text or code highlighted by language, or the files in a folder, with a download button that zips a folder.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "fflate"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/dialog",
+        "@aiellie/highlight-code",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/file-preview.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/file-preview.tsx"
+        }
+      ],
+      "categories": ["overlays"]
+    },
+    {
       "name": "temporary-chat-toggle",
       "type": "registry:component",
       "title": "Temporary Chat Toggle",
@@ -653,6 +716,25 @@
           "path": "registry/aiellie/components/tooltip-icon-button.tsx",
           "type": "registry:component",
           "target": "components/aiellie/tooltip-icon-button.tsx"
+        }
+      ],
+      "categories": ["actions"]
+    },
+    {
+      "name": "history-buttons",
+      "type": "registry:component",
+      "title": "History Buttons",
+      "description": "Back and forward buttons for stepping through what was opened, each with a tooltip naming its shortcut.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/history-buttons.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/history-buttons.tsx"
         }
       ],
       "categories": ["actions"]
@@ -956,6 +1038,38 @@
       "categories": ["chat"]
     },
     {
+      "name": "sources",
+      "type": "registry:component",
+      "title": "Sources",
+      "description": "The pages a reply drew on: small chips that name each site and open the page, with the rest folded into a +N chip.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/sources.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/sources.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "suggestions",
+      "type": "registry:component",
+      "title": "Suggestions",
+      "description": "Prompts to start from: a row of small outline buttons that arrive together, one after another.",
+      "dependencies": ["tw-animate-css"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/suggestions.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/suggestions.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
       "name": "thread",
       "type": "registry:component",
       "title": "Thread",
@@ -1083,10 +1197,16 @@
         "@aiellie/stream-text",
         "@aiellie/reasoning",
         "@aiellie/thinking-indicator",
+        "@aiellie/suggestions",
+        "@aiellie/sources",
         "@aiellie/thread",
         "@aiellie/thread-transcript",
         "@aiellie/quick-chat",
-        "@aiellie/utils"
+        "@aiellie/utils",
+        "@aiellie/history-buttons",
+        "@aiellie/editable-title",
+        "@aiellie/share-dialog",
+        "@aiellie/file-preview"
       ],
       "files": [
         {
@@ -1113,11 +1233,6 @@
           "path": "registry/aiellie/blocks/chat/components/chat-nav-main.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-nav-main.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-nav-history.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/chat-nav-history.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-nav-filter.tsx",
@@ -1150,19 +1265,9 @@
           "target": "components/aiellie/chat-header.tsx"
         },
         {
-          "path": "registry/aiellie/blocks/chat/components/chat-title.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/chat-title.tsx"
-        },
-        {
           "path": "registry/aiellie/blocks/chat/components/chat-options.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-options.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-share.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/chat-share.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-thread.tsx",
@@ -1173,11 +1278,6 @@
           "path": "registry/aiellie/blocks/chat/components/chat-messages.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-messages.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-sources.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/chat-sources.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-empty.tsx",
@@ -1193,11 +1293,6 @@
           "path": "registry/aiellie/blocks/chat/components/chat-attachments.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-attachments.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-attachment-dialog.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/chat-attachment-dialog.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-ai.ts",

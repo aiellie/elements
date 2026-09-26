@@ -5,7 +5,6 @@ import { Download04Icon, File02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { zip } from "fflate"
 
-import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
   Dialog,
@@ -17,6 +16,19 @@ import {
   DialogTitle,
 } from "@/registry/aiellie/ui/dialog"
 import { cn } from "@/lib/utils"
+
+type FilePreviewItem = {
+  /** Keeps what the preview has read apart between files. Defaults to the name. */
+  id?: string
+  name: string
+  kind: "file" | "image" | "folder"
+  /** In bytes. Left out for a folder. */
+  size?: number
+  /** A link to it made in the browser, for an image or a PDF to show. */
+  url?: string
+  /** One for a file or an image, every file inside for a folder. */
+  files: File[]
+}
 
 const TEXT_LIMIT = 100_000
 
@@ -41,15 +53,15 @@ function formatSize(bytes: number) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
 
-function describe(attachment: ChatAttachment) {
-  if (attachment.kind === "folder") {
-    const count = attachment.files.length
+function describe(item: FilePreviewItem) {
+  if (item.kind === "folder") {
+    const count = item.files.length
     return `${count} ${count === 1 ? "file" : "files"}`
   }
-  const extension = attachment.name.includes(".")
-    ? attachment.name.split(".").pop()?.toUpperCase()
+  const extension = item.name.includes(".")
+    ? item.name.split(".").pop()?.toUpperCase()
     : undefined
-  const size = formatSize(attachment.size ?? 0)
+  const size = formatSize(item.size ?? 0)
   return extension ? `${extension} · ${size}` : size
 }
 
@@ -155,34 +167,34 @@ function FolderPreview({ files }: { files: File[] }) {
   )
 }
 
-function Preview({ attachment }: { attachment: ChatAttachment }) {
-  const file = attachment.files[0]
+function Preview({ item }: { item: FilePreviewItem }) {
+  const file = item.files[0]
 
-  if (attachment.kind === "folder") {
-    return <FolderPreview files={attachment.files} />
+  if (item.kind === "folder") {
+    return <FolderPreview files={item.files} />
   }
-  if (attachment.kind === "image" && attachment.url) {
+  if (item.kind === "image" && item.url) {
     return (
       // An object URL has nothing for next/image to optimise.
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={attachment.url}
-        alt={attachment.name}
+        src={item.url}
+        alt={item.name}
         className="max-h-[60vh] w-full rounded-md bg-muted object-contain"
       />
     )
   }
-  if (attachment.url) {
+  if (item.url) {
     return (
       <iframe
-        src={attachment.url}
-        title={attachment.name}
+        src={item.url}
+        title={item.name}
         className="h-[60vh] w-full rounded-md border bg-muted"
       />
     )
   }
   if (file && isText(file)) {
-    return <TextPreview key={attachment.id} file={file} />
+    return <TextPreview key={item.id ?? item.name} file={file} />
   }
   return (
     <div className="flex flex-col items-center gap-2 rounded-md bg-muted px-4 py-10 text-center">
@@ -208,11 +220,11 @@ function save(blob: Blob, name: string) {
   setTimeout(() => URL.revokeObjectURL(url))
 }
 
-async function zipFolder(attachment: ChatAttachment) {
+async function zipFolder(item: FilePreviewItem) {
   const entries = Object.fromEntries(
     await Promise.all(
-      attachment.files.map(async (file) => [
-        file.webkitRelativePath || `${attachment.name}/${file.name}`,
+      item.files.map(async (file) => [
+        file.webkitRelativePath || `${item.name}/${file.name}`,
         new Uint8Array(await file.arrayBuffer()),
       ])
     )
@@ -225,17 +237,17 @@ async function zipFolder(attachment: ChatAttachment) {
   })
 }
 
-function DownloadButton({ attachment }: { attachment: ChatAttachment }) {
+function DownloadButton({ item }: { item: FilePreviewItem }) {
   const [zipping, setZipping] = React.useState(false)
 
   const download = async () => {
-    if (attachment.kind !== "folder") {
-      save(attachment.files[0], attachment.name)
+    if (item.kind !== "folder") {
+      save(item.files[0], item.name)
       return
     }
     setZipping(true)
     try {
-      save(await zipFolder(attachment), `${attachment.name}.zip`)
+      save(await zipFolder(item), `${item.name}.zip`)
     } finally {
       setZipping(false)
     }
@@ -249,28 +261,28 @@ function DownloadButton({ attachment }: { attachment: ChatAttachment }) {
   )
 }
 
-function ChatAttachmentDialog({
-  attachment,
+function FilePreview({
+  item,
   open,
   onOpenChange,
   onRemove,
 }: {
-  attachment: ChatAttachment | null
+  item: FilePreviewItem | null
   open: boolean
   onOpenChange: (open: boolean) => void
-  /** Left out where the file can no longer be taken back, as in a sent message. */
+  /** Left out where the file can no longer be taken back. */
   onRemove?: () => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl">
-        {attachment ? (
+        {item ? (
           <>
             <DialogHeader>
-              <DialogTitle className="truncate">{attachment.name}</DialogTitle>
-              <DialogDescription>{describe(attachment)}</DialogDescription>
+              <DialogTitle className="truncate">{item.name}</DialogTitle>
+              <DialogDescription>{describe(item)}</DialogDescription>
             </DialogHeader>
-            <Preview attachment={attachment} />
+            <Preview item={item} />
             <DialogFooter>
               {onRemove ? (
                 <Button
@@ -284,7 +296,7 @@ function ChatAttachmentDialog({
               <DialogClose render={<Button variant="outline" />}>
                 Close
               </DialogClose>
-              <DownloadButton key={attachment.id} attachment={attachment} />
+              <DownloadButton key={item.id ?? item.name} item={item} />
             </DialogFooter>
           </>
         ) : null}
@@ -293,4 +305,5 @@ function ChatAttachmentDialog({
   )
 }
 
-export { ChatAttachmentDialog, describe, formatSize, isText }
+export { FilePreview, describe, formatSize, isText }
+export type { FilePreviewItem }

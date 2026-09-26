@@ -4,14 +4,14 @@ import * as React from "react"
 import { File02Icon, Folder01Icon } from "@hugeicons/core-free-icons"
 
 import {
-  ChatAttachmentDialog,
-  describe,
-} from "@/registry/aiellie/blocks/chat/components/chat-attachment-dialog"
-import {
   AttachmentFile,
   AttachmentImage,
   Attachments,
 } from "@/registry/aiellie/components/attachments"
+import {
+  FilePreview,
+  describe,
+} from "@/registry/aiellie/components/file-preview"
 
 type ChatAttachment = {
   id: string
@@ -112,8 +112,8 @@ function ChatAttachments({
           })}
         </Attachments>
       ) : null}
-      <ChatAttachmentDialog
-        attachment={shown}
+      <FilePreview
+        item={shown}
         open={open}
         onOpenChange={setOpen}
         onRemove={

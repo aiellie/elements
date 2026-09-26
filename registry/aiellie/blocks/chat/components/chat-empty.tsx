@@ -3,6 +3,10 @@
 import { BubbleChatTemporaryIcon, Key01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
+import {
+  Suggestion,
+  Suggestions,
+} from "@/registry/aiellie/components/suggestions"
 import { brandIcons } from "@/registry/aiellie/icons/brand-icons"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
@@ -65,17 +69,14 @@ function ChatEmpty({
           </EmptyDescription>
         ) : null}
       </EmptyHeader>
-      <EmptyContent className="max-w-md flex-row flex-wrap justify-center">
-        {SUGGESTIONS.map((prompt) => (
-          <Button
-            key={prompt}
-            variant="outline"
-            size="sm"
-            onClick={() => onSelect(prompt)}
-          >
-            {prompt}
-          </Button>
-        ))}
+      <EmptyContent className="max-w-md">
+        <Suggestions className="justify-center">
+          {SUGGESTIONS.map((prompt) => (
+            <Suggestion key={prompt} onClick={() => onSelect(prompt)}>
+              {prompt}
+            </Suggestion>
+          ))}
+        </Suggestions>
       </EmptyContent>
     </Empty>
   )

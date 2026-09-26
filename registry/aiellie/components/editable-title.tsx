@@ -1,10 +1,13 @@
 "use client"
 
 import * as React from "react"
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
 
-import { Input } from "@/registry/aiellie/ui/input"
 import { cn } from "@/lib/utils"
+import { Input } from "@/registry/aiellie/ui/input"
 
+// Enter keeps the new name, Escape and an empty field keep the old one.
 function useRenameInput(title: string, onDone: (title?: string) => void) {
   const [value, setValue] = React.useState(title)
   const ref = React.useRef<HTMLInputElement>(null)
@@ -43,67 +46,84 @@ function useRenameInput(title: string, onDone: (title?: string) => void) {
   }
 }
 
-function ChatTitleField({
+function EditableTitleField({
   title,
+  label,
   onDone,
 }: {
   title: string
+  label: string
   onDone: (title?: string) => void
 }) {
   return (
     <Input
       {...useRenameInput(title, onDone)}
-      aria-label="Chat name"
+      data-slot="editable-title-input"
+      aria-label={label}
       className="h-7 max-w-72 rounded-md px-2 text-sm font-medium"
     />
   )
 }
 
-function ChatTitle({
+function EditableTitle({
   title,
   editing,
   onEditingChange,
   onRename,
-}: {
+  label = "Name",
+  className,
+  render,
+  ...props
+}: Omit<useRender.ComponentProps<"h1">, "title" | "children"> & {
   title: string
   editing: boolean
   onEditingChange: (editing: boolean) => void
-  /** Left out for a chat that can't be renamed yet, which shows plain text. */
+  /** Left out for something that can't be renamed yet, which shows plain text. */
   onRename?: (title: string) => void
+  /** What the field is called for screen readers, like "Chat name". */
+  label?: string
 }) {
-  if (!onRename) {
-    return (
-      <h1 className="min-w-0 truncate px-1 text-sm font-medium">{title}</h1>
-    )
-  }
-
-  if (editing) {
-    return (
-      <ChatTitleField
+  // The field stands in for the heading while it's open, rather than sitting
+  // inside it.
+  const field =
+    onRename && editing ? (
+      <EditableTitleField
         title={title}
+        label={label}
         onDone={(next) => {
           if (next && next !== title) onRename(next)
           onEditingChange(false)
         }}
       />
-    )
-  }
+    ) : null
 
-  return (
-    <h1 className="min-w-0">
-      <button
-        type="button"
-        title="Rename"
-        onClick={() => onEditingChange(true)}
-        className={cn(
-          "flex h-7 max-w-full min-w-0 items-center rounded-md border border-transparent px-2 text-sm font-medium outline-none",
-          "transition-colors duration-80 hover:bg-accent focus-visible:border-ring motion-reduce:transition-none"
-        )}
-      >
-        <span className="truncate">{title}</span>
-      </button>
-    </h1>
+  const content = !onRename ? (
+    <span className="block truncate px-1">{title}</span>
+  ) : (
+    <button
+      type="button"
+      title="Rename"
+      onClick={() => onEditingChange(true)}
+      className="flex h-7 max-w-full min-w-0 items-center rounded-md border border-transparent px-2 font-medium transition-colors duration-80 outline-none hover:bg-accent focus-visible:border-ring motion-reduce:transition-none"
+    >
+      <span className="truncate">{title}</span>
+    </button>
   )
+
+  const heading = useRender({
+    defaultTagName: "h1",
+    props: mergeProps<"h1">(
+      {
+        className: cn("min-w-0 text-sm font-medium", className),
+        children: content,
+      },
+      props
+    ),
+    render,
+    state: { slot: "editable-title" },
+  })
+
+  return field ?? heading
 }
 
-export { ChatTitle, useRenameInput }
+export { EditableTitle, useRenameInput }

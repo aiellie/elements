@@ -14,7 +14,6 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat-messages"
 import {
   Menu,
   MenuContent,
@@ -22,22 +21,8 @@ import {
   MenuRadioItem,
   MenuTrigger,
 } from "@/registry/aiellie/components/menu"
-import {
-  Message,
-  MessageContent,
-  MessagePart,
-} from "@/registry/aiellie/components/message"
-import {
-  Thread,
-  ThreadContent,
-  ThreadItem,
-  ThreadProvider,
-  ThreadScrollButton,
-  ThreadViewport,
-} from "@/registry/aiellie/components/thread"
 import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 import { Button } from "@/registry/aiellie/ui/button"
-import { Input } from "@/registry/aiellie/ui/input"
 import {
   Dialog,
   DialogContent,
@@ -47,67 +32,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/registry/aiellie/ui/dialog"
+import { Input } from "@/registry/aiellie/ui/input"
 
-type ChatShareVisibility = "private" | "link"
+type ShareVisibility = "private" | "link"
 
 const VISIBILITY = {
   private: {
     icon: LockIcon,
     label: "Only you",
-    description: "Nobody else can open this chat.",
+    description: "Nobody else can open it.",
   },
   link: {
     icon: GlobalIcon,
     label: "Anyone with the link",
-    description: "Anyone with the link can read the chat up to this point.",
+    description: "Anyone with the link can open it.",
   },
 } as const
 
-function ChatSharePreview({
-  title,
-  messages,
-}: {
-  title: string
-  messages: ChatMessage[]
-}) {
-  return (
-    <figure className="flex flex-col overflow-hidden rounded-sm border bg-background">
-      <figcaption className="flex items-baseline justify-between gap-2 border-b px-3 py-2">
-        <span className="truncate text-xs font-medium">{title}</span>
-        <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
-          {messages.length} {messages.length === 1 ? "message" : "messages"}
-        </span>
-      </figcaption>
-      <div className="flex h-56 flex-col">
-        <ThreadProvider defaultScrollPosition="start">
-          <Thread>
-            <ThreadViewport aria-label="Preview">
-              <ThreadContent className="gap-2 px-3 py-3">
-                {messages.map((message) => (
-                  <ThreadItem key={message.id} messageId={message.id}>
-                    <Message
-                      align={message.role === "user" ? "end" : "start"}
-                      variant={message.role === "user" ? "secondary" : "ghost"}
-                    >
-                      <MessageContent>
-                        <MessagePart className="px-2 py-0.5 text-xs leading-5 group-data-[variant=ghost]/message:p-0">
-                          {message.content}
-                        </MessagePart>
-                      </MessageContent>
-                    </Message>
-                  </ThreadItem>
-                ))}
-              </ThreadContent>
-            </ThreadViewport>
-            <ThreadScrollButton />
-          </Thread>
-        </ThreadProvider>
-      </div>
-    </figure>
-  )
-}
-
-function ChatShareLink({ url, disabled }: { url: string; disabled: boolean }) {
+function ShareLink({ url, disabled }: { url: string; disabled: boolean }) {
   const [copied, setCopied] = React.useState(false)
 
   React.useEffect(() => {
@@ -121,7 +63,7 @@ function ChatShareLink({ url, disabled }: { url: string; disabled: boolean }) {
       <Input
         readOnly
         value={disabled ? "" : url}
-        placeholder="No link while the chat is private"
+        placeholder="No link while it's private"
         disabled={disabled}
         aria-label="Share link"
         onFocus={(event) => event.currentTarget.select()}
@@ -149,21 +91,32 @@ function ChatShareLink({ url, disabled }: { url: string; disabled: boolean }) {
   )
 }
 
-function ChatShare({
+function ShareDialog({
   open,
   onOpenChange,
-  title,
   url,
-  messages,
+  text,
+  title = "Share",
+  descriptions,
+  preview,
+  defaultVisibility = "link",
+  onVisibilityChange,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
-  title: string
   url: string
-  messages: ChatMessage[]
+  /** What a post to X or Reddit says alongside the link, like the page's title. */
+  text?: string
+  title?: string
+  /** What each choice means for what's shared, in place of the general wording. */
+  descriptions?: Partial<Record<ShareVisibility, string>>
+  /** Shown above the controls, like a glimpse of what's being shared. */
+  preview?: React.ReactNode
+  defaultVisibility?: ShareVisibility
+  onVisibilityChange?: (visibility: ShareVisibility) => void
 }) {
   const [visibility, setVisibility] =
-    React.useState<ChatShareVisibility>("link")
+    React.useState<ShareVisibility>(defaultVisibility)
   const current = VISIBILITY[visibility]
   const shared = visibility === "link"
 
@@ -171,7 +124,7 @@ function ChatShare({
     {
       label: "Share to X",
       icon: NewTwitterIcon,
-      href: `https://x.com/intent/post?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+      href: `https://x.com/intent/post?url=${encodeURIComponent(url)}${text ? `&text=${encodeURIComponent(text)}` : ""}`,
     },
     {
       label: "Share to LinkedIn",
@@ -181,7 +134,7 @@ function ChatShare({
     {
       label: "Share to Reddit",
       icon: RedditIcon,
-      href: `https://www.reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
+      href: `https://www.reddit.com/submit?url=${encodeURIComponent(url)}${text ? `&title=${encodeURIComponent(text)}` : ""}`,
     },
   ]
 
@@ -195,12 +148,14 @@ function ChatShare({
         />
         Share
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent data-slot="share-dialog" className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Share chat</DialogTitle>
-          <DialogDescription>{current.description}</DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>
+            {descriptions?.[visibility] ?? current.description}
+          </DialogDescription>
         </DialogHeader>
-        <ChatSharePreview title={title} messages={messages} />
+        {preview}
         <Menu>
           <MenuTrigger
             render={
@@ -222,11 +177,12 @@ function ChatShare({
           <MenuContent variant="solid" align="start" className="w-72">
             <MenuRadioGroup
               value={visibility}
-              onValueChange={(value) =>
-                setVisibility(value as ChatShareVisibility)
-              }
+              onValueChange={(value) => {
+                setVisibility(value as ShareVisibility)
+                onVisibilityChange?.(value as ShareVisibility)
+              }}
             >
-              {(Object.keys(VISIBILITY) as ChatShareVisibility[]).map((key) => (
+              {(Object.keys(VISIBILITY) as ShareVisibility[]).map((key) => (
                 <MenuRadioItem key={key} value={key}>
                   <HugeiconsIcon icon={VISIBILITY[key].icon} />
                   {VISIBILITY[key].label}
@@ -235,7 +191,7 @@ function ChatShare({
             </MenuRadioGroup>
           </MenuContent>
         </Menu>
-        <ChatShareLink url={url} disabled={!shared} />
+        <ShareLink url={url} disabled={!shared} />
         <DialogFooter className="flex-row items-center gap-1 sm:justify-start">
           <span className="me-auto text-xs text-muted-foreground">
             Post it to
@@ -260,4 +216,5 @@ function ChatShare({
   )
 }
 
-export { ChatShare }
+export { ShareDialog }
+export type { ShareVisibility }

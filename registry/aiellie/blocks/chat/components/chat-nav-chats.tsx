@@ -13,7 +13,7 @@ import {
   DEFAULT_VIEW,
 } from "@/registry/aiellie/blocks/chat/components/chat-nav-filter"
 import { ChatOptions } from "@/registry/aiellie/blocks/chat/components/chat-options"
-import { useRenameInput } from "@/registry/aiellie/blocks/chat/components/chat-title"
+import { useRenameInput } from "@/registry/aiellie/components/editable-title"
 import {
   Menu,
   MenuContent,

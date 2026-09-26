@@ -12,6 +12,10 @@ import DialogDemo from "@/registry/aiellie/examples/dialog-demo"
 import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import AttachmentsDemo from "@/registry/aiellie/examples/attachments-demo"
+import EditableTitleDemo from "@/registry/aiellie/examples/editable-title-demo"
+import FilePreviewDemo from "@/registry/aiellie/examples/file-preview-demo"
+import HistoryButtonsDemo from "@/registry/aiellie/examples/history-buttons-demo"
+import ShareDialogDemo from "@/registry/aiellie/examples/share-dialog-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
 import InputGroupDemo from "@/registry/aiellie/examples/input-group-demo"
@@ -30,6 +34,8 @@ import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-de
 import QuickChatDemo from "@/registry/aiellie/examples/quick-chat-demo"
 import ReasoningDemo from "@/registry/aiellie/examples/reasoning-demo"
 import ThinkingIndicatorDemo from "@/registry/aiellie/examples/thinking-indicator-demo"
+import SourcesDemo from "@/registry/aiellie/examples/sources-demo"
+import SuggestionsDemo from "@/registry/aiellie/examples/suggestions-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
 import SeparatorDemo from "@/registry/aiellie/examples/separator-demo"
@@ -205,6 +211,32 @@ const DEMOS: Record<string, Demo> = {
     title: "Thinking Indicator",
     gallery: "/components",
     Demo: ThinkingIndicatorDemo,
+  },
+  sources: { title: "Sources", gallery: "/components", Demo: SourcesDemo },
+  suggestions: {
+    title: "Suggestions",
+    gallery: "/components",
+    Demo: SuggestionsDemo,
+  },
+  "history-buttons": {
+    title: "History Buttons",
+    gallery: "/components",
+    Demo: HistoryButtonsDemo,
+  },
+  "editable-title": {
+    title: "Editable Title",
+    gallery: "/components",
+    Demo: EditableTitleDemo,
+  },
+  "share-dialog": {
+    title: "Share Dialog",
+    gallery: "/components",
+    Demo: ShareDialogDemo,
+  },
+  "file-preview": {
+    title: "File Preview",
+    gallery: "/components",
+    Demo: FilePreviewDemo,
   },
 }
 

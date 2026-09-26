@@ -1,26 +1,39 @@
 "use client"
 
+import * as React from "react"
 import { ArrowLeft02Icon, ArrowRight02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
+import { cn } from "@/lib/utils"
 import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
 
-function ChatNavHistory({
+function HistoryButtons({
   canGoBack,
   canGoForward,
   onBack,
   onForward,
-}: {
+  backShortcut = "⌘[",
+  forwardShortcut = "⌘]",
+  className,
+  ...props
+}: Omit<React.ComponentProps<"div">, "children"> & {
   canGoBack: boolean
   canGoForward: boolean
   onBack: () => void
   onForward: () => void
+  /** Shown in the tooltip. The keys themselves are yours to listen for. */
+  backShortcut?: string
+  forwardShortcut?: string
 }) {
   return (
-    <div className="flex items-center gap-0.5">
+    <div
+      data-slot="history-buttons"
+      className={cn("flex items-center gap-0.5", className)}
+      {...props}
+    >
       <TooltipIconButton
         tooltip="Back"
-        shortcut="⌘["
+        shortcut={backShortcut}
         disabled={!canGoBack}
         onClick={onBack}
         className="size-7"
@@ -29,7 +42,7 @@ function ChatNavHistory({
       </TooltipIconButton>
       <TooltipIconButton
         tooltip="Forward"
-        shortcut="⌘]"
+        shortcut={forwardShortcut}
         disabled={!canGoForward}
         onClick={onForward}
         className="size-7"
@@ -40,4 +53,4 @@ function ChatNavHistory({
   )
 }
 
-export { ChatNavHistory }
+export { HistoryButtons }

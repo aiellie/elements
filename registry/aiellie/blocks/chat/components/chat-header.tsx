@@ -13,15 +13,28 @@ import {
   hasChatOptions,
   type ChatOptionsProps,
 } from "@/registry/aiellie/blocks/chat/components/chat-options"
-import { ChatShare } from "@/registry/aiellie/blocks/chat/components/chat-share"
-import { ChatTitle } from "@/registry/aiellie/blocks/chat/components/chat-title"
+import { EditableTitle } from "@/registry/aiellie/components/editable-title"
 import {
   Menu,
   MenuContent,
   MenuTrigger,
 } from "@/registry/aiellie/components/menu"
+import {
+  Message,
+  MessageContent,
+  MessagePart,
+} from "@/registry/aiellie/components/message"
 import { usePanels } from "@/registry/aiellie/components/panels"
+import { ShareDialog } from "@/registry/aiellie/components/share-dialog"
 import { TemporaryChatToggle } from "@/registry/aiellie/components/temporary-chat-toggle"
+import {
+  Thread,
+  ThreadContent,
+  ThreadItem,
+  ThreadProvider,
+  ThreadScrollButton,
+  ThreadViewport,
+} from "@/registry/aiellie/components/thread"
 import { Button } from "@/registry/aiellie/ui/button"
 import { Separator } from "@/registry/aiellie/ui/separator"
 import {
@@ -29,6 +42,52 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/registry/aiellie/ui/tooltip"
+
+// What the share dialog shows of the chat: its title, and its messages in a
+// small scrolling thread.
+function ChatSharePreview({
+  title,
+  messages,
+}: {
+  title: string
+  messages: ChatMessage[]
+}) {
+  return (
+    <figure className="flex flex-col overflow-hidden rounded-sm border bg-background">
+      <figcaption className="flex items-baseline justify-between gap-2 border-b px-3 py-2">
+        <span className="truncate text-xs font-medium">{title}</span>
+        <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+          {messages.length} {messages.length === 1 ? "message" : "messages"}
+        </span>
+      </figcaption>
+      <div className="flex h-56 flex-col">
+        <ThreadProvider defaultScrollPosition="start">
+          <Thread>
+            <ThreadViewport aria-label="Preview">
+              <ThreadContent className="gap-2 px-3 py-3">
+                {messages.map((message) => (
+                  <ThreadItem key={message.id} messageId={message.id}>
+                    <Message
+                      align={message.role === "user" ? "end" : "start"}
+                      variant={message.role === "user" ? "secondary" : "ghost"}
+                    >
+                      <MessageContent>
+                        <MessagePart className="px-2 py-0.5 text-xs leading-5 group-data-[variant=ghost]/message:p-0">
+                          {message.content}
+                        </MessagePart>
+                      </MessageContent>
+                    </Message>
+                  </ThreadItem>
+                ))}
+              </ThreadContent>
+            </ThreadViewport>
+            <ThreadScrollButton />
+          </Thread>
+        </ThreadProvider>
+      </div>
+    </figure>
+  )
+}
 
 function ChatHeaderNewChat({ onNewChat }: { onNewChat: () => void }) {
   return (
@@ -102,8 +161,9 @@ function ChatHeader({
   return (
     <>
       {isOpen("left") ? null : <ChatHeaderNewChat onNewChat={onNewChat} />}
-      <ChatTitle
+      <EditableTitle
         title={title}
+        label="Chat name"
         editing={editing}
         onEditingChange={setEditing}
         onRename={onRename}
@@ -135,12 +195,17 @@ function ChatHeader({
           />
         ) : null}
         {shareUrl ? (
-          <ChatShare
+          <ShareDialog
             open={shareOpen}
             onOpenChange={onShareOpenChange}
-            title={title}
+            title="Share chat"
             url={shareUrl}
-            messages={messages}
+            text={title}
+            descriptions={{
+              private: "Nobody else can open this chat.",
+              link: "Anyone with the link can read the chat up to this point.",
+            }}
+            preview={<ChatSharePreview title={title} messages={messages} />}
           />
         ) : null}
       </div>

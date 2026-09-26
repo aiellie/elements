@@ -13,7 +13,6 @@ import {
   ChatAttachments,
   type ChatAttachment,
 } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
-import { ChatSources } from "@/registry/aiellie/blocks/chat/components/chat-sources"
 import {
   Message,
   MessageAction,
@@ -32,6 +31,7 @@ import {
   ReasoningContent,
   ReasoningTrigger,
 } from "@/registry/aiellie/components/reasoning"
+import { Source, Sources } from "@/registry/aiellie/components/sources"
 import { StreamText } from "@/registry/aiellie/components/stream-text"
 import { ThinkingIndicator } from "@/registry/aiellie/components/thinking-indicator"
 import {
@@ -171,7 +171,15 @@ function ChatMessages({
                 </ThinkingIndicator>
               ) : null}
               {message.sources?.length ? (
-                <ChatSources sources={message.sources} />
+                <Sources>
+                  {message.sources.map((source) => (
+                    <Source
+                      key={source.url}
+                      href={source.url}
+                      title={source.title}
+                    />
+                  ))}
+                </Sources>
               ) : null}
               {message.status === "failed" ? (
                 <MessageFooter>
