@@ -276,6 +276,7 @@ The active tab carries an `input` hairline in both themes, since the `shadow-sm`
 - While a reply streams, a caret blinks after the last part only, and the message carries `aria-busy`. The caret is a 2px bar in `live`, the streaming status ink. `StreamText` draws the same bar, and a part that holds one drops its own, so there is never a second caret.
 - `StreamText` writes a reply out whole words at a time. Each word fades in from 0 opacity and `blur-xs` over 280 ms, and the newest words hold the `live` ink until more arrive. Registry code reads it as `var(--live, currentColor)`, since `live` ships with the aiellie theme rather than with shadcn.
 - Reactions sit on the bubble by DOM order. They take no `z-index`.
+- The date a thread picks up at ("Yesterday at 5:16 PM") is plain `caption` text in `muted-foreground`, centred, with no rules either side. The messages already set the thread apart, so lines around the date only add weight. `DateDivider` is the reference.
 - A failed reply says why beside its `Failed` status, in the footer's `caption` ink, with Retry after it: "The API key was refused" tells the person what to do, where `Failed` alone doesn't.
 
 ### Attachments

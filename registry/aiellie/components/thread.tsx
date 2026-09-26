@@ -51,7 +51,7 @@ function ThreadViewport({
     <ThreadPrimitive.Viewport
       data-slot="thread-viewport"
       className={cn(
-        "scroll-fade-size-6 size-full min-h-0 min-w-0 scroll-fade-b [scrollbar-width:thin] [scrollbar-gutter:stable] overflow-y-auto overscroll-contain border border-transparent contain-content outline-none focus-visible:border-ring data-autoscrolling:[scrollbar-color:transparent_transparent] data-pending-scroll:invisible",
+        "scroll-fade-size-6 size-full min-h-0 min-w-0 scroll-fade-b [scrollbar-width:thin] [scrollbar-gutter:stable] overflow-y-auto overscroll-contain border border-transparent contain-content outline-none data-autoscrolling:[scrollbar-color:transparent_transparent] data-pending-scroll:invisible",
         className
       )}
       {...props}

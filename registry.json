@@ -876,8 +876,8 @@
       "name": "date-divider",
       "type": "registry:component",
       "title": "Date Divider",
-      "description": "A rule across a thread with the day and time between it, like Yesterday at 5:16 PM.",
-      "registryDependencies": ["@aiellie/marker"],
+      "description": "The day and time a thread picks up at, centred above its messages as plain text, like Yesterday at 5:16 PM.",
+      "registryDependencies": ["@aiellie/marker", "@aiellie/utils"],
       "files": [
         {
           "path": "registry/aiellie/components/date-divider.tsx",

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { cn } from "@/lib/utils"
 import { Marker, MarkerContent } from "@/registry/aiellie/ui/marker"
 
 const DAY = 24 * 60 * 60 * 1000
@@ -64,11 +65,10 @@ function DateDivider({
   return (
     <Marker
       data-slot="date-divider"
-      variant="separator"
-      className={className}
+      className={cn("justify-center", className)}
       {...props}
     >
-      <MarkerContent className="tabular-nums">
+      <MarkerContent className="text-center tabular-nums">
         {client ? (
           <time dateTime={date.toISOString()}>
             {formatDividerDate(date, { locale })}

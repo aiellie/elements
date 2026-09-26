@@ -292,7 +292,7 @@ export default function ComponentsPage() {
           index={24}
           title="Date Divider"
           icon={Calendar03Icon}
-          description="The day and time across a thread, between two rules"
+          description="The day and time a thread picks up at, as a quiet line of text"
         >
           <DateDividerDemo />
         </DemoCard>
