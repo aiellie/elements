@@ -222,6 +222,8 @@ Four rules:
 
 **Block viewer metadata belongs in a caption below the preview, not in its toolbar.** Follow the demo-card order: a small muted Hugeicon beside the title, then the description on the next line. Keep the toolbar for view and installation controls so metadata stays readable without competing with interaction.
 
+**The block viewer's code view numbers every source line in a fixed gutter.** Set the numbers in `code-sm` with `muted-foreground`, keep the gutter pinned while long lines scroll horizontally, and leave the numbers out of selection and copy. The gutter helps people discuss and scan an entire block without becoming part of the source itself.
+
 A 32px control with a 12px corner (`radius-md`) has 10px of straight edge on each side — that ratio is what keeps the tight density from looking like a pill. If a control gets shorter than 28px, drop it to `radius-sm`.
 
 ### Focus and edges

@@ -497,6 +497,33 @@ function BlockViewer({
         <BlockViewerMobile />
         <BlockViewerCaption />
         <style>{`
+          [data-slot="block-viewer-code"] code[data-line-numbers] {
+            counter-reset: line;
+          }
+
+          [data-slot="block-viewer-code"] code[data-line-numbers] > [data-line] {
+            display: inline-block;
+            min-width: 100%;
+            padding-inline-end: 1rem;
+          }
+
+          [data-slot="block-viewer-code"] code[data-line-numbers] > [data-line]::before {
+            position: sticky;
+            inset-inline-start: 0;
+            display: inline-block;
+            box-sizing: border-box;
+            width: 4rem;
+            padding-inline: 1rem;
+            background: var(--background);
+            color: var(--muted-foreground);
+            content: counter(line);
+            counter-increment: line;
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+            text-align: end;
+            user-select: none;
+          }
+
           .dark [data-slot="block-viewer-code"] pre span {
             color: var(--shiki-dark) !important;
             font-style: var(--shiki-dark-font-style) !important;
