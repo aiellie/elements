@@ -46,6 +46,20 @@
       ]
     },
     {
+      "name": "highlight-code",
+      "type": "registry:lib",
+      "title": "Highlight Code",
+      "description": "Turns code into highlighted HTML with Shiki, in GitHub's light and dark themes.",
+      "dependencies": ["shiki"],
+      "files": [
+        {
+          "path": "registry/aiellie/lib/highlight-code.ts",
+          "type": "registry:lib",
+          "target": "lib/highlight-code.ts"
+        }
+      ]
+    },
+    {
       "name": "model-icons",
       "type": "registry:component",
       "title": "Model Icons",
@@ -1023,6 +1037,7 @@
         "@aiellie/waveform",
         "@aiellie/model-selector",
         "@aiellie/models",
+        "@aiellie/highlight-code",
         "@aiellie/composer",
         "@aiellie/message",
         "@aiellie/date-divider",

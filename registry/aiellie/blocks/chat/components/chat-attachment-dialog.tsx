@@ -16,8 +16,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/registry/aiellie/ui/dialog"
+import { cn } from "@/lib/utils"
 
 const TEXT_LIMIT = 100_000
+
+// Shiki's name for a file's language, where it isn't the extension itself.
+// Null leaves the file plain.
+const LANGUAGES: Record<string, string | null> = {
+  env: "dotenv",
+  h: "c",
+  svg: "xml",
+  txt: null,
+}
 
 const TEXT_EXTENSIONS = new Set(
   "c cpp css csv env go h html ini java js json jsx log md mdx py rb rs scss sh sql svg toml ts tsv tsx txt xml yaml yml".split(
@@ -52,16 +62,41 @@ function isText(file: File) {
   )
 }
 
+function languageOf(name: string) {
+  const extension = name.includes(".")
+    ? name.split(".").pop()?.toLowerCase()
+    : undefined
+  if (!extension) return null
+  return extension in LANGUAGES ? LANGUAGES[extension] : extension
+}
+
+const codeBox =
+  "max-h-[60vh] min-h-24 overflow-auto rounded-md bg-muted font-mono text-xs/5"
+
 function TextPreview({ file }: { file: File }) {
   const [text, setText] = React.useState<string | null>(null)
+  const [html, setHtml] = React.useState<string | null>(null)
 
   React.useEffect(() => {
     let current = true
+    const language = languageOf(file.name)
     void file
       .slice(0, TEXT_LIMIT)
       .text()
-      .then((read) => {
-        if (current) setText(read)
+      .then(async (read) => {
+        if (!current) return
+        setText(read)
+        if (!language) return
+        try {
+          // Loaded on first use, so Shiki stays out of the page until a file
+          // is opened.
+          const { highlightCode } =
+            await import("@/registry/aiellie/lib/highlight-code")
+          const highlighted = await highlightCode(read, language)
+          if (current) setHtml(highlighted)
+        } catch {
+          // A language Shiki doesn't know stays plain.
+        }
       })
     return () => {
       current = false
@@ -70,9 +105,21 @@ function TextPreview({ file }: { file: File }) {
 
   return (
     <div className="flex min-h-0 flex-col gap-2">
-      <pre className="max-h-[60vh] min-h-24 overflow-auto rounded-md bg-muted p-3 font-mono text-xs/5 whitespace-pre-wrap">
-        {text ?? "Reading…"}
-      </pre>
+      {html ? (
+        <div
+          // Shiki escapes the code, so the markup holds nothing from the file
+          // but text.
+          dangerouslySetInnerHTML={{ __html: html }}
+          className={cn(
+            codeBox,
+            "[&_pre]:overflow-visible! [&_pre]:p-3! [&_pre]:whitespace-pre-wrap dark:[&_span]:text-(color:--shiki-dark)!"
+          )}
+        />
+      ) : (
+        <pre className={cn(codeBox, "p-3 whitespace-pre-wrap")}>
+          {text ?? "Reading…"}
+        </pre>
+      )}
       {file.size > TEXT_LIMIT ? (
         <p className="text-xs text-muted-foreground">
           Showing the first {formatSize(TEXT_LIMIT)} of {formatSize(file.size)}.
