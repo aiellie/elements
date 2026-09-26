@@ -16,6 +16,11 @@ import {
   MessageContent,
   MessagePart,
 } from "@/registry/aiellie/components/message"
+import {
+  Reasoning,
+  ReasoningContent,
+  ReasoningTrigger,
+} from "@/registry/aiellie/components/reasoning"
 import { StreamText } from "@/registry/aiellie/components/stream-text"
 import {
   Thread,
@@ -34,6 +39,12 @@ type QuickChatMessage = {
   content: string
   attachments?: React.ReactNode
   streaming?: boolean
+  /** What the model thought before replying, for a model that shows it. */
+  reasoning?: string
+  /** Seconds from asking to the reply's first word. */
+  reasoningDuration?: number
+  /** When the reply was asked for, which the thinking count starts from. */
+  startedAt?: Date | number
 }
 
 function QuickChat({
@@ -171,8 +182,21 @@ function QuickChat({
                       streaming={message.streaming}
                     >
                       <MessageContent>
+                        {message.reasoning ? (
+                          <Reasoning
+                            streaming={message.streaming && !message.content}
+                            duration={message.reasoningDuration}
+                            startedAt={message.startedAt}
+                          >
+                            <ReasoningTrigger />
+                            <ReasoningContent>
+                              {message.reasoning}
+                            </ReasoningContent>
+                          </Reasoning>
+                        ) : null}
                         {message.attachments}
-                        {message.content || message.streaming ? (
+                        {message.content ||
+                        (message.streaming && !message.reasoning) ? (
                           <MessagePart>
                             {message.from === "assistant" ? (
                               <StreamText

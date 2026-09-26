@@ -28,6 +28,7 @@ import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
 import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
 import QuickChatDemo from "@/registry/aiellie/examples/quick-chat-demo"
+import ReasoningDemo from "@/registry/aiellie/examples/reasoning-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
 import SeparatorDemo from "@/registry/aiellie/examples/separator-demo"
@@ -193,6 +194,11 @@ const DEMOS: Record<string, Demo> = {
     title: "Stream Text",
     gallery: "/components",
     Demo: StreamTextDemo,
+  },
+  reasoning: {
+    title: "Reasoning",
+    gallery: "/components",
+    Demo: ReasoningDemo,
   },
 }
 

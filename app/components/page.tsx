@@ -7,6 +7,7 @@ import {
   AddCircleIcon,
   Attachment01Icon,
   AiBrain01Icon,
+  Brain02Icon,
   BubbleChatTemporaryIcon,
   BubbleChatAddIcon,
   CursorInfo02Icon,
@@ -48,6 +49,7 @@ import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
 import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
 import QuickChatDemo from "@/registry/aiellie/examples/quick-chat-demo"
+import ReasoningDemo from "@/registry/aiellie/examples/reasoning-demo"
 import SettingsDialogDemo from "@/registry/aiellie/examples/settings-dialog-demo"
 import StreamTextDemo from "@/registry/aiellie/examples/stream-text-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
@@ -331,6 +333,15 @@ export default function ComponentsPage() {
           description="A streamed reply written out word by word, at a steady pace"
         >
           <StreamTextDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/reasoning"
+          index={29}
+          title="Reasoning"
+          icon={Brain02Icon}
+          description="How long the model thought, folding open to show its thoughts"
+        >
+          <ReasoningDemo />
         </DemoCard>
       </CategorySection>
     </div>

@@ -13,6 +13,7 @@ import {
 } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import { ChatComposer } from "@/registry/aiellie/blocks/chat/components/chat-composer"
 import {
+  PREVIEW_REASONING,
   PREVIEW_REPLY,
   SAMPLE_BRANCHES,
   SAMPLE_CONVERSATIONS,
@@ -44,8 +45,14 @@ import { cn } from "@/lib/utils"
 
 const FIRST_WORD_DELAY = 500
 const WORD_DELAY = 35
+const THOUGHT_DELAY = 80
+const QUICK_REASONING =
+  "A quick question, so a short answer. It shouldn't pull them away from the chat they're in."
 const QUICK_REPLY =
   "This stays separate from your main conversation, so you can handle a quick question without losing your place."
+
+const secondsSince = (time?: Date | number) =>
+  time === undefined ? undefined : (Date.now() - Number(time)) / 1000
 
 type QuickMessage = QuickChatMessage & {
   files?: ChatAttachment[]
@@ -235,31 +242,52 @@ function Chat({
     // A run that was stopped has neither finished nor failed.
     setStatus(current.conversationId, undefined)
 
-    // A reply stopped before its first word has nothing worth keeping.
+    // A reply stopped before its first word or thought has nothing worth
+    // keeping. One stopped while thinking thought until now.
     updateMessages(current.conversationId, (messages) =>
       messages.flatMap((message): ChatMessage[] => {
         if (message.id !== current.messageId) return [message]
-        return message.content ? [{ ...message, status: "stopped" }] : []
+        if (!message.content && !message.reasoning) return []
+        const reasoningDuration =
+          message.reasoning && message.reasoningDuration === undefined
+            ? secondsSince(message.createdAt)
+            : message.reasoningDuration
+        return [{ ...message, status: "stopped", reasoningDuration }]
       })
     )
   }
 
-  const streamSample = (conversationId: string, messageId: string) => {
+  const streamSample = (
+    conversationId: string,
+    messageId: string,
+    startedAt: Date
+  ) => {
+    const thoughts = PREVIEW_REASONING.split(/(?<=\s)/)
     const words = PREVIEW_REPLY.split(/(?<=\s)/)
     let shown = 0
+    let reasoningDuration: number | undefined
     streamRef.current = { conversationId, messageId }
     setStreamingId(conversationId)
     setStatus(conversationId, "running")
 
+    // The thoughts come first, then the reply, the way a reasoning model's do.
     const tick = () => {
       shown += 1
-      const done = shown >= words.length
+      const thinking = shown < thoughts.length
+      const done = shown >= thoughts.length + words.length
+      if (!thinking && reasoningDuration === undefined) {
+        reasoningDuration = secondsSince(startedAt)
+      }
       updateMessages(conversationId, (messages) =>
         messages.map((message) =>
           message.id === messageId
             ? {
                 ...message,
-                content: words.slice(0, shown).join(""),
+                reasoning: thoughts.slice(0, shown).join(""),
+                reasoningDuration,
+                content: words
+                  .slice(0, Math.max(0, shown - thoughts.length))
+                  .join(""),
                 status: done ? undefined : "streaming",
               }
             : message
@@ -275,7 +303,10 @@ function Chat({
           unread: activeIdRef.current !== conversationId,
         })
       } else {
-        timerRef.current = setTimeout(tick, WORD_DELAY)
+        timerRef.current = setTimeout(
+          tick,
+          thinking ? THOUGHT_DELAY : WORD_DELAY
+        )
       }
     }
 
@@ -285,7 +316,8 @@ function Chat({
   const streamLive = (
     conversationId: string,
     messageId: string,
-    history: ChatMessage[]
+    history: ChatMessage[],
+    startedAt: Date
   ) => {
     const controller = new AbortController()
     abortRef.current = controller
@@ -312,37 +344,61 @@ function Chat({
       })
     }
 
+    // It thought for as long as the reply took to start.
     let content = ""
+    let thought = ""
+    let reasoningDuration: number | undefined
+    const settleThinking = () =>
+      thought && reasoningDuration === undefined
+        ? { reasoningDuration: secondsSince(startedAt) }
+        : {}
+
     streamReply({
       chatId: conversationId,
       model: replyModel,
       keys,
       messages: history,
       signal: controller.signal,
-      onText: (text) => {
+      onUpdate: ({ text, reasoning }) => {
         if (!current()) return
         content = text
-        patchReply({ content: text })
+        thought = reasoning
+        if (reasoning && text && reasoningDuration === undefined) {
+          reasoningDuration = secondsSince(startedAt)
+        }
+        patchReply({
+          content: text,
+          reasoning: reasoning || undefined,
+          reasoningDuration,
+        })
       },
     }).then(
       () =>
         settle(
           content
-            ? { status: undefined }
+            ? { status: undefined, ...settleThinking() }
             : { status: "failed", error: "The reply came back empty." }
         ),
-      (error: unknown) => settle({ status: "failed", error: errorText(error) })
+      (error: unknown) =>
+        settle({
+          status: "failed",
+          error: errorText(error),
+          ...settleThinking(),
+        })
     )
   }
 
+  // `startedAt` is when the reply was asked for, which its thinking time
+  // counts from.
   const stream = (
     conversationId: string,
     messageId: string,
-    history: ChatMessage[]
+    history: ChatMessage[],
+    startedAt: Date
   ) =>
     live
-      ? streamLive(conversationId, messageId, history)
-      : streamSample(conversationId, messageId)
+      ? streamLive(conversationId, messageId, history, startedAt)
+      : streamSample(conversationId, messageId, startedAt)
 
   const send = (text: string, attachments: ChatAttachment[] = []) => {
     stop()
@@ -378,7 +434,7 @@ function Chat({
           i === current.index ? id : entry
         ),
       }))
-      stream(id, reply.id, [question])
+      stream(id, reply.id, [question], createdAt)
     } else {
       // A sample chat can arrive mid-reply with nothing streaming it, so its
       // reply is left where it got to.
@@ -391,7 +447,12 @@ function Chat({
         question,
         reply,
       ])
-      stream(activeId, reply.id, [...(active?.messages ?? []), question])
+      stream(
+        activeId,
+        reply.id,
+        [...(active?.messages ?? []), question],
+        createdAt
+      )
     }
   }
 
@@ -400,14 +461,28 @@ function Chat({
     stop()
     const messages = active?.messages ?? []
     const index = messages.findIndex((message) => message.id === messageId)
+    const createdAt = new Date()
     updateMessages(activeId, (messages) =>
       messages.map((message) =>
         message.id === messageId
-          ? { ...message, content: "", status: "streaming", error: undefined }
+          ? {
+              ...message,
+              content: "",
+              status: "streaming",
+              error: undefined,
+              reasoning: undefined,
+              reasoningDuration: undefined,
+              createdAt,
+            }
           : message
       )
     )
-    stream(activeId, messageId, messages.slice(0, Math.max(index, 0)))
+    stream(
+      activeId,
+      messageId,
+      messages.slice(0, Math.max(index, 0)),
+      createdAt
+    )
   }
 
   const edit = (content: string) => {
@@ -451,7 +526,12 @@ function Chat({
     setQuickMessages((all) =>
       all.flatMap((message) => {
         if (!message.streaming) return [message]
-        return message.content ? [{ ...message, streaming: false }] : []
+        if (!message.content && !message.reasoning) return []
+        const reasoningDuration =
+          message.reasoning && message.reasoningDuration === undefined
+            ? secondsSince(message.startedAt)
+            : message.reasoningDuration
+        return [{ ...message, streaming: false, reasoningDuration }]
       })
     )
   }
@@ -463,7 +543,11 @@ function Chat({
     setQuickComposerKey((key) => key + 1)
   }
 
-  const streamQuickLive = (replyId: string, history: QuickMessage[]) => {
+  const streamQuickLive = (
+    replyId: string,
+    history: QuickMessage[],
+    startedAt: Date
+  ) => {
     const controller = new AbortController()
     quickAbortRef.current = controller
     const current = () => quickAbortRef.current === controller
@@ -481,6 +565,13 @@ function Chat({
     }
 
     let content = ""
+    let thought = ""
+    let reasoningDuration: number | undefined
+    const settleThinking = () =>
+      thought && reasoningDuration === undefined
+        ? { reasoningDuration: secondsSince(startedAt) }
+        : {}
+
     streamReply({
       chatId: "quick-chat",
       model: quickReplyModel,
@@ -493,17 +584,28 @@ function Chat({
         status: message.failed ? "failed" : undefined,
       })),
       signal: controller.signal,
-      onText: (text) => {
+      onUpdate: ({ text, reasoning }) => {
         if (!current()) return
         content = text
-        patchReply({ content: text })
+        thought = reasoning
+        if (reasoning && text && reasoningDuration === undefined) {
+          reasoningDuration = secondsSince(startedAt)
+        }
+        patchReply({
+          content: text,
+          reasoning: reasoning || undefined,
+          reasoningDuration,
+        })
       },
     }).then(
       () =>
         settle(
-          content ? {} : { content: "The reply came back empty.", failed: true }
+          content
+            ? settleThinking()
+            : { content: "The reply came back empty.", failed: true }
         ),
-      (error: unknown) => settle({ content: errorText(error), failed: true })
+      (error: unknown) =>
+        settle({ content: errorText(error), failed: true, ...settleThinking() })
     )
   }
 
@@ -523,27 +625,49 @@ function Chat({
         ) : undefined,
     }
     const replyId = makeId("message")
+    const startedAt = new Date()
     setQuickMessages((all) => [
       ...all,
       question,
-      { id: replyId, from: "assistant", content: "", streaming: true },
+      {
+        id: replyId,
+        from: "assistant",
+        content: "",
+        streaming: true,
+        startedAt,
+      },
     ])
     setQuickStreaming(true)
     if (live) {
-      streamQuickLive(replyId, [...quickMessages, question])
+      streamQuickLive(replyId, [...quickMessages, question], startedAt)
       return
     }
-    quickTimerRef.current = setTimeout(() => {
+
+    // The sample thinks a word at a time, then answers.
+    const thoughts = QUICK_REASONING.split(/(?<=\s)/)
+    let shown = 0
+    const patchReply = (patch: Partial<QuickMessage>) =>
       setQuickMessages((all) =>
         all.map((message) =>
-          message.id === replyId
-            ? { ...message, content: QUICK_REPLY, streaming: false }
-            : message
+          message.id === replyId ? { ...message, ...patch } : message
         )
       )
+    const tick = () => {
+      shown += 1
+      if (shown <= thoughts.length) {
+        patchReply({ reasoning: thoughts.slice(0, shown).join("") })
+        quickTimerRef.current = setTimeout(tick, THOUGHT_DELAY)
+        return
+      }
+      patchReply({
+        content: QUICK_REPLY,
+        streaming: false,
+        reasoningDuration: secondsSince(startedAt),
+      })
       setQuickStreaming(false)
       quickTimerRef.current = null
-    }, FIRST_WORD_DELAY)
+    }
+    quickTimerRef.current = setTimeout(tick, FIRST_WORD_DELAY)
   }
 
   const toggleActivity = () => {

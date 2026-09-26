@@ -919,6 +919,27 @@
       "categories": ["chat"]
     },
     {
+      "name": "reasoning",
+      "type": "registry:component",
+      "title": "Reasoning",
+      "description": "What a model thought before replying: a row that reads Thinking and counts the seconds while it works, then Worked for 12s, folding open to show the thoughts.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/reasoning.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/reasoning.tsx"
+        }
+      ],
+      "docs": "The shimmer on Thinking comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["chat"]
+    },
+    {
       "name": "thread",
       "type": "registry:component",
       "title": "Thread",
@@ -982,6 +1003,7 @@
       "registryDependencies": [
         "@aiellie/composer",
         "@aiellie/message",
+        "@aiellie/reasoning",
         "@aiellie/stream-text",
         "@aiellie/thread",
         "@aiellie/tooltip-icon-button",
@@ -1042,6 +1064,7 @@
         "@aiellie/message",
         "@aiellie/date-divider",
         "@aiellie/stream-text",
+        "@aiellie/reasoning",
         "@aiellie/thread",
         "@aiellie/thread-transcript",
         "@aiellie/quick-chat",

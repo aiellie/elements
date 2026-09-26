@@ -168,6 +168,9 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
         id: "chart-2",
         createdAt: minutesAgo(11),
         role: "assistant",
+        reasoning:
+          "The phone screenshot has the chart card running past the right edge, while the stat cards above it fit. So it's the chart, not the page.\n\nIn revenue-chart.tsx, AreaChart gets width={640}. The phone is 390px wide and the card has 16px on each side, so the card is about 358px and the chart can't shrink into it.\n\nThe spec says the chart fills the card at every size, 240px tall on desktop and 180px on phones. So it should be sized from its container: ResponsiveContainer at 100% width, with the height from the spec. If the card is a grid or flex child it needs min-w-0 too, or it keeps the chart's 640px as its minimum.",
+        reasoningDuration: 14,
         content:
           "It's the fixed `width={640}` on `AreaChart` in `revenue-chart.tsx`. On the iPhone the card is about 358px wide, so the chart runs well past it and drags the page into scrolling sideways, which the spec rules out.\n\nWrap the chart in `ResponsiveContainer` with `width=\"100%\"`, and set its height from the spec: 240px on desktop and 180px on phones. If the card sits in a grid or a flex row, give it `min-w-0` as well, or it still won't shrink below the chart.",
       },
@@ -199,13 +202,16 @@ const SAMPLE_PLUGINS: PluginOption[] = [
   { id: "dropbox", name: "Dropbox", icon: DropboxIcon },
 ]
 
-// There is no model behind the preview. Replace `stream` in the chat
-// component with your model's response and the rest of the page works as it
-// is.
+// What the chat streams until an API key is added in Settings, after which
+// the model it's pointed at replies instead.
+const PREVIEW_REASONING =
+  "There's no API key yet, so these thoughts are a sample too. They stream in first, then fold away once the answer starts."
+
 const PREVIEW_REPLY =
-  "This is a preview, so there's no model behind it. In your app, this is where the reply streams in, word by word, while the send button turns into stop.\n\nSwap the fake stream in the chat component for your model's response, and the rest of the page works as it is."
+  "This is a sample reply, since there's no API key yet. Add one in Settings, under Providers, and replies come from the model you pick, streaming in word by word while the send button turns into stop."
 
 export {
+  PREVIEW_REASONING,
   PREVIEW_REPLY,
   SAMPLE_BRANCHES,
   SAMPLE_CONVERSATIONS,

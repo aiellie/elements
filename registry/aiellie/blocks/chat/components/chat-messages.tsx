@@ -26,6 +26,11 @@ import {
   StatusIndicator,
   StatusLabel,
 } from "@/registry/aiellie/components/status"
+import {
+  Reasoning,
+  ReasoningContent,
+  ReasoningTrigger,
+} from "@/registry/aiellie/components/reasoning"
 import { StreamText } from "@/registry/aiellie/components/stream-text"
 import {
   DateDivider,
@@ -42,6 +47,10 @@ type ChatMessage = {
   status?: "streaming" | "stopped" | "failed"
   /** Why a failed reply failed. */
   error?: string
+  /** What the model thought before replying, for a model that shows it. */
+  reasoning?: string
+  /** Seconds from asking to the reply's first word. */
+  reasoningDuration?: number
   createdAt?: Date
 }
 
@@ -111,13 +120,23 @@ function ChatMessages({
             streaming={streaming}
           >
             <MessageContent>
+              {message.reasoning ? (
+                <Reasoning
+                  streaming={streaming && !message.content}
+                  duration={message.reasoningDuration}
+                  startedAt={message.createdAt}
+                >
+                  <ReasoningTrigger />
+                  <ReasoningContent>{message.reasoning}</ReasoningContent>
+                </Reasoning>
+              ) : null}
               {message.attachments ? (
                 <ChatAttachments
                   attachments={message.attachments}
                   className="group-data-[align=end]/message:self-end"
                 />
               ) : null}
-              {message.content || streaming ? (
+              {message.content || (streaming && !message.reasoning) ? (
                 <MessagePart>
                   {message.role === "assistant" ? (
                     <StreamText text={message.content} streaming={streaming} />

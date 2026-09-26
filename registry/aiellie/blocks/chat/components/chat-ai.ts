@@ -70,14 +70,20 @@ function useProviderKeys() {
 
 const transport = new DefaultChatTransport({ api: API })
 
-// Calls `onText` with the whole reply so far, each time more of it arrives.
+type ReplySoFar = {
+  text: string
+  /** What the model thought, for a model that shows its thinking. */
+  reasoning: string
+}
+
+// Calls `onUpdate` with the whole reply so far, each time more of it arrives.
 async function streamReply({
   chatId,
   model,
   keys,
   messages,
   signal,
-  onText,
+  onUpdate,
 }: {
   chatId: string
   model: ModelOption
@@ -85,7 +91,7 @@ async function streamReply({
   /** The chat up to the reply, oldest first. */
   messages: ChatMessage[]
   signal: AbortSignal
-  onText: (text: string) => void
+  onUpdate: (reply: ReplySoFar) => void
 }) {
   const route = routeOf(model, keys)
   if (!route) throw new Error("No key reaches this model. Add one in Settings.")
@@ -104,11 +110,15 @@ async function streamReply({
     stream,
     terminateOnError: true,
   })) {
-    onText(
-      message.parts
+    onUpdate({
+      text: message.parts
         .flatMap((part) => (part.type === "text" ? [part.text] : []))
-        .join("")
-    )
+        .join(""),
+      reasoning: message.parts
+        .flatMap((part) => (part.type === "reasoning" ? [part.text] : []))
+        .join("\n\n")
+        .trim(),
+    })
   }
 }
 

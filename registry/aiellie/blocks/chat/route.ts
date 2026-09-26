@@ -108,6 +108,10 @@ export async function POST(request: Request) {
     model: PROVIDERS[provider](key)(model),
     instructions: INSTRUCTIONS,
     messages: await convertToModelMessages(clean(messages)),
+    // Models that can think do, and send their thoughts along. Gemini keeps
+    // them to itself unless asked.
+    reasoning: "medium",
+    providerOptions: { google: { thinkingConfig: { includeThoughts: true } } },
     abortSignal: request.signal,
   })
 
