@@ -1041,9 +1041,13 @@
       "name": "sources",
       "type": "registry:component",
       "title": "Sources",
-      "description": "The pages a reply drew on: small chips that name each site and open the page, with the rest folded into a +N chip.",
+      "description": "The pages a reply drew on: chips that show each site's favicon and name and open the page, with a hover card previewing its image, title and description, and the rest folded into a +N chip.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
-      "registryDependencies": ["@aiellie/utils"],
+      "registryDependencies": [
+        "@aiellie/hover-card",
+        "@aiellie/skeleton",
+        "@aiellie/utils"
+      ],
       "files": [
         {
           "path": "registry/aiellie/components/sources.tsx",
@@ -1051,7 +1055,21 @@
           "target": "components/aiellie/sources.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["chat"],
+      "docs": "Pass `loadPreview` to fill each hover card from the page itself. The `link-preview` item installs a route that does it: `(href) => fetch(`/api/link-preview?url=${encodeURIComponent(href)}`).then((r) => (r.ok ? r.json() : null))`."
+    },
+    {
+      "name": "link-preview",
+      "type": "registry:item",
+      "title": "Link Preview",
+      "description": "A route that reads a web page's title, description, image and icon from its head, for source previews. It only fetches public web addresses, checks every redirect, and gives up after five seconds.",
+      "files": [
+        {
+          "path": "registry/aiellie/lib/link-preview.ts",
+          "type": "registry:file",
+          "target": "app/api/link-preview/route.ts"
+        }
+      ]
     },
     {
       "name": "suggestions",
@@ -1206,7 +1224,8 @@
         "@aiellie/history-buttons",
         "@aiellie/editable-title",
         "@aiellie/share-dialog",
-        "@aiellie/file-preview"
+        "@aiellie/file-preview",
+        "@aiellie/link-preview"
       ],
       "files": [
         {

@@ -1,4 +1,18 @@
-import { Source, Sources } from "@/registry/aiellie/components/sources"
+"use client"
+
+import {
+  Source,
+  Sources,
+  type SourcePreview,
+} from "@/registry/aiellie/components/sources"
+
+// Reads each page through the site's link-preview route.
+async function loadPreview(href: string): Promise<SourcePreview | null> {
+  const response = await fetch(
+    `/api/link-preview?url=${encodeURIComponent(href)}`
+  )
+  return response.ok ? response.json() : null
+}
 
 const SOURCES = [
   {
@@ -20,7 +34,7 @@ const SOURCES = [
 
 export default function SourcesDemo() {
   return (
-    <Sources className="max-w-sm px-4">
+    <Sources loadPreview={loadPreview} className="max-w-sm px-4">
       {SOURCES.map((source) => (
         <Source key={source.url} href={source.url} title={source.title} />
       ))}

@@ -17,9 +17,12 @@ function setThemeWithTransition(
     return
   }
 
-  document.startViewTransition(() => {
+  const transition = document.startViewTransition(() => {
     flushSync(() => setTheme(theme))
   })
+  // Anything that changes the page mid-animation, like a card opening, can
+  // cut it short. The theme has still changed, so there's nothing to report.
+  transition.ready.catch(() => {})
 }
 
 function ThemeProvider({

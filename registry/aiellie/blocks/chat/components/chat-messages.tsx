@@ -31,7 +31,11 @@ import {
   ReasoningContent,
   ReasoningTrigger,
 } from "@/registry/aiellie/components/reasoning"
-import { Source, Sources } from "@/registry/aiellie/components/sources"
+import {
+  Source,
+  Sources,
+  type SourcePreview,
+} from "@/registry/aiellie/components/sources"
 import { StreamText } from "@/registry/aiellie/components/stream-text"
 import { ThinkingIndicator } from "@/registry/aiellie/components/thinking-indicator"
 import {
@@ -63,6 +67,15 @@ type ChatMessage = {
   /** Pages a search turned up for the reply. */
   sources?: ChatSource[]
   createdAt?: Date
+}
+
+// A browser can't read another site's page, so the block's own route does,
+// and hands back its title, description, image and icon.
+async function loadLinkPreview(href: string): Promise<SourcePreview | null> {
+  const response = await fetch(
+    `/api/link-preview?url=${encodeURIComponent(href)}`
+  )
+  return response.ok ? response.json() : null
 }
 
 // Above the first message, and wherever the chat picks up on a later day.
@@ -171,7 +184,7 @@ function ChatMessages({
                 </ThinkingIndicator>
               ) : null}
               {message.sources?.length ? (
-                <Sources>
+                <Sources loadPreview={loadLinkPreview}>
                   {message.sources.map((source) => (
                     <Source
                       key={source.url}
