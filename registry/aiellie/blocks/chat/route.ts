@@ -24,17 +24,21 @@ const PROVIDERS = {
   google: (apiKey: string) => createGoogleGenerativeAI({ apiKey }),
 }
 
+// Providers mostly say plainly what went wrong, like a model a team hasn't
+// allowed, so their words are kept. A 403 is a refusal of the request, not of
+// the key. Links are dropped, since a reply's footer can't follow them.
 function describeError(error: unknown) {
   const status =
     typeof error === "object" && error !== null && "statusCode" in error
       ? error.statusCode
       : undefined
-  if (status === 401 || status === 403) {
-    return "The API key was refused. Check it in Settings."
-  }
-  if (status === 404) return "This key can't reach that model."
+  if (status === 401) return "The API key was refused. Check it in Settings."
   if (status === 429) return "Rate limited or out of credit. Try again soon."
-  return error instanceof Error ? error.message : "Something went wrong."
+  const message =
+    error instanceof Error
+      ? error.message.replace(/\s*\(https?:\/\/[^)]*\)/g, "").trim()
+      : ""
+  return message || "Something went wrong."
 }
 
 // The key comes with each request and is never stored. The route never falls
