@@ -6,42 +6,20 @@ import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { cn } from "@/lib/utils"
+import {
+  ThinkingIndicator,
+  formatDuration,
+} from "@/registry/aiellie/components/thinking-indicator"
 
 type ReasoningContextValue = {
   streaming: boolean
   duration?: number
-  elapsed: number
+  startedAt?: Date | number
 }
 
 const ReasoningContext = React.createContext<ReasoningContextValue>({
   streaming: false,
-  elapsed: 0,
 })
-
-// "12s", "2m 5s". Anything under a second still reads as one.
-function formatDuration(seconds: number) {
-  const whole = Math.max(1, Math.round(seconds))
-  if (whole < 60) return `${whole}s`
-  const minutes = Math.floor(whole / 60)
-  const rest = whole % 60
-  return rest > 0 ? `${minutes}m ${rest}s` : `${minutes}m`
-}
-
-function useElapsed(streaming: boolean, startedAt?: Date | number) {
-  const [elapsed, setElapsed] = React.useState(0)
-  const from = startedAt === undefined ? undefined : Number(startedAt)
-
-  React.useEffect(() => {
-    if (!streaming) return
-    const start = from ?? Date.now()
-    const tick = () => setElapsed(Math.floor((Date.now() - start) / 1000))
-    tick()
-    const timer = setInterval(tick, 1000)
-    return () => clearInterval(timer)
-  }, [streaming, from])
-
-  return elapsed
-}
 
 // Opens while the model thinks and folds shut once it's done, unless the
 // person has opened or shut it themselves, which it then leaves alone.
@@ -75,10 +53,9 @@ function Reasoning({
     setWasStreaming(streaming)
     if (!chosen) setOpenState(streaming)
   }
-  const elapsed = useElapsed(streaming, startedAt)
 
   return (
-    <ReasoningContext.Provider value={{ streaming, duration, elapsed }}>
+    <ReasoningContext.Provider value={{ streaming, duration, startedAt }}>
       <Collapsible.Root
         data-slot="reasoning"
         data-streaming={streaming || undefined}
@@ -96,11 +73,15 @@ function Reasoning({
 }
 
 function ReasoningTrigger({
+  label,
   className,
   children,
   ...props
-}: React.ComponentProps<typeof Collapsible.Trigger>) {
-  const { streaming, duration, elapsed } = React.useContext(ReasoningContext)
+}: React.ComponentProps<typeof Collapsible.Trigger> & {
+  /** What it says while the model works, like "Searching the web". Defaults to "Thinking". */
+  label?: React.ReactNode
+}) {
+  const { streaming, duration, startedAt } = React.useContext(ReasoningContext)
 
   return (
     <Collapsible.Trigger
@@ -113,12 +94,9 @@ function ReasoningTrigger({
     >
       {children ??
         (streaming ? (
-          <>
-            <span className="shimmer motion-reduce:shimmer-none">Thinking</span>
-            {elapsed > 0 ? (
-              <span className="tabular-nums">· {formatDuration(elapsed)}</span>
-            ) : null}
-          </>
+          <ThinkingIndicator startedAt={startedAt}>
+            {label ?? "Thinking"}
+          </ThinkingIndicator>
         ) : duration === undefined ? (
           "Worked for a moment"
         ) : (
@@ -154,4 +132,4 @@ function ReasoningContent({
   )
 }
 
-export { Reasoning, ReasoningContent, ReasoningTrigger, formatDuration }
+export { Reasoning, ReasoningContent, ReasoningTrigger }

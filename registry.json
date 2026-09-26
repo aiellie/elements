@@ -919,6 +919,22 @@
       "categories": ["chat"]
     },
     {
+      "name": "thinking-indicator",
+      "type": "registry:component",
+      "title": "Thinking Indicator",
+      "description": "What a reply is doing before its first word: a pulsing live dot, a shimmering label like Thinking or Searching the web, and the seconds so far.",
+      "registryDependencies": ["@aiellie/status", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/thinking-indicator.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/thinking-indicator.tsx"
+        }
+      ],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["chat"]
+    },
+    {
       "name": "reasoning",
       "type": "registry:component",
       "title": "Reasoning",
@@ -928,7 +944,7 @@
         "@hugeicons/react",
         "@hugeicons/core-free-icons"
       ],
-      "registryDependencies": ["@aiellie/utils"],
+      "registryDependencies": ["@aiellie/thinking-indicator", "@aiellie/utils"],
       "files": [
         {
           "path": "registry/aiellie/components/reasoning.tsx",
@@ -1005,6 +1021,7 @@
         "@aiellie/message",
         "@aiellie/reasoning",
         "@aiellie/stream-text",
+        "@aiellie/thinking-indicator",
         "@aiellie/thread",
         "@aiellie/tooltip-icon-button",
         "@aiellie/utils"
@@ -1022,7 +1039,7 @@
       "name": "chat",
       "type": "registry:block",
       "title": "Chat",
-      "description": "A chat page: your chats in a sidebar, a thread that streams replies from OpenAI, Anthropic, Google or the Vercel AI Gateway with your own key, and a composer with a model selector that sends images, PDFs, files and folders along.",
+      "description": "A chat page: your chats in a sidebar, a thread that streams replies from OpenAI, Anthropic, Google or the Vercel AI Gateway with your own key, showing what the model is doing, its thoughts and the pages it searched, and a composer with a model selector that sends images, PDFs, files and folders along.",
       "dependencies": [
         "@hugeicons/react",
         "@hugeicons/core-free-icons",
@@ -1065,6 +1082,7 @@
         "@aiellie/date-divider",
         "@aiellie/stream-text",
         "@aiellie/reasoning",
+        "@aiellie/thinking-indicator",
         "@aiellie/thread",
         "@aiellie/thread-transcript",
         "@aiellie/quick-chat",
@@ -1155,6 +1173,11 @@
           "path": "registry/aiellie/blocks/chat/components/chat-messages.tsx",
           "type": "registry:component",
           "target": "components/aiellie/chat-messages.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-sources.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/chat-sources.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-empty.tsx",

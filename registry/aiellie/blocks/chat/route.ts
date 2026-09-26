@@ -5,8 +5,11 @@ import {
   convertToModelMessages,
   createGateway,
   createUIMessageStreamResponse,
+  isStepCount,
   streamText,
   toUIMessageStream,
+  type LanguageModel,
+  type ToolSet,
   type UIMessage,
 } from "ai"
 
@@ -15,7 +18,7 @@ export const maxDuration = 60
 // The thread shows plain text with inline code, so the reply is asked to keep
 // to that rather than arriving as raw Markdown.
 const INSTRUCTIONS =
-  'You are a helpful assistant in a chat app. Reply in plain prose paragraphs. Wrap code, commands, file names and identifiers in single backticks. Don\'t use Markdown headings, lists, tables, bold or fenced code blocks. Files the person attaches come as images, PDFs, or text inside <file name="…"> tags.'
+  "You are a helpful assistant in a chat app. Reply in plain prose paragraphs. Wrap code, commands, file names and identifiers in single backticks. Don't use Markdown headings, lists, tables, bold or fenced code blocks. Files the person attaches come as images, PDFs, or text inside <file name=\"…\"> tags. Search the web when a question needs current information, or facts you aren't sure of."
 
 // What the models behind every provider here can all read.
 const FILE_TYPES = new Set([
@@ -26,11 +29,42 @@ const FILE_TYPES = new Set([
   "application/pdf",
 ])
 
-const PROVIDERS = {
-  gateway: (apiKey: string) => createGateway({ apiKey }),
-  openai: (apiKey: string) => createOpenAI({ apiKey }),
-  anthropic: (apiKey: string) => createAnthropic({ apiKey }),
-  google: (apiKey: string) => createGoogleGenerativeAI({ apiKey }),
+type Provider = {
+  model: (id: string) => LanguageModel
+  /** Web search, run by the provider itself rather than by this route. */
+  tools: ToolSet
+}
+
+// The gateway's search works with every model it serves. Anthropic's has to
+// be turned on for the organization in the Claude Console first.
+const PROVIDERS: Record<string, (apiKey: string) => Provider> = {
+  gateway: (apiKey) => {
+    const gateway = createGateway({ apiKey })
+    return {
+      model: gateway,
+      tools: { perplexity_search: gateway.tools.perplexitySearch() },
+    }
+  },
+  openai: (apiKey) => {
+    const openai = createOpenAI({ apiKey })
+    return { model: openai, tools: { web_search: openai.tools.webSearch() } }
+  },
+  anthropic: (apiKey) => {
+    const anthropic = createAnthropic({ apiKey })
+    return {
+      model: anthropic,
+      tools: {
+        web_search: anthropic.tools.webSearch_20260318({ maxUses: 5 }),
+      },
+    }
+  },
+  google: (apiKey) => {
+    const google = createGoogleGenerativeAI({ apiKey })
+    return {
+      model: google,
+      tools: { google_search: google.tools.googleSearch({}) },
+    }
+  },
 }
 
 // Providers mostly say plainly what went wrong, like a model a team hasn't
@@ -93,7 +127,7 @@ export async function POST(request: Request) {
 
   const { messages, provider, model } = (await request.json()) as {
     messages: UIMessage[]
-    provider: keyof typeof PROVIDERS
+    provider: string
     model: string
   }
   if (
@@ -104,9 +138,14 @@ export async function POST(request: Request) {
     return new Response("Unknown provider or model.", { status: 400 })
   }
 
+  const { model: languageModel, tools } = PROVIDERS[provider](key)
   const result = streamText({
-    model: PROVIDERS[provider](key)(model),
+    model: languageModel(model),
     instructions: INSTRUCTIONS,
+    tools,
+    // Searches run at the provider and come back in the same reply. The limit
+    // only matters if one ever needs another round.
+    stopWhen: isStepCount(5),
     messages: await convertToModelMessages(clean(messages)),
     // Models that can think do, and send their thoughts along. Gemini keeps
     // them to itself unless asked.
@@ -118,6 +157,7 @@ export async function POST(request: Request) {
   return createUIMessageStreamResponse({
     stream: toUIMessageStream({
       stream: result.stream,
+      sendSources: true,
       onError: describeError,
     }),
   })

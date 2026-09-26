@@ -8,6 +8,7 @@ import {
   Attachment01Icon,
   AiBrain01Icon,
   Brain02Icon,
+  Loading03Icon,
   BubbleChatTemporaryIcon,
   BubbleChatAddIcon,
   CursorInfo02Icon,
@@ -50,6 +51,7 @@ import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo
 import ProjectSelectorDemo from "@/registry/aiellie/examples/project-selector-demo"
 import QuickChatDemo from "@/registry/aiellie/examples/quick-chat-demo"
 import ReasoningDemo from "@/registry/aiellie/examples/reasoning-demo"
+import ThinkingIndicatorDemo from "@/registry/aiellie/examples/thinking-indicator-demo"
 import SettingsDialogDemo from "@/registry/aiellie/examples/settings-dialog-demo"
 import StreamTextDemo from "@/registry/aiellie/examples/stream-text-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
@@ -342,6 +344,15 @@ export default function ComponentsPage() {
           description="How long the model thought, folding open to show its thoughts"
         >
           <ReasoningDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/thinking-indicator"
+          index={30}
+          title="Thinking Indicator"
+          icon={Loading03Icon}
+          description="What a reply is doing before its first word, as a live dot and a shimmer"
+        >
+          <ThinkingIndicatorDemo />
         </DemoCard>
       </CategorySection>
     </div>

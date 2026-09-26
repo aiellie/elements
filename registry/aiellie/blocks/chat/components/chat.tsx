@@ -252,7 +252,14 @@ function Chat({
           message.reasoning && message.reasoningDuration === undefined
             ? secondsSince(message.createdAt)
             : message.reasoningDuration
-        return [{ ...message, status: "stopped", reasoningDuration }]
+        return [
+          {
+            ...message,
+            status: "stopped",
+            reasoningDuration,
+            activity: undefined,
+          },
+        ]
       })
     )
   }
@@ -337,7 +344,7 @@ function Chat({
       abortRef.current = null
       streamRef.current = null
       setStreamingId(null)
-      patchReply(patch)
+      patchReply({ ...patch, activity: undefined })
       updateConversation(conversationId, {
         status: patch.status === "failed" ? "failed" : "completed",
         unread: activeIdRef.current !== conversationId,
@@ -359,7 +366,7 @@ function Chat({
       keys,
       messages: history,
       signal: controller.signal,
-      onUpdate: ({ text, reasoning }) => {
+      onUpdate: ({ text, reasoning, activity, sources }) => {
         if (!current()) return
         content = text
         thought = reasoning
@@ -370,6 +377,8 @@ function Chat({
           content: text,
           reasoning: reasoning || undefined,
           reasoningDuration,
+          activity,
+          sources: sources.length > 0 ? sources : undefined,
         })
       },
     }).then(
@@ -472,6 +481,8 @@ function Chat({
               error: undefined,
               reasoning: undefined,
               reasoningDuration: undefined,
+              activity: undefined,
+              sources: undefined,
               createdAt,
             }
           : message
@@ -531,7 +542,14 @@ function Chat({
           message.reasoning && message.reasoningDuration === undefined
             ? secondsSince(message.startedAt)
             : message.reasoningDuration
-        return [{ ...message, streaming: false, reasoningDuration }]
+        return [
+          {
+            ...message,
+            streaming: false,
+            reasoningDuration,
+            activity: undefined,
+          },
+        ]
       })
     )
   }
@@ -561,7 +579,7 @@ function Chat({
       if (!current()) return
       quickAbortRef.current = null
       setQuickStreaming(false)
-      patchReply({ ...patch, streaming: false })
+      patchReply({ ...patch, streaming: false, activity: undefined })
     }
 
     let content = ""
@@ -584,7 +602,7 @@ function Chat({
         status: message.failed ? "failed" : undefined,
       })),
       signal: controller.signal,
-      onUpdate: ({ text, reasoning }) => {
+      onUpdate: ({ text, reasoning, activity }) => {
         if (!current()) return
         content = text
         thought = reasoning
@@ -595,6 +613,7 @@ function Chat({
           content: text,
           reasoning: reasoning || undefined,
           reasoningDuration,
+          activity,
         })
       },
     }).then(

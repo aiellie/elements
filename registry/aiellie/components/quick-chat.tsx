@@ -22,6 +22,7 @@ import {
   ReasoningTrigger,
 } from "@/registry/aiellie/components/reasoning"
 import { StreamText } from "@/registry/aiellie/components/stream-text"
+import { ThinkingIndicator } from "@/registry/aiellie/components/thinking-indicator"
 import {
   Thread,
   ThreadContent,
@@ -45,6 +46,8 @@ type QuickChatMessage = {
   reasoningDuration?: number
   /** When the reply was asked for, which the thinking count starts from. */
   startedAt?: Date | number
+  /** What a streaming reply is doing while no words come, like "Searching the web". */
+  activity?: string
 }
 
 function QuickChat({
@@ -188,25 +191,36 @@ function QuickChat({
                             duration={message.reasoningDuration}
                             startedAt={message.startedAt}
                           >
-                            <ReasoningTrigger />
+                            <ReasoningTrigger label={message.activity} />
                             <ReasoningContent>
                               {message.reasoning}
                             </ReasoningContent>
                           </Reasoning>
                         ) : null}
                         {message.attachments}
-                        {message.content ||
-                        (message.streaming && !message.reasoning) ? (
+                        {message.content ? (
                           <MessagePart>
                             {message.from === "assistant" ? (
                               <StreamText
                                 text={message.content}
-                                streaming={message.streaming}
+                                streaming={
+                                  message.streaming && !message.activity
+                                }
                               />
                             ) : (
                               message.content
                             )}
                           </MessagePart>
+                        ) : null}
+                        {/* Until the words start, the reasoning row, or failing
+                            that this, says what the reply is doing. */}
+                        {message.streaming &&
+                        (message.content
+                          ? message.activity
+                          : !message.reasoning) ? (
+                          <ThinkingIndicator startedAt={message.startedAt}>
+                            {message.activity ?? "Thinking"}
+                          </ThinkingIndicator>
                         ) : null}
                       </MessageContent>
                     </Message>

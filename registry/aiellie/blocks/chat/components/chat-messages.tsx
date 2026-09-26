@@ -13,6 +13,7 @@ import {
   ChatAttachments,
   type ChatAttachment,
 } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
+import { ChatSources } from "@/registry/aiellie/blocks/chat/components/chat-sources"
 import {
   Message,
   MessageAction,
@@ -32,11 +33,17 @@ import {
   ReasoningTrigger,
 } from "@/registry/aiellie/components/reasoning"
 import { StreamText } from "@/registry/aiellie/components/stream-text"
+import { ThinkingIndicator } from "@/registry/aiellie/components/thinking-indicator"
 import {
   DateDivider,
   isSameDay,
 } from "@/registry/aiellie/components/date-divider"
 import { ThreadItem } from "@/registry/aiellie/components/thread"
+
+type ChatSource = {
+  url: string
+  title?: string
+}
 
 type ChatMessage = {
   id: string
@@ -51,6 +58,10 @@ type ChatMessage = {
   reasoning?: string
   /** Seconds from asking to the reply's first word. */
   reasoningDuration?: number
+  /** What a streaming reply is doing while no words come, like "Searching the web". */
+  activity?: string
+  /** Pages a search turned up for the reply. */
+  sources?: ChatSource[]
   createdAt?: Date
 }
 
@@ -101,6 +112,12 @@ function ChatMessages({
 }) {
   return messages.map((message, index) => {
     const streaming = message.status === "streaming"
+    // Until the words start, the reasoning row, or failing that the thinking
+    // indicator, says what the reply is doing. A search partway through the
+    // words shows the indicator after them.
+    const working = streaming && !message.content
+    const indicator =
+      streaming && (message.content ? message.activity : !message.reasoning)
     const divider = dividerDate(messages, index)
 
     return (
@@ -122,11 +139,11 @@ function ChatMessages({
             <MessageContent>
               {message.reasoning ? (
                 <Reasoning
-                  streaming={streaming && !message.content}
+                  streaming={working}
                   duration={message.reasoningDuration}
                   startedAt={message.createdAt}
                 >
-                  <ReasoningTrigger />
+                  <ReasoningTrigger label={message.activity} />
                   <ReasoningContent>{message.reasoning}</ReasoningContent>
                 </Reasoning>
               ) : null}
@@ -136,14 +153,25 @@ function ChatMessages({
                   className="group-data-[align=end]/message:self-end"
                 />
               ) : null}
-              {message.content || (streaming && !message.reasoning) ? (
+              {message.content ? (
                 <MessagePart>
                   {message.role === "assistant" ? (
-                    <StreamText text={message.content} streaming={streaming} />
+                    <StreamText
+                      text={message.content}
+                      streaming={streaming && !message.activity}
+                    />
                   ) : (
                     message.content
                   )}
                 </MessagePart>
+              ) : null}
+              {indicator ? (
+                <ThinkingIndicator startedAt={message.createdAt}>
+                  {message.activity ?? "Thinking"}
+                </ThinkingIndicator>
+              ) : null}
+              {message.sources?.length ? (
+                <ChatSources sources={message.sources} />
               ) : null}
               {message.status === "failed" ? (
                 <MessageFooter>
@@ -192,4 +220,4 @@ function ChatMessages({
 }
 
 export { ChatMessages }
-export type { ChatMessage }
+export type { ChatMessage, ChatSource }
