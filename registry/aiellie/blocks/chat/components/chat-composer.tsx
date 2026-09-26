@@ -49,6 +49,7 @@ import {
 import { WorkInMenu } from "@/registry/aiellie/components/work-in-menu"
 import type { ModelOption } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
+import { cn } from "@/lib/utils"
 
 // Ghost buttons, lifted onto the page's ground on hover, since the tray is
 // already the muted fill a ghost button hovers to.
@@ -120,6 +121,7 @@ function ChatComposer({
   onBranchChange,
   onBranchCreate,
   inputRef,
+  note,
 }: {
   value: string
   onValueChange: (value: string) => void
@@ -144,6 +146,8 @@ function ChatComposer({
   onBranchChange: (branch: string) => void
   onBranchCreate: (name: string) => void
   inputRef?: React.Ref<HTMLTextAreaElement>
+  /** A quiet line under the composer, like a reminder that replies can be wrong. */
+  note?: React.ReactNode
 }) {
   const [attachments, setAttachments] = React.useState<ChatAttachment[]>([])
   const filesInput = React.useRef<HTMLInputElement>(null)
@@ -173,7 +177,12 @@ function ChatComposer({
   }
 
   return (
-    <div className="mx-auto w-full max-w-2xl shrink-0 px-4 pb-4">
+    <div
+      className={cn(
+        "mx-auto w-full max-w-2xl shrink-0 px-4 pb-4",
+        note && "pb-2"
+      )}
+    >
       <input ref={filesInput} type="file" multiple hidden onChange={pick} />
       {/* React has no prop for picking a folder, so the attribute goes in as is. */}
       <input
@@ -298,6 +307,11 @@ function ChatComposer({
           <ComposerSubmit />
         </ComposerFooter>
       </Composer>
+      {note ? (
+        <p className="px-2 pt-2 text-center text-xs text-muted-foreground">
+          {note}
+        </p>
+      ) : null}
     </div>
   )
 }

@@ -37,6 +37,9 @@ const SAMPLE_USER: User = { name: "AI Ellie", plan: "Pro" }
 
 const SAMPLE_USAGE = "72% left"
 
+// Under the main composer. Name your own assistant here.
+const DISCLAIMER = "AI Ellie is a chatbot and can make mistakes."
+
 // Sample times are set from when the page loads, so the chat is always today's.
 const minutesAgo = (minutes: number) => new Date(Date.now() - minutes * 60_000)
 
@@ -221,6 +224,7 @@ const PREVIEW_REPLY =
   "This is a sample reply, since there's no API key yet. Add one in Settings, under Providers, and replies come from the model you pick, streaming in word by word while the send button turns into stop."
 
 export {
+  DISCLAIMER,
   PREVIEW_REASONING,
   PREVIEW_REPLY,
   SAMPLE_BRANCHES,

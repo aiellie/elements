@@ -13,6 +13,7 @@ import {
 } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import { ChatComposer } from "@/registry/aiellie/blocks/chat/components/chat-composer"
 import {
+  DISCLAIMER,
   PREVIEW_REASONING,
   PREVIEW_REPLY,
   SAMPLE_BRANCHES,
@@ -923,6 +924,7 @@ function Chat({
                 setBranch(name)
               }}
               inputRef={inputRef}
+              note={DISCLAIMER}
             />
           </div>
           <ChatSearch
