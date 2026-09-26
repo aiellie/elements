@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+import { ITEM_ICONS } from "@/lib/item-icons"
 import { cn } from "@/lib/utils"
 import {
   DemoActions,
@@ -15,7 +16,7 @@ export function DemoCard({
   href,
   index,
   title,
-  icon,
+  icon: iconProp,
   description,
   item: itemProp,
   wide = false,
@@ -24,7 +25,7 @@ export function DemoCard({
   href: string
   index: number
   title: string
-  /** A glyph for what the card shows, set before its title. */
+  /** A glyph for what the card shows, set before its title. Defaults to the item's own, from `ITEM_ICONS`. */
   icon?: IconSvgElement
   description: string
   /**
@@ -39,6 +40,7 @@ export function DemoCard({
   const [mounted, setMounted] = useState(false)
   const [background, setBackground] = useState<DemoBackground>("default")
   const item = itemProp ?? href.split("/").filter(Boolean).pop() ?? ""
+  const icon = iconProp ?? ITEM_ICONS[item]
 
   useEffect(() => {
     const root = rootRef.current

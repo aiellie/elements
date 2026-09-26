@@ -2,15 +2,18 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
-import { cn } from "@/lib/utils";
-import { Provider } from "./provider";
+// Loaded here rather than from globals.css, which ships to other apps as the
+// theme and can't point at a file they don't have.
+import "./typeset.css"
+import { cn } from "@/lib/utils"
+import { Provider } from "./provider"
 export const metadata: Metadata = {
   icons: {
     icon: [{ url: "/brand/favicon-rounded.svg", type: "image/svg+xml" }],
   },
 }
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'})
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -26,7 +29,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
+      className={cn(
+        "antialiased",
+        fontMono.variable,
+        "font-sans",
+        geist.variable
+      )}
     >
       <body>
         <Provider>{children}</Provider>

@@ -1,41 +1,3 @@
-import {
-  LeftToRightListDashIcon,
-  LeftToRightListBulletIcon,
-  Calendar03Icon,
-  Activity03Icon,
-  AudioWave01Icon,
-  AddCircleIcon,
-  ArrowLeftRightIcon,
-  Attachment01Icon,
-  AiBrain01Icon,
-  Brain02Icon,
-  BulbIcon,
-  Link01Icon,
-  Loading03Icon,
-  BubbleChatTemporaryIcon,
-  BubbleChatAddIcon,
-  CursorInfo02Icon,
-  DashboardSpeed02Icon,
-  FileViewIcon,
-  FolderLibraryIcon,
-  GitBranchIcon,
-  HelpCircleIcon,
-  LaptopIcon,
-  LayoutThreeColumnIcon,
-  LayoutTopIcon,
-  Mic01Icon,
-  Menu01Icon,
-  Message01Icon,
-  MessageEdit01Icon,
-  MessageMultiple01Icon,
-  PuzzleIcon,
-  Settings01Icon,
-  Share08Icon,
-  Notification01Icon,
-  TextFontIcon,
-  TypeCursorIcon,
-  UserAccountIcon,
-} from "@hugeicons/core-free-icons"
 import { CategorySection } from "@/components/pages/category-separator"
 import { DemoCard } from "@/components/pages/demo-card"
 import { PageHero } from "@/components/pages/page-hero"
@@ -89,7 +51,6 @@ export default function ComponentsPage() {
           href="/components/tooltip-icon-button"
           index={1}
           title="Tooltip Icon Button"
-          icon={CursorInfo02Icon}
           description="A simple tooltip icon button component"
         >
           <TooltipIconButtonDemo />
@@ -98,7 +59,6 @@ export default function ComponentsPage() {
           href="/components/add-menu"
           index={2}
           title="Add Menu"
-          icon={AddCircleIcon}
           description="A plus button that opens a menu of things to add"
         >
           <AddMenuDemo />
@@ -107,7 +67,6 @@ export default function ComponentsPage() {
           href="/components/toolbar"
           index={3}
           title="Toolbar"
-          icon={LayoutTopIcon}
           description="A simple toolbar component"
         >
           <ToolbarDemo />
@@ -116,7 +75,6 @@ export default function ComponentsPage() {
           href="/components/user-menu"
           index={4}
           title="User Menu"
-          icon={UserAccountIcon}
           description="Who is signed in, and what they can do with their account"
         >
           <UserMenuDemo />
@@ -125,7 +83,6 @@ export default function ComponentsPage() {
           href="/components/help-menu"
           index={5}
           title="Help Menu"
-          icon={HelpCircleIcon}
           description="Help, shortcuts and policies behind one button"
         >
           <HelpMenuDemo />
@@ -134,7 +91,6 @@ export default function ComponentsPage() {
           href="/components/temporary-chat-toggle"
           index={6}
           title="Temporary Chat Toggle"
-          icon={BubbleChatTemporaryIcon}
           description="Start a chat that stays out of history"
         >
           <TemporaryChatToggleDemo />
@@ -143,7 +99,6 @@ export default function ComponentsPage() {
           href="/components/history-buttons"
           index={7}
           title="History Buttons"
-          icon={ArrowLeftRightIcon}
           description="Back and forward through what you opened, with their shortcuts"
         >
           <HistoryButtonsDemo />
@@ -154,7 +109,6 @@ export default function ComponentsPage() {
           href="/components/model-selector"
           index={8}
           title="Model Selector"
-          icon={AiBrain01Icon}
           description="A simple model selector component"
         >
           <ModelSelectorDemo />
@@ -163,7 +117,6 @@ export default function ComponentsPage() {
           href="/components/project-selector"
           index={9}
           title="Project Selector"
-          icon={FolderLibraryIcon}
           description="Which project a chat belongs to, and a menu to switch it"
         >
           <ProjectSelectorDemo />
@@ -172,7 +125,6 @@ export default function ComponentsPage() {
           href="/components/plugin-selector"
           index={10}
           title="Plugin Selector"
-          icon={PuzzleIcon}
           description="Which plugins a chat can use, turned on and off from one menu"
         >
           <PluginSelectorDemo />
@@ -181,7 +133,6 @@ export default function ComponentsPage() {
           href="/components/work-in-menu"
           index={11}
           title="Work In Menu"
-          icon={LaptopIcon}
           description="Where work runs: local, a worktree or the cloud"
         >
           <WorkInMenuDemo />
@@ -190,7 +141,6 @@ export default function ComponentsPage() {
           href="/components/branches-menu"
           index={12}
           title="Branches Menu"
-          icon={GitBranchIcon}
           description="Search the branches, or create and check out a new one"
         >
           <BranchesMenuDemo />
@@ -199,7 +149,6 @@ export default function ComponentsPage() {
           href="/components/dictate-button"
           index={13}
           title="Dictate Button"
-          icon={Mic01Icon}
           description="Speak instead of typing, into any field"
         >
           <DictateButtonDemo />
@@ -208,7 +157,6 @@ export default function ComponentsPage() {
           href="/components/editable-title"
           index={14}
           title="Editable Title"
-          icon={TextFontIcon}
           description="A heading you click to rename in place"
         >
           <EditableTitleDemo />
@@ -219,7 +167,6 @@ export default function ComponentsPage() {
           href="/components/panels"
           index={15}
           title="Panels"
-          icon={LayoutThreeColumnIcon}
           description="An app shell with resizable panels on three sides"
           wide
         >
@@ -229,7 +176,6 @@ export default function ComponentsPage() {
           href="/components/nav-bars"
           index={16}
           title="Nav Bars"
-          icon={LeftToRightListDashIcon}
           description="A rail of bars for a page's sections or a thread's turns"
         >
           <NavBarsDemo />
@@ -240,7 +186,6 @@ export default function ComponentsPage() {
           href="/components/menu"
           index={17}
           title="Menu"
-          icon={Menu01Icon}
           description="A simple menu component"
         >
           <MenuDemo />
@@ -249,7 +194,6 @@ export default function ComponentsPage() {
           href="/components/settings-dialog"
           index={18}
           title="Settings Dialog"
-          icon={Settings01Icon}
           description="Profile, appearance, and API keys in one focused dialog"
         >
           <SettingsDialogDemo />
@@ -258,7 +202,6 @@ export default function ComponentsPage() {
           href="/components/share-dialog"
           index={19}
           title="Share Dialog"
-          icon={Share08Icon}
           description="Who can open it, a link to copy, and places to post it"
         >
           <ShareDialogDemo />
@@ -267,7 +210,6 @@ export default function ComponentsPage() {
           href="/components/file-preview"
           index={20}
           title="File Preview"
-          icon={FileViewIcon}
           description="A file opened in full: an image, a PDF, code in color or a folder"
         >
           <FilePreviewDemo />
@@ -278,7 +220,6 @@ export default function ComponentsPage() {
           href="/components/status"
           index={21}
           title="Status"
-          icon={Activity03Icon}
           description="A simple status component"
         >
           <StatusDemo />
@@ -287,7 +228,6 @@ export default function ComponentsPage() {
           href="/components/meter"
           index={22}
           title="Meter"
-          icon={DashboardSpeed02Icon}
           description="How full something is, like a context window or a credit balance"
         >
           <MeterDemo />
@@ -296,7 +236,6 @@ export default function ComponentsPage() {
           href="/components/waveform"
           index={23}
           title="Waveform"
-          icon={AudioWave01Icon}
           description="Live bars that follow a microphone, so you can see it hears you"
         >
           <WaveformDemo />
@@ -305,7 +244,6 @@ export default function ComponentsPage() {
           href="/components/toast"
           index={24}
           title="Toast"
-          icon={Notification01Icon}
           description="Stacked and anchored notifications for updates that need attention"
         >
           <ToastDemo />
@@ -316,7 +254,6 @@ export default function ComponentsPage() {
           href="/components/composer"
           index={25}
           title="Composer"
-          icon={MessageEdit01Icon}
           description="A simple composer component"
         >
           <ComposerDemo />
@@ -325,7 +262,6 @@ export default function ComponentsPage() {
           href="/components/attachments"
           index={26}
           title="Attachments"
-          icon={Attachment01Icon}
           description="Images as small squares, other files as chips, in a row"
         >
           <AttachmentsDemo />
@@ -334,7 +270,6 @@ export default function ComponentsPage() {
           href="/components/message"
           index={27}
           title="Message"
-          icon={Message01Icon}
           description="A simple message component"
         >
           <MessageDemo />
@@ -343,7 +278,6 @@ export default function ComponentsPage() {
           href="/components/date-divider"
           index={28}
           title="Date Divider"
-          icon={Calendar03Icon}
           description="The day and time a thread picks up at, as a quiet line of text"
         >
           <DateDividerDemo />
@@ -352,7 +286,6 @@ export default function ComponentsPage() {
           href="/components/thread"
           index={29}
           title="Thread"
-          icon={MessageMultiple01Icon}
           description="A simple thread component"
         >
           <ThreadDemo />
@@ -361,7 +294,6 @@ export default function ComponentsPage() {
           href="/components/thread-transcript"
           index={30}
           title="Thread Transcript"
-          icon={LeftToRightListBulletIcon}
           description="A rail of your turns beside a thread that jumps to each one"
         >
           <ThreadTranscriptDemo />
@@ -370,7 +302,6 @@ export default function ComponentsPage() {
           href="/components/quick-chat"
           index={31}
           title="Quick Chat"
-          icon={BubbleChatAddIcon}
           description="A compact conversation that floats over the current page"
         >
           <QuickChatDemo />
@@ -379,7 +310,6 @@ export default function ComponentsPage() {
           href="/components/stream-text"
           index={32}
           title="Stream Text"
-          icon={TypeCursorIcon}
           description="A streamed reply written out word by word, at a steady pace"
         >
           <StreamTextDemo />
@@ -388,7 +318,6 @@ export default function ComponentsPage() {
           href="/components/reasoning"
           index={33}
           title="Reasoning"
-          icon={Brain02Icon}
           description="How long the model thought, folding open to show its thoughts"
         >
           <ReasoningDemo />
@@ -397,7 +326,6 @@ export default function ComponentsPage() {
           href="/components/thinking-indicator"
           index={34}
           title="Thinking Indicator"
-          icon={Loading03Icon}
           description="What a reply is doing before its first word, as a live dot and a shimmer"
         >
           <ThinkingIndicatorDemo />
@@ -406,7 +334,6 @@ export default function ComponentsPage() {
           href="/components/sources"
           index={35}
           title="Sources"
-          icon={Link01Icon}
           description="The pages a reply drew on, as small chips that open them"
         >
           <SourcesDemo />
@@ -415,7 +342,6 @@ export default function ComponentsPage() {
           href="/components/suggestions"
           index={36}
           title="Suggestions"
-          icon={BulbIcon}
           description="Prompts to start from, arriving together as a row"
         >
           <SuggestionsDemo />

@@ -1,25 +1,3 @@
-import {
-  CursorPointer01Icon,
-  Flag01Icon,
-  Square01Icon,
-  Tag01Icon,
-  UserCircleIcon,
-  Comment01Icon,
-  Layers01Icon,
-  InputLongTextIcon,
-  LayoutTwoColumnIcon,
-  Loading03Icon,
-  MinusSignIcon,
-  MousePointerClickIcon,
-  PanelRightIcon,
-  SidebarLeftIcon,
-  BrowserIcon,
-  CommandIcon,
-  InputShortTextIcon,
-  DashedLineCircleIcon,
-  TextIcon,
-  Route01Icon,
-} from "@hugeicons/core-free-icons"
 import { CategorySection } from "@/components/pages/category-separator"
 import { DemoCard } from "@/components/pages/demo-card"
 import { PageHero } from "@/components/pages/page-hero"
@@ -54,7 +32,6 @@ export default function UiPage() {
           href="/ui/button"
           index={1}
           title="Button"
-          icon={MousePointerClickIcon}
           description="A simple button component"
         >
           <ButtonDemo />
@@ -65,7 +42,6 @@ export default function UiPage() {
           href="/ui/textarea"
           index={2}
           title="Textarea"
-          icon={InputLongTextIcon}
           description="A simple textarea component"
         >
           <TextareaDemo />
@@ -74,7 +50,6 @@ export default function UiPage() {
           href="/ui/input"
           index={3}
           title="Input"
-          icon={TextIcon}
           description="A single line of text"
         >
           <InputDemo />
@@ -83,7 +58,6 @@ export default function UiPage() {
           href="/ui/input-group"
           index={4}
           title="Input Group"
-          icon={InputShortTextIcon}
           description="An input with icons, text or buttons inside its edge"
         >
           <InputGroupDemo />
@@ -94,7 +68,6 @@ export default function UiPage() {
           href="/ui/resizable"
           index={5}
           title="Resizable"
-          icon={LayoutTwoColumnIcon}
           description="Panels you can resize by dragging the line between them"
         >
           <ResizableDemo />
@@ -103,7 +76,6 @@ export default function UiPage() {
           href="/ui/separator"
           index={6}
           title="Separator"
-          icon={MinusSignIcon}
           description="A hairline between groups, across or down"
         >
           <SeparatorDemo />
@@ -112,7 +84,6 @@ export default function UiPage() {
           href="/ui/marker"
           index={7}
           title="Marker"
-          icon={Flag01Icon}
           description="A quiet line of text, on its own or between rules"
         >
           <MarkerDemo />
@@ -121,7 +92,6 @@ export default function UiPage() {
           href="/ui/sidebar"
           index={8}
           title="Sidebar"
-          icon={SidebarLeftIcon}
           description="Groups of rows down the side of an app"
         >
           <SidebarDemo />
@@ -130,7 +100,6 @@ export default function UiPage() {
           href="/ui/tabs"
           index={9}
           title="Tabs"
-          icon={BrowserIcon}
           description="Views to switch between, one at a time"
         >
           <TabsDemo />
@@ -139,7 +108,6 @@ export default function UiPage() {
           href="/ui/breadcrumb"
           index={10}
           title="Breadcrumb"
-          icon={Route01Icon}
           description="A path from a parent place to the current one"
         >
           <BreadcrumbDemo />
@@ -150,7 +118,6 @@ export default function UiPage() {
           href="/ui/tooltip"
           index={11}
           title="Tooltip"
-          icon={Comment01Icon}
           description="A simple tooltip component"
         >
           <TooltipDemo />
@@ -159,7 +126,6 @@ export default function UiPage() {
           href="/ui/sheet"
           index={12}
           title="Sheet"
-          icon={PanelRightIcon}
           description="A simple sheet component"
         >
           <SheetDemo />
@@ -168,7 +134,6 @@ export default function UiPage() {
           href="/ui/dialog"
           index={13}
           title="Dialog"
-          icon={Square01Icon}
           description="A panel in the middle of the screen, over a dimmed page"
         >
           <DialogDemo />
@@ -177,7 +142,6 @@ export default function UiPage() {
           href="/ui/popover"
           index={14}
           title="Popover"
-          icon={Layers01Icon}
           description="A glass panel beside its trigger, for small forms and details"
         >
           <PopoverDemo />
@@ -186,7 +150,6 @@ export default function UiPage() {
           href="/ui/hover-card"
           index={15}
           title="Hover Card"
-          icon={CursorPointer01Icon}
           description="A glass card that opens while you hover or focus its trigger"
         >
           <HoverCardDemo />
@@ -195,7 +158,6 @@ export default function UiPage() {
           href="/ui/command"
           index={16}
           title="Command"
-          icon={CommandIcon}
           description="A searchable list you move through with the keyboard"
         >
           <CommandDemo />
@@ -206,7 +168,6 @@ export default function UiPage() {
           href="/ui/skeleton"
           index={17}
           title="Skeleton"
-          icon={Loading03Icon}
           description="A placeholder that pulses while content loads"
         >
           <SkeletonDemo />
@@ -215,7 +176,6 @@ export default function UiPage() {
           href="/ui/avatar"
           index={18}
           title="Avatar"
-          icon={UserCircleIcon}
           description="A picture of someone, or their initials"
         >
           <AvatarDemo />
@@ -224,7 +184,6 @@ export default function UiPage() {
           href="/ui/badge"
           index={19}
           title="Badge"
-          icon={Tag01Icon}
           description="A short label beside something, like a plan or a status"
         >
           <BadgeDemo />
@@ -233,7 +192,6 @@ export default function UiPage() {
           href="/ui/empty"
           index={20}
           title="Empty"
-          icon={DashedLineCircleIcon}
           description="What a place shows before there is anything in it"
         >
           <EmptyDemo />

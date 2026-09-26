@@ -70,6 +70,18 @@ function MenuSearch({
         value={value}
         onChange={(event) => onValueChange(event.target.value)}
         onKeyDown={(event) => {
+          // Focus stays here while the arrows highlight a row, and Enter
+          // reaches a highlighted item but not a highlighted link.
+          if (event.key === "Enter") {
+            const link = event.currentTarget
+              .closest('[role="menu"]')
+              ?.querySelector<HTMLAnchorElement>("a[data-highlighted]")
+            if (link) {
+              event.preventDefault()
+              link.click()
+              return
+            }
+          }
           const navigational =
             event.key.length > 1 || event.metaKey || event.ctrlKey
           if (!navigational) event.stopPropagation()

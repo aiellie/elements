@@ -49,10 +49,10 @@ export const PAGES = {
     label: "Docs",
     eyebrow: "under construction",
     eyebrowVariant: "construction",
-    title: "Documentation is on the way",
+    title: "Documentation",
     icon: BookOpen01Icon,
     description:
-      "Guides, examples, and API references for building with the library are being written now.",
+      "How to install every block, component and primitive here, and how to put them together. Usage and API references are being written one item at a time.",
   },
 } satisfies Record<string, PageMeta>
 
