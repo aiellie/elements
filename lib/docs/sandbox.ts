@@ -3,7 +3,7 @@ import type { DocContent } from "@/lib/docs"
 const doc: DocContent = {
   intro: [
     "Sandbox runs code in the page with Sandpack. One toolbar switches between the live preview, the code and the console, reloads the preview and downloads every file as a zip. The editor has the file tree beside it, and the console's tab is marked when an error or a warning lands out of sight.",
-    "Everything around the code is ours rather than Sandpack's: a live bar sweeps along the top while the bundler starts, its progress shows in the middle, and a runtime error docks at the bottom of the preview. The editor has file tabs like Code Workspace, and the console lists messages the way Web Preview's does. It's drawn in the theme's own colours, so it matches the page in light and dark without being told which is on.",
+    "Everything around the code is ours rather than Sandpack's: the preview has an address bar like Web Preview's, a live bar sweeps along the top while the bundler starts, its progress shows in the middle, and a runtime error docks at the bottom of the preview. The editor has file tabs like Code Workspace, and the console lists messages the way Web Preview's does. It's drawn in the theme's own colours, so it matches the page in light and dark without being told which is on.",
   ],
   gettingStarted: {
     steps: [
@@ -79,6 +79,12 @@ export function CounterSandbox() {
         ["`showSaveReset`", "`boolean`", "`false`", ""],
         ["`onSave`", "`(files: Record<string, string>) => void`", "", ""],
         ["`height`", "`number | string`", "`500`", ""],
+        [
+          "`children`",
+          "`ReactNode`",
+          "",
+          "Rendered inside the provider, for code that drives the sandbox with `useSandpack`.",
+        ],
       ],
     },
     {
@@ -142,7 +148,7 @@ export function CounterSandbox() {
         ],
         [
           "`SandboxPreview`",
-          "Sandpack's preview in our chrome: a loading bar and progress instead of its cube, Try again if the bundler times out, and runtime errors docked at the bottom. Its own buttons are off, since the toolbar has them.",
+          "Sandpack's preview in our chrome: an address bar with back, forward and open in a new tab (`showNavigator`, default `true`), a loading bar and progress instead of its cube, Try again if the bundler times out, and runtime errors docked at the bottom. Its own buttons are off, since the toolbar has them.",
         ],
         [
           "`SandboxConsole`",
@@ -155,7 +161,11 @@ export function CounterSandbox() {
       title: "useSandboxChanges",
       head: ["Field", "Type", "Description"],
       rows: [
-        ["`hasChanges`", "`boolean`", "A file differs from the last save."],
+        [
+          "`hasChanges`",
+          "`boolean`",
+          "A file differs from the last save. Hidden files don't count, so the host can change them.",
+        ],
         ["`save`", "`() => Record<string, string>`", "Marks the files saved."],
         ["`reset`", "`() => void`", "Puts every file back as it began."],
       ],

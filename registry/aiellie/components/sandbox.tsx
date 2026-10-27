@@ -9,6 +9,7 @@ import {
   useErrorMessage,
   useSandpack,
   useSandpackConsole,
+  useSandpackNavigation,
   useSandpackPreviewProgress,
   type CodeEditorProps,
   type PreviewProps,
@@ -20,6 +21,8 @@ import {
 import {
   Alert02Icon,
   AppWindowIcon,
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
   ArrowReloadHorizontalIcon,
   ArrowTurnBackwardIcon,
   Cancel01Icon,
@@ -29,6 +32,7 @@ import {
   FileDownloadIcon,
   FileIcon,
   FloppyDiskIcon,
+  LinkSquare02Icon,
   SidebarLeft01Icon,
   Tick02Icon,
   TerminalIcon,
@@ -135,8 +139,9 @@ function useSandboxChanges() {
   const { sandpack } = useSandpack()
   const [saved, setSaved] = React.useState(() => snapshot(sandpack.files))
 
+  // Hidden files aren't the user's to edit, so the host can change them.
   const hasChanges = Object.entries(sandpack.files).some(
-    ([path, file]) => saved[path] !== file.code
+    ([path, file]) => !file.hidden && saved[path] !== file.code
   )
 
   const save = React.useCallback(() => {
@@ -890,8 +895,91 @@ function LoadingBar({ loading }: { loading: boolean }) {
   )
 }
 
+// Back, forward and reload with the page's address, as in Web Preview.
+function PreviewNavigator() {
+  const { listen } = useSandpack()
+  const { back, forward, refresh } = useSandpackNavigation()
+  const [state, setState] = React.useState({
+    url: "",
+    back: false,
+    forward: false,
+  })
+
+  React.useEffect(
+    () =>
+      listen((message) => {
+        if (message.type === "urlchange") {
+          setState({
+            url: message.url,
+            back: message.back,
+            forward: message.forward,
+          })
+        }
+      }),
+    [listen]
+  )
+
+  let address = "/"
+  try {
+    const parsed = new URL(state.url)
+    address = `${parsed.pathname}${parsed.search}${parsed.hash}`
+  } catch {
+    // No page yet.
+  }
+
+  return (
+    <div
+      data-slot="sandbox-preview-navigator"
+      className="flex h-9 shrink-0 items-center gap-0.5 border-b border-border/60 px-1.5"
+    >
+      <TooltipIconButton tooltip="Back" disabled={!state.back} onClick={back}>
+        <HugeiconsIcon
+          aria-hidden
+          icon={ArrowLeft01Icon}
+          className="rtl:-scale-x-100"
+        />
+      </TooltipIconButton>
+      <TooltipIconButton
+        tooltip="Forward"
+        disabled={!state.forward}
+        onClick={forward}
+      >
+        <HugeiconsIcon
+          aria-hidden
+          icon={ArrowRight01Icon}
+          className="rtl:-scale-x-100"
+        />
+      </TooltipIconButton>
+      <TooltipIconButton tooltip="Reload" onClick={refresh}>
+        <HugeiconsIcon aria-hidden icon={ArrowReloadHorizontalIcon} />
+      </TooltipIconButton>
+      <div className="flex min-w-0 flex-1 justify-center px-1">
+        <span
+          title={state.url || undefined}
+          className="flex h-6 w-full max-w-64 min-w-0 items-center justify-center truncate rounded-md bg-muted/60 px-2 font-mono text-[11px] text-muted-foreground"
+        >
+          {address}
+        </span>
+      </div>
+      {state.url ? (
+        <TooltipIconButton
+          tooltip="Open in new tab"
+          onClick={() =>
+            window.open(state.url, "_blank", "noopener,noreferrer")
+          }
+        >
+          <HugeiconsIcon aria-hidden icon={LinkSquare02Icon} />
+        </TooltipIconButton>
+      ) : (
+        <span aria-hidden className="size-6 shrink-0" />
+      )}
+    </div>
+  )
+}
+
 function SandboxPreview({
   className,
+  showNavigator = true,
   showOpenInCodeSandbox = false,
   showRefreshButton = false,
   showRestartButton = false,
@@ -919,68 +1007,71 @@ function SandboxPreview({
     <div
       data-slot="sandbox-preview"
       data-loading={busy || undefined}
-      className="relative flex min-h-0 min-w-0 flex-1"
+      className="flex min-h-0 min-w-0 flex-1 flex-col"
     >
-      <LoadingBar loading={busy} />
-      <SandpackPreview
-        showOpenInCodeSandbox={showOpenInCodeSandbox}
-        showRefreshButton={showRefreshButton}
-        showRestartButton={showRestartButton}
-        showSandpackErrorOverlay={false}
-        className={cn(
-          // Sandpack's own loading cube and overlays give way to ours.
-          "min-h-0 flex-1 bg-background! [&_.sp-loading]:hidden! [&_.sp-overlay]:hidden! [&_.sp-preview-iframe]:bg-background",
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </SandpackPreview>
-
-      {busy || timedOut ? (
-        <div
-          role="status"
-          className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background text-xs text-muted-foreground"
-        >
-          {timedOut ? (
-            <>
-              <p>The preview couldn&apos;t start.</p>
-              <Button
-                variant="outline"
-                size="xs"
-                onClick={() => sandpack.runSandpack()}
-              >
-                <HugeiconsIcon aria-hidden icon={ArrowReloadHorizontalIcon} />
-                Try again
-              </Button>
-            </>
-          ) : (
-            <p className="shimmer motion-reduce:shimmer-none">
-              {progress ?? "Starting the preview"}
-            </p>
+      {showNavigator ? <PreviewNavigator /> : null}
+      <div className="relative flex min-h-0 min-w-0 flex-1">
+        <LoadingBar loading={busy} />
+        <SandpackPreview
+          showOpenInCodeSandbox={showOpenInCodeSandbox}
+          showRefreshButton={showRefreshButton}
+          showRestartButton={showRestartButton}
+          showSandpackErrorOverlay={false}
+          className={cn(
+            // Sandpack's own loading cube and overlays give way to ours.
+            "min-h-0 flex-1 bg-background! [&_.sp-loading]:hidden! [&_.sp-overlay]:hidden! [&_.sp-preview-iframe]:bg-background",
+            className
           )}
-        </div>
-      ) : null}
-
-      {error && !busy ? (
-        <div
-          role="alert"
-          data-slot="sandbox-preview-error"
-          className="absolute inset-x-0 bottom-0 z-10 flex max-h-1/2 animate-in flex-col gap-1 overflow-y-auto border-t border-destructive/20 bg-background px-3 py-2 duration-150 fade-in motion-reduce:animate-none"
+          {...props}
         >
-          <p className="flex items-center gap-1.5 text-xs font-medium text-destructive">
-            <HugeiconsIcon
-              aria-hidden
-              icon={Alert02Icon}
-              className="size-3.5"
-            />
-            Error
-          </p>
-          <pre className="font-mono text-[11px] leading-5 whitespace-pre-wrap text-destructive">
-            {error}
-          </pre>
-        </div>
-      ) : null}
+          {children}
+        </SandpackPreview>
+
+        {busy || timedOut ? (
+          <div
+            role="status"
+            className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background text-xs text-muted-foreground"
+          >
+            {timedOut ? (
+              <>
+                <p>The preview couldn&apos;t start.</p>
+                <Button
+                  variant="outline"
+                  size="xs"
+                  onClick={() => sandpack.runSandpack()}
+                >
+                  <HugeiconsIcon aria-hidden icon={ArrowReloadHorizontalIcon} />
+                  Try again
+                </Button>
+              </>
+            ) : (
+              <p className="shimmer motion-reduce:shimmer-none">
+                {progress ?? "Starting the preview"}
+              </p>
+            )}
+          </div>
+        ) : null}
+
+        {error && !busy ? (
+          <div
+            role="alert"
+            data-slot="sandbox-preview-error"
+            className="absolute inset-x-0 bottom-0 z-10 flex max-h-1/2 animate-in flex-col gap-1 overflow-y-auto border-t border-destructive/20 bg-background px-3 py-2 duration-150 fade-in motion-reduce:animate-none"
+          >
+            <p className="flex items-center gap-1.5 text-xs font-medium text-destructive">
+              <HugeiconsIcon
+                aria-hidden
+                icon={Alert02Icon}
+                className="size-3.5"
+              />
+              Error
+            </p>
+            <pre className="font-mono text-[11px] leading-5 whitespace-pre-wrap text-destructive">
+              {error}
+            </pre>
+          </div>
+        ) : null}
+      </div>
     </div>
   )
 }
@@ -994,6 +1085,7 @@ function SimpleSandbox({
   onSave,
   height = 500,
   className,
+  children,
 }: {
   files: SandboxFiles
   template?: SandpackProviderProps["template"]
@@ -1003,6 +1095,8 @@ function SimpleSandbox({
   onSave?: (files: Record<string, string>) => void
   height?: number | string
   className?: string
+  /** Rendered inside the provider, for code that drives the sandbox with `useSandpack`. */
+  children?: React.ReactNode
 }) {
   return (
     <div
@@ -1030,6 +1124,7 @@ function SimpleSandbox({
             <SandboxConsole />
           </SandboxTabsContent>
         </SandboxTabs>
+        {children}
       </SandboxProvider>
     </div>
   )
