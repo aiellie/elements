@@ -1,4 +1,6 @@
 import {
+  ArrowShrink02Icon,
+  CheckListIcon,
   Activity03Icon,
   AddCircleIcon,
   AiBrain01Icon,
@@ -83,6 +85,8 @@ import type { IconSvgElement } from "@hugeicons/react"
 // Each registry item's mark, read by its gallery card and its docs entry, so
 // the two always show the same one. A new item with a card gets a line here.
 const ITEM_ICONS: Record<string, IconSvgElement> = {
+  "compaction-marker": ArrowShrink02Icon,
+  "plan-review": CheckListIcon,
   "add-menu": AddCircleIcon,
   "approval-mode-menu": Shield01Icon,
   attachments: Attachment01Icon,

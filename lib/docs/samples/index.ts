@@ -5,6 +5,8 @@ type SampleModule = Promise<{ default: ComponentType }>
 // Each example's live sample, keyed by its path under this folder. The page
 // reads the same file to show its code.
 const SAMPLES: Record<string, () => SampleModule> = {
+  "compaction-marker/failed": () => import("./compaction-marker/failed"),
+  "plan-review/stored-decision": () => import("./plan-review/stored-decision"),
   "add-menu/groups": () => import("./add-menu/groups"),
   "approval-mode-menu/your-modes": () =>
     import("./approval-mode-menu/your-modes"),

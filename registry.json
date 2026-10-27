@@ -1787,6 +1787,49 @@
         }
       ],
       "categories": ["chat"]
+    },
+    {
+      "name": "plan-review",
+      "type": "registry:component",
+      "title": "Plan Review",
+      "description": "The plan an agent proposes, to reorder, rewrite, trim and add to before it runs, or send back with a note. It reports exactly what changed.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/input",
+        "@aiellie/textarea",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/plan-review.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/plan-review.tsx"
+        }
+      ],
+      "docs": "The receipt fades in with tw-animate-css. Add `@import \"tw-animate-css\";` to your global stylesheet if it is not there already.",
+      "categories": ["chat"]
+    },
+    {
+      "name": "compaction-marker",
+      "type": "registry:component",
+      "title": "Compaction Marker",
+      "description": "The line in a thread where an agent compacted its context: a sweep while it works, then the tokens before and after, opening to what was kept.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/compaction-marker.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/compaction-marker.tsx"
+        }
+      ],
+      "categories": ["chat"],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet."
     }
   ]
 }

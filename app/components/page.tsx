@@ -59,6 +59,8 @@ import ReactionsDemo from "@/registry/aiellie/examples/reactions-demo"
 import MessageStatusDemo from "@/registry/aiellie/examples/message-status-demo"
 import TimestampsDemo from "@/registry/aiellie/examples/timestamps-demo"
 import MessageContextMenuDemo from "@/registry/aiellie/examples/message-context-menu-demo"
+import PlanReviewDemo from "@/registry/aiellie/examples/plan-review-demo"
+import CompactionMarkerDemo from "@/registry/aiellie/examples/compaction-marker-demo"
 export default function ComponentsPage() {
   return (
     <div className="flex flex-col gap-16 py-8 sm:py-12">
@@ -454,11 +456,27 @@ export default function ComponentsPage() {
         >
           <MessageContextMenuDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/plan-review"
+          index={48}
+          title="Plan Review"
+          description="A proposed plan to reshape before it runs"
+        >
+          <PlanReviewDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/compaction-marker"
+          index={49}
+          title="Compaction Marker"
+          description="Where the agent compacted its context, and what it kept"
+        >
+          <CompactionMarkerDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="voice">
         <DemoCard
           href="/components/orb"
-          index={48}
+          index={50}
           title="Orb"
           description="The assistant as a sphere that listens, thinks and speaks"
         >
@@ -466,7 +484,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/transcript"
-          index={49}
+          index={51}
           title="Transcript"
           description="Speech as text, with guesses that settle as they're heard"
         >
@@ -474,7 +492,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/audio-player"
-          index={50}
+          index={52}
           title="Audio Player"
           description="A clip to play, scrub through and time"
         >
@@ -482,7 +500,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/mic-menu"
-          index={51}
+          index={53}
           title="Mic Menu"
           description="Which microphone to listen with"
         >
@@ -492,7 +510,7 @@ export default function ComponentsPage() {
       <CategorySection category="code">
         <DemoCard
           href="/components/code-block"
-          index={52}
+          index={54}
           title="Code Block"
           description="A named block of code to copy, download and point at"
         >
@@ -500,7 +518,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-diff"
-          index={53}
+          index={55}
           title="Code Diff"
           description="What a change did, from the diff that describes it"
         >
@@ -508,7 +526,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/terminal"
-          index={54}
+          index={56}
           title="Terminal"
           description="A command, what came back, and whether it worked"
         >
@@ -516,7 +534,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-snippet"
-          index={55}
+          index={57}
           title="Code Snippet"
           description="A command to copy, for whichever package manager you use"
         >
@@ -524,7 +542,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/file-tree"
-          index={56}
+          index={58}
           title="File Tree"
           description="The files a change touched, and how"
         >

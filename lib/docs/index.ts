@@ -2,6 +2,8 @@ import { CATEGORIES, HIDDEN_ITEMS, type Category } from "@/lib/categories"
 import registry from "@/registry.json"
 import addMenu from "@/lib/docs/add-menu"
 import approvalModeMenu from "@/lib/docs/approval-mode-menu"
+import compactionMarker from "@/lib/docs/compaction-marker"
+import planReview from "@/lib/docs/plan-review"
 import attachments from "@/lib/docs/attachments"
 import audioPlayer from "@/lib/docs/audio-player"
 import branchesMenu from "@/lib/docs/branches-menu"
@@ -122,6 +124,8 @@ type DocsSection = {
 // Written content, keyed by registry item. An item without an entry still has
 // a page, with its preview and install command.
 const DOCS: Record<string, DocContent> = {
+  "compaction-marker": compactionMarker,
+  "plan-review": planReview,
   "add-menu": addMenu,
   "approval-mode-menu": approvalModeMenu,
   attachments: attachments,

@@ -80,6 +80,8 @@ import ReactionsDemo from "@/registry/aiellie/examples/reactions-demo"
 import MessageStatusDemo from "@/registry/aiellie/examples/message-status-demo"
 import TimestampsDemo from "@/registry/aiellie/examples/timestamps-demo"
 import MessageContextMenuDemo from "@/registry/aiellie/examples/message-context-menu-demo"
+import PlanReviewDemo from "@/registry/aiellie/examples/plan-review-demo"
+import CompactionMarkerDemo from "@/registry/aiellie/examples/compaction-marker-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
 type Demo = {
@@ -369,6 +371,16 @@ const DEMOS: Record<string, Demo> = {
     title: "Message Context Menu",
     gallery: "/components",
     Demo: MessageContextMenuDemo,
+  },
+  "plan-review": {
+    title: "Plan Review",
+    gallery: "/components",
+    Demo: PlanReviewDemo,
+  },
+  "compaction-marker": {
+    title: "Compaction Marker",
+    gallery: "/components",
+    Demo: CompactionMarkerDemo,
   },
 }
 
