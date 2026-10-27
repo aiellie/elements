@@ -80,6 +80,11 @@ import ReactionsDemo from "@/registry/aiellie/examples/reactions-demo"
 import MessageStatusDemo from "@/registry/aiellie/examples/message-status-demo"
 import TimestampsDemo from "@/registry/aiellie/examples/timestamps-demo"
 import MessageContextMenuDemo from "@/registry/aiellie/examples/message-context-menu-demo"
+import CodeWorkspaceDemo from "@/registry/aiellie/examples/code-workspace-demo"
+import ComboboxDemo from "@/registry/aiellie/examples/combobox-demo"
+import SandboxDemo from "@/registry/aiellie/examples/sandbox-demo"
+import ToggleDemo from "@/registry/aiellie/examples/toggle-demo"
+import ToggleGroupDemo from "@/registry/aiellie/examples/toggle-group-demo"
 import PlanReviewDemo from "@/registry/aiellie/examples/plan-review-demo"
 import CompactionMarkerDemo from "@/registry/aiellie/examples/compaction-marker-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
@@ -382,6 +387,19 @@ const DEMOS: Record<string, Demo> = {
     gallery: "/components",
     Demo: CompactionMarkerDemo,
   },
+  "code-workspace": {
+    title: "Code Workspace",
+    gallery: "/components",
+    Demo: CodeWorkspaceDemo,
+  },
+  sandbox: { title: "Sandbox", gallery: "/components", Demo: SandboxDemo },
+  toggle: { title: "Toggle", gallery: "/ui", Demo: ToggleDemo },
+  "toggle-group": {
+    title: "Toggle Group",
+    gallery: "/ui",
+    Demo: ToggleGroupDemo,
+  },
+  combobox: { title: "Combobox", gallery: "/ui", Demo: ComboboxDemo },
 }
 
 export { DEMOS }

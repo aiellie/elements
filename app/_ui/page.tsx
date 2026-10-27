@@ -21,6 +21,9 @@ import SheetDemo from "@/registry/aiellie/examples/sheet-demo"
 import SidebarDemo from "@/registry/aiellie/examples/sidebar-demo"
 import SkeletonDemo from "@/registry/aiellie/examples/skeleton-demo"
 import TabsDemo from "@/registry/aiellie/examples/tabs-demo"
+import ComboboxDemo from "@/registry/aiellie/examples/combobox-demo"
+import ToggleDemo from "@/registry/aiellie/examples/toggle-demo"
+import ToggleGroupDemo from "@/registry/aiellie/examples/toggle-group-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
 export default function UiPage() {
@@ -36,11 +39,27 @@ export default function UiPage() {
         >
           <ButtonDemo />
         </DemoCard>
+        <DemoCard
+          href="/ui/toggle"
+          index={2}
+          title="Toggle"
+          description="A button that stays pressed until pressed again"
+        >
+          <ToggleDemo />
+        </DemoCard>
+        <DemoCard
+          href="/ui/toggle-group"
+          index={3}
+          title="Toggle Group"
+          description="Toggles where one or several can be on"
+        >
+          <ToggleGroupDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="inputs">
         <DemoCard
           href="/ui/textarea"
-          index={2}
+          index={4}
           title="Textarea"
           description="A simple textarea component"
         >
@@ -48,7 +67,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/input"
-          index={3}
+          index={5}
           title="Input"
           description="A single line of text"
         >
@@ -56,17 +75,25 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/input-group"
-          index={4}
+          index={6}
           title="Input Group"
           description="An input with icons, text or buttons inside its edge"
         >
           <InputGroupDemo />
         </DemoCard>
+        <DemoCard
+          href="/ui/combobox"
+          index={7}
+          title="Combobox"
+          description="An input that filters a list and picks from it"
+        >
+          <ComboboxDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="layout">
         <DemoCard
           href="/ui/resizable"
-          index={5}
+          index={8}
           title="Resizable"
           description="Panels you can resize by dragging the line between them"
         >
@@ -74,7 +101,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/separator"
-          index={6}
+          index={9}
           title="Separator"
           description="A hairline between groups, across or down"
         >
@@ -82,7 +109,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/marker"
-          index={7}
+          index={10}
           title="Marker"
           description="A quiet line of text, on its own or between rules"
         >
@@ -90,7 +117,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/sidebar"
-          index={8}
+          index={11}
           title="Sidebar"
           description="Groups of rows down the side of an app"
         >
@@ -98,7 +125,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/tabs"
-          index={9}
+          index={12}
           title="Tabs"
           description="Views to switch between, one at a time"
         >
@@ -106,7 +133,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/breadcrumb"
-          index={10}
+          index={13}
           title="Breadcrumb"
           description="A path from a parent place to the current one"
         >
@@ -116,7 +143,7 @@ export default function UiPage() {
       <CategorySection category="overlays">
         <DemoCard
           href="/ui/tooltip"
-          index={11}
+          index={14}
           title="Tooltip"
           description="A simple tooltip component"
         >
@@ -124,7 +151,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/sheet"
-          index={12}
+          index={15}
           title="Sheet"
           description="A simple sheet component"
         >
@@ -132,7 +159,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/dialog"
-          index={13}
+          index={16}
           title="Dialog"
           description="A panel in the middle of the screen, over a dimmed page"
         >
@@ -140,7 +167,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/popover"
-          index={14}
+          index={17}
           title="Popover"
           description="A glass panel beside its trigger, for small forms and details"
         >
@@ -148,7 +175,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/hover-card"
-          index={15}
+          index={18}
           title="Hover Card"
           description="A glass card that opens while you hover or focus its trigger"
         >
@@ -156,7 +183,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/command"
-          index={16}
+          index={19}
           title="Command"
           description="A searchable list you move through with the keyboard"
         >
@@ -166,7 +193,7 @@ export default function UiPage() {
       <CategorySection category="feedback">
         <DemoCard
           href="/ui/skeleton"
-          index={17}
+          index={20}
           title="Skeleton"
           description="A placeholder that pulses while content loads"
         >
@@ -174,7 +201,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/avatar"
-          index={18}
+          index={21}
           title="Avatar"
           description="A picture of someone, or their initials"
         >
@@ -182,7 +209,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/badge"
-          index={19}
+          index={22}
           title="Badge"
           description="A short label beside something, like a plan or a status"
         >
@@ -190,7 +217,7 @@ export default function UiPage() {
         </DemoCard>
         <DemoCard
           href="/ui/empty"
-          index={20}
+          index={23}
           title="Empty"
           description="What a place shows before there is anything in it"
         >

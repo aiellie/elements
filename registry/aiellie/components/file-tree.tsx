@@ -69,6 +69,12 @@ function openByDefault(nodes: readonly FileNode[], parent = ""): string[] {
   })
 }
 
+// `app/(home)/page.tsx` to `["app", "app/(home)"]`.
+function foldersAbove(path?: string) {
+  const parts = path?.split("/").slice(0, -1) ?? []
+  return parts.map((_, index) => parts.slice(0, index + 1).join("/"))
+}
+
 function FileTree({
   nodes,
   selected,
@@ -84,8 +90,19 @@ function FileTree({
 }) {
   const ref = React.useRef<HTMLDivElement>(null)
   const [open, setOpen] = React.useState<ReadonlySet<string>>(
-    () => new Set(openByDefault(nodes))
+    () => new Set([...openByDefault(nodes), ...foldersAbove(selected)])
   )
+
+  // A file chosen from outside the tree opens the folders it sits in, but
+  // nothing the person closed by hand is opened again until it's chosen.
+  const [revealed, setRevealed] = React.useState(selected)
+  if (selected !== revealed) {
+    setRevealed(selected)
+    const above = foldersAbove(selected)
+    if (above.some((folder) => !open.has(folder))) {
+      setOpen(new Set([...open, ...above]))
+    }
+  }
   const rows = React.useMemo(() => flatten(nodes, open), [nodes, open])
 
   // One tab stop for the whole tree, held by path so opening a folder above

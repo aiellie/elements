@@ -2,14 +2,14 @@ import { CATEGORIES, HIDDEN_ITEMS, type Category } from "@/lib/categories"
 import registry from "@/registry.json"
 import addMenu from "@/lib/docs/add-menu"
 import approvalModeMenu from "@/lib/docs/approval-mode-menu"
-import compactionMarker from "@/lib/docs/compaction-marker"
-import planReview from "@/lib/docs/plan-review"
 import attachments from "@/lib/docs/attachments"
 import audioPlayer from "@/lib/docs/audio-player"
 import branchesMenu from "@/lib/docs/branches-menu"
 import codeBlock from "@/lib/docs/code-block"
 import codeDiff from "@/lib/docs/code-diff"
 import codeSnippet from "@/lib/docs/code-snippet"
+import codeWorkspace from "@/lib/docs/code-workspace"
+import compactionMarker from "@/lib/docs/compaction-marker"
 import composer from "@/lib/docs/composer"
 import dateDivider from "@/lib/docs/date-divider"
 import dictateButton from "@/lib/docs/dictate-button"
@@ -33,6 +33,7 @@ import modelSelector from "@/lib/docs/model-selector"
 import navBars from "@/lib/docs/nav-bars"
 import orb from "@/lib/docs/orb"
 import panels from "@/lib/docs/panels"
+import planReview from "@/lib/docs/plan-review"
 import pluginSelector from "@/lib/docs/plugin-selector"
 import projectSelector from "@/lib/docs/project-selector"
 import promptMenu from "@/lib/docs/prompt-menu"
@@ -41,6 +42,7 @@ import quotedMessage from "@/lib/docs/quoted-message"
 import reactions from "@/lib/docs/reactions"
 import reasoning from "@/lib/docs/reasoning"
 import response from "@/lib/docs/response"
+import sandbox from "@/lib/docs/sandbox"
 import settingsDialog from "@/lib/docs/settings-dialog"
 import shareDialog from "@/lib/docs/share-dialog"
 import slashMenu from "@/lib/docs/slash-menu"
@@ -124,8 +126,6 @@ type DocsSection = {
 // Written content, keyed by registry item. An item without an entry still has
 // a page, with its preview and install command.
 const DOCS: Record<string, DocContent> = {
-  "compaction-marker": compactionMarker,
-  "plan-review": planReview,
   "add-menu": addMenu,
   "approval-mode-menu": approvalModeMenu,
   attachments: attachments,
@@ -134,6 +134,8 @@ const DOCS: Record<string, DocContent> = {
   "code-block": codeBlock,
   "code-diff": codeDiff,
   "code-snippet": codeSnippet,
+  "code-workspace": codeWorkspace,
+  "compaction-marker": compactionMarker,
   composer: composer,
   "date-divider": dateDivider,
   "dictate-button": dictateButton,
@@ -157,6 +159,7 @@ const DOCS: Record<string, DocContent> = {
   "nav-bars": navBars,
   orb: orb,
   panels: panels,
+  "plan-review": planReview,
   "plugin-selector": pluginSelector,
   "project-selector": projectSelector,
   "prompt-menu": promptMenu,
@@ -165,6 +168,7 @@ const DOCS: Record<string, DocContent> = {
   reactions: reactions,
   reasoning: reasoning,
   response: response,
+  sandbox: sandbox,
   "settings-dialog": settingsDialog,
   "share-dialog": shareDialog,
   "slash-menu": slashMenu,

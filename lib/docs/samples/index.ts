@@ -5,8 +5,6 @@ type SampleModule = Promise<{ default: ComponentType }>
 // Each example's live sample, keyed by its path under this folder. The page
 // reads the same file to show its code.
 const SAMPLES: Record<string, () => SampleModule> = {
-  "compaction-marker/failed": () => import("./compaction-marker/failed"),
-  "plan-review/stored-decision": () => import("./plan-review/stored-decision"),
   "add-menu/groups": () => import("./add-menu/groups"),
   "approval-mode-menu/your-modes": () =>
     import("./approval-mode-menu/your-modes"),
@@ -15,6 +13,8 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "code-block/streaming": () => import("./code-block/streaming"),
   "code-diff/new-file": () => import("./code-diff/new-file"),
   "code-snippet/no-tabs": () => import("./code-snippet/no-tabs"),
+  "code-workspace/copy-action": () => import("./code-workspace/copy-action"),
+  "compaction-marker/failed": () => import("./compaction-marker/failed"),
   "composer/drop-files": () => import("./composer/drop-files"),
   "composer/stop": () => import("./composer/stop"),
   "date-divider/between-messages": () =>
@@ -47,6 +47,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "orb/seeds": () => import("./orb/seeds"),
   "panels/headers": () => import("./panels/headers"),
   "panels/use-panels": () => import("./panels/use-panels"),
+  "plan-review/stored-decision": () => import("./plan-review/stored-decision"),
   "plugin-selector/chips": () => import("./plugin-selector/chips"),
   "plugin-selector/submenu": () => import("./plugin-selector/submenu"),
   "project-selector/submenu": () => import("./project-selector/submenu"),
@@ -56,6 +57,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "reactions/who-reacted": () => import("./reactions/who-reacted"),
   "reasoning/activity": () => import("./reasoning/activity"),
   "response/citations": () => import("./response/citations"),
+  "sandbox/composed": () => import("./sandbox/composed"),
   "settings-dialog/providers": () => import("./settings-dialog/providers"),
   "share-dialog/private-by-default": () =>
     import("./share-dialog/private-by-default"),

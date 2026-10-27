@@ -76,6 +76,19 @@
       ]
     },
     {
+      "name": "file-search",
+      "type": "registry:lib",
+      "title": "File Search",
+      "description": "Finds text in file names and contents, with match case, whole word and regex, and previews a replacement that can keep each match's case.",
+      "files": [
+        {
+          "path": "registry/aiellie/lib/file-search.ts",
+          "type": "registry:lib",
+          "target": "lib/file-search.ts"
+        }
+      ]
+    },
+    {
       "name": "model-icons",
       "type": "registry:component",
       "title": "Model Icons",
@@ -308,6 +321,62 @@
           "path": "registry/aiellie/ui/input-group.tsx",
           "type": "registry:ui",
           "target": "components/ui/input-group.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A button that stays pressed until it's pressed again, filled while on.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/toggle.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/toggle.tsx"
+        }
+      ],
+      "categories": ["actions"]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "A row of toggles where one or several can be on, set apart or joined into one control.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/toggle", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/toggle-group.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/toggle-group.tsx"
+        }
+      ],
+      "categories": ["actions"]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "An input that filters a list as you type and picks from it, on Base UI.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/input-group",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/combobox.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/combobox.tsx"
         }
       ],
       "categories": ["inputs"]
@@ -1723,6 +1792,67 @@
           "target": "components/aiellie/file-tree.tsx"
         }
       ],
+      "categories": ["code"]
+    },
+    {
+      "name": "code-workspace",
+      "type": "registry:component",
+      "title": "Code Workspace",
+      "description": "A read-only editor for a set of files: a resizable file tree, tabs, a quick file picker, and search and replace across names and contents.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/code-block",
+        "@aiellie/combobox",
+        "@aiellie/file-search",
+        "@aiellie/file-tree",
+        "@aiellie/input-group",
+        "@aiellie/resizable",
+        "@aiellie/toggle",
+        "@aiellie/toggle-group",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/code-workspace.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/code-workspace.tsx"
+        }
+      ],
+      "docs": "Replacing never writes to your files. It previews the result in the workspace until it's undone, and what to do with it is up to you.",
+      "categories": ["code"]
+    },
+    {
+      "name": "sandbox",
+      "type": "registry:component",
+      "title": "Sandbox",
+      "description": "Code that runs in the page with Sandpack: a live preview, an editor with a file tree, and a console, under one toolbar that follows light and dark.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "@codesandbox/sandpack-react",
+        "jszip"
+      ],
+      "registryDependencies": [
+        "@aiellie/code-block",
+        "@aiellie/file-tree",
+        "@aiellie/tabs",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/sandbox.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/sandbox.tsx"
+        }
+      ],
+      "docs": "Sandpack bundles and runs the code on CodeSandbox's servers, so the preview needs a network connection. The colours follow a `dark` class on `<html>`.",
       "categories": ["code"]
     },
     {

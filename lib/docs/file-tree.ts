@@ -45,7 +45,7 @@ export function ChangedFiles() {
 </div>`,
     body: [
       "Rows are flat, with depth set as padding, so hover and selection span the whole width. `aria-level` and the set sizes give screen readers the nesting back.",
-      "Selection is by path, like `app/page.tsx`, since most projects have more than one `page.tsx`. Which folders are open the tree keeps itself.",
+      "Selection is by path, like `app/page.tsx`, since most projects have more than one `page.tsx`. Which folders are open the tree keeps itself, but a file chosen from outside it, like from a tab or a search, opens the folders it sits in.",
     ],
   },
   examples: [
@@ -61,7 +61,12 @@ export function ChangedFiles() {
       head: ["Prop", "Type", "Default", "Description"],
       rows: [
         ["`nodes`", "`FileNode[]`", "required", ""],
-        ["`selected`", "`string`", "", "The chosen file's path."],
+        [
+          "`selected`",
+          "`string`",
+          "",
+          "The chosen file's path. Its folders open when it changes.",
+        ],
         [
           "`onSelect`",
           "`(path: string) => void`",

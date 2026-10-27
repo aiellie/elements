@@ -35,6 +35,8 @@ import ThreadTranscriptDemo from "@/registry/aiellie/examples/thread-transcript-
 import WaveformDemo from "@/registry/aiellie/examples/waveform-demo"
 import WorkInMenuDemo from "@/registry/aiellie/examples/work-in-menu-demo"
 import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
+import CodeWorkspaceDemo from "@/registry/aiellie/examples/code-workspace-demo"
+import SandboxDemo from "@/registry/aiellie/examples/sandbox-demo"
 import CodeBlockDemo from "@/registry/aiellie/examples/code-block-demo"
 import CodeDiffDemo from "@/registry/aiellie/examples/code-diff-demo"
 import TerminalDemo from "@/registry/aiellie/examples/terminal-demo"
@@ -547,6 +549,24 @@ export default function ComponentsPage() {
           description="The files a change touched, and how"
         >
           <FileTreeDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/code-workspace"
+          index={59}
+          title="Code Workspace"
+          description="Files to browse, search and replace across, in tabs"
+          wide
+        >
+          <CodeWorkspaceDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/sandbox"
+          index={60}
+          title="Sandbox"
+          description="Code that runs, with its preview, editor and console"
+          wide
+        >
+          <SandboxDemo />
         </DemoCard>
       </CategorySection>
     </div>
