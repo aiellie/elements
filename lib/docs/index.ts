@@ -19,6 +19,7 @@ import filePreview from "@/lib/docs/file-preview"
 import fileTree from "@/lib/docs/file-tree"
 import helpMenu from "@/lib/docs/help-menu"
 import historyButtons from "@/lib/docs/history-buttons"
+import humanHandoff from "@/lib/docs/human-handoff"
 import inlineCitation from "@/lib/docs/inline-citation"
 import mentions from "@/lib/docs/mentions"
 import menu from "@/lib/docs/menu"
@@ -36,12 +37,14 @@ import panels from "@/lib/docs/panels"
 import planReview from "@/lib/docs/plan-review"
 import pluginSelector from "@/lib/docs/plugin-selector"
 import projectSelector from "@/lib/docs/project-selector"
+import promptAutocomplete from "@/lib/docs/prompt-autocomplete"
 import promptMenu from "@/lib/docs/prompt-menu"
 import quickChat from "@/lib/docs/quick-chat"
 import quotedMessage from "@/lib/docs/quoted-message"
 import reactions from "@/lib/docs/reactions"
 import reasoning from "@/lib/docs/reasoning"
 import response from "@/lib/docs/response"
+import runBudget from "@/lib/docs/run-budget"
 import sandbox from "@/lib/docs/sandbox"
 import settingsDialog from "@/lib/docs/settings-dialog"
 import shareDialog from "@/lib/docs/share-dialog"
@@ -63,6 +66,7 @@ import tooltipIconButton from "@/lib/docs/tooltip-icon-button"
 import transcript from "@/lib/docs/transcript"
 import userMenu from "@/lib/docs/user-menu"
 import waveform from "@/lib/docs/waveform"
+import webPreview from "@/lib/docs/web-preview"
 import workInMenu from "@/lib/docs/work-in-menu"
 
 /** A paragraph. `backticks` set code and [label](href) sets a link. */
@@ -145,6 +149,7 @@ const DOCS: Record<string, DocContent> = {
   "file-tree": fileTree,
   "help-menu": helpMenu,
   "history-buttons": historyButtons,
+  "human-handoff": humanHandoff,
   "inline-citation": inlineCitation,
   mentions: mentions,
   menu: menu,
@@ -162,12 +167,14 @@ const DOCS: Record<string, DocContent> = {
   "plan-review": planReview,
   "plugin-selector": pluginSelector,
   "project-selector": projectSelector,
+  "prompt-autocomplete": promptAutocomplete,
   "prompt-menu": promptMenu,
   "quick-chat": quickChat,
   "quoted-message": quotedMessage,
   reactions: reactions,
   reasoning: reasoning,
   response: response,
+  "run-budget": runBudget,
   sandbox: sandbox,
   "settings-dialog": settingsDialog,
   "share-dialog": shareDialog,
@@ -189,6 +196,7 @@ const DOCS: Record<string, DocContent> = {
   transcript: transcript,
   "user-menu": userMenu,
   waveform: waveform,
+  "web-preview": webPreview,
   "work-in-menu": workInMenu,
 }
 

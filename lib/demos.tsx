@@ -87,6 +87,10 @@ import ToggleDemo from "@/registry/aiellie/examples/toggle-demo"
 import ToggleGroupDemo from "@/registry/aiellie/examples/toggle-group-demo"
 import PlanReviewDemo from "@/registry/aiellie/examples/plan-review-demo"
 import CompactionMarkerDemo from "@/registry/aiellie/examples/compaction-marker-demo"
+import WebPreviewDemo from "@/registry/aiellie/examples/web-preview-demo"
+import RunBudgetDemo from "@/registry/aiellie/examples/run-budget-demo"
+import PromptAutocompleteDemo from "@/registry/aiellie/examples/prompt-autocomplete-demo"
+import HumanHandoffDemo from "@/registry/aiellie/examples/human-handoff-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
 type Demo = {
@@ -393,6 +397,26 @@ const DEMOS: Record<string, Demo> = {
     Demo: CodeWorkspaceDemo,
   },
   sandbox: { title: "Sandbox", gallery: "/components", Demo: SandboxDemo },
+  "web-preview": {
+    title: "Web Preview",
+    gallery: "/components",
+    Demo: WebPreviewDemo,
+  },
+  "run-budget": {
+    title: "Run Budget",
+    gallery: "/components",
+    Demo: RunBudgetDemo,
+  },
+  "prompt-autocomplete": {
+    title: "Prompt Autocomplete",
+    gallery: "/components",
+    Demo: PromptAutocompleteDemo,
+  },
+  "human-handoff": {
+    title: "Human Handoff",
+    gallery: "/components",
+    Demo: HumanHandoffDemo,
+  },
   toggle: { title: "Toggle", gallery: "/ui", Demo: ToggleDemo },
   "toggle-group": {
     title: "Toggle Group",

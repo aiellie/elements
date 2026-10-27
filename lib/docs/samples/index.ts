@@ -26,6 +26,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "file-tree/with-code": () => import("./file-tree/with-code"),
   "help-menu/actions": () => import("./help-menu/actions"),
   "history-buttons/shortcuts": () => import("./history-buttons/shortcuts"),
+  "human-handoff/unavailable": () => import("./human-handoff/unavailable"),
   "inline-citation/not-a-page": () => import("./inline-citation/not-a-page"),
   "mentions/who-was-named": () => import("./mentions/who-was-named"),
   "menu/checkbox-and-radio": () => import("./menu/checkbox-and-radio"),
@@ -51,12 +52,15 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "plugin-selector/chips": () => import("./plugin-selector/chips"),
   "plugin-selector/submenu": () => import("./plugin-selector/submenu"),
   "project-selector/submenu": () => import("./project-selector/submenu"),
+  "prompt-autocomplete/accept-events": () =>
+    import("./prompt-autocomplete/accept-events"),
   "prompt-menu/your-prompts": () => import("./prompt-menu/your-prompts"),
   "quick-chat/echo": () => import("./quick-chat/echo"),
   "quoted-message/in-composer": () => import("./quoted-message/in-composer"),
   "reactions/who-reacted": () => import("./reactions/who-reacted"),
   "reasoning/activity": () => import("./reasoning/activity"),
   "response/citations": () => import("./response/citations"),
+  "run-budget/no-actions": () => import("./run-budget/no-actions"),
   "sandbox/composed": () => import("./sandbox/composed"),
   "settings-dialog/providers": () => import("./settings-dialog/providers"),
   "share-dialog/private-by-default": () =>
@@ -86,6 +90,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "transcript/dictation": () => import("./transcript/dictation"),
   "user-menu/settings": () => import("./user-menu/settings"),
   "waveform/microphone": () => import("./waveform/microphone"),
+  "web-preview/console-logs": () => import("./web-preview/console-logs"),
   "work-in-menu/options": () => import("./work-in-menu/options"),
 }
 

@@ -1856,6 +1856,84 @@
       "categories": ["code"]
     },
     {
+      "name": "web-preview",
+      "type": "registry:component",
+      "title": "Web Preview",
+      "description": "A page in a frame with a browser's chrome: back, forward and reload, an address bar with the connection's details, a console that folds out, an annotate toggle, and a menu with zoom and a phone-width view.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/input-group",
+        "@aiellie/menu",
+        "@aiellie/popover",
+        "@aiellie/tooltip",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/web-preview.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/web-preview.tsx"
+        }
+      ],
+      "docs": "Many sites refuse to be framed, so preview pages you serve yourself, or pass `srcDoc`. The console shows the logs you hand it; the framed page has to post them to you.",
+      "categories": ["code"]
+    },
+    {
+      "name": "run-budget",
+      "type": "registry:component",
+      "title": "Run Budget",
+      "description": "A spend cap for an agent run: pick it, watch the meter fill and warn near the cap, then keep what's done or raise the cap when it stops.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/run-budget.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/run-budget.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
+      "name": "prompt-autocomplete",
+      "type": "registry:component",
+      "title": "Prompt Autocomplete",
+      "description": "A prompt field that shows a suggested ending as ghost text. Tab takes all of it, Option-Right the next word, and Escape dismisses it.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/prompt-autocomplete.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/prompt-autocomplete.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "human-handoff",
+      "type": "registry:component",
+      "title": "Human Handoff",
+      "description": "Hands a chat to a person: an editable summary of what they'll see, a place in the queue that counts down, then who joined, or a way to be reached when no one is in.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/avatar",
+        "@aiellie/button",
+        "@aiellie/input",
+        "@aiellie/textarea",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/human-handoff.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/human-handoff.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
       "name": "reactions",
       "type": "registry:component",
       "title": "Reactions",
