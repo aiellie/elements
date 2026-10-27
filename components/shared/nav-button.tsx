@@ -61,7 +61,6 @@ function NavTooltip({
 interface NavPage {
   href: string
   label: string
-  icon: IconSvgElement
 }
 
 /** The shared small ghost button treatment, plus the current-route state. */
@@ -94,7 +93,6 @@ function isCurrent(pathname: string, href: string) {
 function NavButton({
   href,
   label,
-  icon,
   active,
   className,
   ...props
@@ -112,12 +110,7 @@ function NavButton({
       className={cn(navButton, className)}
       {...props}
     >
-      <HugeiconsIcon
-        aria-hidden
-        icon={icon}
-        className="size-3.5"
-      />
-      <span>{label}</span>
+      {label}
     </Link>
   )
 }
@@ -134,12 +127,7 @@ function SiteNav({ pages }: { pages: NavPage[] }) {
     <>
       <nav aria-label="Site" className="hidden items-center gap-0.5 sm:flex">
         {pages.map((page) => (
-          <NavButton
-            key={page.href}
-            href={page.href}
-            label={page.label}
-            icon={page.icon}
-          />
+          <NavButton key={page.href} href={page.href} label={page.label} />
         ))}
       </nav>
       <div className="sm:hidden">
@@ -166,7 +154,6 @@ function SiteNav({ pages }: { pages: NavPage[] }) {
                   aria-current={current ? "page" : undefined}
                   className="data-[active=true]:text-foreground data-[active=true]:data-highlighted:text-foreground"
                 >
-                  <HugeiconsIcon icon={item.icon} className="size-3.5" />
                   {item.label}
                 </MenuLinkItem>
               )
@@ -230,11 +217,6 @@ function NavMenu({
                 "data-[active=true]:data-highlighted:text-accent"
               )}
             >
-              <HugeiconsIcon
-                icon={item.icon}
-                strokeWidth={2}
-                className="size-3.5"
-              />
               {item.label}
             </MenuLinkItem>
           )

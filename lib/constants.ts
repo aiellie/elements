@@ -63,5 +63,4 @@ export const NAV_PAGES: NavPage[] = (
 ).map((href) => ({
   href,
   label: PAGES[href].label,
-  icon: PAGES[href].icon,
 }))

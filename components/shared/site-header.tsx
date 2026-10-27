@@ -13,16 +13,19 @@ export function SiteHeader() {
       <div
         className={cn(
           CONTAINER,
-          "flex h-12 items-center gap-2 border-b border-border/40"
+          "grid h-12 grid-cols-[1fr_auto_1fr] items-center gap-2 border-b border-border/40"
         )}
       >
-        <div className="flex min-w-0 flex-1 items-center gap-4">
-          <Link href="/" className="flex shrink-0 items-center">
-            <Logo />
-          </Link>
-          <SiteNav pages={NAV_PAGES} />
+        <Link
+          href="/"
+          className="flex shrink-0 items-center justify-self-start"
+        >
+          <Logo />
+        </Link>
+        <SiteNav pages={NAV_PAGES} />
+        <div className="justify-self-end">
+          <GitHubLink />
         </div>
-        <GitHubLink />
       </div>
     </header>
   )
