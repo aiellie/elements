@@ -1,8 +1,10 @@
 import { CATEGORIES, HIDDEN_ITEMS, type Category } from "@/lib/categories"
 import registry from "@/registry.json"
 import addMenu from "@/lib/docs/add-menu"
+import agentCursor from "@/lib/docs/agent-cursor"
 import approvalModeMenu from "@/lib/docs/approval-mode-menu"
 import attachments from "@/lib/docs/attachments"
+import attemptPicker from "@/lib/docs/attempt-picker"
 import audioPlayer from "@/lib/docs/audio-player"
 import branchesMenu from "@/lib/docs/branches-menu"
 import codeBlock from "@/lib/docs/code-block"
@@ -32,6 +34,7 @@ import meter from "@/lib/docs/meter"
 import micMenu from "@/lib/docs/mic-menu"
 import modelSelector from "@/lib/docs/model-selector"
 import navBars from "@/lib/docs/nav-bars"
+import needsYou from "@/lib/docs/needs-you"
 import orb from "@/lib/docs/orb"
 import panels from "@/lib/docs/panels"
 import planReview from "@/lib/docs/plan-review"
@@ -131,8 +134,10 @@ type DocsSection = {
 // a page, with its preview and install command.
 const DOCS: Record<string, DocContent> = {
   "add-menu": addMenu,
+  "agent-cursor": agentCursor,
   "approval-mode-menu": approvalModeMenu,
   attachments: attachments,
+  "attempt-picker": attemptPicker,
   "audio-player": audioPlayer,
   "branches-menu": branchesMenu,
   "code-block": codeBlock,
@@ -162,6 +167,7 @@ const DOCS: Record<string, DocContent> = {
   "mic-menu": micMenu,
   "model-selector": modelSelector,
   "nav-bars": navBars,
+  "needs-you": needsYou,
   orb: orb,
   panels: panels,
   "plan-review": planReview,

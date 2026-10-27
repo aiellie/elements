@@ -1934,6 +1934,58 @@
       "categories": ["chat"]
     },
     {
+      "name": "agent-cursor",
+      "type": "registry:component",
+      "title": "Agent Cursor",
+      "description": "A document you and an agent edit together. The paragraph it's rewriting is marked while the draft streams in beside it, to replace or discard, and editing that paragraph meanwhile offers to keep yours, take the agent's or merge.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/textarea",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/agent-cursor.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/agent-cursor.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "attempt-picker",
+      "type": "registry:component",
+      "title": "Attempt Picker",
+      "description": "Several attempts at one task side by side, with progress while they run, then lines changed, tests passing and a suggested pick, and one to apply while the rest are discarded.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/attempt-picker.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/attempt-picker.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "needs-you",
+      "type": "registry:component",
+      "title": "Needs You",
+      "description": "An inbox of agents waiting on you, oldest first: approvals, questions with choices and blocked tasks, answered in place, with waits that count up and mark themselves overdue.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/needs-you.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/needs-you.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
       "name": "reactions",
       "type": "registry:component",
       "title": "Reactions",

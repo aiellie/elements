@@ -67,6 +67,9 @@ import WebPreviewDemo from "@/registry/aiellie/examples/web-preview-demo"
 import RunBudgetDemo from "@/registry/aiellie/examples/run-budget-demo"
 import PromptAutocompleteDemo from "@/registry/aiellie/examples/prompt-autocomplete-demo"
 import HumanHandoffDemo from "@/registry/aiellie/examples/human-handoff-demo"
+import AgentCursorDemo from "@/registry/aiellie/examples/agent-cursor-demo"
+import AttemptPickerDemo from "@/registry/aiellie/examples/attempt-picker-demo"
+import NeedsYouDemo from "@/registry/aiellie/examples/needs-you-demo"
 export default function ComponentsPage() {
   return (
     <div className="flex flex-col gap-16 py-8 sm:py-12">
@@ -221,11 +224,19 @@ export default function ComponentsPage() {
         >
           <PromptAutocompleteDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/agent-cursor"
+          index={19}
+          title="Agent Cursor"
+          description="A document you and the agent edit at once, without clobbering each other"
+        >
+          <AgentCursorDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="layout">
         <DemoCard
           href="/components/panels"
-          index={19}
+          index={20}
           title="Panels"
           description="An app shell with resizable panels on three sides"
           wide
@@ -234,7 +245,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/nav-bars"
-          index={20}
+          index={21}
           title="Nav Bars"
           description="A rail of bars for a page's sections or a thread's turns"
         >
@@ -244,7 +255,7 @@ export default function ComponentsPage() {
       <CategorySection category="overlays">
         <DemoCard
           href="/components/settings-dialog"
-          index={21}
+          index={22}
           title="Settings Dialog"
           description="Profile, appearance, and API keys in one focused dialog"
         >
@@ -252,7 +263,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/share-dialog"
-          index={22}
+          index={23}
           title="Share Dialog"
           description="Who can open it, a link to copy, and places to post it"
         >
@@ -260,7 +271,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/file-preview"
-          index={23}
+          index={24}
           title="File Preview"
           description="A file opened in full: an image, a PDF, code in color or a folder"
         >
@@ -270,7 +281,7 @@ export default function ComponentsPage() {
       <CategorySection category="feedback">
         <DemoCard
           href="/components/status"
-          index={24}
+          index={25}
           title="Status"
           description="A simple status component"
         >
@@ -278,7 +289,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/meter"
-          index={25}
+          index={26}
           title="Meter"
           description="How full something is, like a context window or a credit balance"
         >
@@ -286,7 +297,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/waveform"
-          index={26}
+          index={27}
           title="Waveform"
           description="Live bars that follow a microphone, so you can see it hears you"
         >
@@ -294,17 +305,25 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/run-budget"
-          index={27}
+          index={28}
           title="Run Budget"
           description="A spend cap for an agent run, and what happens at it"
         >
           <RunBudgetDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/needs-you"
+          index={29}
+          title="Needs You"
+          description="Every agent waiting on you, oldest first, answered in place"
+        >
+          <NeedsYouDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="chat">
         <DemoCard
           href="/components/composer"
-          index={28}
+          index={30}
           title="Composer"
           description="A simple composer component"
         >
@@ -312,7 +331,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/attachments"
-          index={29}
+          index={31}
           title="Attachments"
           description="Images as small squares, other files as chips, in a row"
         >
@@ -320,7 +339,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message"
-          index={30}
+          index={32}
           title="Message"
           description="A simple message component"
         >
@@ -328,7 +347,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/date-divider"
-          index={31}
+          index={33}
           title="Date Divider"
           description="The day and time a thread picks up at, as a quiet line of text"
         >
@@ -336,7 +355,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={32}
+          index={34}
           title="Thread"
           description="A simple thread component"
         >
@@ -344,7 +363,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread-transcript"
-          index={33}
+          index={35}
           title="Thread Transcript"
           description="A rail of your turns beside a thread that jumps to each one"
         >
@@ -352,7 +371,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/quick-chat"
-          index={34}
+          index={36}
           title="Quick Chat"
           description="A compact conversation that floats over the current page"
         >
@@ -360,7 +379,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/stream-text"
-          index={35}
+          index={37}
           title="Stream Text"
           description="A streamed reply written out word by word, at a steady pace"
         >
@@ -368,7 +387,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/reasoning"
-          index={36}
+          index={38}
           title="Reasoning"
           description="How long the model thought, folding open to show its thoughts"
         >
@@ -376,7 +395,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thinking-indicator"
-          index={37}
+          index={39}
           title="Thinking Indicator"
           description="What a reply is doing before its first word, as a live dot and a shimmer"
         >
@@ -384,7 +403,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/sources"
-          index={38}
+          index={40}
           title="Sources"
           description="The pages a reply drew on, as small chips that open them"
         >
@@ -392,7 +411,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/suggestions"
-          index={39}
+          index={41}
           title="Suggestions"
           description="Prompts to start from, arriving together as a row"
         >
@@ -400,7 +419,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/response"
-          index={40}
+          index={42}
           title="Response"
           description="A Markdown reply set as prose, fading in as it streams"
         >
@@ -408,7 +427,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/tool-call"
-          index={41}
+          index={43}
           title="Tool Call"
           description="A tool the model called, folded behind one row"
         >
@@ -416,7 +435,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message-actions"
-          index={42}
+          index={44}
           title="Message Actions"
           description="Copy, rate, retry and more under a reply"
         >
@@ -424,7 +443,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/inline-citation"
-          index={43}
+          index={45}
           title="Inline Citation"
           description="A numbered mark in the prose that names its source"
         >
@@ -432,7 +451,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/quoted-message"
-          index={44}
+          index={46}
           title="Quoted Message"
           description="The words a reply is about, kept above it"
         >
@@ -440,7 +459,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message-highlight-toolbar"
-          index={45}
+          index={47}
           title="Message Highlight Toolbar"
           description="Actions over the words selected in a thread"
         >
@@ -448,7 +467,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/reactions"
-          index={46}
+          index={48}
           title="Reactions"
           description="Emoji counts you press to add or take back"
         >
@@ -456,7 +475,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message-status"
-          index={47}
+          index={49}
           title="Message Status"
           description="Sending, sent, delivered, read, or not sent"
         >
@@ -464,7 +483,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/timestamps"
-          index={48}
+          index={50}
           title="Timestamps"
           description="When a message was sent, worded by how long ago"
         >
@@ -472,7 +491,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message-context-menu"
-          index={49}
+          index={51}
           title="Message Context Menu"
           description="Reactions and actions on a right click"
         >
@@ -480,7 +499,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/plan-review"
-          index={50}
+          index={52}
           title="Plan Review"
           description="A proposed plan to reshape before it runs"
         >
@@ -488,7 +507,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/compaction-marker"
-          index={51}
+          index={53}
           title="Compaction Marker"
           description="Where the agent compacted its context, and what it kept"
         >
@@ -496,7 +515,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/human-handoff"
-          index={52}
+          index={54}
           title="Human Handoff"
           description="Hand the chat to a person, with what they should know"
         >
@@ -506,7 +525,7 @@ export default function ComponentsPage() {
       <CategorySection category="voice">
         <DemoCard
           href="/components/orb"
-          index={53}
+          index={55}
           title="Orb"
           description="The assistant as a sphere that listens, thinks and speaks"
         >
@@ -514,7 +533,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/transcript"
-          index={54}
+          index={56}
           title="Transcript"
           description="Speech as text, with guesses that settle as they're heard"
         >
@@ -522,7 +541,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/audio-player"
-          index={55}
+          index={57}
           title="Audio Player"
           description="A clip to play, scrub through and time"
         >
@@ -530,7 +549,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/mic-menu"
-          index={56}
+          index={58}
           title="Mic Menu"
           description="Which microphone to listen with"
         >
@@ -540,7 +559,7 @@ export default function ComponentsPage() {
       <CategorySection category="code">
         <DemoCard
           href="/components/code-block"
-          index={57}
+          index={59}
           title="Code Block"
           description="A named block of code to copy, download and point at"
         >
@@ -548,7 +567,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-diff"
-          index={58}
+          index={60}
           title="Code Diff"
           description="What a change did, from the diff that describes it"
         >
@@ -556,7 +575,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/terminal"
-          index={59}
+          index={61}
           title="Terminal"
           description="A command, what came back, and whether it worked"
         >
@@ -564,7 +583,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-snippet"
-          index={60}
+          index={62}
           title="Code Snippet"
           description="A command to copy, for whichever package manager you use"
         >
@@ -572,7 +591,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/file-tree"
-          index={61}
+          index={63}
           title="File Tree"
           description="The files a change touched, and how"
         >
@@ -580,7 +599,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-workspace"
-          index={62}
+          index={64}
           title="Code Workspace"
           description="Files to browse, search and replace across, in tabs"
           wide
@@ -589,7 +608,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/sandbox"
-          index={63}
+          index={65}
           title="Sandbox"
           description="Code that runs, with its preview, editor and console"
           wide
@@ -598,12 +617,20 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/web-preview"
-          index={64}
+          index={66}
           title="Web Preview"
           description="A page to load, browse and debug, like a browser tab"
           wide
         >
           <WebPreviewDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/attempt-picker"
+          index={67}
+          title="Attempt Picker"
+          description="Several tries at one task, compared, with one to apply"
+        >
+          <AttemptPickerDemo />
         </DemoCard>
       </CategorySection>
     </div>

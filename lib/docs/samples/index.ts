@@ -6,9 +6,12 @@ type SampleModule = Promise<{ default: ComponentType }>
 // reads the same file to show its code.
 const SAMPLES: Record<string, () => SampleModule> = {
   "add-menu/groups": () => import("./add-menu/groups"),
+  "agent-cursor/review": () => import("./agent-cursor/review"),
   "approval-mode-menu/your-modes": () =>
     import("./approval-mode-menu/your-modes"),
   "attachments/from-input": () => import("./attachments/from-input"),
+  "attempt-picker/no-suggestion": () =>
+    import("./attempt-picker/no-suggestion"),
   "branches-menu/outline": () => import("./branches-menu/outline"),
   "code-block/streaming": () => import("./code-block/streaming"),
   "code-diff/new-file": () => import("./code-diff/new-file"),
@@ -45,6 +48,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "model-selector/ghost": () => import("./model-selector/ghost"),
   "nav-bars/expand": () => import("./nav-bars/expand"),
   "nav-bars/peek": () => import("./nav-bars/peek"),
+  "needs-you/read-only": () => import("./needs-you/read-only"),
   "orb/seeds": () => import("./orb/seeds"),
   "panels/headers": () => import("./panels/headers"),
   "panels/use-panels": () => import("./panels/use-panels"),

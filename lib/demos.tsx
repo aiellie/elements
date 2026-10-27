@@ -91,6 +91,9 @@ import WebPreviewDemo from "@/registry/aiellie/examples/web-preview-demo"
 import RunBudgetDemo from "@/registry/aiellie/examples/run-budget-demo"
 import PromptAutocompleteDemo from "@/registry/aiellie/examples/prompt-autocomplete-demo"
 import HumanHandoffDemo from "@/registry/aiellie/examples/human-handoff-demo"
+import AgentCursorDemo from "@/registry/aiellie/examples/agent-cursor-demo"
+import AttemptPickerDemo from "@/registry/aiellie/examples/attempt-picker-demo"
+import NeedsYouDemo from "@/registry/aiellie/examples/needs-you-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
 type Demo = {
@@ -416,6 +419,21 @@ const DEMOS: Record<string, Demo> = {
     title: "Human Handoff",
     gallery: "/components",
     Demo: HumanHandoffDemo,
+  },
+  "agent-cursor": {
+    title: "Agent Cursor",
+    gallery: "/components",
+    Demo: AgentCursorDemo,
+  },
+  "attempt-picker": {
+    title: "Attempt Picker",
+    gallery: "/components",
+    Demo: AttemptPickerDemo,
+  },
+  "needs-you": {
+    title: "Needs You",
+    gallery: "/components",
+    Demo: NeedsYouDemo,
   },
   toggle: { title: "Toggle", gallery: "/ui", Demo: ToggleDemo },
   "toggle-group": {
