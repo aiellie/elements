@@ -157,4 +157,4 @@ async function DocBody({ content }: { content: DocContent }) {
   )
 }
 
-export { DOC_SECTIONS, DocBody }
+export { asInstalled, DOC_SECTIONS, DocBody }
