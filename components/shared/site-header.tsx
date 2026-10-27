@@ -6,6 +6,7 @@ import { Logo } from "./logo"
 import Link from "next/link"
 import { SiteNav } from "./nav-button"
 import { GitHubLink } from "./github-link"
+import { McpDialog } from "./mcp-dialog"
 
 export function SiteHeader() {
   return (
@@ -23,7 +24,8 @@ export function SiteHeader() {
           <Logo />
         </Link>
         <SiteNav pages={NAV_PAGES} />
-        <div className="justify-self-end">
+        <div className="flex items-center gap-0.5 justify-self-end">
+          <McpDialog />
           <GitHubLink />
         </div>
       </div>
