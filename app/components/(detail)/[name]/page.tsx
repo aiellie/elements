@@ -1,21 +1,19 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import {
-  ArrowLeft01Icon,
-  ArrowRight01Icon,
-  SquareArrowExpand01Icon,
-} from "@hugeicons/core-free-icons"
+import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { CommandTabs } from "@/components/docs/command-tabs"
 import { ComponentPager } from "@/components/docs/component-pager"
-import { DOC_SECTIONS, DocBody } from "@/components/docs/doc-body"
+import { DemoFigure } from "@/components/docs/demo-figure"
+import { asInstalled, DOC_SECTIONS, DocBody } from "@/components/docs/doc-body"
 import { InlineText } from "@/components/docs/inline-text"
 import { DEMOS } from "@/lib/demos"
 import { DOCS_ITEMS, docsContent, docsItem, padIndex } from "@/lib/docs"
+import { highlightCode } from "@/lib/highlight-code"
+import { getRegistryItem } from "@/lib/registry"
 import { cn } from "@/lib/utils"
-import { Button } from "@/registry/aiellie/ui/button"
 
 export const dynamicParams = false
 
@@ -54,6 +52,8 @@ export default async function ComponentPage(props: Props) {
 
   const content = docsContent(name)
   const demo = DEMOS[name]
+  const file = (await getRegistryItem(name))?.files[0]
+  const source = file ? asInstalled(file.content) : ""
   const previous = DOCS_ITEMS[item.index - 2]
   const next = DOCS_ITEMS[item.index]
 
@@ -82,27 +82,15 @@ export default async function ComponentPage(props: Props) {
           </p>
         </header>
 
-        {demo ? (
-          <figure className="mt-10">
-            <div className="relative flex h-[360px] items-center justify-center overflow-hidden rounded-xl border border-foreground/10 p-5 md:p-6">
-              <div className="flex h-full min-h-0 w-full items-center justify-center">
-                <demo.Demo />
-              </div>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                nativeButton={false}
-                render={<Link href={`/demo/${name}`} />}
-                className="absolute end-2 top-2 text-muted-foreground"
-              >
-                <HugeiconsIcon aria-hidden icon={SquareArrowExpand01Icon} />
-                <span className="sr-only">Open full screen</span>
-              </Button>
-            </div>
-            <figcaption className="mt-2.5 text-caption text-muted-foreground">
-              fig. 01 · open it full screen from the corner
-            </figcaption>
-          </figure>
+        {demo && file ? (
+          <DemoFigure
+            name={name}
+            file={file.target}
+            html={await highlightCode(source)}
+            code={source}
+          >
+            <demo.Demo />
+          </DemoFigure>
         ) : null}
 
         <div className="typeset mt-12">
