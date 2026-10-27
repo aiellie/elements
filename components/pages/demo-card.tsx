@@ -84,10 +84,10 @@ export function DemoCard({
           a button, and a button inside an anchor is neither valid nor
           clickable without following the link first. */}
       <div className="mt-3.5 flex items-baseline gap-2.5">
-        {/* Both the title and the menu open the demo full screen, rather than
-            `href`, which only names the item. */}
+        {/* The title opens the item's own page; the menu opens the demo full
+            screen. */}
         <Link
-          href={demoHref(item)}
+          href={href}
           aria-label={title}
           className="group/caption flex min-w-0 items-baseline gap-2.5"
         >

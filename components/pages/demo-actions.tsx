@@ -278,6 +278,7 @@ function DemoActions({
 export {
   DemoActions,
   DEMO_BACKGROUNDS,
+  INSTALLERS,
   demoBackgroundClass,
   demoHref,
   writeToClipboard,

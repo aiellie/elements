@@ -155,7 +155,7 @@ Fourteen styles, each with its size, leading, weight and tracking fixed:
 - `code` (13px) sits inline on a `muted` ground; `code-block` is the same size with looser leading. `code-sm` is 11px for dense work — token and prop names in reference tables, paths, ids, and inline code inside `caption` or `body-sm`. `kbd` is 12px.
 - The code group runs one weight heavier at its small end: `code-sm` and `kbd` are `medium`, since mono at 11 and 12px goes thin against a `muted` fill.
 
-**A catalog page's eyebrow uses a pulsing `Status` with a `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays visually consistent with status-shaped labels elsewhere in the catalog. Use the default `live` variant for published catalog pages and `construction` for a page that is still being built, such as Docs.
+**A catalog page's eyebrow uses a pulsing `Status` with a `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays visually consistent with status-shaped labels elsewhere in the catalog. Use the default `live` variant for published catalog pages and `construction` for a page that is still being built.
 
 Emphasis comes from size and ink, not weight — the 80-unit spread between light and medium is too small to shout with. Italics are for citation only, and nothing in the UI is underlined except a link on hover.
 
@@ -203,7 +203,7 @@ Controls are 32px, not shadcn's 36px. That one change is most of what makes the 
 
 Sidebar items are the one row that runs shorter than a control, at 30px, the half-step between the two. A sidebar is a long list read at a glance: at 32px it read as tall, and at 28px as cramped. Its rows, the rename field, the loading row and any icon button beside a row (quick chat, say) all sit at 30px, and the row's action and badge sit 5px from its top to stay centred. Group labels keep 32px, since they space the sections rather than being rows.
 
-Docs pages set their prose with `.typeset` (`app/typeset.css`), which is shadcn's typeset set to this scale: 14px on 24px leading, 16px between paragraphs, 40px above a section's heading, headings from the type scale (h1 30/36 light, h2 24/32, h3 20/28, h4 16/24, h5 as label, h6 as overline), nothing heavier than medium, inline code at 13px on `muted`, code blocks in `code-block`, table headers in `caption`, hairline rules in `border`, and links that rest in the ink around them. Change the prose's look in `typeset.css`, never with classes on the prose. Anything that isn't prose, like a preview, a code block or an install command, sits in a `data-not-typeset` wrapper.
+Component pages set their prose with `.typeset` (`app/typeset.css`), which is shadcn's typeset set to this scale: 14px on 24px leading, 16px between paragraphs, 40px above a section's heading, headings from the type scale (h1 30/36 light, h2 24/32, h3 20/28, h4 16/24, h5 as label, h6 as overline), nothing heavier than medium, inline code at 13px on `muted`, code blocks in `code-block`, table headers in `caption`, hairline rules in `border`, and links that rest in the ink around them. Change the prose's look in `typeset.css`, never with classes on the prose. Anything that isn't prose, like a preview, a code block or an install command, sits in a `data-not-typeset` wrapper.
 
 Four rules:
 

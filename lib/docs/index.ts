@@ -35,12 +35,12 @@ type DocsItem = {
   name: string
   title: string
   description: string
-  type: (typeof registry.items)[number]["type"]
-  /** The name of the gallery section its card sits in, like "Chat". */
-  category: string
+  /** Where it sits in the whole list, counting from 1 down every section. */
+  index: number
 }
 
 type DocsSection = {
+  /** The category the gallery files it under, like "Chat". */
   title: string
   items: DocsItem[]
 }
@@ -51,41 +51,29 @@ const DOCS: Record<string, DocContent> = {
   "stream-text": streamText,
 }
 
-const SECTIONS = [
-  { type: "registry:block", title: "Blocks" },
-  { type: "registry:component", title: "Components" },
-] as const
-
-// Everything with a card in a listed section gets a page: supporting items,
-// like the theme or the icon sets, have nothing to preview.
-const ITEMS: DocsItem[] = registry.items.flatMap((item) =>
-  "categories" in item &&
-  item.categories?.length &&
-  SECTIONS.some((section) => section.type === item.type)
-    ? [
-        {
-          name: item.name,
-          title: item.title,
-          description: item.description,
-          type: item.type,
-          category: CATEGORIES[item.categories[0] as Category].name,
-        },
-      ]
-    : []
-)
-
-function docsSections(): DocsSection[] {
-  return SECTIONS.map(({ type, title }) => ({
-    title,
-    items: ITEMS.filter((item) => item.type === type).sort((a, b) =>
-      a.title.localeCompare(b.title)
-    ),
-  }))
+// Every component with a card gets a page, in its gallery category, the
+// categories in the order they run down the gallery.
+const SECTIONS: DocsSection[] = []
+let count = 0
+for (const [id, category] of Object.entries(CATEGORIES)) {
+  const items = registry.items
+    .filter(
+      (item) =>
+        item.type === "registry:component" &&
+        "categories" in item &&
+        item.categories?.[0] === (id as Category)
+    )
+    .sort((a, b) => a.title.localeCompare(b.title))
+    .map((item) => ({
+      name: item.name,
+      title: item.title,
+      description: item.description,
+      index: ++count,
+    }))
+  if (items.length) SECTIONS.push({ title: category.name, items })
 }
 
-function docsSectionOf(item: DocsItem) {
-  return SECTIONS.find((section) => section.type === item.type)?.title
-}
+const ITEMS = SECTIONS.flatMap((section) => section.items)
 
 function docsItem(name: string) {
   return ITEMS.find((item) => item.name === name) ?? null
@@ -95,11 +83,15 @@ function docsContent(name: string) {
   return DOCS[name] ?? null
 }
 
+function padIndex(index: number) {
+  return String(index).padStart(2, "0")
+}
+
 export {
   docsContent,
   docsItem,
-  docsSectionOf,
-  docsSections,
   ITEMS as DOCS_ITEMS,
+  padIndex,
+  SECTIONS as DOCS_SECTIONS,
 }
 export type { DocContent, DocPart, DocProp, DocSnippet, DocsItem, DocsSection }

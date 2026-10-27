@@ -1,7 +1,6 @@
 import {
   AiElementsIcon,
   AiSwapIcon,
-  BookOpen01Icon,
   DashboardSquare01Icon,
 } from "@hugeicons/core-free-icons"
 
@@ -45,22 +44,11 @@ export const PAGES = {
     description:
       "shadcn's components in this system's style. Each one installs over your own copy in components/ui, and every call site keeps working.",
   },
-  "/docs": {
-    label: "Docs",
-    eyebrow: "under construction",
-    eyebrowVariant: "construction",
-    title: "Documentation",
-    icon: BookOpen01Icon,
-    description:
-      "How to install every block and component here, and how to put them together. Usage and API references are being written one item at a time.",
-  },
 } satisfies Record<string, PageMeta>
 
 // The nav lists what is finished — a stub in it costs more than a short nav.
 // Home isn't in it: the logo is the way back there.
-export const NAV_PAGES: NavPage[] = (["/components", "/docs"] as const).map(
-  (href) => ({
-    href,
-    label: PAGES[href].label,
-  })
-)
+export const NAV_PAGES: NavPage[] = (["/components"] as const).map((href) => ({
+  href,
+  label: PAGES[href].label,
+}))
