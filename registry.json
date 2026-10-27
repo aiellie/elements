@@ -1831,7 +1831,7 @@
       "name": "sandbox",
       "type": "registry:component",
       "title": "Sandbox",
-      "description": "Code that runs in the page with Sandpack: a live preview, an editor with a file tree, and a console, under one toolbar that follows light and dark.",
+      "description": "Code that runs in the page with Sandpack, in our own chrome: a live preview with a loading bar and its errors, an editor with a file tree and file tabs, and a console, under one toolbar that follows light and dark.",
       "dependencies": [
         "@hugeicons/react",
         "@hugeicons/core-free-icons",
@@ -1839,6 +1839,7 @@
         "jszip"
       ],
       "registryDependencies": [
+        "@aiellie/button",
         "@aiellie/code-block",
         "@aiellie/file-tree",
         "@aiellie/tabs",

@@ -3,7 +3,7 @@ import type { DocContent } from "@/lib/docs"
 const doc: DocContent = {
   intro: [
     "Sandbox runs code in the page with Sandpack. One toolbar switches between the live preview, the code and the console, reloads the preview and downloads every file as a zip. The editor has the file tree beside it, and the console's tab is marked when an error or a warning lands out of sight.",
-    "It is drawn in the theme's own colours, read from its variables, so it matches the page in light and dark without being told which is on.",
+    "Everything around the code is ours rather than Sandpack's: a live bar sweeps along the top while the bundler starts, its progress shows in the middle, and a runtime error docks at the bottom of the preview. The editor has file tabs like Code Workspace, and the console lists messages the way Web Preview's does. It's drawn in the theme's own colours, so it matches the page in light and dark without being told which is on.",
   ],
   gettingStarted: {
     steps: [
@@ -108,8 +108,14 @@ export function CounterSandbox() {
       title: "SandboxCodeEditor",
       head: ["Prop", "Type", "Default", "Description"],
       rows: [
-        ["`showHeader`", "`boolean`", "`true`", "The file's name and actions."],
+        ["`showHeader`", "`boolean`", "`true`", "The tabs and actions."],
         ["`showFileTree`", "`boolean`", "`true`", ""],
+        [
+          "`showTabs`",
+          "`boolean`",
+          "`true`",
+          "A tab for each open file. Off, the header names the active one.",
+        ],
         ["`showLineNumbers`", "`boolean`", "`true`", ""],
       ],
       after: ["All other props go to Sandpack's `SandpackCodeEditor`."],
@@ -136,9 +142,12 @@ export function CounterSandbox() {
         ],
         [
           "`SandboxPreview`",
-          "Sandpack's preview, without its own reload and CodeSandbox buttons, since the toolbar has them.",
+          "Sandpack's preview in our chrome: a loading bar and progress instead of its cube, Try again if the bundler times out, and runtime errors docked at the bottom. Its own buttons are off, since the toolbar has them.",
         ],
-        ["`SandboxConsole`", "Sandpack's console."],
+        [
+          "`SandboxConsole`",
+          "The preview's logs as rows, with error and warning counts and Clear. `resetOnPreviewRestart` (default `true`) clears it on a restart.",
+        ],
         ["`SandboxLayout`", "Sandpack's layout, without its frame."],
       ],
     },

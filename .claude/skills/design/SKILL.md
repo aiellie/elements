@@ -292,6 +292,10 @@ The active tab carries an `input` hairline in both themes, since the `shadow-sm`
 
 **A key the person pastes in is a password field in an `InputGroup`, with show and clear buttons at its end.** Show flips it to plain text and back (`ViewIcon`, `ViewOffSlashIcon`). Clear stays disabled while the field is empty rather than hiding, so the field's end doesn't shift, and it puts focus back in the field. The field is `font-mono`, since a key is an id, and it carries `data-1p-ignore` and `data-lpignore` so password managers don't offer to save a key as a login. Where the key comes from goes at the end of the label row as a quiet "Get a key" link with an up-right arrow, never as a button. The Providers section of the settings dialog is the reference.
 
+### Embedded libraries
+
+**A third-party widget wears our chrome, not its own.** Sandpack, CodeMirror and the like ship loading spinners, overlays, consoles and gutters in their own look, and next to our components they read as a different product. Turn their extras off where they have a prop (`showSandpackErrorOverlay`, `showOpenInCodeSandbox`), hide what has none through its class (`[&_.sp-loading]:hidden!`), and draw the rest from our parts: the live loading bar from Web Preview, file tabs and a 48px gutter of 11px muted numbers from Code Workspace, console rows from Web Preview's console. Feed the library the theme's variables for colour rather than a palette of its own. `components/sandbox.tsx` is the reference.
+
 ### Layers
 
 Eight layers, ten apart so one can be slipped in later without renumbering:

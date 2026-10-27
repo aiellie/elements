@@ -3,11 +3,13 @@
 import * as React from "react"
 import {
   SandpackCodeEditor,
-  SandpackConsole,
   SandpackLayout,
   SandpackPreview,
   SandpackProvider,
+  useErrorMessage,
   useSandpack,
+  useSandpackConsole,
+  useSandpackPreviewProgress,
   type CodeEditorProps,
   type PreviewProps,
   type SandpackFiles,
@@ -16,9 +18,11 @@ import {
   type SandpackTheme,
 } from "@codesandbox/sandpack-react"
 import {
+  Alert02Icon,
   AppWindowIcon,
   ArrowReloadHorizontalIcon,
   ArrowTurnBackwardIcon,
+  Cancel01Icon,
   CodeIcon,
   Copy01Icon,
   Download01Icon,
@@ -38,6 +42,7 @@ import {
   type FileNode,
 } from "@/registry/aiellie/components/file-tree"
 import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { Button } from "@/registry/aiellie/ui/button"
 import {
   Tabs,
   TabsContent,
@@ -540,10 +545,75 @@ function SandboxFileExplorer({
   )
 }
 
+function FileTab({
+  path,
+  active,
+  onSelect,
+  onClose,
+}: {
+  path: string
+  active: boolean
+  onSelect: () => void
+  onClose?: () => void
+}) {
+  const name = path.split("/").pop() ?? path
+
+  return (
+    <div
+      data-slot="sandbox-tab"
+      data-active={active || undefined}
+      className="group/tab flex h-7 max-w-44 shrink-0 items-center rounded-md text-muted-foreground transition-colors duration-80 hover:bg-muted hover:text-foreground motion-reduce:transition-none data-active:bg-muted data-active:text-foreground"
+    >
+      <button
+        type="button"
+        role="tab"
+        aria-selected={active}
+        title={relative(path)}
+        onClick={onSelect}
+        // A middle click closes it, as it does in an editor.
+        onAuxClick={(event) => {
+          if (event.button === 1 && onClose) {
+            event.preventDefault()
+            onClose()
+          }
+        }}
+        className={cn(
+          "flex h-full min-w-0 items-center gap-1.5 rounded-md border border-transparent ps-2 font-mono text-xs outline-none focus-visible:border-ring [&_svg]:size-3.5 [&_svg]:shrink-0",
+          onClose ? "pe-1" : "pe-2"
+        )}
+      >
+        {codeIconOf(name) ?? <HugeiconsIcon aria-hidden icon={FileIcon} />}
+        <span className="truncate">{name}</span>
+      </button>
+      {onClose ? (
+        <button
+          type="button"
+          aria-label={`Close ${name}`}
+          onClick={onClose}
+          className="me-1 flex size-5 shrink-0 items-center justify-center rounded-sm border border-transparent text-muted-foreground opacity-0 transition-[opacity,scale] duration-80 outline-none group-hover/tab:opacity-100 group-data-active/tab:opacity-100 hover:bg-foreground/[0.06] hover:text-foreground focus-visible:border-ring focus-visible:opacity-100 active:scale-90 motion-reduce:transition-none dark:hover:bg-foreground/[0.09] pointer-coarse:opacity-100"
+        >
+          <HugeiconsIcon aria-hidden icon={Cancel01Icon} className="size-3" />
+        </button>
+      ) : null}
+    </div>
+  )
+}
+
+// CodeMirror's own look, brought in line with a code block: the gutter in
+// small muted numbers, no active-line band, our selection.
+const editorSurface = cn(
+  "min-h-0 flex-1 bg-transparent!",
+  "[&_.cm-content]:py-0! [&_.cm-content]:ps-0! [&_.cm-editor]:bg-transparent! [&_.cm-scroller]:py-2 [&_.cm-scroller]:font-mono!",
+  "[&_.cm-gutters]:border-0! [&_.cm-gutters]:bg-background! [&_.cm-gutters]:ps-0! [&_.cm-lineNumbers]:min-w-12!",
+  "[&_.cm-lineNumbers_.cm-gutterElement]:ps-0! [&_.cm-lineNumbers_.cm-gutterElement]:pe-4! [&_.cm-lineNumbers_.cm-gutterElement]:text-end [&_.cm-lineNumbers_.cm-gutterElement]:text-[11px]! [&_.cm-lineNumbers_.cm-gutterElement]:text-muted-foreground/70!",
+  "[&_.cm-activeLine]:bg-transparent! [&_.cm-activeLineGutter]:bg-transparent! [&_.cm-activeLineGutter]:text-foreground!",
+  "[&_.cm-line]:ps-0!"
+)
+
 function SandboxCodeEditor({
   showHeader = true,
   showFileTree = true,
-  showTabs = false,
+  showTabs = true,
   showLineNumbers = true,
   className,
   ...props
@@ -557,6 +627,12 @@ function SandboxCodeEditor({
   const path = relative(sandpack.activeFile)
   const name = path.split("/").pop() ?? path
   const code = sandpack.files[sandpack.activeFile]?.code ?? ""
+  const tabs = sandpack.visibleFiles.includes(sandpack.activeFile)
+    ? sandpack.visibleFiles
+    : [...sandpack.visibleFiles, sandpack.activeFile]
+  const shown = Object.values(sandpack.files).filter(
+    (file) => !file.hidden
+  ).length
 
   return (
     <div
@@ -567,19 +643,28 @@ function SandboxCodeEditor({
         <div
           data-open={treeOpen || undefined}
           inert={!treeOpen}
-          className="w-0 shrink-0 overflow-hidden border-border/60 transition-[width] duration-280 ease-out motion-reduce:transition-none data-open:w-44 data-open:border-e"
+          className="w-0 shrink-0 overflow-hidden border-border/60 transition-[width] duration-280 ease-out motion-reduce:transition-none data-open:w-52 data-open:border-e"
         >
-          <SandboxFileExplorer className="h-full w-44 py-2" />
+          <div className="flex h-full w-52 flex-col">
+            <div className="flex h-9 shrink-0 items-center gap-1 border-b border-border/60 ps-3 pe-1.5 text-xs">
+              <span className="text-muted-foreground">Files</span>
+              <span className="text-muted-foreground/70 tabular-nums">
+                {shown}
+              </span>
+            </div>
+            <SandboxFileExplorer className="min-h-0 flex-1 py-1" />
+          </div>
         </div>
       ) : null}
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         {showHeader ? (
-          <div className="flex h-9 shrink-0 items-center gap-1.5 border-b border-border/60 ps-1.5 pe-1.5">
+          <div className="flex h-9 shrink-0 items-center gap-1 border-b border-border/60 ps-1.5 pe-1.5">
             {showFileTree ? (
               <TooltipIconButton
                 tooltip={treeOpen ? "Hide files" : "Show files"}
                 aria-expanded={treeOpen}
                 onClick={() => setTreeOpen((open) => !open)}
+                className="shrink-0"
               >
                 <HugeiconsIcon
                   aria-hidden
@@ -588,15 +673,37 @@ function SandboxCodeEditor({
                 />
               </TooltipIconButton>
             ) : null}
-            <span
-              title={path}
-              className="flex min-w-0 items-center gap-1.5 ps-1 font-mono text-xs text-muted-foreground [&_svg]:size-3.5 [&_svg]:shrink-0"
-            >
-              {codeIconOf(name) ?? (
-                <HugeiconsIcon aria-hidden icon={FileIcon} />
-              )}
-              <span className="truncate">{path}</span>
-            </span>
+            {showTabs ? (
+              <div
+                role="tablist"
+                aria-label="Open files"
+                className="flex min-w-0 [scrollbar-width:none] items-center gap-0.5 overflow-x-auto [&::-webkit-scrollbar]:hidden"
+              >
+                {tabs.map((file) => (
+                  <FileTab
+                    key={file}
+                    path={file}
+                    active={file === sandpack.activeFile}
+                    onSelect={() => sandpack.openFile(file)}
+                    onClose={
+                      tabs.length > 1
+                        ? () => sandpack.closeFile(file)
+                        : undefined
+                    }
+                  />
+                ))}
+              </div>
+            ) : (
+              <span
+                title={path}
+                className="flex min-w-0 items-center gap-1.5 ps-1 font-mono text-xs text-muted-foreground [&_svg]:size-3.5 [&_svg]:shrink-0"
+              >
+                {codeIconOf(name) ?? (
+                  <HugeiconsIcon aria-hidden icon={FileIcon} />
+                )}
+                <span className="truncate">{path}</span>
+              </span>
+            )}
             <div className="ms-auto flex shrink-0 items-center gap-0.5">
               <TooltipIconButton
                 tooltip={copied ? "Copied" : "Copy"}
@@ -626,9 +733,9 @@ function SandboxCodeEditor({
           </div>
         ) : null}
         <SandpackCodeEditor
-          showTabs={showTabs}
+          showTabs={false}
           showLineNumbers={showLineNumbers}
-          className={cn("min-h-0 flex-1", className)}
+          className={cn(editorSurface, className)}
           {...props}
         />
       </div>
@@ -636,16 +743,150 @@ function SandboxCodeEditor({
   )
 }
 
+type ConsoleLevel = "log" | "warn" | "error"
+
+function levelOf(method: string): ConsoleLevel {
+  if (method === "error" || method === "assert") return "error"
+  if (method === "warn") return "warn"
+  return "log"
+}
+
+function textOf(data: unknown[] | undefined) {
+  return (data ?? [])
+    .map((part) => {
+      if (typeof part === "string") return part
+      try {
+        return JSON.stringify(part)
+      } catch {
+        return String(part)
+      }
+    })
+    .join(" ")
+}
+
 function SandboxConsole({
+  resetOnPreviewRestart = true,
   className,
   ...props
-}: React.ComponentProps<typeof SandpackConsole>) {
+}: React.ComponentProps<"div"> & {
+  /** Clears the log whenever the preview restarts. */
+  resetOnPreviewRestart?: boolean
+}) {
+  const { logs, reset } = useSandpackConsole({ resetOnPreviewRestart })
+  const listRef = React.useRef<HTMLDivElement>(null)
+  const entries = logs.filter((entry) => entry.method !== "clear")
+  const errors = entries.filter((entry) => levelOf(entry.method) === "error")
+  const warnings = entries.filter((entry) => levelOf(entry.method) === "warn")
+
+  React.useEffect(() => {
+    const list = listRef.current
+    if (list) list.scrollTop = list.scrollHeight
+  }, [entries.length])
+
   return (
-    <SandpackConsole
+    <div
       data-slot="sandbox-console"
-      className={cn("min-h-0 flex-1", className)}
+      className={cn("flex min-h-0 flex-1 flex-col", className)}
       {...props}
-    />
+    >
+      <div className="flex h-9 shrink-0 items-center gap-2 border-b border-border/60 ps-3 pe-1.5 text-xs text-muted-foreground">
+        <span className="tabular-nums">
+          {entries.length} {entries.length === 1 ? "message" : "messages"}
+        </span>
+        {errors.length > 0 ? (
+          <span className="flex items-center gap-1 text-destructive tabular-nums">
+            <span aria-hidden className="size-1.5 rounded-full bg-current" />
+            {errors.length} {errors.length === 1 ? "error" : "errors"}
+          </span>
+        ) : null}
+        {warnings.length > 0 ? (
+          <span className="tabular-nums">
+            {warnings.length} {warnings.length === 1 ? "warning" : "warnings"}
+          </span>
+        ) : null}
+        <Button
+          variant="ghost"
+          size="xs"
+          disabled={entries.length === 0}
+          onClick={reset}
+          className="ms-auto text-muted-foreground focus-visible:border-ring"
+        >
+          Clear
+        </Button>
+      </div>
+      <div
+        ref={listRef}
+        role="log"
+        aria-label="Console output"
+        className="min-h-0 flex-1 overflow-y-auto py-1 font-mono text-[11px] leading-5"
+      >
+        {entries.length === 0 ? (
+          <p className="px-3 py-1 text-muted-foreground">No console output</p>
+        ) : (
+          entries.map((entry) => {
+            const level = levelOf(entry.method)
+            return (
+              <div
+                key={entry.id}
+                data-level={level}
+                className="flex gap-2 border-b border-border/40 px-3 py-0.5 data-[level=error]:bg-destructive/5 data-[level=error]:text-destructive dark:data-[level=error]:bg-destructive/10"
+              >
+                {level === "log" ? (
+                  <span aria-hidden className="w-3 shrink-0" />
+                ) : (
+                  <HugeiconsIcon
+                    aria-label={level === "error" ? "Error" : "Warning"}
+                    icon={Alert02Icon}
+                    className={cn(
+                      "mt-1 size-3 shrink-0",
+                      level === "warn" && "text-muted-foreground"
+                    )}
+                  />
+                )}
+                <span className="min-w-0 break-words whitespace-pre-wrap">
+                  {textOf(entry.data)}
+                </span>
+              </div>
+            )
+          })
+        )}
+      </div>
+    </div>
+  )
+}
+
+const reducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+// A live segment sweeping along the top while the bundler works.
+function LoadingBar({ loading }: { loading: boolean }) {
+  const segment = React.useRef<HTMLSpanElement>(null)
+
+  React.useEffect(() => {
+    const element = segment.current
+    if (!element || !loading || reducedMotion()) return
+    const animation = element.animate(
+      [{ translate: "-100% 0" }, { translate: "300% 0" }],
+      {
+        duration: 1400,
+        iterations: Infinity,
+        easing: "cubic-bezier(0.65, 0, 0.35, 1)",
+      }
+    )
+    return () => animation.cancel()
+  }, [loading])
+
+  return (
+    <span
+      aria-hidden
+      data-loading={loading || undefined}
+      className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px overflow-hidden opacity-0 transition-opacity duration-280 data-loading:opacity-100 motion-reduce:transition-none"
+    >
+      <span
+        ref={segment}
+        className="absolute inset-y-0 start-0 w-1/3 bg-live motion-reduce:w-full motion-reduce:opacity-40"
+      />
+    </span>
   )
 }
 
@@ -653,16 +894,94 @@ function SandboxPreview({
   className,
   showOpenInCodeSandbox = false,
   showRefreshButton = false,
+  showRestartButton = false,
+  children,
   ...props
 }: PreviewProps & { className?: string }) {
+  const { sandpack, listen } = useSandpack()
+  const progress = useSandpackPreviewProgress(undefined)
+  const error = useErrorMessage()
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(
+    () =>
+      listen((message) => {
+        if (message.type === "start") setLoading(true)
+        if (message.type === "done") setLoading(false)
+      }),
+    [listen]
+  )
+
+  const timedOut = sandpack.status === "timeout"
+  const busy = loading && !timedOut
+
   return (
-    <SandpackPreview
+    <div
       data-slot="sandbox-preview"
-      showOpenInCodeSandbox={showOpenInCodeSandbox}
-      showRefreshButton={showRefreshButton}
-      className={cn("min-h-0 flex-1", className)}
-      {...props}
-    />
+      data-loading={busy || undefined}
+      className="relative flex min-h-0 min-w-0 flex-1"
+    >
+      <LoadingBar loading={busy} />
+      <SandpackPreview
+        showOpenInCodeSandbox={showOpenInCodeSandbox}
+        showRefreshButton={showRefreshButton}
+        showRestartButton={showRestartButton}
+        showSandpackErrorOverlay={false}
+        className={cn(
+          // Sandpack's own loading cube and overlays give way to ours.
+          "min-h-0 flex-1 bg-background! [&_.sp-loading]:hidden! [&_.sp-overlay]:hidden! [&_.sp-preview-iframe]:bg-background",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </SandpackPreview>
+
+      {busy || timedOut ? (
+        <div
+          role="status"
+          className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background text-xs text-muted-foreground"
+        >
+          {timedOut ? (
+            <>
+              <p>The preview couldn&apos;t start.</p>
+              <Button
+                variant="outline"
+                size="xs"
+                onClick={() => sandpack.runSandpack()}
+              >
+                <HugeiconsIcon aria-hidden icon={ArrowReloadHorizontalIcon} />
+                Try again
+              </Button>
+            </>
+          ) : (
+            <p className="shimmer motion-reduce:shimmer-none">
+              {progress ?? "Starting the preview"}
+            </p>
+          )}
+        </div>
+      ) : null}
+
+      {error && !busy ? (
+        <div
+          role="alert"
+          data-slot="sandbox-preview-error"
+          className="absolute inset-x-0 bottom-0 z-10 flex max-h-1/2 animate-in flex-col gap-1 overflow-y-auto border-t border-destructive/20 bg-background px-3 py-2 duration-150 fade-in motion-reduce:animate-none"
+        >
+          <p className="flex items-center gap-1.5 text-xs font-medium text-destructive">
+            <HugeiconsIcon
+              aria-hidden
+              icon={Alert02Icon}
+              className="size-3.5"
+            />
+            Error
+          </p>
+          <pre className="font-mono text-[11px] leading-5 whitespace-pre-wrap text-destructive">
+            {error}
+          </pre>
+        </div>
+      ) : null}
+    </div>
   )
 }
 
