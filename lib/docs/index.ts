@@ -3,15 +3,18 @@ import registry from "@/registry.json"
 import addMenu from "@/lib/docs/add-menu"
 import approvalModeMenu from "@/lib/docs/approval-mode-menu"
 import attachments from "@/lib/docs/attachments"
+import audioPlayer from "@/lib/docs/audio-player"
 import branchesMenu from "@/lib/docs/branches-menu"
 import codeBlock from "@/lib/docs/code-block"
 import codeDiff from "@/lib/docs/code-diff"
+import codeSnippet from "@/lib/docs/code-snippet"
 import composer from "@/lib/docs/composer"
 import dateDivider from "@/lib/docs/date-divider"
 import dictateButton from "@/lib/docs/dictate-button"
 import editableTitle from "@/lib/docs/editable-title"
 import effortMenu from "@/lib/docs/effort-menu"
 import filePreview from "@/lib/docs/file-preview"
+import fileTree from "@/lib/docs/file-tree"
 import helpMenu from "@/lib/docs/help-menu"
 import historyButtons from "@/lib/docs/history-buttons"
 import inlineCitation from "@/lib/docs/inline-citation"
@@ -19,15 +22,21 @@ import mentions from "@/lib/docs/mentions"
 import menu from "@/lib/docs/menu"
 import message from "@/lib/docs/message"
 import messageActions from "@/lib/docs/message-actions"
+import messageContextMenu from "@/lib/docs/message-context-menu"
 import messageHighlightToolbar from "@/lib/docs/message-highlight-toolbar"
+import messageStatus from "@/lib/docs/message-status"
 import meter from "@/lib/docs/meter"
+import micMenu from "@/lib/docs/mic-menu"
 import modelSelector from "@/lib/docs/model-selector"
 import navBars from "@/lib/docs/nav-bars"
+import orb from "@/lib/docs/orb"
 import panels from "@/lib/docs/panels"
 import pluginSelector from "@/lib/docs/plugin-selector"
 import projectSelector from "@/lib/docs/project-selector"
+import promptMenu from "@/lib/docs/prompt-menu"
 import quickChat from "@/lib/docs/quick-chat"
 import quotedMessage from "@/lib/docs/quoted-message"
+import reactions from "@/lib/docs/reactions"
 import reasoning from "@/lib/docs/reasoning"
 import response from "@/lib/docs/response"
 import settingsDialog from "@/lib/docs/settings-dialog"
@@ -42,10 +51,12 @@ import terminal from "@/lib/docs/terminal"
 import thinkingIndicator from "@/lib/docs/thinking-indicator"
 import thread from "@/lib/docs/thread"
 import threadTranscript from "@/lib/docs/thread-transcript"
+import timestamps from "@/lib/docs/timestamps"
 import toast from "@/lib/docs/toast"
 import toolCall from "@/lib/docs/tool-call"
 import toolbar from "@/lib/docs/toolbar"
 import tooltipIconButton from "@/lib/docs/tooltip-icon-button"
+import transcript from "@/lib/docs/transcript"
 import userMenu from "@/lib/docs/user-menu"
 import waveform from "@/lib/docs/waveform"
 import workInMenu from "@/lib/docs/work-in-menu"
@@ -114,15 +125,18 @@ const DOCS: Record<string, DocContent> = {
   "add-menu": addMenu,
   "approval-mode-menu": approvalModeMenu,
   attachments: attachments,
+  "audio-player": audioPlayer,
   "branches-menu": branchesMenu,
   "code-block": codeBlock,
   "code-diff": codeDiff,
+  "code-snippet": codeSnippet,
   composer: composer,
   "date-divider": dateDivider,
   "dictate-button": dictateButton,
   "editable-title": editableTitle,
   "effort-menu": effortMenu,
   "file-preview": filePreview,
+  "file-tree": fileTree,
   "help-menu": helpMenu,
   "history-buttons": historyButtons,
   "inline-citation": inlineCitation,
@@ -130,15 +144,21 @@ const DOCS: Record<string, DocContent> = {
   menu: menu,
   message: message,
   "message-actions": messageActions,
+  "message-context-menu": messageContextMenu,
   "message-highlight-toolbar": messageHighlightToolbar,
+  "message-status": messageStatus,
   meter: meter,
+  "mic-menu": micMenu,
   "model-selector": modelSelector,
   "nav-bars": navBars,
+  orb: orb,
   panels: panels,
   "plugin-selector": pluginSelector,
   "project-selector": projectSelector,
+  "prompt-menu": promptMenu,
   "quick-chat": quickChat,
   "quoted-message": quotedMessage,
+  reactions: reactions,
   reasoning: reasoning,
   response: response,
   "settings-dialog": settingsDialog,
@@ -153,10 +173,12 @@ const DOCS: Record<string, DocContent> = {
   "thinking-indicator": thinkingIndicator,
   thread: thread,
   "thread-transcript": threadTranscript,
+  timestamps: timestamps,
   toast: toast,
   "tool-call": toolCall,
   toolbar: toolbar,
   "tooltip-icon-button": tooltipIconButton,
+  transcript: transcript,
   "user-menu": userMenu,
   waveform: waveform,
   "work-in-menu": workInMenu,

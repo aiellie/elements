@@ -1597,6 +1597,196 @@
         "iframeHeight": "500px"
       },
       "categories": ["chat"]
+    },
+    {
+      "name": "orb",
+      "type": "registry:component",
+      "title": "Orb",
+      "description": "The assistant as a sphere of moving colour that idles, listens, thinks, speaks and sleeps, swelling with the voice. Any word gives it a look of its own.",
+      "dependencies": ["@paper-design/shaders-react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/orb.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/orb.tsx"
+        }
+      ],
+      "categories": ["voice"]
+    },
+    {
+      "name": "transcript",
+      "type": "registry:component",
+      "title": "Transcript",
+      "description": "Speech as text: lines by speaker that follow the newest, with words still being guessed shimmering until they settle.",
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/transcript.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/transcript.tsx"
+        }
+      ],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["voice"]
+    },
+    {
+      "name": "audio-player",
+      "type": "registry:component",
+      "title": "Audio Player",
+      "description": "A clip that plays where it stands: play and pause, its shape to scrub through, and the time.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/audio-player.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/audio-player.tsx"
+        }
+      ],
+      "categories": ["voice"]
+    },
+    {
+      "name": "mic-menu",
+      "type": "registry:component",
+      "title": "Mic Menu",
+      "description": "Which microphone to use, from the inputs the browser lists, kept current as devices come and go.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/menu",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/mic-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/mic-menu.tsx"
+        }
+      ],
+      "categories": ["voice"]
+    },
+    {
+      "name": "prompt-menu",
+      "type": "registry:component",
+      "title": "Prompt Menu",
+      "description": "A menu of preset instructions to put the assistant under, grouped, with a line on how each changes the answer.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/menu",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/prompt-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/prompt-menu.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "code-snippet",
+      "type": "registry:component",
+      "title": "Code Snippet",
+      "description": "A command to copy, with tabs for npm, pnpm, yarn and bun.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/code-block", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/code-snippet.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/code-snippet.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "file-tree",
+      "type": "registry:component",
+      "title": "File Tree",
+      "description": "Folders and files a change touched, marked added, changed or removed, walked with the arrow keys.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/code-block", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/file-tree.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/file-tree.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "reactions",
+      "type": "registry:component",
+      "title": "Reactions",
+      "description": "Emoji counts under a message that you press to add or take back your own.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/tooltip", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/reactions.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/reactions.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "message-status",
+      "type": "registry:component",
+      "title": "Message Status",
+      "description": "How far a message has got: sending, sent, delivered, read, or not sent with a retry.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/message-status.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/message-status.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "timestamps",
+      "type": "registry:component",
+      "title": "Timestamps",
+      "description": "When a message was sent, worded by how long ago, beside it or across the thread.",
+      "registryDependencies": ["@aiellie/marker", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/timestamps.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/timestamps.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "message-context-menu",
+      "type": "registry:component",
+      "title": "Message Context Menu",
+      "description": "The menu a message opens on right click or long press, with a row of reactions above its actions.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/menu", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/message-context-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/message-context-menu.tsx"
+        }
+      ],
+      "categories": ["chat"]
     }
   ]
 }

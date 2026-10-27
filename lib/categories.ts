@@ -6,6 +6,7 @@ import {
   Notification03Icon,
   SourceCodeIcon,
   TouchInteraction01Icon,
+  VoiceIcon,
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
 
@@ -30,6 +31,8 @@ export const CATEGORIES = {
   feedback: { name: "Feedback", icon: Notification03Icon },
   /** The pieces of a conversation. */
   chat: { name: "Chat", icon: BubbleChatIcon },
+  /** Talking to the assistant: what it hears, says and plays back. */
+  voice: { name: "Voice", icon: VoiceIcon },
   /** What a model wrote or ran: code, diffs and commands. */
   code: { name: "Code", icon: SourceCodeIcon },
 } satisfies Record<string, { name: string; icon: IconSvgElement }>

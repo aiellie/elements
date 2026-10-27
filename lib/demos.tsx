@@ -69,6 +69,17 @@ import EffortMenuDemo from "@/registry/aiellie/examples/effort-menu-demo"
 import ApprovalModeMenuDemo from "@/registry/aiellie/examples/approval-mode-menu-demo"
 import SlashMenuDemo from "@/registry/aiellie/examples/slash-menu-demo"
 import MentionsDemo from "@/registry/aiellie/examples/mentions-demo"
+import OrbDemo from "@/registry/aiellie/examples/orb-demo"
+import TranscriptDemo from "@/registry/aiellie/examples/transcript-demo"
+import AudioPlayerDemo from "@/registry/aiellie/examples/audio-player-demo"
+import MicMenuDemo from "@/registry/aiellie/examples/mic-menu-demo"
+import PromptMenuDemo from "@/registry/aiellie/examples/prompt-menu-demo"
+import CodeSnippetDemo from "@/registry/aiellie/examples/code-snippet-demo"
+import FileTreeDemo from "@/registry/aiellie/examples/file-tree-demo"
+import ReactionsDemo from "@/registry/aiellie/examples/reactions-demo"
+import MessageStatusDemo from "@/registry/aiellie/examples/message-status-demo"
+import TimestampsDemo from "@/registry/aiellie/examples/timestamps-demo"
+import MessageContextMenuDemo from "@/registry/aiellie/examples/message-context-menu-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
 type Demo = {
@@ -304,6 +315,61 @@ const DEMOS: Record<string, Demo> = {
     Demo: SlashMenuDemo,
   },
   mentions: { title: "Mentions", gallery: "/components", Demo: MentionsDemo },
+  orb: {
+    title: "Orb",
+    gallery: "/components",
+    Demo: OrbDemo,
+  },
+  transcript: {
+    title: "Transcript",
+    gallery: "/components",
+    Demo: TranscriptDemo,
+  },
+  "audio-player": {
+    title: "Audio Player",
+    gallery: "/components",
+    Demo: AudioPlayerDemo,
+  },
+  "mic-menu": {
+    title: "Mic Menu",
+    gallery: "/components",
+    Demo: MicMenuDemo,
+  },
+  "prompt-menu": {
+    title: "Prompt Menu",
+    gallery: "/components",
+    Demo: PromptMenuDemo,
+  },
+  "code-snippet": {
+    title: "Code Snippet",
+    gallery: "/components",
+    Demo: CodeSnippetDemo,
+  },
+  "file-tree": {
+    title: "File Tree",
+    gallery: "/components",
+    Demo: FileTreeDemo,
+  },
+  reactions: {
+    title: "Reactions",
+    gallery: "/components",
+    Demo: ReactionsDemo,
+  },
+  "message-status": {
+    title: "Message Status",
+    gallery: "/components",
+    Demo: MessageStatusDemo,
+  },
+  timestamps: {
+    title: "Timestamps",
+    gallery: "/components",
+    Demo: TimestampsDemo,
+  },
+  "message-context-menu": {
+    title: "Message Context Menu",
+    gallery: "/components",
+    Demo: MessageContextMenuDemo,
+  },
 }
 
 export { DEMOS }
