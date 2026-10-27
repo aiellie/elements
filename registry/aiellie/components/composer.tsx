@@ -287,5 +287,6 @@ export {
   ComposerHeader,
   ComposerInput,
   ComposerSubmit,
+  useComposer,
 }
 export type { ComposerStatus }

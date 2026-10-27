@@ -4,6 +4,7 @@ import {
   Layers01Icon,
   LayoutTwoColumnIcon,
   Notification03Icon,
+  SourceCodeIcon,
   TouchInteraction01Icon,
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
@@ -29,6 +30,8 @@ export const CATEGORIES = {
   feedback: { name: "Feedback", icon: Notification03Icon },
   /** The pieces of a conversation. */
   chat: { name: "Chat", icon: BubbleChatIcon },
+  /** What a model wrote or ran: code, diffs and commands. */
+  code: { name: "Code", icon: SourceCodeIcon },
 } satisfies Record<string, { name: string; icon: IconSvgElement }>
 
 export type Category = keyof typeof CATEGORIES

@@ -1,4 +1,4 @@
-import { codeToHtml } from "shiki"
+import { codeToHtml, codeToTokens } from "shiki"
 import type { ShikiTransformer } from "shiki"
 
 export const transformers = [
@@ -80,4 +80,29 @@ export async function highlightCode(code: string, language: string = "tsx") {
   })
 
   return html
+}
+
+export type CodeToken = {
+  content: string
+  /** The light colour as `color`, and the dark one as `--shiki-dark`. */
+  style?: Record<string, string>
+}
+
+// Lines of coloured tokens, for code laid out row by row rather than set as
+// one block of markup.
+export async function highlightTokens(
+  code: string,
+  language: string = "tsx"
+): Promise<CodeToken[][]> {
+  const { tokens } = await codeToTokens(code, {
+    lang: language as Parameters<typeof codeToTokens>[1]["lang"],
+    themes: {
+      dark: "github-dark",
+      light: "github-light",
+    },
+  })
+
+  return tokens.map((line) =>
+    line.map((token) => ({ content: token.content, style: token.htmlStyle }))
+  )
 }

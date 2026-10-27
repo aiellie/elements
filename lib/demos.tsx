@@ -56,6 +56,19 @@ import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
 import WaveformDemo from "@/registry/aiellie/examples/waveform-demo"
 import WorkInMenuDemo from "@/registry/aiellie/examples/work-in-menu-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
+import CodeBlockDemo from "@/registry/aiellie/examples/code-block-demo"
+import CodeDiffDemo from "@/registry/aiellie/examples/code-diff-demo"
+import TerminalDemo from "@/registry/aiellie/examples/terminal-demo"
+import ResponseDemo from "@/registry/aiellie/examples/response-demo"
+import ToolCallDemo from "@/registry/aiellie/examples/tool-call-demo"
+import MessageActionsDemo from "@/registry/aiellie/examples/message-actions-demo"
+import InlineCitationDemo from "@/registry/aiellie/examples/inline-citation-demo"
+import QuotedMessageDemo from "@/registry/aiellie/examples/quoted-message-demo"
+import MessageHighlightToolbarDemo from "@/registry/aiellie/examples/message-highlight-toolbar-demo"
+import EffortMenuDemo from "@/registry/aiellie/examples/effort-menu-demo"
+import ApprovalModeMenuDemo from "@/registry/aiellie/examples/approval-mode-menu-demo"
+import SlashMenuDemo from "@/registry/aiellie/examples/slash-menu-demo"
+import MentionsDemo from "@/registry/aiellie/examples/mentions-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
 type Demo = {
@@ -238,6 +251,59 @@ const DEMOS: Record<string, Demo> = {
     gallery: "/components",
     Demo: FilePreviewDemo,
   },
+  "code-block": {
+    title: "Code Block",
+    gallery: "/components",
+    Demo: CodeBlockDemo,
+  },
+  "code-diff": {
+    title: "Code Diff",
+    gallery: "/components",
+    Demo: CodeDiffDemo,
+  },
+  terminal: { title: "Terminal", gallery: "/components", Demo: TerminalDemo },
+  response: { title: "Response", gallery: "/components", Demo: ResponseDemo },
+  "tool-call": {
+    title: "Tool Call",
+    gallery: "/components",
+    Demo: ToolCallDemo,
+  },
+  "message-actions": {
+    title: "Message Actions",
+    gallery: "/components",
+    Demo: MessageActionsDemo,
+  },
+  "inline-citation": {
+    title: "Inline Citation",
+    gallery: "/components",
+    Demo: InlineCitationDemo,
+  },
+  "quoted-message": {
+    title: "Quoted Message",
+    gallery: "/components",
+    Demo: QuotedMessageDemo,
+  },
+  "message-highlight-toolbar": {
+    title: "Message Highlight Toolbar",
+    gallery: "/components",
+    Demo: MessageHighlightToolbarDemo,
+  },
+  "effort-menu": {
+    title: "Effort Menu",
+    gallery: "/components",
+    Demo: EffortMenuDemo,
+  },
+  "approval-mode-menu": {
+    title: "Approval Mode Menu",
+    gallery: "/components",
+    Demo: ApprovalModeMenuDemo,
+  },
+  "slash-menu": {
+    title: "Slash Menu",
+    gallery: "/components",
+    Demo: SlashMenuDemo,
+  },
+  mentions: { title: "Mentions", gallery: "/components", Demo: MentionsDemo },
 }
 
 export { DEMOS }

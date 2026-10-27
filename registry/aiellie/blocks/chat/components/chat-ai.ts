@@ -13,6 +13,7 @@ import { toUIMessages } from "@/registry/aiellie/blocks/chat/components/chat-fil
 import type {
   ChatMessage,
   ChatSource,
+  ChatToolCall,
 } from "@/registry/aiellie/blocks/chat/components/chat-messages"
 import {
   routeOf,
@@ -87,6 +88,8 @@ type ReplySoFar = {
   activity?: string
   /** Pages a search turned up. */
   sources: ChatSource[]
+  /** The tools it called, in order. */
+  tools: ChatToolCall[]
 }
 
 const record = (value: unknown) =>
@@ -127,6 +130,7 @@ function readReply(message: UIMessage): ReplySoFar {
   const text: string[] = []
   const reasoning: string[] = []
   const sources = new Map<string, ChatSource>()
+  const tools: ChatToolCall[] = []
   let activity: string | undefined = "Thinking"
 
   for (const part of message.parts) {
@@ -141,11 +145,31 @@ function readReply(message: UIMessage): ReplySoFar {
     } else if (isToolUIPart(part)) {
       const running =
         part.state === "input-streaming" || part.state === "input-available"
-      const search = getToolOrDynamicToolName(part).includes("search")
+      const name = getToolOrDynamicToolName(part)
+      const search = name.includes("search")
+      const found = running ? [] : sourcesOf(part.output)
+      tools.push({
+        id: part.toolCallId,
+        name: search
+          ? running
+            ? "Searching the web"
+            : "Searched the web"
+          : name,
+        kind: search ? "search" : "tool",
+        status:
+          part.state === "output-error" || part.state === "output-denied"
+            ? "error"
+            : running
+              ? "running"
+              : "done",
+        summary: search ? queryOf(part.input, part.output) : undefined,
+        input: part.input,
+        output: search && found.length > 0 ? found : part.output,
+      })
       if (!running) {
         activity = "Thinking"
         if (search) {
-          for (const source of sourcesOf(part.output)) {
+          for (const source of found) {
             if (!sources.has(source.url)) sources.set(source.url, source)
           }
         }
@@ -163,6 +187,7 @@ function readReply(message: UIMessage): ReplySoFar {
     reasoning: reasoning.join("\n\n").trim(),
     activity,
     sources: [...sources.values()],
+    tools,
   }
 }
 
@@ -170,6 +195,7 @@ function readReply(message: UIMessage): ReplySoFar {
 async function streamReply({
   chatId,
   model,
+  effort,
   keys,
   messages,
   signal,
@@ -177,6 +203,8 @@ async function streamReply({
 }: {
   chatId: string
   model: ModelOption
+  /** How hard the model thinks, as one of the AI SDK's reasoning levels. */
+  effort?: string
   keys: ProviderKeys
   /** The chat up to the reply, oldest first. */
   messages: ChatMessage[]
@@ -187,7 +215,7 @@ async function streamReply({
   if (!route) throw new Error("No key reaches this model. Add one in Settings.")
 
   const waiting = (activity: string) =>
-    onUpdate({ text: "", reasoning: "", activity, sources: [] })
+    onUpdate({ text: "", reasoning: "", activity, sources: [], tools: [] })
 
   const question = messages.findLast((message) => message.role === "user")
   if (question?.attachments?.length) waiting("Reading files")
@@ -201,7 +229,7 @@ async function streamReply({
     messages: uiMessages,
     abortSignal: signal,
     headers: { Authorization: `Bearer ${route.key}` },
-    body: { provider: route.provider, model: route.model },
+    body: { provider: route.provider, model: route.model, effort },
   })
 
   for await (const message of readUIMessageStream({

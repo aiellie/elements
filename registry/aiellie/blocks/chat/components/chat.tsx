@@ -130,6 +130,7 @@ function Chat({
   const [quickBranch, setQuickBranch] = React.useState(SAMPLE_BRANCHES[0])
   const [draft, setDraft] = React.useState("")
   const [model, setModel] = React.useState(MODELS[0].id)
+  const [effort, setEffort] = React.useState("medium")
   const [project, setProject] = React.useState<string | null>(null)
   const [plugins, setPlugins] = React.useState<string[]>([])
   const [workIn, setWorkIn] = React.useState("local")
@@ -364,10 +365,11 @@ function Chat({
     streamReply({
       chatId: conversationId,
       model: replyModel,
+      effort,
       keys,
       messages: history,
       signal: controller.signal,
-      onUpdate: ({ text, reasoning, activity, sources }) => {
+      onUpdate: ({ text, reasoning, activity, sources, tools }) => {
         if (!current()) return
         content = text
         thought = reasoning
@@ -380,6 +382,7 @@ function Chat({
           reasoningDuration,
           activity,
           sources: sources.length > 0 ? sources : undefined,
+          tools: tools.length > 0 ? tools : undefined,
         })
       },
     }).then(
@@ -484,6 +487,7 @@ function Chat({
               reasoningDuration: undefined,
               activity: undefined,
               sources: undefined,
+              tools: undefined,
               createdAt,
             }
           : message
@@ -908,6 +912,8 @@ function Chat({
               models={models}
               model={replyModel.id}
               onModelChange={setModel}
+              effort={effort}
+              onEffortChange={setEffort}
               projects={SAMPLE_PROJECTS}
               project={project}
               onProjectChange={setProject}

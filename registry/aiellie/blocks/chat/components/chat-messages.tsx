@@ -1,26 +1,26 @@
 "use client"
 
 import * as React from "react"
-import {
-  Copy01Icon,
-  PencilEdit01Icon,
-  RepeatIcon,
-  Tick02Icon,
-} from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
+import { Globe02Icon } from "@hugeicons/core-free-icons"
 
 import {
   ChatAttachments,
   type ChatAttachment,
 } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
+import { InlineCitation } from "@/registry/aiellie/components/inline-citation"
 import {
   Message,
-  MessageAction,
   MessageActions,
   MessageContent,
   MessageFooter,
   MessagePart,
 } from "@/registry/aiellie/components/message"
+import {
+  MessageCopyAction,
+  MessageEditAction,
+  MessageRetryAction,
+} from "@/registry/aiellie/components/message-actions"
+import { Response } from "@/registry/aiellie/components/response"
 import {
   Status,
   StatusIndicator,
@@ -36,8 +36,14 @@ import {
   Sources,
   type SourcePreview,
 } from "@/registry/aiellie/components/sources"
-import { StreamText } from "@/registry/aiellie/components/stream-text"
 import { ThinkingIndicator } from "@/registry/aiellie/components/thinking-indicator"
+import {
+  ToolCall,
+  ToolCallCode,
+  ToolCallContent,
+  ToolCallSection,
+  ToolCallTrigger,
+} from "@/registry/aiellie/components/tool-call"
 import {
   DateDivider,
   isSameDay,
@@ -47,6 +53,18 @@ import { ThreadItem } from "@/registry/aiellie/components/thread"
 type ChatSource = {
   url: string
   title?: string
+}
+
+type ChatToolCall = {
+  id: string
+  /** What it says on its row, like "Searched the web". */
+  name: string
+  kind: "search" | "tool"
+  status: "running" | "done" | "error"
+  /** The query, for a search. */
+  summary?: string
+  input?: unknown
+  output?: unknown
 }
 
 type ChatMessage = {
@@ -66,6 +84,8 @@ type ChatMessage = {
   activity?: string
   /** Pages a search turned up for the reply. */
   sources?: ChatSource[]
+  /** The tools the reply called, in order. */
+  tools?: ChatToolCall[]
   createdAt?: Date
 }
 
@@ -88,29 +108,55 @@ function dividerDate(messages: ChatMessage[], index: number) {
     : date
 }
 
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = React.useState(false)
+// A link the reply makes to a page it found becomes that page's number.
+function citeSources(sources: ChatSource[] | undefined) {
+  if (!sources?.length) return undefined
+  return {
+    a({ href, children }: React.ComponentProps<"a">) {
+      const index = sources.findIndex((source) => source.url === href)
+      if (index === -1) {
+        return (
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            {children}
+          </a>
+        )
+      }
+      return (
+        <InlineCitation
+          href={sources[index].url}
+          index={index + 1}
+          title={sources[index].title}
+        />
+      )
+    },
+  }
+}
 
-  React.useEffect(() => {
-    if (!copied) return
-    const timeout = setTimeout(() => setCopied(false), 1500)
-    return () => clearTimeout(timeout)
-  }, [copied])
-
+function ChatToolCalls({ tools }: { tools: ChatToolCall[] }) {
   return (
-    <MessageAction
-      tooltip={copied ? "Copied" : "Copy"}
-      onClick={async () => {
-        try {
-          await navigator.clipboard.writeText(text)
-          setCopied(true)
-        } catch {
-          // Refused, so there is nothing to confirm.
-        }
-      }}
-    >
-      <HugeiconsIcon icon={copied ? Tick02Icon : Copy01Icon} />
-    </MessageAction>
+    <div className="flex min-w-0 flex-col gap-1">
+      {tools.map((tool) => (
+        <ToolCall key={tool.id} status={tool.status}>
+          <ToolCallTrigger
+            icon={tool.kind === "search" ? Globe02Icon : undefined}
+            name={tool.name}
+            summary={tool.summary ? `“${tool.summary}”` : undefined}
+          />
+          <ToolCallContent>
+            {tool.input !== undefined ? (
+              <ToolCallSection title="Input">
+                <ToolCallCode value={tool.input} />
+              </ToolCallSection>
+            ) : null}
+            {tool.output !== undefined ? (
+              <ToolCallSection title="Output">
+                <ToolCallCode value={tool.output} />
+              </ToolCallSection>
+            ) : null}
+          </ToolCallContent>
+        </ToolCall>
+      ))}
+    </div>
   )
 }
 
@@ -160,6 +206,9 @@ function ChatMessages({
                   <ReasoningContent>{message.reasoning}</ReasoningContent>
                 </Reasoning>
               ) : null}
+              {message.tools?.length ? (
+                <ChatToolCalls tools={message.tools} />
+              ) : null}
               {message.attachments ? (
                 <ChatAttachments
                   attachments={message.attachments}
@@ -169,10 +218,12 @@ function ChatMessages({
               {message.content ? (
                 <MessagePart>
                   {message.role === "assistant" ? (
-                    <StreamText
-                      text={message.content}
+                    <Response
                       streaming={streaming && !message.activity}
-                    />
+                      components={citeSources(message.sources)}
+                    >
+                      {message.content}
+                    </Response>
                   ) : (
                     message.content
                   )}
@@ -203,31 +254,18 @@ function ChatMessages({
                   {message.error ? (
                     <span className="min-w-0">{message.error}</span>
                   ) : null}
-                  <MessageAction
-                    tooltip="Retry"
-                    onClick={() => onRetry(message.id)}
-                  >
-                    <HugeiconsIcon icon={RepeatIcon} />
-                  </MessageAction>
+                  <MessageRetryAction onClick={() => onRetry(message.id)} />
                 </MessageFooter>
               ) : streaming || !message.content ? null : (
                 <MessageFooter>
                   <MessageActions>
-                    <CopyButton text={message.content} />
+                    <MessageCopyAction text={message.content} />
                     {message.role === "assistant" ? (
-                      <MessageAction
-                        tooltip="Retry"
-                        onClick={() => onRetry(message.id)}
-                      >
-                        <HugeiconsIcon icon={RepeatIcon} />
-                      </MessageAction>
+                      <MessageRetryAction onClick={() => onRetry(message.id)} />
                     ) : (
-                      <MessageAction
-                        tooltip="Edit"
+                      <MessageEditAction
                         onClick={() => onEdit(message.content)}
-                      >
-                        <HugeiconsIcon icon={PencilEdit01Icon} />
-                      </MessageAction>
+                      />
                     )}
                   </MessageActions>
                 </MessageFooter>
@@ -241,4 +279,4 @@ function ChatMessages({
 }
 
 export { ChatMessages }
-export type { ChatMessage, ChatSource }
+export type { ChatMessage, ChatSource, ChatToolCall }

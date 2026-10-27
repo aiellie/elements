@@ -6,20 +6,30 @@ type SampleModule = Promise<{ default: ComponentType }>
 // reads the same file to show its code.
 const SAMPLES: Record<string, () => SampleModule> = {
   "add-menu/groups": () => import("./add-menu/groups"),
+  "approval-mode-menu/your-modes": () =>
+    import("./approval-mode-menu/your-modes"),
   "attachments/from-input": () => import("./attachments/from-input"),
   "branches-menu/outline": () => import("./branches-menu/outline"),
+  "code-block/streaming": () => import("./code-block/streaming"),
+  "code-diff/new-file": () => import("./code-diff/new-file"),
   "composer/drop-files": () => import("./composer/drop-files"),
   "composer/stop": () => import("./composer/stop"),
   "date-divider/between-messages": () =>
     import("./date-divider/between-messages"),
   "dictate-button/errors": () => import("./dictate-button/errors"),
   "editable-title/from-menu": () => import("./editable-title/from-menu"),
+  "effort-menu/in-composer": () => import("./effort-menu/in-composer"),
   "file-preview/pick-a-file": () => import("./file-preview/pick-a-file"),
   "help-menu/actions": () => import("./help-menu/actions"),
   "history-buttons/shortcuts": () => import("./history-buttons/shortcuts"),
+  "inline-citation/not-a-page": () => import("./inline-citation/not-a-page"),
+  "mentions/who-was-named": () => import("./mentions/who-was-named"),
   "menu/checkbox-and-radio": () => import("./menu/checkbox-and-radio"),
   "menu/search": () => import("./menu/search"),
   "menu/submenu": () => import("./menu/submenu"),
+  "message-actions/your-turn": () => import("./message-actions/your-turn"),
+  "message-highlight-toolbar/ask-about": () =>
+    import("./message-highlight-toolbar/ask-about"),
   "message/clickable-part": () => import("./message/clickable-part"),
   "message/variants": () => import("./message/variants"),
   "meter/context-window": () => import("./meter/context-window"),
@@ -33,10 +43,13 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "plugin-selector/submenu": () => import("./plugin-selector/submenu"),
   "project-selector/submenu": () => import("./project-selector/submenu"),
   "quick-chat/echo": () => import("./quick-chat/echo"),
+  "quoted-message/in-composer": () => import("./quoted-message/in-composer"),
   "reasoning/activity": () => import("./reasoning/activity"),
+  "response/citations": () => import("./response/citations"),
   "settings-dialog/providers": () => import("./settings-dialog/providers"),
   "share-dialog/private-by-default": () =>
     import("./share-dialog/private-by-default"),
+  "slash-menu/run-a-command": () => import("./slash-menu/run-a-command"),
   "sources/given": () => import("./sources/given"),
   "status/running": () => import("./status/running"),
   "stream-text/fresh-words": () => import("./stream-text/fresh-words"),
@@ -44,12 +57,14 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "suggestions/fill-composer": () => import("./suggestions/fill-composer"),
   "temporary-chat-toggle/header": () =>
     import("./temporary-chat-toggle/header"),
+  "terminal/running": () => import("./terminal/running"),
   "thinking-indicator/started-at": () =>
     import("./thinking-indicator/started-at"),
-  "thread/load-earlier": () => import("./thread/load-earlier"),
   "thread-transcript/peek": () => import("./thread-transcript/peek"),
+  "thread/load-earlier": () => import("./thread/load-earlier"),
   "toast/anchored": () => import("./toast/anchored"),
   "toast/promise": () => import("./toast/promise"),
+  "tool-call/failed": () => import("./tool-call/failed"),
   "toolbar/message-actions": () => import("./toolbar/message-actions"),
   "toolbar/vertical": () => import("./toolbar/vertical"),
   "tooltip-icon-button/shortcut": () =>

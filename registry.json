@@ -1168,6 +1168,269 @@
       "categories": ["chat"]
     },
     {
+      "name": "code-icons",
+      "type": "registry:component",
+      "title": "Code Icons",
+      "description": "The language and file marks, keyed by extension, drawn here rather than looked up in an icon set.",
+      "files": [
+        {
+          "path": "registry/aiellie/icons/code-icons.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/icons/code-icons.tsx"
+        }
+      ]
+    },
+    {
+      "name": "code-block",
+      "type": "registry:component",
+      "title": "Code Block",
+      "description": "A block of code named by its file, with copy and download in its header, highlighted by Shiki in light and dark, with line numbers, marked lines and a caret while it streams.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "@aiellie/code-icons",
+        "@aiellie/highlight-code",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/code-block.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/code-block.tsx"
+        }
+      ],
+      "docs": "Shiki loads the first time a block needs colour, so it stays out of pages that show no code. The caret's blink comes from tw-animate-css. Add `@import \"tw-animate-css\";` to your global stylesheet if it is not there already.",
+      "categories": ["code"]
+    },
+    {
+      "name": "code-diff",
+      "type": "registry:component",
+      "title": "Code Diff",
+      "description": "What a change did, read from a unified diff: added and removed lines tinted and marked, both sides numbered, and a +N −M count for the header.",
+      "registryDependencies": ["@aiellie/code-block", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/code-diff.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/code-diff.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "terminal",
+      "type": "registry:component",
+      "title": "Terminal",
+      "description": "A command and what came back: the prompt and the command highlighted as shell, its output, and a line that says whether it is running, done or failed.",
+      "registryDependencies": [
+        "@aiellie/code-block",
+        "@aiellie/status",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/terminal.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/terminal.tsx"
+        }
+      ],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["code"]
+    },
+    {
+      "name": "response",
+      "type": "registry:component",
+      "title": "Response",
+      "description": "A reply written in Markdown, set as prose: headings, lists, quotes, links, tables and inline code, with fenced code in a code block, and each word fading in while it streams.",
+      "dependencies": ["react-markdown", "remark-gfm", "tw-animate-css"],
+      "registryDependencies": ["@aiellie/code-block", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/response.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/response.tsx"
+        }
+      ],
+      "docs": "The caret's blink comes from tw-animate-css. Add `@import \"tw-animate-css\";` to your global stylesheet if it is not there already.",
+      "categories": ["chat"]
+    },
+    {
+      "name": "tool-call",
+      "type": "registry:component",
+      "title": "Tool Call",
+      "description": "A tool the model called, folded behind one row that names it and says whether it is queued, waiting on approval, running, done or failed, opening to show what went in and came out.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/status",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/tool-call.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/tool-call.tsx"
+        }
+      ],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["chat"]
+    },
+    {
+      "name": "message-actions",
+      "type": "registry:component",
+      "title": "Message Actions",
+      "description": "Ready-made controls for a message's footer: copy with a tick once copied, retry, edit, a thumbs up or down, and a menu for the rest.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/menu",
+        "@aiellie/message",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/message-actions.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/message-actions.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "inline-citation",
+      "type": "registry:component",
+      "title": "Inline Citation",
+      "description": "A numbered mark in a reply's prose that names the page it cites on hover and opens it on a click.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/hover-card", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/inline-citation.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/inline-citation.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "quoted-message",
+      "type": "registry:component",
+      "title": "Quoted Message",
+      "description": "The words a reply is about, kept to a short excerpt above it behind a rule on the start side, with who said them and a way to remove the quote.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/quoted-message.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/quoted-message.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "message-highlight-toolbar",
+      "type": "registry:component",
+      "title": "Message Highlight Toolbar",
+      "description": "A small toolbar that floats over text selected in a thread, with actions that get the selected words, like quoting or explaining them.",
+      "dependencies": ["tw-animate-css"],
+      "registryDependencies": ["@aiellie/toolbar", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/message-highlight-toolbar.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/message-highlight-toolbar.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "effort-menu",
+      "type": "registry:component",
+      "title": "Effort Menu",
+      "description": "How hard the model thinks, set from the composer: a button showing the level, opening a slider of six named levels from Off to Max that match the AI SDK's reasoning option.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/popover",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/effort-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/effort-menu.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "approval-mode-menu",
+      "type": "registry:component",
+      "title": "Approval Mode Menu",
+      "description": "How much an agent may do without asking, chosen from the composer: auto, manual, accept edits and plan, with full access set apart.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/menu",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/approval-mode-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/approval-mode-menu.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "slash-menu",
+      "type": "registry:component",
+      "title": "Slash Menu",
+      "description": "The commands a slash opens at the start of the composer, filtered as you type and picked with the arrow keys and Enter.",
+      "dependencies": ["@hugeicons/react"],
+      "registryDependencies": ["@aiellie/composer", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/slash-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/slash-menu.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "mentions",
+      "type": "registry:component",
+      "title": "Mentions",
+      "description": "The people and agents an at sign opens in the composer, filtered as you type and put into the message as @Name.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/composer", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/mentions.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/mentions.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
       "name": "chat",
       "type": "registry:block",
       "title": "Chat",
@@ -1225,7 +1488,12 @@
         "@aiellie/editable-title",
         "@aiellie/share-dialog",
         "@aiellie/file-preview",
-        "@aiellie/link-preview"
+        "@aiellie/link-preview",
+        "@aiellie/response",
+        "@aiellie/tool-call",
+        "@aiellie/message-actions",
+        "@aiellie/inline-citation",
+        "@aiellie/effort-menu"
       ],
       "files": [
         {

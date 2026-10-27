@@ -1,17 +1,25 @@
 import { CATEGORIES, HIDDEN_ITEMS, type Category } from "@/lib/categories"
 import registry from "@/registry.json"
 import addMenu from "@/lib/docs/add-menu"
+import approvalModeMenu from "@/lib/docs/approval-mode-menu"
 import attachments from "@/lib/docs/attachments"
 import branchesMenu from "@/lib/docs/branches-menu"
+import codeBlock from "@/lib/docs/code-block"
+import codeDiff from "@/lib/docs/code-diff"
 import composer from "@/lib/docs/composer"
 import dateDivider from "@/lib/docs/date-divider"
 import dictateButton from "@/lib/docs/dictate-button"
 import editableTitle from "@/lib/docs/editable-title"
+import effortMenu from "@/lib/docs/effort-menu"
 import filePreview from "@/lib/docs/file-preview"
 import helpMenu from "@/lib/docs/help-menu"
 import historyButtons from "@/lib/docs/history-buttons"
+import inlineCitation from "@/lib/docs/inline-citation"
+import mentions from "@/lib/docs/mentions"
 import menu from "@/lib/docs/menu"
 import message from "@/lib/docs/message"
+import messageActions from "@/lib/docs/message-actions"
+import messageHighlightToolbar from "@/lib/docs/message-highlight-toolbar"
 import meter from "@/lib/docs/meter"
 import modelSelector from "@/lib/docs/model-selector"
 import navBars from "@/lib/docs/nav-bars"
@@ -19,18 +27,23 @@ import panels from "@/lib/docs/panels"
 import pluginSelector from "@/lib/docs/plugin-selector"
 import projectSelector from "@/lib/docs/project-selector"
 import quickChat from "@/lib/docs/quick-chat"
+import quotedMessage from "@/lib/docs/quoted-message"
 import reasoning from "@/lib/docs/reasoning"
+import response from "@/lib/docs/response"
 import settingsDialog from "@/lib/docs/settings-dialog"
 import shareDialog from "@/lib/docs/share-dialog"
+import slashMenu from "@/lib/docs/slash-menu"
 import sources from "@/lib/docs/sources"
 import status from "@/lib/docs/status"
 import streamText from "@/lib/docs/stream-text"
 import suggestions from "@/lib/docs/suggestions"
 import temporaryChatToggle from "@/lib/docs/temporary-chat-toggle"
+import terminal from "@/lib/docs/terminal"
 import thinkingIndicator from "@/lib/docs/thinking-indicator"
 import thread from "@/lib/docs/thread"
 import threadTranscript from "@/lib/docs/thread-transcript"
 import toast from "@/lib/docs/toast"
+import toolCall from "@/lib/docs/tool-call"
 import toolbar from "@/lib/docs/toolbar"
 import tooltipIconButton from "@/lib/docs/tooltip-icon-button"
 import userMenu from "@/lib/docs/user-menu"
@@ -99,17 +112,25 @@ type DocsSection = {
 // a page, with its preview and install command.
 const DOCS: Record<string, DocContent> = {
   "add-menu": addMenu,
+  "approval-mode-menu": approvalModeMenu,
   attachments: attachments,
   "branches-menu": branchesMenu,
+  "code-block": codeBlock,
+  "code-diff": codeDiff,
   composer: composer,
   "date-divider": dateDivider,
   "dictate-button": dictateButton,
   "editable-title": editableTitle,
+  "effort-menu": effortMenu,
   "file-preview": filePreview,
   "help-menu": helpMenu,
   "history-buttons": historyButtons,
+  "inline-citation": inlineCitation,
+  mentions: mentions,
   menu: menu,
   message: message,
+  "message-actions": messageActions,
+  "message-highlight-toolbar": messageHighlightToolbar,
   meter: meter,
   "model-selector": modelSelector,
   "nav-bars": navBars,
@@ -117,18 +138,23 @@ const DOCS: Record<string, DocContent> = {
   "plugin-selector": pluginSelector,
   "project-selector": projectSelector,
   "quick-chat": quickChat,
+  "quoted-message": quotedMessage,
   reasoning: reasoning,
+  response: response,
   "settings-dialog": settingsDialog,
   "share-dialog": shareDialog,
+  "slash-menu": slashMenu,
   sources: sources,
   status: status,
   "stream-text": streamText,
   suggestions: suggestions,
   "temporary-chat-toggle": temporaryChatToggle,
+  terminal: terminal,
   "thinking-indicator": thinkingIndicator,
   thread: thread,
   "thread-transcript": threadTranscript,
   toast: toast,
+  "tool-call": toolCall,
   toolbar: toolbar,
   "tooltip-icon-button": tooltipIconButton,
   "user-menu": userMenu,

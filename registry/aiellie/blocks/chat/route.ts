@@ -15,10 +15,12 @@ import {
 
 export const maxDuration = 60
 
-// The thread shows plain text with inline code, so the reply is asked to keep
-// to that rather than arriving as raw Markdown.
+// The thread renders Markdown, so the reply is asked for it, kept light.
 const INSTRUCTIONS =
-  "You are a helpful assistant in a chat app. Reply in plain prose paragraphs. Wrap code, commands, file names and identifiers in single backticks. Don't use Markdown headings, lists, tables, bold or fenced code blocks. Files the person attaches come as images, PDFs, or text inside <file name=\"…\"> tags. Search the web when a question needs current information, or facts you aren't sure of."
+  'You are a helpful assistant in a chat app. Reply in Markdown: prose paragraphs first, with lists, tables and headings only where they help. Wrap code, commands, file names and identifiers in single backticks, and put longer code in fenced blocks that name their language. When a sentence comes from a page you found, link the page right after it. Files the person attaches come as images, PDFs, or text inside <file name="…"> tags. Search the web when a question needs current information, or facts you aren\'t sure of.'
+
+// The AI SDK's reasoning levels, which the composer's effort menu offers.
+const EFFORTS = new Set(["none", "minimal", "low", "medium", "high", "xhigh"])
 
 // What the models behind every provider here can all read.
 const FILE_TYPES = new Set([
@@ -125,10 +127,11 @@ export async function POST(request: Request) {
     .trim()
   if (!key) return new Response("Add an API key in Settings.", { status: 401 })
 
-  const { messages, provider, model } = (await request.json()) as {
+  const { messages, provider, model, effort } = (await request.json()) as {
     messages: UIMessage[]
     provider: string
     model: string
+    effort?: string
   }
   if (
     !Object.hasOwn(PROVIDERS, provider) ||
@@ -149,7 +152,9 @@ export async function POST(request: Request) {
     messages: await convertToModelMessages(clean(messages)),
     // Models that can think do, and send their thoughts along. Gemini keeps
     // them to itself unless asked.
-    reasoning: "medium",
+    reasoning: (effort && EFFORTS.has(effort)
+      ? effort
+      : "medium") as Parameters<typeof streamText>[0]["reasoning"],
     providerOptions: { google: { thinkingConfig: { includeThoughts: true } } },
     abortSignal: request.signal,
   })

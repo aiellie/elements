@@ -18,6 +18,7 @@ import {
 import { AddMenu } from "@/registry/aiellie/components/add-menu"
 import { BranchesMenu } from "@/registry/aiellie/components/branches-menu"
 import { DictateButton } from "@/registry/aiellie/components/dictate-button"
+import { EffortMenu } from "@/registry/aiellie/components/effort-menu"
 import {
   Composer,
   ComposerFooter,
@@ -108,6 +109,8 @@ function ChatComposer({
   models,
   model,
   onModelChange,
+  effort,
+  onEffortChange,
   projects,
   project,
   onProjectChange,
@@ -132,6 +135,9 @@ function ChatComposer({
   models: ModelOption[]
   model: string
   onModelChange: (model: string) => void
+  /** How hard the model thinks. Left out, the effort menu is too. */
+  effort?: string
+  onEffortChange?: (effort: string) => void
   projects: ProjectOption[]
   project: string | null
   onProjectChange: (project: string | null) => void
@@ -303,6 +309,9 @@ function ChatComposer({
             side="top"
             render={<Button variant="ghost" size="sm" />}
           />
+          {effort && onEffortChange ? (
+            <EffortMenu value={effort} onValueChange={onEffortChange} />
+          ) : null}
           <DictateButton value={value} onValueChange={onValueChange} />
           <ComposerSubmit />
         </ComposerFooter>
