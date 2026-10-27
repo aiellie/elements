@@ -35,6 +35,12 @@ import micMenu from "@/lib/docs/mic-menu"
 import modelSelector from "@/lib/docs/model-selector"
 import navBars from "@/lib/docs/nav-bars"
 import needsYou from "@/lib/docs/needs-you"
+import agentSteps from "@/lib/docs/agent-steps"
+import agentCard from "@/lib/docs/agent-card"
+import typingIndicator from "@/lib/docs/typing-indicator"
+import artifact from "@/lib/docs/artifact"
+import stackTrace from "@/lib/docs/stack-trace"
+import commit from "@/lib/docs/commit"
 import orb from "@/lib/docs/orb"
 import panels from "@/lib/docs/panels"
 import planReview from "@/lib/docs/plan-review"
@@ -168,6 +174,12 @@ const DOCS: Record<string, DocContent> = {
   "model-selector": modelSelector,
   "nav-bars": navBars,
   "needs-you": needsYou,
+  "agent-steps": agentSteps,
+  "agent-card": agentCard,
+  "typing-indicator": typingIndicator,
+  artifact: artifact,
+  "stack-trace": stackTrace,
+  commit: commit,
   orb: orb,
   panels: panels,
   "plan-review": planReview,

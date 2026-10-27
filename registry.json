@@ -2091,6 +2091,128 @@
       ],
       "categories": ["chat"],
       "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet."
+    },
+    {
+      "name": "agent-steps",
+      "type": "registry:component",
+      "title": "Agent Steps",
+      "description": "An agent's run laid out step by step: a row that reads Working while it runs and Worked for 12s after, folding open to each step's status, a line of detail and the results it found.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/status",
+        "@aiellie/thinking-indicator",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/agent-steps.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/agent-steps.tsx"
+        }
+      ],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["chat"]
+    },
+    {
+      "name": "agent-card",
+      "type": "registry:component",
+      "title": "Agent Card",
+      "description": "What an agent is: its mark, name and model, the instructions it follows, the tools it can call and the shape of what it returns.",
+      "dependencies": ["@hugeicons/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/agent-card.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/agent-card.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "typing-indicator",
+      "type": "registry:component",
+      "title": "Typing Indicator",
+      "description": "Three dots that bounce in turn while someone writes a reply, in a bubble that sits in a thread like a message or bare for a row of your own.",
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/typing-indicator.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/typing-indicator.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "artifact",
+      "type": "registry:component",
+      "title": "Artifact",
+      "description": "A panel for something a reply made, like a file, a document or a page: a header with its title, a line about it, actions and a close button, over a body that scrolls.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/artifact.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/artifact.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "stack-trace",
+      "type": "registry:component",
+      "title": "Stack Trace",
+      "description": "An error read from its printed trace: the type and message, opening to its frames, with library frames folded away, file paths that open, and the whole trace to copy.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/stack-trace.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/stack-trace.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "commit",
+      "type": "registry:component",
+      "title": "Commit",
+      "description": "A commit in one row: its message, author, time and lines changed, with the hash to copy, opening to the files it touched.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/avatar",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/commit.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/commit.tsx"
+        }
+      ],
+      "categories": ["code"]
     }
   ]
 }

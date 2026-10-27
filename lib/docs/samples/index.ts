@@ -6,9 +6,12 @@ type SampleModule = Promise<{ default: ComponentType }>
 // reads the same file to show its code.
 const SAMPLES: Record<string, () => SampleModule> = {
   "add-menu/groups": () => import("./add-menu/groups"),
+  "agent-card/actions": () => import("./agent-card/actions"),
   "agent-cursor/review": () => import("./agent-cursor/review"),
+  "agent-steps/failed": () => import("./agent-steps/failed"),
   "approval-mode-menu/your-modes": () =>
     import("./approval-mode-menu/your-modes"),
+  "artifact/document": () => import("./artifact/document"),
   "attachments/from-input": () => import("./attachments/from-input"),
   "attempt-picker/no-suggestion": () =>
     import("./attempt-picker/no-suggestion"),
@@ -17,6 +20,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "code-diff/new-file": () => import("./code-diff/new-file"),
   "code-snippet/no-tabs": () => import("./code-snippet/no-tabs"),
   "code-workspace/copy-action": () => import("./code-workspace/copy-action"),
+  "commit/open-files": () => import("./commit/open-files"),
   "compaction-marker/failed": () => import("./compaction-marker/failed"),
   "composer/drop-files": () => import("./composer/drop-files"),
   "composer/stop": () => import("./composer/stop"),
@@ -71,6 +75,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
     import("./share-dialog/private-by-default"),
   "slash-menu/run-a-command": () => import("./slash-menu/run-a-command"),
   "sources/given": () => import("./sources/given"),
+  "stack-trace/library-frames": () => import("./stack-trace/library-frames"),
   "status/running": () => import("./status/running"),
   "stream-text/fresh-words": () => import("./stream-text/fresh-words"),
   "stream-text/reveal-initial": () => import("./stream-text/reveal-initial"),
@@ -92,6 +97,8 @@ const SAMPLES: Record<string, () => SampleModule> = {
     import("./tooltip-icon-button/shortcut"),
   "tooltip-icon-button/sides": () => import("./tooltip-icon-button/sides"),
   "transcript/dictation": () => import("./transcript/dictation"),
+  "typing-indicator/in-a-thread": () =>
+    import("./typing-indicator/in-a-thread"),
   "user-menu/settings": () => import("./user-menu/settings"),
   "waveform/microphone": () => import("./waveform/microphone"),
   "web-preview/console-logs": () => import("./web-preview/console-logs"),

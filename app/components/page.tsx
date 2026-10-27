@@ -70,6 +70,12 @@ import HumanHandoffDemo from "@/registry/aiellie/examples/human-handoff-demo"
 import AgentCursorDemo from "@/registry/aiellie/examples/agent-cursor-demo"
 import AttemptPickerDemo from "@/registry/aiellie/examples/attempt-picker-demo"
 import NeedsYouDemo from "@/registry/aiellie/examples/needs-you-demo"
+import AgentStepsDemo from "@/registry/aiellie/examples/agent-steps-demo"
+import AgentCardDemo from "@/registry/aiellie/examples/agent-card-demo"
+import TypingIndicatorDemo from "@/registry/aiellie/examples/typing-indicator-demo"
+import ArtifactDemo from "@/registry/aiellie/examples/artifact-demo"
+import StackTraceDemo from "@/registry/aiellie/examples/stack-trace-demo"
+import CommitDemo from "@/registry/aiellie/examples/commit-demo"
 export default function ComponentsPage() {
   return (
     <div className="flex flex-col gap-16 py-8 sm:py-12">
@@ -521,11 +527,35 @@ export default function ComponentsPage() {
         >
           <HumanHandoffDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/agent-steps"
+          index={55}
+          title="Agent Steps"
+          description="A run laid out step by step, with what each step found"
+        >
+          <AgentStepsDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/agent-card"
+          index={56}
+          title="Agent Card"
+          description="What an agent is: its model, instructions, tools and output"
+        >
+          <AgentCardDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/typing-indicator"
+          index={57}
+          title="Typing Indicator"
+          description="Three dots that say someone is writing a reply"
+        >
+          <TypingIndicatorDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="voice">
         <DemoCard
           href="/components/orb"
-          index={55}
+          index={58}
           title="Orb"
           description="The assistant as a sphere that listens, thinks and speaks"
         >
@@ -533,7 +563,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/transcript"
-          index={56}
+          index={59}
           title="Transcript"
           description="Speech as text, with guesses that settle as they're heard"
         >
@@ -541,7 +571,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/audio-player"
-          index={57}
+          index={60}
           title="Audio Player"
           description="A clip to play, scrub through and time"
         >
@@ -549,7 +579,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/mic-menu"
-          index={58}
+          index={61}
           title="Mic Menu"
           description="Which microphone to listen with"
         >
@@ -559,7 +589,7 @@ export default function ComponentsPage() {
       <CategorySection category="code">
         <DemoCard
           href="/components/code-block"
-          index={59}
+          index={62}
           title="Code Block"
           description="A named block of code to copy, download and point at"
         >
@@ -567,7 +597,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-diff"
-          index={60}
+          index={63}
           title="Code Diff"
           description="What a change did, from the diff that describes it"
         >
@@ -575,7 +605,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/terminal"
-          index={61}
+          index={64}
           title="Terminal"
           description="A command, what came back, and whether it worked"
         >
@@ -583,7 +613,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-snippet"
-          index={62}
+          index={65}
           title="Code Snippet"
           description="A command to copy, for whichever package manager you use"
         >
@@ -591,7 +621,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/file-tree"
-          index={63}
+          index={66}
           title="File Tree"
           description="The files a change touched, and how"
         >
@@ -599,7 +629,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-workspace"
-          index={64}
+          index={67}
           title="Code Workspace"
           description="Files to browse, search and replace across, in tabs"
           wide
@@ -608,7 +638,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/sandbox"
-          index={65}
+          index={68}
           title="Sandbox"
           description="Code that runs, with its preview, editor and console"
           wide
@@ -617,7 +647,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/web-preview"
-          index={66}
+          index={69}
           title="Web Preview"
           description="A page to load, browse and debug, like a browser tab"
           wide
@@ -626,11 +656,35 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/attempt-picker"
-          index={67}
+          index={70}
           title="Attempt Picker"
           description="Several tries at one task, compared, with one to apply"
         >
           <AttemptPickerDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/artifact"
+          index={71}
+          title="Artifact"
+          description="A panel for something a reply made, with its actions"
+        >
+          <ArtifactDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/stack-trace"
+          index={72}
+          title="Stack Trace"
+          description="An error with its frames, library code folded away"
+        >
+          <StackTraceDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/commit"
+          index={73}
+          title="Commit"
+          description="A commit's message, author and hash, opening to its files"
+        >
+          <CommitDemo />
         </DemoCard>
       </CategorySection>
     </div>

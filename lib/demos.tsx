@@ -94,6 +94,12 @@ import HumanHandoffDemo from "@/registry/aiellie/examples/human-handoff-demo"
 import AgentCursorDemo from "@/registry/aiellie/examples/agent-cursor-demo"
 import AttemptPickerDemo from "@/registry/aiellie/examples/attempt-picker-demo"
 import NeedsYouDemo from "@/registry/aiellie/examples/needs-you-demo"
+import AgentStepsDemo from "@/registry/aiellie/examples/agent-steps-demo"
+import AgentCardDemo from "@/registry/aiellie/examples/agent-card-demo"
+import TypingIndicatorDemo from "@/registry/aiellie/examples/typing-indicator-demo"
+import ArtifactDemo from "@/registry/aiellie/examples/artifact-demo"
+import StackTraceDemo from "@/registry/aiellie/examples/stack-trace-demo"
+import CommitDemo from "@/registry/aiellie/examples/commit-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
 type Demo = {
@@ -434,6 +440,36 @@ const DEMOS: Record<string, Demo> = {
     title: "Needs You",
     gallery: "/components",
     Demo: NeedsYouDemo,
+  },
+  "agent-steps": {
+    title: "Agent Steps",
+    gallery: "/components",
+    Demo: AgentStepsDemo,
+  },
+  "agent-card": {
+    title: "Agent Card",
+    gallery: "/components",
+    Demo: AgentCardDemo,
+  },
+  "typing-indicator": {
+    title: "Typing Indicator",
+    gallery: "/components",
+    Demo: TypingIndicatorDemo,
+  },
+  artifact: {
+    title: "Artifact",
+    gallery: "/components",
+    Demo: ArtifactDemo,
+  },
+  "stack-trace": {
+    title: "Stack Trace",
+    gallery: "/components",
+    Demo: StackTraceDemo,
+  },
+  commit: {
+    title: "Commit",
+    gallery: "/components",
+    Demo: CommitDemo,
   },
   toggle: { title: "Toggle", gallery: "/ui", Demo: ToggleDemo },
   "toggle-group": {
