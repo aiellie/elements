@@ -2,7 +2,7 @@ import type { DocContent } from "@/lib/docs"
 
 const doc: DocContent = {
   intro: [
-    "Dictate button turns speech into text in a field you already have. Press it and talk: what is said is added to the field's value as it is said, with a live [Waveform](/components/waveform) in the button while it listens. It uses the browser's own speech recognition, so there is no service to set up, and it renders nothing in a browser without one.",
+    "Dictate button turns speech into text in a field you already have. Press it and talk: what is said is added to the field's value as it is said, with a live [Waveform](/components/waveform) in the button while it listens. It uses the browser's own speech recognition, so there is no service to set up. In a browser without one, like Firefox, it records instead and hands the audio to `transcribe`. Without `transcribe` there, it renders nothing.",
   ],
   gettingStarted: {
     steps: [
@@ -72,6 +72,24 @@ export function MessageField() {
       sample: "dictate-button/errors",
     },
     {
+      title: "Where there's no speech recognition",
+      body: [
+        "Pass `transcribe` to keep the button in browsers without a recognizer. It records the whole take with `MediaRecorder`, and when it's stopped, sends the audio to your function and adds the text it returns. A live dot stands in for the waveform while it waits. A failed `transcribe` reaches `onError` as `transcribe-failed`.",
+      ],
+      code: {
+        code: `<DictateButton
+  value={value}
+  onValueChange={setValue}
+  transcribe={async (audio) => {
+    const body = new FormData()
+    body.append("audio", audio)
+    const response = await fetch("/api/transcribe", { method: "POST", body })
+    return (await response.json()).text
+  }}
+/>`,
+      },
+    },
+    {
       title: "Another language",
       body: ["Set `lang` to a BCP 47 tag to listen for that language."],
       code: {
@@ -107,6 +125,12 @@ export function MessageField() {
           "`(error: string) => void`",
           "",
           "Called with the recognizer's error code, like `not-allowed`.",
+        ],
+        [
+          "`transcribe`",
+          "`(audio: Blob) => Promise<string>`",
+          "",
+          "Turns recorded audio into text, for browsers without speech recognition.",
         ],
         ["`tooltip`", "`string`", '`"Dictate"`', "The label while idle."],
         [

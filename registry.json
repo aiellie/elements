@@ -939,6 +939,7 @@
       "description": "A microphone button that types what you say into a field, using the browser's own speech recognition, and grows into a live waveform while it listens. It renders nothing where the browser has none.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
+        "@aiellie/status",
         "@aiellie/tooltip-icon-button",
         "@aiellie/waveform",
         "@aiellie/utils"
@@ -2213,6 +2214,77 @@
         }
       ],
       "categories": ["code"]
+    },
+    {
+      "name": "context-breakdown",
+      "type": "registry:component",
+      "title": "Context Breakdown",
+      "description": "What fills a model's context window: one bar split into the system prompt, tools, files and conversation, with a legend of token counts and what's free, sliding as parts grow or are compacted.",
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/context-breakdown.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/context-breakdown.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
+      "name": "retrieved-sources",
+      "type": "registry:component",
+      "title": "Retrieved Sources",
+      "description": "The passages a reply was built from: each document with where the passage sits and how relevant it scored, opening to the passage, with those under a threshold muted.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/retrieved-sources.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/retrieved-sources.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "contact-button",
+      "type": "registry:component",
+      "title": "Contact Button",
+      "description": "Who you're talking to, at the top of a chat: their picture over a pill with their name, opening more about them.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/avatar", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/contact-button.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/contact-button.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "call-menu",
+      "type": "registry:component",
+      "title": "Call Menu",
+      "description": "A small round picture of who you'd call, opening a menu to start a video call or a voice call.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/avatar",
+        "@aiellie/menu",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/call-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/call-menu.tsx"
+        }
+      ],
+      "categories": ["voice"]
     }
   ]
 }

@@ -100,6 +100,10 @@ import TypingIndicatorDemo from "@/registry/aiellie/examples/typing-indicator-de
 import ArtifactDemo from "@/registry/aiellie/examples/artifact-demo"
 import StackTraceDemo from "@/registry/aiellie/examples/stack-trace-demo"
 import CommitDemo from "@/registry/aiellie/examples/commit-demo"
+import ContextBreakdownDemo from "@/registry/aiellie/examples/context-breakdown-demo"
+import RetrievedSourcesDemo from "@/registry/aiellie/examples/retrieved-sources-demo"
+import ContactButtonDemo from "@/registry/aiellie/examples/contact-button-demo"
+import CallMenuDemo from "@/registry/aiellie/examples/call-menu-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
 type Demo = {
@@ -470,6 +474,26 @@ const DEMOS: Record<string, Demo> = {
     title: "Commit",
     gallery: "/components",
     Demo: CommitDemo,
+  },
+  "context-breakdown": {
+    title: "Context Breakdown",
+    gallery: "/components",
+    Demo: ContextBreakdownDemo,
+  },
+  "retrieved-sources": {
+    title: "Retrieved Sources",
+    gallery: "/components",
+    Demo: RetrievedSourcesDemo,
+  },
+  "contact-button": {
+    title: "Contact Button",
+    gallery: "/components",
+    Demo: ContactButtonDemo,
+  },
+  "call-menu": {
+    title: "Call Menu",
+    gallery: "/components",
+    Demo: CallMenuDemo,
   },
   toggle: { title: "Toggle", gallery: "/ui", Demo: ToggleDemo },
   "toggle-group": {

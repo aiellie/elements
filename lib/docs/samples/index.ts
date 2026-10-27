@@ -16,6 +16,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "attempt-picker/no-suggestion": () =>
     import("./attempt-picker/no-suggestion"),
   "branches-menu/outline": () => import("./branches-menu/outline"),
+  "call-menu/more-rows": () => import("./call-menu/more-rows"),
   "code-block/streaming": () => import("./code-block/streaming"),
   "code-diff/new-file": () => import("./code-diff/new-file"),
   "code-snippet/no-tabs": () => import("./code-snippet/no-tabs"),
@@ -24,6 +25,9 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "compaction-marker/failed": () => import("./compaction-marker/failed"),
   "composer/drop-files": () => import("./composer/drop-files"),
   "composer/stop": () => import("./composer/stop"),
+  "contact-button/initials": () => import("./contact-button/initials"),
+  "context-breakdown/nearly-full": () =>
+    import("./context-breakdown/nearly-full"),
   "date-divider/between-messages": () =>
     import("./date-divider/between-messages"),
   "dictate-button/errors": () => import("./dictate-button/errors"),
@@ -68,6 +72,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "reactions/who-reacted": () => import("./reactions/who-reacted"),
   "reasoning/activity": () => import("./reasoning/activity"),
   "response/citations": () => import("./response/citations"),
+  "retrieved-sources/no-scores": () => import("./retrieved-sources/no-scores"),
   "run-budget/no-actions": () => import("./run-budget/no-actions"),
   "sandbox/composed": () => import("./sandbox/composed"),
   "settings-dialog/providers": () => import("./settings-dialog/providers"),

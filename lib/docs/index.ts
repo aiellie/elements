@@ -41,6 +41,10 @@ import typingIndicator from "@/lib/docs/typing-indicator"
 import artifact from "@/lib/docs/artifact"
 import stackTrace from "@/lib/docs/stack-trace"
 import commit from "@/lib/docs/commit"
+import contextBreakdown from "@/lib/docs/context-breakdown"
+import retrievedSources from "@/lib/docs/retrieved-sources"
+import contactButton from "@/lib/docs/contact-button"
+import callMenu from "@/lib/docs/call-menu"
 import orb from "@/lib/docs/orb"
 import panels from "@/lib/docs/panels"
 import planReview from "@/lib/docs/plan-review"
@@ -180,6 +184,10 @@ const DOCS: Record<string, DocContent> = {
   artifact: artifact,
   "stack-trace": stackTrace,
   commit: commit,
+  "context-breakdown": contextBreakdown,
+  "retrieved-sources": retrievedSources,
+  "contact-button": contactButton,
+  "call-menu": callMenu,
   orb: orb,
   panels: panels,
   "plan-review": planReview,
