@@ -50,7 +50,7 @@ function DictateButton({
   ...props
 }: Omit<
   TooltipIconButtonProps,
-  "tooltip" | "children" | "value" | "onClick"
+  "tooltip" | "children" | "value" | "onClick" | "onError"
 > & {
   value: string
   /** Called with `value` plus what has been said so far, as it is said. */

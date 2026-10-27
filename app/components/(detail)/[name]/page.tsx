@@ -8,20 +8,12 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { CodeBlock } from "@/components/docs/code-block"
 import { CommandTabs } from "@/components/docs/command-tabs"
 import { ComponentPager } from "@/components/docs/component-pager"
+import { DOC_SECTIONS, DocBody } from "@/components/docs/doc-body"
 import { InlineText } from "@/components/docs/inline-text"
-import { PropsList } from "@/components/docs/props-list"
 import { DEMOS } from "@/lib/demos"
-import {
-  DOCS_ITEMS,
-  docsContent,
-  docsItem,
-  padIndex,
-  type DocSnippet,
-} from "@/lib/docs"
-import { highlightCode } from "@/lib/highlight-code"
+import { DOCS_ITEMS, docsContent, docsItem, padIndex } from "@/lib/docs"
 import { cn } from "@/lib/utils"
 import { Button } from "@/registry/aiellie/ui/button"
 
@@ -52,24 +44,6 @@ function Block({ children }: { children: React.ReactNode }) {
   )
 }
 
-async function Snippet({ snippet }: { snippet: DocSnippet }) {
-  return (
-    <>
-      {snippet.description ? (
-        <p>
-          <InlineText>{snippet.description}</InlineText>
-        </p>
-      ) : null}
-      <Block>
-        <CodeBlock
-          html={await highlightCode(snippet.code)}
-          code={snippet.code}
-        />
-      </Block>
-    </>
-  )
-}
-
 const pagerLink =
   "group flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-80 hover:text-foreground motion-reduce:transition-none"
 
@@ -85,15 +59,7 @@ export default async function ComponentPage(props: Props) {
 
   const toc = [
     { id: "installation", title: "Installation" },
-    ...(content
-      ? [
-          { id: "usage", title: "Usage" },
-          ...(content.composition
-            ? [{ id: "composition", title: "Composition" }]
-            : []),
-          { id: "props", title: "Props" },
-        ]
-      : []),
+    ...(content ? DOC_SECTIONS : []),
   ]
   const showToc = toc.length >= 3
 
@@ -142,45 +108,19 @@ export default async function ComponentPage(props: Props) {
         <div className="typeset mt-12">
           <h2 id="installation">Installation</h2>
           <Block>
-            <CommandTabs args={`aiellie add ${name}`} />
+            <CommandTabs args={`shadcn@latest add "@aiellie/${name}"`} />
           </Block>
           <p>
             <InlineText>
-              {`The first run adds the @aiellie registry to components.json. With it there, shadcn installs it too: \`npx shadcn@latest add @aiellie/${name}\`.`}
+              {`shadcn needs the \`@aiellie\` registry in \`components.json\` first. \`npx aiellie add ${name}\` adds it on its first run, then installs the same way.`}
             </InlineText>
           </p>
 
           {content ? (
-            <>
-              <h2 id="usage">Usage</h2>
-              <Snippet snippet={content.usage} />
-              {content.composition ? (
-                <>
-                  <h2 id="composition">Composition</h2>
-                  <Snippet snippet={content.composition} />
-                </>
-              ) : null}
-              <h2 id="props">Props</h2>
-              {content.api.map((part) => (
-                <PropsList
-                  key={part.name}
-                  part={part}
-                  labelled={content.api.length > 1}
-                />
-              ))}
-              {content.notes?.length ? (
-                <ul>
-                  {content.notes.map((note) => (
-                    <li key={note}>
-                      <InlineText>{note}</InlineText>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </>
+            <DocBody content={content} />
           ) : (
             <p className="text-muted-foreground">
-              Usage and props for {item.title} are still being written.
+              The rest of the docs for {item.title} are still being written.
             </p>
           )}
         </div>

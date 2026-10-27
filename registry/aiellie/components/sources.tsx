@@ -166,6 +166,7 @@ function Source({
   description,
   image,
   icon,
+  siteName,
   className,
   ...props
 }: Omit<React.ComponentProps<"a">, "href" | "children"> &
@@ -223,7 +224,9 @@ function Source({
         <div className="flex min-w-0 flex-col gap-1 px-1 pb-1">
           <div className="flex min-w-0 items-center gap-1.5 text-xs">
             <Favicon icons={icons} />
-            <span className="truncate">{preview?.siteName ?? host}</span>
+            <span className="truncate">
+              {siteName ?? preview?.siteName ?? host}
+            </span>
           </div>
           {loading && !shownTitle ? (
             <div className="flex flex-col gap-1.5 py-0.5">

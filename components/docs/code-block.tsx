@@ -12,11 +12,14 @@ import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-bu
 function CodeBlock({
   html,
   code,
+  title,
   className,
 }: {
   html: string
   /** What the copy button puts on the clipboard. */
   code: string
+  /** Shown in a header above the code, usually the file it goes in. */
+  title?: string
   className?: string
 }) {
   const { copyToClipboard, isCopied } = useCopyToClipboard()
@@ -29,6 +32,11 @@ function CodeBlock({
         className
       )}
     >
+      {title ? (
+        <div className="flex h-10 items-center border-b border-border/60 ps-4 pe-12 text-code-sm font-mono text-muted-foreground">
+          <span className="truncate">{title}</span>
+        </div>
+      ) : null}
       <div
         dangerouslySetInnerHTML={{ __html: html }}
         className="overflow-x-auto text-code-block [&_pre]:overflow-visible! [&_pre]:px-4! [&_pre]:py-4! dark:[&_span]:text-(color:--shiki-dark)!"
@@ -37,7 +45,7 @@ function CodeBlock({
         tooltip={isCopied ? "Copied" : "Copy code"}
         aria-label={isCopied ? "Copied" : "Copy code"}
         onClick={() => copyToClipboard(code)}
-        className="absolute end-2 top-2 size-7 bg-background"
+        className="absolute end-1.5 top-1.5 size-7 bg-background"
       >
         <HugeiconsIcon aria-hidden icon={isCopied ? Tick02Icon : Copy01Icon} />
       </TooltipIconButton>
