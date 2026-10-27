@@ -1,4 +1,4 @@
-import { CATEGORIES, type Category } from "@/lib/categories"
+import { CATEGORIES, HIDDEN_ITEMS, type Category } from "@/lib/categories"
 import registry from "@/registry.json"
 import addMenu from "@/lib/docs/add-menu"
 import attachments from "@/lib/docs/attachments"
@@ -146,6 +146,7 @@ for (const [id, category] of Object.entries(CATEGORIES)) {
       (item) =>
         item.type === "registry:component" &&
         "categories" in item &&
+        !HIDDEN_ITEMS.has(item.name) &&
         item.categories?.[0] === (id as Category)
     )
     .sort((a, b) => a.title.localeCompare(b.title))

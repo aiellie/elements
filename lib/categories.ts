@@ -42,6 +42,16 @@ export function cardCount(
   type: "registry:block" | "registry:ui" | "registry:component"
 ) {
   return registry.items.filter(
-    (item) => item.type === type && "categories" in item
+    (item) =>
+      item.type === type && "categories" in item && !HIDDEN_ITEMS.has(item.name)
   ).length
 }
+
+// Still published and installable, but left out of the gallery, the sidebar
+// and the pager.
+export const HIDDEN_ITEMS = new Set([
+  "menu",
+  "toast",
+  "toolbar",
+  "tooltip-icon-button",
+])

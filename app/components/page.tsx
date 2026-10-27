@@ -13,7 +13,6 @@ import BranchesMenuDemo from "@/registry/aiellie/examples/branches-menu-demo"
 import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
 import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
-import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import DateDividerDemo from "@/registry/aiellie/examples/date-divider-demo"
@@ -31,14 +30,11 @@ import StreamTextDemo from "@/registry/aiellie/examples/stream-text-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import TemporaryChatToggleDemo from "@/registry/aiellie/examples/temporary-chat-toggle-demo"
-import ToastDemo from "@/registry/aiellie/examples/toast-demo"
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
 import ThreadTranscriptDemo from "@/registry/aiellie/examples/thread-transcript-demo"
-import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 import WaveformDemo from "@/registry/aiellie/examples/waveform-demo"
 import WorkInMenuDemo from "@/registry/aiellie/examples/work-in-menu-demo"
 import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
-import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
 export default function ComponentsPage() {
   return (
     <div className="flex flex-col gap-16 py-8 sm:py-12">
@@ -48,32 +44,16 @@ export default function ComponentsPage() {
       />
       <CategorySection category="actions">
         <DemoCard
-          href="/components/tooltip-icon-button"
-          index={1}
-          title="Tooltip Icon Button"
-          description="A simple tooltip icon button component"
-        >
-          <TooltipIconButtonDemo />
-        </DemoCard>
-        <DemoCard
           href="/components/add-menu"
-          index={2}
+          index={1}
           title="Add Menu"
           description="A plus button that opens a menu of things to add"
         >
           <AddMenuDemo />
         </DemoCard>
         <DemoCard
-          href="/components/toolbar"
-          index={3}
-          title="Toolbar"
-          description="A simple toolbar component"
-        >
-          <ToolbarDemo />
-        </DemoCard>
-        <DemoCard
           href="/components/user-menu"
-          index={4}
+          index={2}
           title="User Menu"
           description="Who is signed in, and what they can do with their account"
         >
@@ -81,7 +61,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/help-menu"
-          index={5}
+          index={3}
           title="Help Menu"
           description="Help, shortcuts and policies behind one button"
         >
@@ -89,7 +69,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/temporary-chat-toggle"
-          index={6}
+          index={4}
           title="Temporary Chat Toggle"
           description="Start a chat that stays out of history"
         >
@@ -97,7 +77,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/history-buttons"
-          index={7}
+          index={5}
           title="History Buttons"
           description="Back and forward through what you opened, with their shortcuts"
         >
@@ -107,7 +87,7 @@ export default function ComponentsPage() {
       <CategorySection category="inputs">
         <DemoCard
           href="/components/model-selector"
-          index={8}
+          index={6}
           title="Model Selector"
           description="A simple model selector component"
         >
@@ -115,7 +95,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/project-selector"
-          index={9}
+          index={7}
           title="Project Selector"
           description="Which project a chat belongs to, and a menu to switch it"
         >
@@ -123,7 +103,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/plugin-selector"
-          index={10}
+          index={8}
           title="Plugin Selector"
           description="Which plugins a chat can use, turned on and off from one menu"
         >
@@ -131,7 +111,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/work-in-menu"
-          index={11}
+          index={9}
           title="Work In Menu"
           description="Where work runs: local, a worktree or the cloud"
         >
@@ -139,7 +119,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/branches-menu"
-          index={12}
+          index={10}
           title="Branches Menu"
           description="Search the branches, or create and check out a new one"
         >
@@ -147,7 +127,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/dictate-button"
-          index={13}
+          index={11}
           title="Dictate Button"
           description="Speak instead of typing, into any field"
         >
@@ -155,7 +135,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/editable-title"
-          index={14}
+          index={12}
           title="Editable Title"
           description="A heading you click to rename in place"
         >
@@ -165,7 +145,7 @@ export default function ComponentsPage() {
       <CategorySection category="layout">
         <DemoCard
           href="/components/panels"
-          index={15}
+          index={13}
           title="Panels"
           description="An app shell with resizable panels on three sides"
           wide
@@ -174,7 +154,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/nav-bars"
-          index={16}
+          index={14}
           title="Nav Bars"
           description="A rail of bars for a page's sections or a thread's turns"
         >
@@ -183,16 +163,8 @@ export default function ComponentsPage() {
       </CategorySection>
       <CategorySection category="overlays">
         <DemoCard
-          href="/components/menu"
-          index={17}
-          title="Menu"
-          description="A simple menu component"
-        >
-          <MenuDemo />
-        </DemoCard>
-        <DemoCard
           href="/components/settings-dialog"
-          index={18}
+          index={15}
           title="Settings Dialog"
           description="Profile, appearance, and API keys in one focused dialog"
         >
@@ -200,7 +172,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/share-dialog"
-          index={19}
+          index={16}
           title="Share Dialog"
           description="Who can open it, a link to copy, and places to post it"
         >
@@ -208,7 +180,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/file-preview"
-          index={20}
+          index={17}
           title="File Preview"
           description="A file opened in full: an image, a PDF, code in color or a folder"
         >
@@ -218,7 +190,7 @@ export default function ComponentsPage() {
       <CategorySection category="feedback">
         <DemoCard
           href="/components/status"
-          index={21}
+          index={18}
           title="Status"
           description="A simple status component"
         >
@@ -226,7 +198,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/meter"
-          index={22}
+          index={19}
           title="Meter"
           description="How full something is, like a context window or a credit balance"
         >
@@ -234,25 +206,17 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/waveform"
-          index={23}
+          index={20}
           title="Waveform"
           description="Live bars that follow a microphone, so you can see it hears you"
         >
           <WaveformDemo />
         </DemoCard>
-        <DemoCard
-          href="/components/toast"
-          index={24}
-          title="Toast"
-          description="Stacked and anchored notifications for updates that need attention"
-        >
-          <ToastDemo />
-        </DemoCard>
       </CategorySection>
       <CategorySection category="chat">
         <DemoCard
           href="/components/composer"
-          index={25}
+          index={21}
           title="Composer"
           description="A simple composer component"
         >
@@ -260,7 +224,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/attachments"
-          index={26}
+          index={22}
           title="Attachments"
           description="Images as small squares, other files as chips, in a row"
         >
@@ -268,7 +232,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message"
-          index={27}
+          index={23}
           title="Message"
           description="A simple message component"
         >
@@ -276,7 +240,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/date-divider"
-          index={28}
+          index={24}
           title="Date Divider"
           description="The day and time a thread picks up at, as a quiet line of text"
         >
@@ -284,7 +248,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={29}
+          index={25}
           title="Thread"
           description="A simple thread component"
         >
@@ -292,7 +256,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread-transcript"
-          index={30}
+          index={26}
           title="Thread Transcript"
           description="A rail of your turns beside a thread that jumps to each one"
         >
@@ -300,7 +264,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/quick-chat"
-          index={31}
+          index={27}
           title="Quick Chat"
           description="A compact conversation that floats over the current page"
         >
@@ -308,7 +272,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/stream-text"
-          index={32}
+          index={28}
           title="Stream Text"
           description="A streamed reply written out word by word, at a steady pace"
         >
@@ -316,7 +280,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/reasoning"
-          index={33}
+          index={29}
           title="Reasoning"
           description="How long the model thought, folding open to show its thoughts"
         >
@@ -324,7 +288,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thinking-indicator"
-          index={34}
+          index={30}
           title="Thinking Indicator"
           description="What a reply is doing before its first word, as a live dot and a shimmer"
         >
@@ -332,7 +296,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/sources"
-          index={35}
+          index={31}
           title="Sources"
           description="The pages a reply drew on, as small chips that open them"
         >
@@ -340,7 +304,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/suggestions"
-          index={36}
+          index={32}
           title="Suggestions"
           description="Prompts to start from, arriving together as a row"
         >
