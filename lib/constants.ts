@@ -58,9 +58,9 @@ export const PAGES = {
 
 // The nav lists what is finished — a stub in it costs more than a short nav.
 // Home isn't in it: the logo is the way back there.
-export const NAV_PAGES: NavPage[] = (
-  ["/components", "/ui", "/docs"] as const
-).map((href) => ({
-  href,
-  label: PAGES[href].label,
-}))
+export const NAV_PAGES: NavPage[] = (["/components", "/docs"] as const).map(
+  (href) => ({
+    href,
+    label: PAGES[href].label,
+  })
+)
