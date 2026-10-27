@@ -54,13 +54,14 @@ const DOCS: Record<string, DocContent> = {
 const SECTIONS = [
   { type: "registry:block", title: "Blocks" },
   { type: "registry:component", title: "Components" },
-  { type: "registry:ui", title: "UI" },
 ] as const
 
-// Everything with a card gets a page: supporting items, like the theme or the
-// icon sets, have nothing to preview.
+// Everything with a card in a listed section gets a page: supporting items,
+// like the theme or the icon sets, have nothing to preview.
 const ITEMS: DocsItem[] = registry.items.flatMap((item) =>
-  "categories" in item && item.categories?.length
+  "categories" in item &&
+  item.categories?.length &&
+  SECTIONS.some((section) => section.type === item.type)
     ? [
         {
           name: item.name,

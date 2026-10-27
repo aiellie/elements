@@ -52,7 +52,7 @@ export const PAGES = {
     title: "Documentation",
     icon: BookOpen01Icon,
     description:
-      "How to install every block, component and primitive here, and how to put them together. Usage and API references are being written one item at a time.",
+      "How to install every block and component here, and how to put them together. Usage and API references are being written one item at a time.",
   },
 } satisfies Record<string, PageMeta>
 

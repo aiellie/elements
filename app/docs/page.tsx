@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 const SECTION_ICONS = {
   Blocks: PAGES["/"].icon,
   Components: PAGES["/components"].icon,
-  UI: PAGES["/ui"].icon,
 } as Record<string, (typeof PAGES)["/"]["icon"]>
 
 export default function DocsPage() {
@@ -54,7 +53,7 @@ export default function DocsPage() {
         <h2>Browse</h2>
         <ul
           data-not-typeset
-          className="mt-(--typeset-flow) grid gap-3 sm:grid-cols-3"
+          className="mt-(--typeset-flow) grid gap-3 sm:grid-cols-2"
         >
           {sections.map((section) => {
             const first = section.items[0]
