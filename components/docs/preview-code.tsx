@@ -26,7 +26,7 @@ function PreviewCode({
         </TabsList>
       </Tabs>
       {tab === "preview" ? (
-        <div className="flex min-h-48 items-center justify-center rounded-xl border border-foreground/10 p-6">
+        <div className="relative flex min-h-48 items-center justify-center overflow-hidden rounded-xl border border-foreground/10 p-6">
           <div className="flex w-full justify-center">{children}</div>
         </div>
       ) : (

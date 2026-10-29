@@ -68,7 +68,7 @@ export function DemoCard({
     >
       <div
         className={cn(
-          "flex items-center justify-center overflow-hidden rounded-xl border border-foreground/10 p-5 md:p-6",
+          "relative flex items-center justify-center overflow-hidden rounded-xl border border-foreground/10 p-5 md:p-6",
           "h-[340px] transition-colors group-hover/plate:border-foreground/25",
           demoBackgroundClass(background),
           wide && "md:h-[420px]"
