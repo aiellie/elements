@@ -99,6 +99,7 @@ import {
   WebDesign01Icon,
   WorkflowSquare03Icon,
   Wrench01Icon,
+  Video01Icon,
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
 
@@ -163,6 +164,7 @@ const ITEM_ICONS: Record<string, IconSvgElement> = {
   "retrieved-sources": FileSearchIcon,
   "contact-button": UserCircleIcon,
   "call-menu": CallIcon,
+  "video-call": Video01Icon,
   orb: SphereIcon,
   panels: LayoutThreeColumnIcon,
   "plan-review": CheckListIcon,

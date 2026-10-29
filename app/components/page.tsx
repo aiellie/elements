@@ -78,6 +78,7 @@ import ContextBreakdownDemo from "@/registry/aiellie/examples/context-breakdown-
 import RetrievedSourcesDemo from "@/registry/aiellie/examples/retrieved-sources-demo"
 import ContactButtonDemo from "@/registry/aiellie/examples/contact-button-demo"
 import CallMenuDemo from "@/registry/aiellie/examples/call-menu-demo"
+import VideoCallDemo from "@/registry/aiellie/examples/video-call-demo"
 export default function ComponentsPage() {
   return (
     <div className="flex flex-col gap-16 py-8 sm:py-12">
@@ -603,11 +604,20 @@ export default function ComponentsPage() {
         >
           <CallMenuDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/video-call"
+          index={64}
+          title="Video Call"
+          description="A live call with the assistant that sees your camera"
+          wide
+        >
+          <VideoCallDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="code">
         <DemoCard
           href="/components/code-block"
-          index={64}
+          index={65}
           title="Code Block"
           description="A named block of code to copy, download and point at"
         >
@@ -615,7 +625,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-diff"
-          index={65}
+          index={66}
           title="Code Diff"
           description="What a change did, from the diff that describes it"
         >
@@ -623,7 +633,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/terminal"
-          index={66}
+          index={67}
           title="Terminal"
           description="A command, what came back, and whether it worked"
         >
@@ -631,7 +641,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-snippet"
-          index={67}
+          index={68}
           title="Code Snippet"
           description="A command to copy, for whichever package manager you use"
         >
@@ -639,7 +649,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/file-tree"
-          index={68}
+          index={69}
           title="File Tree"
           description="The files a change touched, and how"
         >
@@ -647,7 +657,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-workspace"
-          index={69}
+          index={70}
           title="Code Workspace"
           description="Files to browse, search and replace across, in tabs"
           wide
@@ -656,7 +666,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/sandbox"
-          index={70}
+          index={71}
           title="Sandbox"
           description="Code that runs, with its preview, editor and console"
           wide
@@ -665,7 +675,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/web-preview"
-          index={71}
+          index={72}
           title="Web Preview"
           description="A page to load, browse and debug, like a browser tab"
           wide
@@ -674,7 +684,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/attempt-picker"
-          index={72}
+          index={73}
           title="Attempt Picker"
           description="Several tries at one task, compared, with one to apply"
         >
@@ -682,7 +692,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/artifact"
-          index={73}
+          index={74}
           title="Artifact"
           description="A panel for something a reply made, with its actions"
         >
@@ -690,7 +700,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/stack-trace"
-          index={74}
+          index={75}
           title="Stack Trace"
           description="An error with its frames, library code folded away"
         >
@@ -698,7 +708,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/commit"
-          index={75}
+          index={76}
           title="Commit"
           description="A commit's message, author and hash, opening to its files"
         >

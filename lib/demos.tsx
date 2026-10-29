@@ -104,6 +104,7 @@ import ContextBreakdownDemo from "@/registry/aiellie/examples/context-breakdown-
 import RetrievedSourcesDemo from "@/registry/aiellie/examples/retrieved-sources-demo"
 import ContactButtonDemo from "@/registry/aiellie/examples/contact-button-demo"
 import CallMenuDemo from "@/registry/aiellie/examples/call-menu-demo"
+import VideoCallDemo from "@/registry/aiellie/examples/video-call-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 
 type Demo = {
@@ -498,6 +499,11 @@ const DEMOS: Record<string, Demo> = {
     title: "Call Menu",
     gallery: "/components",
     Demo: CallMenuDemo,
+  },
+  "video-call": {
+    title: "Video Call",
+    gallery: "/components",
+    Demo: VideoCallDemo,
   },
   toggle: { title: "Toggle", gallery: "/design", Demo: ToggleDemo },
   "toggle-group": {
