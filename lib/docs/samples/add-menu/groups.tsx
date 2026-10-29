@@ -15,7 +15,7 @@ import {
   MenuGroupLabel,
   MenuItem,
   MenuSeparator,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 
 export default function Groups() {
   return (

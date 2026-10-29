@@ -13,7 +13,6 @@ import BranchesMenuDemo from "@/registry/aiellie/examples/branches-menu-demo"
 import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
 import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
-import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import DateDividerDemo from "@/registry/aiellie/examples/date-divider-demo"
 import NavBarsDemo from "@/registry/aiellie/examples/nav-bars-demo"
@@ -28,7 +27,6 @@ import SuggestionsDemo from "@/registry/aiellie/examples/suggestions-demo"
 import SettingsDialogDemo from "@/registry/aiellie/examples/settings-dialog-demo"
 import StreamTextDemo from "@/registry/aiellie/examples/stream-text-demo"
 import ModelSelectorDemo from "@/registry/aiellie/examples/model-selector-demo"
-import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import TemporaryChatToggleDemo from "@/registry/aiellie/examples/temporary-chat-toggle-demo"
 import ThreadDemo from "@/registry/aiellie/examples/thread-demo"
 import ThreadTranscriptDemo from "@/registry/aiellie/examples/thread-transcript-demo"
@@ -290,24 +288,8 @@ export default function ComponentsPage() {
       </CategorySection>
       <CategorySection category="feedback">
         <DemoCard
-          href="/components/status"
-          index={25}
-          title="Status"
-          description="A simple status component"
-        >
-          <StatusDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/meter"
-          index={26}
-          title="Meter"
-          description="How full something is, like a context window or a credit balance"
-        >
-          <MeterDemo />
-        </DemoCard>
-        <DemoCard
           href="/components/waveform"
-          index={27}
+          index={25}
           title="Waveform"
           description="Live bars that follow a microphone, so you can see it hears you"
         >
@@ -315,7 +297,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/run-budget"
-          index={28}
+          index={26}
           title="Run Budget"
           description="A spend cap for an agent run, and what happens at it"
         >
@@ -323,7 +305,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/needs-you"
-          index={29}
+          index={27}
           title="Needs You"
           description="Every agent waiting on you, oldest first, answered in place"
         >
@@ -331,7 +313,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/context-breakdown"
-          index={30}
+          index={28}
           title="Context Breakdown"
           description="What fills the context window, part by part"
         >
@@ -341,7 +323,7 @@ export default function ComponentsPage() {
       <CategorySection category="chat">
         <DemoCard
           href="/components/composer"
-          index={31}
+          index={29}
           title="Composer"
           description="A simple composer component"
         >
@@ -349,7 +331,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/attachments"
-          index={32}
+          index={30}
           title="Attachments"
           description="Images as small squares, other files as chips, in a row"
         >
@@ -357,7 +339,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message"
-          index={33}
+          index={31}
           title="Message"
           description="A simple message component"
         >
@@ -365,7 +347,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/date-divider"
-          index={34}
+          index={32}
           title="Date Divider"
           description="The day and time a thread picks up at, as a quiet line of text"
         >
@@ -373,7 +355,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={35}
+          index={33}
           title="Thread"
           description="A simple thread component"
         >
@@ -381,7 +363,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread-transcript"
-          index={36}
+          index={34}
           title="Thread Transcript"
           description="A rail of your turns beside a thread that jumps to each one"
         >
@@ -389,7 +371,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/quick-chat"
-          index={37}
+          index={35}
           title="Quick Chat"
           description="A compact conversation that floats over the current page"
         >
@@ -397,7 +379,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/stream-text"
-          index={38}
+          index={36}
           title="Stream Text"
           description="A streamed reply written out word by word, at a steady pace"
         >
@@ -405,7 +387,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/reasoning"
-          index={39}
+          index={37}
           title="Reasoning"
           description="How long the model thought, folding open to show its thoughts"
         >
@@ -413,7 +395,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thinking-indicator"
-          index={40}
+          index={38}
           title="Thinking Indicator"
           description="What a reply is doing before its first word, as a live dot and a shimmer"
         >
@@ -421,7 +403,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/sources"
-          index={41}
+          index={39}
           title="Sources"
           description="The pages a reply drew on, as small chips that open them"
         >
@@ -429,7 +411,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/suggestions"
-          index={42}
+          index={40}
           title="Suggestions"
           description="Prompts to start from, arriving together as a row"
         >
@@ -437,7 +419,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/response"
-          index={43}
+          index={41}
           title="Response"
           description="A Markdown reply set as prose, fading in as it streams"
         >
@@ -445,7 +427,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/tool-call"
-          index={44}
+          index={42}
           title="Tool Call"
           description="A tool the model called, folded behind one row"
         >
@@ -453,7 +435,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message-actions"
-          index={45}
+          index={43}
           title="Message Actions"
           description="Copy, rate, retry and more under a reply"
         >
@@ -461,7 +443,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/inline-citation"
-          index={46}
+          index={44}
           title="Inline Citation"
           description="A numbered mark in the prose that names its source"
         >
@@ -469,7 +451,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/quoted-message"
-          index={47}
+          index={45}
           title="Quoted Message"
           description="The words a reply is about, kept above it"
         >
@@ -477,7 +459,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message-highlight-toolbar"
-          index={48}
+          index={46}
           title="Message Highlight Toolbar"
           description="Actions over the words selected in a thread"
         >
@@ -485,7 +467,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/reactions"
-          index={49}
+          index={47}
           title="Reactions"
           description="Emoji counts you press to add or take back"
         >
@@ -493,7 +475,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message-status"
-          index={50}
+          index={48}
           title="Message Status"
           description="Sending, sent, delivered, read, or not sent"
         >
@@ -501,7 +483,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/timestamps"
-          index={51}
+          index={49}
           title="Timestamps"
           description="When a message was sent, worded by how long ago"
         >
@@ -509,7 +491,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/message-context-menu"
-          index={52}
+          index={50}
           title="Message Context Menu"
           description="Reactions and actions on a right click"
         >
@@ -517,7 +499,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/plan-review"
-          index={53}
+          index={51}
           title="Plan Review"
           description="A proposed plan to reshape before it runs"
         >
@@ -525,7 +507,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/compaction-marker"
-          index={54}
+          index={52}
           title="Compaction Marker"
           description="Where the agent compacted its context, and what it kept"
         >
@@ -533,7 +515,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/human-handoff"
-          index={55}
+          index={53}
           title="Human Handoff"
           description="Hand the chat to a person, with what they should know"
         >
@@ -541,7 +523,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/agent-steps"
-          index={56}
+          index={54}
           title="Agent Steps"
           description="A run laid out step by step, with what each step found"
         >
@@ -549,7 +531,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/agent-card"
-          index={57}
+          index={55}
           title="Agent Card"
           description="What an agent is: its model, instructions, tools and output"
         >
@@ -557,7 +539,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/typing-indicator"
-          index={58}
+          index={56}
           title="Typing Indicator"
           description="Three dots that say someone is writing a reply"
         >
@@ -565,7 +547,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/retrieved-sources"
-          index={59}
+          index={57}
           title="Retrieved Sources"
           description="The passages a reply was built from, with their scores"
         >
@@ -573,7 +555,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/contact-button"
-          index={60}
+          index={58}
           title="Contact Button"
           description="Who you're talking to, opening more about them"
         >
@@ -583,7 +565,7 @@ export default function ComponentsPage() {
       <CategorySection category="voice">
         <DemoCard
           href="/components/orb"
-          index={61}
+          index={59}
           title="Orb"
           description="The assistant as a sphere that listens, thinks and speaks"
         >
@@ -591,7 +573,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/transcript"
-          index={62}
+          index={60}
           title="Transcript"
           description="Speech as text, with guesses that settle as they're heard"
         >
@@ -599,7 +581,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/audio-player"
-          index={63}
+          index={61}
           title="Audio Player"
           description="A clip to play, scrub through and time"
         >
@@ -607,7 +589,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/mic-menu"
-          index={64}
+          index={62}
           title="Mic Menu"
           description="Which microphone to listen with"
         >
@@ -615,7 +597,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/call-menu"
-          index={65}
+          index={63}
           title="Call Menu"
           description="A picture that opens a video or voice call"
         >
@@ -625,7 +607,7 @@ export default function ComponentsPage() {
       <CategorySection category="code">
         <DemoCard
           href="/components/code-block"
-          index={66}
+          index={64}
           title="Code Block"
           description="A named block of code to copy, download and point at"
         >
@@ -633,7 +615,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-diff"
-          index={67}
+          index={65}
           title="Code Diff"
           description="What a change did, from the diff that describes it"
         >
@@ -641,7 +623,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/terminal"
-          index={68}
+          index={66}
           title="Terminal"
           description="A command, what came back, and whether it worked"
         >
@@ -649,7 +631,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-snippet"
-          index={69}
+          index={67}
           title="Code Snippet"
           description="A command to copy, for whichever package manager you use"
         >
@@ -657,7 +639,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/file-tree"
-          index={70}
+          index={68}
           title="File Tree"
           description="The files a change touched, and how"
         >
@@ -665,7 +647,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-workspace"
-          index={71}
+          index={69}
           title="Code Workspace"
           description="Files to browse, search and replace across, in tabs"
           wide
@@ -674,7 +656,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/sandbox"
-          index={72}
+          index={70}
           title="Sandbox"
           description="Code that runs, with its preview, editor and console"
           wide
@@ -683,7 +665,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/web-preview"
-          index={73}
+          index={71}
           title="Web Preview"
           description="A page to load, browse and debug, like a browser tab"
           wide
@@ -692,7 +674,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/attempt-picker"
-          index={74}
+          index={72}
           title="Attempt Picker"
           description="Several tries at one task, compared, with one to apply"
         >
@@ -700,7 +682,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/artifact"
-          index={75}
+          index={73}
           title="Artifact"
           description="A panel for something a reply made, with its actions"
         >
@@ -708,7 +690,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/stack-trace"
-          index={76}
+          index={74}
           title="Stack Trace"
           description="An error with its frames, library code folded away"
         >
@@ -716,7 +698,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/commit"
-          index={77}
+          index={75}
           title="Commit"
           description="A commit's message, author and hash, opening to its files"
         >

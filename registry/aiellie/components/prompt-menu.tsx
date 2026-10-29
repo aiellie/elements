@@ -24,7 +24,7 @@ import {
   MenuRadioItem,
   MenuSeparator,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import { Button } from "@/registry/aiellie/ui/button"
 
 type PromptGroup = { id: string; name: string; icon: IconSvgElement }

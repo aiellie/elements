@@ -9,7 +9,7 @@ import {
   MenuCheckboxItem,
   MenuContent,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import { Button } from "@/registry/aiellie/ui/button"
 
 type ProjectOption = {

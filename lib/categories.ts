@@ -55,9 +55,4 @@ export function cardCount(
 
 // Still published and installable, but left out of the gallery, the sidebar
 // and the pager.
-export const HIDDEN_ITEMS = new Set([
-  "menu",
-  "toast",
-  "toolbar",
-  "tooltip-icon-button",
-])
+export const HIDDEN_ITEMS = new Set<string>([])

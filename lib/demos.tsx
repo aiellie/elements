@@ -109,7 +109,7 @@ import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
 type Demo = {
   title: string
   /** The gallery the card lives on, which is where the way back leads. */
-  gallery: "/" | "/ui" | "/components"
+  gallery: "/" | "/design" | "/components"
   Demo: ComponentType
 }
 
@@ -126,47 +126,51 @@ const DEMOS: Record<string, Demo> = {
     // page, and a frame around the whole viewport would only be a second edge.
     Demo: () => <Chat />,
   },
-  button: { title: "Button", gallery: "/ui", Demo: ButtonDemo },
-  textarea: { title: "Textarea", gallery: "/ui", Demo: TextareaDemo },
-  input: { title: "Input", gallery: "/ui", Demo: InputDemo },
+  button: { title: "Button", gallery: "/design", Demo: ButtonDemo },
+  textarea: { title: "Textarea", gallery: "/design", Demo: TextareaDemo },
+  input: { title: "Input", gallery: "/design", Demo: InputDemo },
   "input-group": {
     title: "Input Group",
-    gallery: "/ui",
+    gallery: "/design",
     Demo: InputGroupDemo,
   },
-  resizable: { title: "Resizable", gallery: "/ui", Demo: ResizableDemo },
-  separator: { title: "Separator", gallery: "/ui", Demo: SeparatorDemo },
-  marker: { title: "Marker", gallery: "/ui", Demo: MarkerDemo },
-  sidebar: { title: "Sidebar", gallery: "/ui", Demo: SidebarDemo },
-  tabs: { title: "Tabs", gallery: "/ui", Demo: TabsDemo },
+  resizable: { title: "Resizable", gallery: "/design", Demo: ResizableDemo },
+  separator: { title: "Separator", gallery: "/design", Demo: SeparatorDemo },
+  marker: { title: "Marker", gallery: "/design", Demo: MarkerDemo },
+  sidebar: { title: "Sidebar", gallery: "/design", Demo: SidebarDemo },
+  tabs: { title: "Tabs", gallery: "/design", Demo: TabsDemo },
   breadcrumb: {
     title: "Breadcrumb",
-    gallery: "/ui",
+    gallery: "/design",
     Demo: BreadcrumbDemo,
   },
-  tooltip: { title: "Tooltip", gallery: "/ui", Demo: TooltipDemo },
-  sheet: { title: "Sheet", gallery: "/ui", Demo: SheetDemo },
-  dialog: { title: "Dialog", gallery: "/ui", Demo: DialogDemo },
-  popover: { title: "Popover", gallery: "/ui", Demo: PopoverDemo },
-  "hover-card": { title: "Hover Card", gallery: "/ui", Demo: HoverCardDemo },
-  command: { title: "Command", gallery: "/ui", Demo: CommandDemo },
-  skeleton: { title: "Skeleton", gallery: "/ui", Demo: SkeletonDemo },
-  avatar: { title: "Avatar", gallery: "/ui", Demo: AvatarDemo },
-  badge: { title: "Badge", gallery: "/ui", Demo: BadgeDemo },
-  empty: { title: "Empty", gallery: "/ui", Demo: EmptyDemo },
+  tooltip: { title: "Tooltip", gallery: "/design", Demo: TooltipDemo },
+  sheet: { title: "Sheet", gallery: "/design", Demo: SheetDemo },
+  dialog: { title: "Dialog", gallery: "/design", Demo: DialogDemo },
+  popover: { title: "Popover", gallery: "/design", Demo: PopoverDemo },
+  "hover-card": {
+    title: "Hover Card",
+    gallery: "/design",
+    Demo: HoverCardDemo,
+  },
+  command: { title: "Command", gallery: "/design", Demo: CommandDemo },
+  skeleton: { title: "Skeleton", gallery: "/design", Demo: SkeletonDemo },
+  avatar: { title: "Avatar", gallery: "/design", Demo: AvatarDemo },
+  badge: { title: "Badge", gallery: "/design", Demo: BadgeDemo },
+  empty: { title: "Empty", gallery: "/design", Demo: EmptyDemo },
   "tooltip-icon-button": {
     title: "Tooltip Icon Button",
-    gallery: "/components",
+    gallery: "/design",
     Demo: TooltipIconButtonDemo,
   },
   "add-menu": { title: "Add Menu", gallery: "/components", Demo: AddMenuDemo },
-  toolbar: { title: "Toolbar", gallery: "/components", Demo: ToolbarDemo },
+  toolbar: { title: "Toolbar", gallery: "/design", Demo: ToolbarDemo },
   "temporary-chat-toggle": {
     title: "Temporary Chat Toggle",
     gallery: "/components",
     Demo: TemporaryChatToggleDemo,
   },
-  meter: { title: "Meter", gallery: "/components", Demo: MeterDemo },
+  meter: { title: "Meter", gallery: "/design", Demo: MeterDemo },
   "help-menu": {
     title: "Help Menu",
     gallery: "/components",
@@ -213,15 +217,15 @@ const DEMOS: Record<string, Demo> = {
     gallery: "/components",
     Demo: NavBarsDemo,
   },
-  menu: { title: "Menu", gallery: "/components", Demo: MenuDemo },
+  menu: { title: "Menu", gallery: "/design", Demo: MenuDemo },
   "settings-dialog": {
     title: "Settings Dialog",
     gallery: "/components",
     Demo: SettingsDialogDemo,
   },
-  status: { title: "Status", gallery: "/components", Demo: StatusDemo },
+  status: { title: "Status", gallery: "/design", Demo: StatusDemo },
   waveform: { title: "Waveform", gallery: "/components", Demo: WaveformDemo },
-  toast: { title: "Toast", gallery: "/components", Demo: ToastDemo },
+  toast: { title: "Toast", gallery: "/design", Demo: ToastDemo },
   composer: { title: "Composer", gallery: "/components", Demo: ComposerDemo },
   attachments: {
     title: "Attachments",
@@ -495,13 +499,13 @@ const DEMOS: Record<string, Demo> = {
     gallery: "/components",
     Demo: CallMenuDemo,
   },
-  toggle: { title: "Toggle", gallery: "/ui", Demo: ToggleDemo },
+  toggle: { title: "Toggle", gallery: "/design", Demo: ToggleDemo },
   "toggle-group": {
     title: "Toggle Group",
-    gallery: "/ui",
+    gallery: "/design",
     Demo: ToggleGroupDemo,
   },
-  combobox: { title: "Combobox", gallery: "/ui", Demo: ComboboxDemo },
+  combobox: { title: "Combobox", gallery: "/design", Demo: ComboboxDemo },
 }
 
 export { DEMOS }

@@ -226,33 +226,50 @@ const DOCS: Record<string, DocContent> = {
   "work-in-menu": workInMenu,
 }
 
-// Every component with a card gets a page, in its gallery category, the
-// categories in the order they run down the gallery.
-const SECTIONS: DocsSection[] = []
-let count = 0
-for (const [id, category] of Object.entries(CATEGORIES)) {
-  const items = registry.items
-    .filter(
-      (item) =>
-        item.type === "registry:component" &&
-        "categories" in item &&
-        !HIDDEN_ITEMS.has(item.name) &&
-        item.categories?.[0] === (id as Category)
-    )
-    .sort((a, b) => a.title.localeCompare(b.title))
-    .map((item) => ({
-      name: item.name,
-      title: item.title,
-      description: item.description,
-      index: ++count,
-    }))
-  if (items.length) SECTIONS.push({ title: category.name, items })
+type Gallery = "components" | "design"
+
+const GALLERY_TYPES = {
+  components: "registry:component",
+  design: "registry:ui",
+} satisfies Record<Gallery, string>
+
+// Every item with a card gets a page, in its gallery category, the categories
+// in the order they run down the gallery.
+function buildSections(gallery: Gallery) {
+  const sections: DocsSection[] = []
+  let count = 0
+  for (const [id, category] of Object.entries(CATEGORIES)) {
+    const items = registry.items
+      .filter(
+        (item) =>
+          item.type === GALLERY_TYPES[gallery] &&
+          "categories" in item &&
+          !HIDDEN_ITEMS.has(item.name) &&
+          item.categories?.[0] === (id as Category)
+      )
+      .sort((a, b) => a.title.localeCompare(b.title))
+      .map((item) => ({
+        name: item.name,
+        title: item.title,
+        description: item.description,
+        index: ++count,
+      }))
+    if (items.length) sections.push({ title: category.name, items })
+  }
+  return { sections, items: sections.flatMap((section) => section.items) }
 }
 
-const ITEMS = SECTIONS.flatMap((section) => section.items)
+const NAV = {
+  components: buildSections("components"),
+  design: buildSections("design"),
+} satisfies Record<Gallery, { sections: DocsSection[]; items: DocsItem[] }>
 
-function docsItem(name: string) {
-  return ITEMS.find((item) => item.name === name) ?? null
+function docsNav(gallery: Gallery) {
+  return NAV[gallery]
+}
+
+function docsItem(gallery: Gallery, name: string) {
+  return NAV[gallery].items.find((item) => item.name === name) ?? null
 }
 
 function docsContent(name: string) {
@@ -263,13 +280,7 @@ function padIndex(index: number) {
   return String(index).padStart(2, "0")
 }
 
-export {
-  docsContent,
-  docsItem,
-  ITEMS as DOCS_ITEMS,
-  padIndex,
-  SECTIONS as DOCS_SECTIONS,
-}
+export { docsContent, docsItem, docsNav, padIndex }
 export type {
   DocCode,
   DocContent,
@@ -279,4 +290,5 @@ export type {
   DocStep,
   DocTable,
   DocText,
+  Gallery,
 }

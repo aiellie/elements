@@ -24,7 +24,7 @@ import {
   MenuItem,
   MenuSeparator,
   MenuTrigger,
-} from "@/components/aiellie/menu"
+} from "@/components/ui/menu"
 import { Button } from "@/components/ui/button"
 
 export function ChatOptions({ onRename, onDelete }: {

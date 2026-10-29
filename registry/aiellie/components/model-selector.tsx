@@ -20,7 +20,7 @@ import {
   MenuRadioItem,
   MenuSeparator,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 
 function ModelMark({
   vendor,

@@ -11,7 +11,7 @@ import {
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
 import { cn } from "@/lib/utils"
-import { Status, StatusIndicator } from "@/registry/aiellie/components/status"
+import { Status, StatusIndicator } from "@/registry/aiellie/ui/status"
 import {
   ThinkingIndicator,
   formatDuration,

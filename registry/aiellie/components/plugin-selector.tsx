@@ -17,8 +17,8 @@ import {
   MenuItem,
   MenuSeparator,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+} from "@/registry/aiellie/ui/menu"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 import { Button } from "@/registry/aiellie/ui/button"
 import { cn } from "@/lib/utils"
 

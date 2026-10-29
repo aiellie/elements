@@ -5,7 +5,7 @@ import { ArrowLeft02Icon, ArrowRight02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { cn } from "@/lib/utils"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 function HistoryButtons({
   canGoBack,

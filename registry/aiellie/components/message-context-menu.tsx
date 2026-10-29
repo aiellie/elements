@@ -5,7 +5,7 @@ import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 
 import { cn } from "@/lib/utils"
-import { MenuContent } from "@/registry/aiellie/components/menu"
+import { MenuContent } from "@/registry/aiellie/ui/menu"
 
 const DEFAULT_REACTIONS = ["👍", "❤️", "😂", "🎉", "👀", "🙏"]
 

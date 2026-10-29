@@ -6,7 +6,7 @@ import {
   Status,
   StatusIndicator,
   StatusLabel,
-} from "@/registry/aiellie/components/status"
+} from "@/registry/aiellie/ui/status"
 import { Button } from "@/registry/aiellie/ui/button"
 
 const STATES = {

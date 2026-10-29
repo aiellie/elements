@@ -8,7 +8,7 @@ import {
   AnchoredToaster,
   ToastProvider,
   createToastManager,
-} from "@/registry/aiellie/components/toast"
+} from "@/registry/aiellie/ui/toast"
 import { Button } from "@/registry/aiellie/ui/button"
 
 export default function Anchored() {

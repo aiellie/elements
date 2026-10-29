@@ -5,7 +5,7 @@ import { Cancel01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
 import { cn } from "@/lib/utils"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 function Artifact({ className, ...props }: React.ComponentProps<"section">) {
   return (

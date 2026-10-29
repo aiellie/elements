@@ -23,7 +23,7 @@ import {
   Toolbar,
   ToolbarButton,
   ToolbarGroup,
-} from "@/components/aiellie/toolbar"
+} from "@/components/ui/toolbar"
 
 export function FormatBar() {
   const [bold, setBold] = React.useState(false)

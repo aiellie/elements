@@ -7,7 +7,7 @@ import {
   CodeTokens,
   useHighlightedLines,
 } from "@/registry/aiellie/components/code-block"
-import { Status, StatusIndicator } from "@/registry/aiellie/components/status"
+import { Status, StatusIndicator } from "@/registry/aiellie/ui/status"
 
 function TerminalContent({ className, ...props }: React.ComponentProps<"div">) {
   return (

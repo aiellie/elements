@@ -5,7 +5,7 @@ import { RepeatIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { Response } from "@/registry/aiellie/components/response"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 const REPLY = `Container queries style an element by the size of its **parent** rather than the viewport.
 

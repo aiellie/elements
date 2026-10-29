@@ -18,7 +18,7 @@ const doc: DocContent = {
 
 import * as React from "react"
 
-import { MenuItem } from "@/components/aiellie/menu"
+import { MenuItem } from "@/components/ui/menu"
 import { MessagePart } from "@/components/aiellie/message"
 import {
   MessageContextMenu,

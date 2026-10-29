@@ -7,8 +7,8 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import {
   TooltipIconButton,
   type TooltipIconButtonProps,
-} from "@/registry/aiellie/components/tooltip-icon-button"
-import { Status, StatusIndicator } from "@/registry/aiellie/components/status"
+} from "@/registry/aiellie/ui/tooltip-icon-button"
+import { Status, StatusIndicator } from "@/registry/aiellie/ui/status"
 import { Waveform } from "@/registry/aiellie/components/waveform"
 import { cn } from "@/lib/utils"
 

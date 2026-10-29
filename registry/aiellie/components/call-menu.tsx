@@ -10,7 +10,7 @@ import {
   MenuContent,
   MenuItem,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import {
   Avatar,
   AvatarFallback,

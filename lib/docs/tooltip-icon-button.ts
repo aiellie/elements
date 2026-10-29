@@ -18,7 +18,7 @@ const doc: DocContent = {
 import { Copy01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { TooltipIconButton } from "@/components/aiellie/tooltip-icon-button"
+import { TooltipIconButton } from "@/components/ui/tooltip-icon-button"
 
 export function CopyButton({ text }: { text: string }) {
   return (

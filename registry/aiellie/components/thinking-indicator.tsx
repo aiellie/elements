@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { Status, StatusIndicator } from "@/registry/aiellie/components/status"
+import { Status, StatusIndicator } from "@/registry/aiellie/ui/status"
 
 // "12s", "2m 5s". Anything under a second still reads as one.
 function formatDuration(seconds: number) {

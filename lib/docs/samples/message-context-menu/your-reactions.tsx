@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { MenuItem, MenuSeparator } from "@/registry/aiellie/components/menu"
+import { MenuItem, MenuSeparator } from "@/registry/aiellie/ui/menu"
 import {
   MessageContextMenu,
   MessageContextMenuContent,

@@ -45,7 +45,7 @@ import {
   FileTree,
   type FileNode,
 } from "@/registry/aiellie/components/file-tree"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
   Tabs,

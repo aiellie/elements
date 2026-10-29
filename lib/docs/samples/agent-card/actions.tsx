@@ -8,7 +8,7 @@ import {
   AgentCardMark,
   AgentCardTitle,
 } from "@/registry/aiellie/components/agent-card"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 export default function Actions() {
   return (

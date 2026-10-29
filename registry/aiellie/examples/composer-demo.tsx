@@ -32,7 +32,7 @@ import {
   MenuSub,
   MenuSubContent,
   MenuSubTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import { ModelSelector } from "@/registry/aiellie/components/model-selector"
 import {
   PluginChips,

@@ -18,7 +18,7 @@ import {
   Menu,
   MenuContent,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import {
   Message,
   MessageContent,

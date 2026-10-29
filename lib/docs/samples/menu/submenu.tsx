@@ -19,8 +19,8 @@ import {
   MenuSubContent,
   MenuSubTrigger,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+} from "@/registry/aiellie/ui/menu"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 export default function Submenu() {
   return (

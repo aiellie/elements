@@ -16,7 +16,7 @@ import {
   type ChatMode,
 } from "@/registry/aiellie/blocks/chat/components/chat-switcher"
 import { HelpMenu } from "@/registry/aiellie/components/help-menu"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 import { UserMenu, type User } from "@/registry/aiellie/components/user-menu"
 import {
   Sidebar,

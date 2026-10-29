@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils"
 import { useMetaColor } from "@/hooks/use-meta-color"
 import { setThemeWithTransition } from "@/components/theme-provider"
 import { iconSwap, iconSwapIn, iconSwapOut } from "@/lib/surfaces"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 export const DARK_MODE_FORWARD_TYPE = "dark-mode-forward"
 

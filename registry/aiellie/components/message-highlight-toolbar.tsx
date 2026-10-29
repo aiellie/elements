@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { Toolbar, ToolbarButton } from "@/registry/aiellie/components/toolbar"
+import { Toolbar, ToolbarButton } from "@/registry/aiellie/ui/toolbar"
 
 type Highlight = {
   text: string

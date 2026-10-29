@@ -12,7 +12,7 @@ import {
   Toolbar,
   ToolbarButton,
   ToolbarSeparator,
-} from "@/registry/aiellie/components/toolbar"
+} from "@/registry/aiellie/ui/toolbar"
 
 export default function MessageActions() {
   return (

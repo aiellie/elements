@@ -6,7 +6,7 @@ import {
   Meter,
   MeterLabel,
   MeterValue,
-} from "@/registry/aiellie/components/meter"
+} from "@/registry/aiellie/ui/meter"
 import { Button } from "@/registry/aiellie/ui/button"
 
 const MAX = 200_000

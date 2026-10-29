@@ -22,7 +22,7 @@ import {
   MenuSubContent,
   MenuSubTrigger,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import { Button } from "@/registry/aiellie/ui/button"
 import { toast } from "@/components/ui/toast"
 import { cn } from "@/lib/utils"

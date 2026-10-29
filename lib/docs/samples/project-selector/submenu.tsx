@@ -10,7 +10,7 @@ import {
   MenuSub,
   MenuSubContent,
   MenuSubTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import {
   projectSelectorItems,
   type ProjectOption,

@@ -8,7 +8,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { MenuItem } from "@/registry/aiellie/components/menu"
+import { MenuItem } from "@/registry/aiellie/ui/menu"
 import {
   Message,
   MessageActions,

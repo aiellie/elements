@@ -13,8 +13,8 @@ import {
   MenuContent,
   MenuItem,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+} from "@/registry/aiellie/ui/menu"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 export default function FromMenu() {
   const [title, setTitle] = React.useState("Trip to Lisbon")

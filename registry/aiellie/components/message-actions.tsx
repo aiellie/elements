@@ -17,7 +17,7 @@ import {
   Menu,
   MenuContent,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import { MessageAction } from "@/registry/aiellie/components/message"
 
 type ActionProps = Omit<

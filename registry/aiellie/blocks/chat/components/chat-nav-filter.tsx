@@ -17,7 +17,7 @@ import {
   MenuRadioItem,
   MenuSeparator,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import { SidebarGroupAction } from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
 

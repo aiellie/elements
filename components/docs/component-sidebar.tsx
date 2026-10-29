@@ -5,20 +5,27 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 
 import { FilterInput } from "@/components/docs/filter-input"
-import { DOCS_ITEMS, DOCS_SECTIONS, type DocsSection } from "@/lib/docs"
+import { docsNav, type DocsSection, type Gallery } from "@/lib/docs"
+
+const GALLERY_LABELS = {
+  components: "Components",
+  design: "Design",
+} satisfies Record<Gallery, string>
 
 const componentLink =
   "flex h-7.5 min-w-0 items-center rounded-lg border border-transparent px-2 text-sm text-muted-foreground transition-colors duration-80 outline-none hover:bg-accent hover:text-foreground focus-visible:border-ring aria-[current=page]:bg-accent aria-[current=page]:text-foreground motion-reduce:transition-none"
 
-function filterSections(query: string): DocsSection[] {
+function filterSections(sections: DocsSection[], query: string): DocsSection[] {
   const normalized = query.trim().toLowerCase()
-  if (!normalized) return DOCS_SECTIONS
-  return DOCS_SECTIONS.map((section) => ({
-    title: section.title,
-    items: section.items.filter((item) =>
-      `${item.title} ${item.name}`.toLowerCase().includes(normalized)
-    ),
-  })).filter((section) => section.items.length > 0)
+  if (!normalized) return sections
+  return sections
+    .map((section) => ({
+      title: section.title,
+      items: section.items.filter((item) =>
+        `${item.title} ${item.name}`.toLowerCase().includes(normalized)
+      ),
+    }))
+    .filter((section) => section.items.length > 0)
 }
 
 function ComponentLink({
@@ -50,11 +57,13 @@ function ComponentLink({
   )
 }
 
-function ComponentSidebar() {
+function ComponentSidebar({ gallery }: { gallery: Gallery }) {
+  const nav = docsNav(gallery)
+  const label = GALLERY_LABELS[gallery]
   const pathname = usePathname()
   const router = useRouter()
   const [query, setQuery] = React.useState("")
-  const sections = filterSections(query)
+  const sections = filterSections(nav.sections, query)
   const matches = sections.reduce((n, section) => n + section.items.length, 0)
 
   return (
@@ -63,14 +72,14 @@ function ComponentSidebar() {
           beneath it rather than stopping short of it. */}
       <div className="sticky top-12 -mt-20 max-h-[calc(100svh-3rem)] w-52 [scrollbar-width:none] overflow-y-auto overscroll-contain bg-background pt-20 pb-8 [&::-webkit-scrollbar]:hidden">
         <Link
-          href="/components"
+          href={`/${gallery}`}
           className="flex items-baseline justify-between px-2 text-sm text-muted-foreground transition-colors duration-80 hover:text-foreground motion-reduce:transition-none"
         >
-          Components
+          {label}
           <span className="text-code-sm font-mono tabular-nums">
             {query.trim()
-              ? `${matches} / ${DOCS_ITEMS.length}`
-              : DOCS_ITEMS.length}
+              ? `${matches} / ${nav.items.length}`
+              : nav.items.length}
           </span>
         </Link>
         <FilterInput
@@ -78,10 +87,10 @@ function ComponentSidebar() {
           onValueChange={setQuery}
           onEnter={() => {
             const first = sections[0]?.items[0]
-            if (first) router.push(`/components/${first.name}`)
+            if (first) router.push(`/${gallery}/${first.name}`)
           }}
           placeholder="Filter"
-          aria-label="Filter components"
+          aria-label={`Filter ${label.toLowerCase()}`}
           className="mt-3"
         />
         {sections.length === 0 ? (
@@ -89,7 +98,7 @@ function ComponentSidebar() {
             Nothing matches.
           </p>
         ) : null}
-        <nav aria-label="Components" className="mt-5 flex flex-col gap-5">
+        <nav aria-label={label} className="mt-5 flex flex-col gap-5">
           {sections.map((section) => (
             <div key={section.title} className="flex flex-col gap-1">
               <p className="px-2 text-caption font-medium text-muted-foreground">
@@ -97,7 +106,7 @@ function ComponentSidebar() {
               </p>
               <ul className="flex flex-col gap-px">
                 {section.items.map((item) => {
-                  const href = `/components/${item.name}`
+                  const href = `/${gallery}/${item.name}`
                   return (
                     <li key={item.name}>
                       <ComponentLink href={href} current={pathname === href}>

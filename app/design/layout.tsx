@@ -1,13 +1,13 @@
-import type { ReactNode } from "react";
-import { SiteHeader } from "@/components/shared/site-header";
-import { SiteFooter } from "@/components/shared/site-footer";
-import { CONTAINER } from "@/lib/constants";
-import { cn } from "@/lib/utils";
-  
+import type { ReactNode } from "react"
+import { SiteHeader } from "@/components/shared/site-header"
+import { SiteFooter } from "@/components/shared/site-footer"
+import { CONTAINER } from "@/lib/constants"
+import { cn } from "@/lib/utils"
+
 export default function Layout({
   children,
 }: {
-  children: ReactNode;
+  children: ReactNode
 }): React.ReactElement {
   return (
     <div className="flex min-h-svh flex-col">
@@ -16,5 +16,5 @@ export default function Layout({
       <main className={cn(CONTAINER, "flex-1")}>{children}</main>
       <SiteFooter />
     </div>
-  );
+  )
 }

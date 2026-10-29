@@ -11,7 +11,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { MenuItem, MenuSeparator } from "@/registry/aiellie/components/menu"
+import { MenuItem, MenuSeparator } from "@/registry/aiellie/ui/menu"
 
 type ChatOptionsProps = {
   pinned?: boolean

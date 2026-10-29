@@ -29,13 +29,15 @@ type Entry = {
   tag: string
 }
 
-const PAGE_ENTRIES: Entry[] = (["/", "/components"] as const).map((href) => ({
-  href,
-  title: PAGES[href].title,
-  description: PAGES[href].description,
-  icon: PAGES[href].icon,
-  tag: PAGES[href].label,
-}))
+const PAGE_ENTRIES: Entry[] = (["/", "/components", "/design"] as const).map(
+  (href) => ({
+    href,
+    title: PAGES[href].title,
+    description: PAGES[href].description,
+    icon: PAGES[href].icon,
+    tag: PAGES[href].label,
+  })
+)
 
 const TEMPLATE_ENTRIES: Entry[] = registry.items
   .filter((item) => item.type === "registry:block")
@@ -53,14 +55,14 @@ const SECTIONS = Object.entries(CATEGORIES)
     entries: registry.items
       .filter(
         (item) =>
-          item.type === "registry:component" &&
+          (item.type === "registry:component" || item.type === "registry:ui") &&
           "categories" in item &&
           !HIDDEN_ITEMS.has(item.name) &&
           item.categories?.[0] === (id as Category)
       )
       .sort((a, b) => a.title.localeCompare(b.title))
       .map<Entry>((item) => ({
-        href: `/components/${item.name}`,
+        href: `/${item.type === "registry:ui" ? "design" : "components"}/${item.name}`,
         title: item.title,
         description: item.description,
         icon: ITEM_ICONS[item.name],

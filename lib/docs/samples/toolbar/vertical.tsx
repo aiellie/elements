@@ -13,7 +13,7 @@ import {
   Toolbar,
   ToolbarButton,
   ToolbarGroup,
-} from "@/registry/aiellie/components/toolbar"
+} from "@/registry/aiellie/ui/toolbar"
 
 const TOOLS = [
   { id: "select", label: "Select", icon: Cursor01Icon },

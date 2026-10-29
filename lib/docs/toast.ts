@@ -19,7 +19,7 @@ import {
   ToastProvider,
   Toaster,
   createToastManager,
-} from "@/components/aiellie/toast"
+} from "@/components/ui/toast"
 
 export const toasts = createToastManager()
 

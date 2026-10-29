@@ -26,7 +26,7 @@ import {
   MenuItem,
   MenuSeparator,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import {
   Toolbar,
   ToolbarButton,
@@ -34,7 +34,7 @@ import {
   ToolbarInput,
   ToolbarLink,
   ToolbarSeparator,
-} from "@/registry/aiellie/components/toolbar"
+} from "@/registry/aiellie/ui/toolbar"
 
 export default function ToolbarDemo() {
   const [marks, setMarks] = React.useState<string[]>(["bold"])

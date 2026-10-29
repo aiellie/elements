@@ -14,8 +14,8 @@ import {
   MenuRadioGroup,
   MenuRadioItem,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+} from "@/registry/aiellie/ui/menu"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 type MicDevice = { deviceId: string; label: string }
 

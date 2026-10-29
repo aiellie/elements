@@ -6,7 +6,7 @@ import { useRender } from "@base-ui/react/use-render"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 function MessageGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (

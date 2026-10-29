@@ -613,7 +613,7 @@
     },
     {
       "name": "menu",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Menu",
       "description": "Base UI's menu with this registry's surface on it, plus an optional search box that filters the rows.",
       "dependencies": [
@@ -624,9 +624,9 @@
       "registryDependencies": ["@aiellie/utils"],
       "files": [
         {
-          "path": "registry/aiellie/components/menu.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/menu.tsx"
+          "path": "registry/aiellie/ui/menu.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/menu.tsx"
         }
       ],
       "categories": ["overlays"]
@@ -724,55 +724,55 @@
     },
     {
       "name": "toolbar",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Toolbar",
       "description": "Base UI's toolbar with this registry's surface on it, plus buttons that name themselves in a tooltip.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": ["@aiellie/tooltip", "@aiellie/utils"],
       "files": [
         {
-          "path": "registry/aiellie/components/toolbar.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/toolbar.tsx"
+          "path": "registry/aiellie/ui/toolbar.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/toolbar.tsx"
         }
       ],
       "categories": ["actions"]
     },
     {
       "name": "status",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Status",
       "description": "A labelled state pill with an optional pulsing indicator.",
       "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": ["@aiellie/utils"],
       "files": [
         {
-          "path": "registry/aiellie/components/status.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/status.tsx"
+          "path": "registry/aiellie/ui/status.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/status.tsx"
         }
       ],
       "categories": ["feedback"]
     },
     {
       "name": "meter",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Meter",
       "description": "A reading inside a known range, like a context window or a credit balance, with a label, a formatted value and a fill that can turn to a status tone.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": ["@aiellie/utils"],
       "files": [
         {
-          "path": "registry/aiellie/components/meter.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/meter.tsx"
+          "path": "registry/aiellie/ui/meter.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/meter.tsx"
         }
       ],
       "categories": ["feedback"]
     },
     {
       "name": "tooltip-icon-button",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Tooltip Icon Button",
       "description": "An icon button that carries its own tooltip and screen-reader label.",
       "registryDependencies": [
@@ -782,9 +782,9 @@
       ],
       "files": [
         {
-          "path": "registry/aiellie/components/tooltip-icon-button.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/tooltip-icon-button.tsx"
+          "path": "registry/aiellie/ui/tooltip-icon-button.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/tooltip-icon-button.tsx"
         }
       ],
       "categories": ["actions"]
@@ -845,7 +845,7 @@
     },
     {
       "name": "toast",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Toast",
       "description": "Stacked and anchored notifications with actions, semantic status icons and swipe-to-dismiss behavior.",
       "dependencies": [
@@ -856,9 +856,9 @@
       "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
       "files": [
         {
-          "path": "registry/aiellie/components/toast.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/toast.tsx"
+          "path": "registry/aiellie/ui/toast.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/toast.tsx"
         }
       ],
       "categories": ["feedback"]

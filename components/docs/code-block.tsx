@@ -5,7 +5,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import { cn } from "@/lib/utils"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 // `html` comes from highlightCode, which escapes the code, so nothing in it
 // is markup the snippet wrote.

@@ -1,7 +1,7 @@
 import {
   AiElementsIcon,
-  AiSwapIcon,
   DashboardSquare01Icon,
+  PaintBoardIcon,
 } from "@hugeicons/core-free-icons"
 
 import type { PageMeta } from "@/components/pages/page-hero"
@@ -36,19 +36,21 @@ export const PAGES = {
     description:
       "Everything designed here, from menus and toolbars to the pieces of a conversation. Each one installs on its own, into components/aiellie.",
   },
-  "/ui": {
-    label: "UI",
-    eyebrow: "UI",
-    title: "Restyled primitives",
-    icon: AiSwapIcon,
+  "/design": {
+    label: "Design",
+    eyebrow: "Primitives",
+    title: "The design system",
+    icon: PaintBoardIcon,
     description:
-      "shadcn's components in this system's style. Each one installs over your own copy in components/ui, and every call site keeps working.",
+      "The primitives everything here is built from: shadcn's components in this system's style, and the menus, toolbars and toasts that aren't specific to AI. Each one installs into components/ui.",
   },
 } satisfies Record<string, PageMeta>
 
 // The nav lists what is finished — a stub in it costs more than a short nav.
 // Home isn't in it: the logo is the way back there.
-export const NAV_PAGES: NavPage[] = (["/components"] as const).map((href) => ({
-  href,
-  label: PAGES[href].label,
-}))
+export const NAV_PAGES: NavPage[] = (["/components", "/design"] as const).map(
+  (href) => ({
+    href,
+    label: PAGES[href].label,
+  })
+)

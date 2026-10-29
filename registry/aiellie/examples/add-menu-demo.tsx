@@ -8,7 +8,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { AddMenu } from "@/registry/aiellie/components/add-menu"
-import { MenuItem } from "@/registry/aiellie/components/menu"
+import { MenuItem } from "@/registry/aiellie/ui/menu"
 
 export default function AddMenuDemo() {
   return (

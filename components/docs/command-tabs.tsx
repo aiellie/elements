@@ -7,7 +7,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { INSTALLERS, writeToClipboard } from "@/components/pages/demo-actions"
 import { toast } from "@/components/ui/toast"
 import { cn } from "@/lib/utils"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 import { Tabs, TabsList, TabsTrigger } from "@/registry/aiellie/ui/tabs"
 
 type Installer = (typeof INSTALLERS)[number]["id"]

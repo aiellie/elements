@@ -11,7 +11,7 @@ import {
   useCodeWorkspace,
   type CodeWorkspaceFile,
 } from "@/registry/aiellie/components/code-workspace"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 
 const FILES: CodeWorkspaceFile[] = [
   {

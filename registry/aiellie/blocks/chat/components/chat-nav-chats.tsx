@@ -18,13 +18,13 @@ import {
   Menu,
   MenuContent,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import { usePanels } from "@/registry/aiellie/components/panels"
 import {
   Status,
   StatusIndicator,
   StatusLabel,
-} from "@/registry/aiellie/components/status"
+} from "@/registry/aiellie/ui/status"
 import {
   SidebarGroup,
   SidebarGroupLabel,

@@ -9,7 +9,7 @@ import {
   MenuRadioGroup,
   MenuRadioItem,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import { SidebarMenuButton } from "@/registry/aiellie/ui/sidebar"
 
 type ChatMode = "chat" | "code"

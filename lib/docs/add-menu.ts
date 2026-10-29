@@ -19,7 +19,7 @@ import { Attachment01Icon, Image01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 import { AddMenu } from "@/components/aiellie/add-menu"
-import { MenuItem } from "@/components/aiellie/menu"
+import { MenuItem } from "@/components/ui/menu"
 
 export function ComposerAdd({ onUpload }: { onUpload: () => void }) {
   return (

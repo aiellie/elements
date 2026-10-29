@@ -4,7 +4,7 @@ import {
   Meter,
   MeterLabel,
   MeterValue,
-} from "@/registry/aiellie/components/meter"
+} from "@/registry/aiellie/ui/meter"
 
 export default function MeterDemo() {
   return (

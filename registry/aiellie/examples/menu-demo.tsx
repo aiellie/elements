@@ -55,7 +55,7 @@ import {
   MenuSubContent,
   MenuSubTrigger,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 
 export default function MenuDemo() {
   const [sidebar, setSidebar] = React.useState(true)

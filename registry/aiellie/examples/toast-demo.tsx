@@ -7,7 +7,7 @@ import {
   ToastProvider,
   Toaster,
   createToastManager,
-} from "@/registry/aiellie/components/toast"
+} from "@/registry/aiellie/ui/toast"
 import { Button } from "@/registry/aiellie/ui/button"
 
 function StackedToastDemo() {

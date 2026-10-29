@@ -13,7 +13,7 @@ const doc: DocContent = {
         ],
         code: {
           title: "components/credits.tsx",
-          code: `import { Meter, MeterLabel, MeterValue } from "@/components/aiellie/meter"
+          code: `import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
 
 export function Credits({ used }: { used: number }) {
   return (

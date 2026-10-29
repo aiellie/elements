@@ -1,5 +1,9 @@
+import { readFile } from "node:fs/promises"
+import path from "node:path"
+
 import { CategorySection } from "@/components/pages/category-separator"
 import { DemoCard } from "@/components/pages/demo-card"
+import { DesignMdDialog } from "@/components/pages/design-md-dialog"
 import { PageHero } from "@/components/pages/page-hero"
 import { cardCount } from "@/lib/categories"
 import { PAGES } from "@/lib/constants"
@@ -26,13 +30,28 @@ import ToggleDemo from "@/registry/aiellie/examples/toggle-demo"
 import ToggleGroupDemo from "@/registry/aiellie/examples/toggle-group-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
-export default function UiPage() {
+import MenuDemo from "@/registry/aiellie/examples/menu-demo"
+import MeterDemo from "@/registry/aiellie/examples/meter-demo"
+import StatusDemo from "@/registry/aiellie/examples/status-demo"
+import ToastDemo from "@/registry/aiellie/examples/toast-demo"
+import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
+import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
+export default async function DesignPage() {
+  const designMd = await readFile(
+    path.join(process.cwd(), ".claude/skills/design/SKILL.md"),
+    "utf8"
+  )
+
   return (
     <div className="flex flex-col gap-16 py-8 sm:py-12">
-      <PageHero {...PAGES["/ui"]} count={cardCount("registry:ui")} />
+      <PageHero
+        {...PAGES["/design"]}
+        count={cardCount("registry:ui")}
+        actions={<DesignMdDialog markdown={designMd} />}
+      />
       <CategorySection category="actions">
         <DemoCard
-          href="/ui/button"
+          href="/design/button"
           index={1}
           title="Button"
           description="A simple button component"
@@ -40,7 +59,7 @@ export default function UiPage() {
           <ButtonDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/toggle"
+          href="/design/toggle"
           index={2}
           title="Toggle"
           description="A button that stays pressed until pressed again"
@@ -48,42 +67,58 @@ export default function UiPage() {
           <ToggleDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/toggle-group"
+          href="/design/toggle-group"
           index={3}
           title="Toggle Group"
           description="Toggles where one or several can be on"
         >
           <ToggleGroupDemo />
         </DemoCard>
+        <DemoCard
+          href="/design/toolbar"
+          index={4}
+          title="Toolbar"
+          description="A row of controls that name themselves in a tooltip"
+        >
+          <ToolbarDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/tooltip-icon-button"
+          index={5}
+          title="Tooltip Icon Button"
+          description="An icon button that carries its own tooltip and label"
+        >
+          <TooltipIconButtonDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="inputs">
         <DemoCard
-          href="/ui/textarea"
-          index={4}
+          href="/design/textarea"
+          index={6}
           title="Textarea"
           description="A simple textarea component"
         >
           <TextareaDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/input"
-          index={5}
+          href="/design/input"
+          index={7}
           title="Input"
           description="A single line of text"
         >
           <InputDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/input-group"
-          index={6}
+          href="/design/input-group"
+          index={8}
           title="Input Group"
           description="An input with icons, text or buttons inside its edge"
         >
           <InputGroupDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/combobox"
-          index={7}
+          href="/design/combobox"
+          index={9}
           title="Combobox"
           description="An input that filters a list and picks from it"
         >
@@ -92,48 +127,48 @@ export default function UiPage() {
       </CategorySection>
       <CategorySection category="layout">
         <DemoCard
-          href="/ui/resizable"
-          index={8}
+          href="/design/resizable"
+          index={10}
           title="Resizable"
           description="Panels you can resize by dragging the line between them"
         >
           <ResizableDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/separator"
-          index={9}
+          href="/design/separator"
+          index={11}
           title="Separator"
           description="A hairline between groups, across or down"
         >
           <SeparatorDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/marker"
-          index={10}
+          href="/design/marker"
+          index={12}
           title="Marker"
           description="A quiet line of text, on its own or between rules"
         >
           <MarkerDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/sidebar"
-          index={11}
+          href="/design/sidebar"
+          index={13}
           title="Sidebar"
           description="Groups of rows down the side of an app"
         >
           <SidebarDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/tabs"
-          index={12}
+          href="/design/tabs"
+          index={14}
           title="Tabs"
           description="Views to switch between, one at a time"
         >
           <TabsDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/breadcrumb"
-          index={13}
+          href="/design/breadcrumb"
+          index={15}
           title="Breadcrumb"
           description="A path from a parent place to the current one"
         >
@@ -142,86 +177,118 @@ export default function UiPage() {
       </CategorySection>
       <CategorySection category="overlays">
         <DemoCard
-          href="/ui/tooltip"
-          index={14}
+          href="/design/tooltip"
+          index={16}
           title="Tooltip"
           description="A simple tooltip component"
         >
           <TooltipDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/sheet"
-          index={15}
+          href="/design/sheet"
+          index={17}
           title="Sheet"
           description="A simple sheet component"
         >
           <SheetDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/dialog"
-          index={16}
+          href="/design/dialog"
+          index={18}
           title="Dialog"
           description="A panel in the middle of the screen, over a dimmed page"
         >
           <DialogDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/popover"
-          index={17}
+          href="/design/popover"
+          index={19}
           title="Popover"
           description="A glass panel beside its trigger, for small forms and details"
         >
           <PopoverDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/hover-card"
-          index={18}
+          href="/design/hover-card"
+          index={20}
           title="Hover Card"
           description="A glass card that opens while you hover or focus its trigger"
         >
           <HoverCardDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/command"
-          index={19}
+          href="/design/command"
+          index={21}
           title="Command"
           description="A searchable list you move through with the keyboard"
         >
           <CommandDemo />
         </DemoCard>
+        <DemoCard
+          href="/design/menu"
+          index={22}
+          title="Menu"
+          description="A menu of actions, with an optional search box"
+        >
+          <MenuDemo />
+        </DemoCard>
       </CategorySection>
       <CategorySection category="feedback">
         <DemoCard
-          href="/ui/skeleton"
-          index={20}
+          href="/design/skeleton"
+          index={23}
           title="Skeleton"
           description="A placeholder that pulses while content loads"
         >
           <SkeletonDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/avatar"
-          index={21}
+          href="/design/avatar"
+          index={24}
           title="Avatar"
           description="A picture of someone, or their initials"
         >
           <AvatarDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/badge"
-          index={22}
+          href="/design/badge"
+          index={25}
           title="Badge"
           description="A short label beside something, like a plan or a status"
         >
           <BadgeDemo />
         </DemoCard>
         <DemoCard
-          href="/ui/empty"
-          index={23}
+          href="/design/empty"
+          index={26}
           title="Empty"
           description="What a place shows before there is anything in it"
         >
           <EmptyDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/status"
+          index={27}
+          title="Status"
+          description="A labelled state pill with an optional pulse"
+        >
+          <StatusDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/meter"
+          index={28}
+          title="Meter"
+          description="How full something is, like a context window or a credit balance"
+        >
+          <MeterDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/toast"
+          index={29}
+          title="Toast"
+          description="Stacked notifications with actions and swipe to dismiss"
+        >
+          <ToastDemo />
         </DemoCard>
       </CategorySection>
     </div>

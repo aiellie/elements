@@ -15,7 +15,7 @@ const doc: DocContent = {
   Status,
   StatusIndicator,
   StatusLabel,
-} from "@/components/aiellie/status"
+} from "@/components/ui/status"
 
 export function DeployStatus({ running }: { running: boolean }) {
   return (

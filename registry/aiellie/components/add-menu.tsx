@@ -8,11 +8,11 @@ import {
   Menu,
   MenuContent,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import {
   TooltipIconButton,
   type TooltipIconButtonProps,
-} from "@/registry/aiellie/components/tooltip-icon-button"
+} from "@/registry/aiellie/ui/tooltip-icon-button"
 import { cn } from "@/lib/utils"
 
 function AddMenu({

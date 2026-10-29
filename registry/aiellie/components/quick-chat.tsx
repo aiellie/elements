@@ -31,7 +31,7 @@ import {
   ThreadScrollButton,
   ThreadViewport,
 } from "@/registry/aiellie/components/thread"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 import { cn } from "@/lib/utils"
 
 type QuickChatMessage = {

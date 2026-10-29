@@ -25,7 +25,7 @@ import {
   Status,
   StatusIndicator,
   StatusLabel,
-} from "@/registry/aiellie/components/status"
+} from "@/registry/aiellie/ui/status"
 import {
   Reasoning,
   ReasoningContent,

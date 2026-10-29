@@ -4,7 +4,7 @@ import Link from "next/link"
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { DOCS_ITEMS, DOCS_SECTIONS, docsItem, padIndex } from "@/lib/docs"
+import { docsItem, docsNav, padIndex, type Gallery } from "@/lib/docs"
 import { cn } from "@/lib/utils"
 import {
   Menu,
@@ -13,14 +13,16 @@ import {
   MenuGroupLabel,
   MenuLinkItem,
   MenuTrigger,
-} from "@/registry/aiellie/components/menu"
+} from "@/registry/aiellie/ui/menu"
 import { Button } from "@/registry/aiellie/ui/button"
 
 function Step({
+  gallery,
   name,
   title,
   direction,
 }: {
+  gallery: Gallery
   name?: string
   title?: string
   direction: "previous" | "next"
@@ -52,7 +54,7 @@ function Step({
       variant="ghost"
       size="icon-sm"
       nativeButton={false}
-      render={<Link href={`/components/${name}`} />}
+      render={<Link href={`/${gallery}/${name}`} />}
       aria-label={`${direction === "previous" ? "Previous" : "Next"}: ${title}`}
       className="text-muted-foreground"
     >
@@ -62,17 +64,20 @@ function Step({
 }
 
 function ComponentPager({
+  gallery,
   name,
   className,
 }: {
+  gallery: Gallery
   name: string
   className?: string
 }) {
-  const item = docsItem(name)
+  const nav = docsNav(gallery)
+  const item = docsItem(gallery, name)
   if (!item) return null
 
-  const previous = DOCS_ITEMS[item.index - 2]
-  const next = DOCS_ITEMS[item.index]
+  const previous = nav.items[item.index - 2]
+  const next = nav.items[item.index]
 
   return (
     <nav
@@ -80,6 +85,7 @@ function ComponentPager({
       className={cn("flex shrink-0 items-center gap-0.5", className)}
     >
       <Step
+        gallery={gallery}
         name={previous?.name}
         title={previous?.title}
         direction="previous"
@@ -99,7 +105,7 @@ function ComponentPager({
           <span aria-hidden className="px-0.5 text-muted-foreground/50">
             /
           </span>
-          {DOCS_ITEMS.length}
+          {nav.items.length}
         </MenuTrigger>
         <MenuContent
           align="end"
@@ -107,7 +113,7 @@ function ComponentPager({
           searchPlaceholder="Filter components"
           className="max-h-80 w-64"
         >
-          {DOCS_SECTIONS.map((section) => (
+          {nav.sections.map((section) => (
             <MenuGroup key={section.title}>
               <MenuGroupLabel>{section.title}</MenuGroupLabel>
               {section.items.map((entry) => (
@@ -115,7 +121,7 @@ function ComponentPager({
                   key={entry.name}
                   closeOnClick
                   aria-current={entry.name === name ? "page" : undefined}
-                  render={<Link href={`/components/${entry.name}`} />}
+                  render={<Link href={`/${gallery}/${entry.name}`} />}
                   className="aria-[current=page]:text-foreground"
                 >
                   {entry.title}
@@ -125,7 +131,12 @@ function ComponentPager({
           ))}
         </MenuContent>
       </Menu>
-      <Step name={next?.name} title={next?.title} direction="next" />
+      <Step
+        gallery={gallery}
+        name={next?.name}
+        title={next?.title}
+        direction="next"
+      />
     </nav>
   )
 }

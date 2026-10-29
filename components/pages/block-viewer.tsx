@@ -24,7 +24,7 @@ import type {
   RegistryItem,
 } from "@/lib/registry"
 import { cn } from "@/lib/utils"
-import { TooltipIconButton } from "@/registry/aiellie/components/tooltip-icon-button"
+import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
   ResizableHandle,

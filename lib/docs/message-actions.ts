@@ -16,7 +16,7 @@ const doc: DocContent = {
         title: "Add them to a reply",
         code: {
           title: "components/reply-footer.tsx",
-          code: `import { MenuItem } from "@/components/aiellie/menu"
+          code: `import { MenuItem } from "@/components/ui/menu"
 import { MessageActions, MessageFooter } from "@/components/aiellie/message"
 import {
   MessageCopyAction,

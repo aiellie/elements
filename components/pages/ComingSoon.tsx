@@ -4,7 +4,7 @@ import {
   Status,
   StatusIndicator,
   StatusLabel,
-} from "@/registry/aiellie/components/status"
+} from "@/registry/aiellie/ui/status"
 import type { PageMeta } from "@/components/pages/page-hero"
 
 type ComingSoonProps = PageMeta

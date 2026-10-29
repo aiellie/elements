@@ -6,7 +6,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import {
   TooltipIconButton,
   type TooltipIconButtonProps,
-} from "@/registry/aiellie/components/tooltip-icon-button"
+} from "@/registry/aiellie/ui/tooltip-icon-button"
 import { cn } from "@/lib/utils"
 
 function TemporaryChatToggle({
