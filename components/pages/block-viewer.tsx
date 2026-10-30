@@ -5,8 +5,9 @@ import {
   ArrowRight01Icon,
   ComputerTerminal01Icon,
   Copy01Icon,
-  File02Icon,
+  FileIcon,
   Folder01Icon,
+  Folder02Icon,
   FullScreenIcon,
   MonitorIcon,
   Refresh01Icon,
@@ -24,6 +25,7 @@ import type {
   RegistryItem,
 } from "@/lib/registry"
 import { cn } from "@/lib/utils"
+import { codeIconOf } from "@/registry/aiellie/components/code-block"
 import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
@@ -321,7 +323,10 @@ function FileTreeNode({
               open && "rotate-90 rtl:rotate-90"
             )}
           />
-          <HugeiconsIcon aria-hidden icon={Folder01Icon} />
+          <HugeiconsIcon
+            aria-hidden
+            icon={open ? Folder02Icon : Folder01Icon}
+          />
           <span className="truncate">{node.name}</span>
         </Button>
         {open ? (
@@ -354,7 +359,7 @@ function FileTreeNode({
         onClick={() => setActiveFile(node.path ?? null)}
       >
         <span className="size-4 shrink-0" />
-        <HugeiconsIcon aria-hidden icon={File02Icon} />
+        {codeIconOf(node.name) ?? <HugeiconsIcon aria-hidden icon={FileIcon} />}
         <span className="truncate">{node.name}</span>
       </Button>
     </li>
@@ -413,12 +418,10 @@ function BlockViewerCode() {
     >
       <BlockViewerFileTree />
       <figure className="flex min-w-0 flex-1 flex-col">
-        <figcaption className="flex h-12 shrink-0 items-center gap-2 border-b border-border/60 px-4 text-sm">
-          <HugeiconsIcon
-            aria-hidden
-            icon={File02Icon}
-            className="size-4 text-muted-foreground"
-          />
+        <figcaption className="flex h-12 shrink-0 items-center gap-2 border-b border-border/60 px-4 text-sm [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-muted-foreground">
+          {codeIconOf(file.target) ?? (
+            <HugeiconsIcon aria-hidden icon={FileIcon} />
+          )}
           <span className="truncate font-mono text-xs">{file.target}</span>
           <div className="ms-auto">
             <CopyCodeButton content={file.content} />
