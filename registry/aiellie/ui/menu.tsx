@@ -86,7 +86,7 @@ function MenuSearch({
             event.key.length > 1 || event.metaKey || event.ctrlKey
           if (!navigational) event.stopPropagation()
         }}
-        className="w-full bg-transparent text-xs text-foreground outline-none placeholder:text-muted-foreground/70"
+        className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/70"
       />
 
       {/* Disabled rather than hidden while empty, so the field's end doesn't shift as you type. */}
@@ -201,7 +201,7 @@ function MenuContent({
 }
 
 const menuItem = cn(
-  "flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-xs font-medium text-muted-foreground transition-colors outline-none select-none",
+  "flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-medium text-muted-foreground transition-colors outline-none select-none",
   "data-highlighted:bg-foreground/[0.06] data-highlighted:text-foreground dark:data-highlighted:bg-foreground/[0.09]",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
   "[&_svg:not([class*='size-'])]:size-4",
