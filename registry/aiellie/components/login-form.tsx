@@ -1,13 +1,8 @@
 "use client"
 
 import * as React from "react"
-import {
-  Alert02Icon,
-  Github01Icon,
-  GoogleIcon,
-  Loading03Icon,
-} from "@hugeicons/core-free-icons"
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+import { Alert02Icon, Loading03Icon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/registry/aiellie/ui/button"
@@ -20,14 +15,19 @@ import {
 } from "@/registry/aiellie/ui/dialog"
 import { Input } from "@/registry/aiellie/ui/input"
 import { Separator } from "@/registry/aiellie/ui/separator"
+import { brandIcons, type IconProps } from "@/registry/aiellie/icons"
 
 type LoginValues = { email: string }
 
-type LoginProvider = { id: string; name: string; icon: IconSvgElement }
+type LoginProvider = {
+  id: string
+  name: string
+  icon: React.ComponentType<IconProps>
+}
 
 const LOGIN_PROVIDERS: LoginProvider[] = [
-  { id: "google", name: "Google", icon: GoogleIcon },
-  { id: "github", name: "GitHub", icon: Github01Icon },
+  { id: "google", name: "Google", icon: brandIcons.gmail },
+  { id: "github", name: "GitHub", icon: brandIcons.github },
 ]
 
 type LoginFormProps = Omit<React.ComponentProps<"form">, "onSubmit"> & {
@@ -86,12 +86,10 @@ function LoginForm({
                 size="default"
                 disabled={pending}
                 onClick={() => onProvider?.(provider.id)}
+                // A mark in currentColor reads as the brand in full ink, not muted.
+                className="[&_svg]:text-foreground"
               >
-                <HugeiconsIcon
-                  icon={provider.icon}
-                  data-icon="inline-start"
-                  aria-hidden
-                />
+                <provider.icon data-icon="inline-start" />
                 Continue with {provider.name}
               </Button>
             ))}

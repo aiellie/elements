@@ -90,13 +90,13 @@ export function SignIn() {
     {
       title: "Other providers",
       body: [
-        "`providers` replaces Google and GitHub. Each has an id, which `onProvider` gets, a name and a Hugeicons glyph.",
+        "`providers` replaces Google and GitHub. Each has an id, which `onProvider` gets, a name and an icon: a component that draws an SVG, like the marks in `icons`.",
       ],
       code: {
-        code: `import { AppleIcon } from "@hugeicons/core-free-icons"
+        code: `import { brandIcons } from "@/components/aiellie/icons"
 
 <LoginForm
-  providers={[{ id: "apple", name: "Apple", icon: AppleIcon }]}
+  providers={[{ id: "google", name: "Google", icon: brandIcons.google }]}
   onProvider={(id) => signInWith(id)}
 />`,
       },

@@ -656,8 +656,8 @@
         "@aiellie/utils",
         "@aiellie/button",
         "@aiellie/dialog",
+        "@aiellie/icons",
         "@aiellie/input",
-        "@aiellie/input-group",
         "@aiellie/separator"
       ],
       "files": [
