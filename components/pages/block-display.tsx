@@ -2,6 +2,7 @@ import { BlockViewer } from "@/components/pages/block-viewer"
 import { highlightCode } from "@/lib/highlight-code"
 import {
   createRegistryFileTree,
+  getRegistryInstallFiles,
   getRegistryItem,
   type RegistryFile,
 } from "@/lib/registry"
@@ -15,9 +16,10 @@ async function BlockDisplay({ name }: { name: string }) {
   const item = await getRegistryItem(name)
   if (!item || item.type !== "registry:block") return null
 
-  const tree = createRegistryFileTree(item.files)
+  const files = await getRegistryInstallFiles(name)
+  const tree = createRegistryFileTree(files)
   const highlightedFiles = await Promise.all(
-    item.files.map(async (file) => ({
+    files.map(async (file) => ({
       ...file,
       highlightedContent: await highlightCode(file.content, languageFor(file)),
     }))
