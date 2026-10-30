@@ -1,10 +1,8 @@
 "use client"
 
 import { ChatEmpty } from "@/registry/aiellie/blocks/chat/components/chat-empty"
-import {
-  ChatMessages,
-  type ChatMessage,
-} from "@/registry/aiellie/blocks/chat/components/chat-messages"
+import { ChatMessages } from "@/registry/aiellie/blocks/chat/components/chat-messages"
+import type { ChatMessage } from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import type { NavBarsItem } from "@/registry/aiellie/components/nav-bars"
 import { usePanels } from "@/registry/aiellie/components/panels"
 import {

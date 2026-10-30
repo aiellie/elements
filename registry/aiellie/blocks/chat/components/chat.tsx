@@ -6,11 +6,8 @@ import {
   errorText,
   streamReply,
   useProviderKeys,
-} from "@/registry/aiellie/blocks/chat/components/chat-ai"
-import {
-  ChatAttachments,
-  type ChatAttachment,
-} from "@/registry/aiellie/blocks/chat/components/chat-attachments"
+} from "@/registry/aiellie/blocks/chat/lib/chat-ai"
+import { ChatAttachments } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import { ChatComposer } from "@/registry/aiellie/blocks/chat/components/chat-composer"
 import {
   DISCLAIMER,
@@ -23,15 +20,18 @@ import {
   SAMPLE_USAGE,
   SAMPLE_USER,
   shareUrlOf,
-  type Conversation,
-  type ConversationStatus,
-} from "@/registry/aiellie/blocks/chat/components/chat-data"
+} from "@/registry/aiellie/blocks/chat/lib/chat-data"
 import { ChatHeader } from "@/registry/aiellie/blocks/chat/components/chat-header"
-import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat-messages"
 import { ChatSearch } from "@/registry/aiellie/blocks/chat/components/chat-search"
 import { ChatSidebar } from "@/registry/aiellie/blocks/chat/components/chat-sidebar"
 import type { ChatMode } from "@/registry/aiellie/blocks/chat/components/chat-switcher"
 import { ChatThread } from "@/registry/aiellie/blocks/chat/components/chat-thread"
+import type {
+  ChatAttachment,
+  ChatMessage,
+  Conversation,
+  ConversationStatus,
+} from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import type { ComposerStatus } from "@/registry/aiellie/components/composer"
 import { HistoryButtons } from "@/registry/aiellie/components/history-buttons"
 import { Panels } from "@/registry/aiellie/components/panels"

@@ -12,18 +12,7 @@ import {
   FilePreview,
   describe,
 } from "@/registry/aiellie/components/file-preview"
-
-type ChatAttachment = {
-  id: string
-  name: string
-  kind: "file" | "image" | "folder"
-  /** In bytes. Left out for a folder. */
-  size?: number
-  /** A link to the file made in the browser, for an image or a PDF to show. */
-  url?: string
-  /** One for a file or an image, every file inside for a folder. */
-  files: File[]
-}
+import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/lib/chat-types"
 
 let nextId = 0
 
@@ -130,4 +119,3 @@ function ChatAttachments({
 }
 
 export { ChatAttachments, toAttachments }
-export type { ChatAttachment }

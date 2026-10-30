@@ -2,16 +2,14 @@
 
 import * as React from "react"
 
-import {
-  ChatAttachments,
-  type ChatAttachment,
-} from "@/registry/aiellie/blocks/chat/components/chat-attachments"
+import { ChatAttachments } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import { ChatComposer } from "@/registry/aiellie/blocks/chat/components/chat-composer"
 import {
   SAMPLE_BRANCHES,
   SAMPLE_PLUGINS,
   SAMPLE_PROJECTS,
-} from "@/registry/aiellie/blocks/chat/components/chat-data"
+} from "@/registry/aiellie/blocks/chat/lib/chat-data"
+import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import {
   QuickChat,
   type QuickChatMessage,

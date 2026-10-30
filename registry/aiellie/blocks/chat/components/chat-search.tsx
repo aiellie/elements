@@ -4,7 +4,7 @@ import * as React from "react"
 import { BubbleChatIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import type { Conversation } from "@/registry/aiellie/blocks/chat/components/chat-data"
+import type { Conversation } from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import { usePanels } from "@/registry/aiellie/components/panels"
 import {
   Command,

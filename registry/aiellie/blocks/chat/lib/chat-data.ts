@@ -7,31 +7,16 @@ import {
   SlackIcon,
 } from "@hugeicons/core-free-icons"
 
-import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
-import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat-messages"
+import type {
+  ChatAttachment,
+  Conversation,
+} from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import type { PluginOption } from "@/registry/aiellie/components/plugin-selector"
 import type { ProjectOption } from "@/registry/aiellie/components/project-selector"
 import type { User } from "@/registry/aiellie/components/user-menu"
 
 // Everything the preview shows is sample data, kept here so it can be swapped
 // for your own in one place.
-
-type ConversationStatus = "running" | "completed" | "failed"
-
-type Conversation = {
-  id: string
-  title: string
-  pinned?: boolean
-  /** Kept out of the sidebar, but not deleted. */
-  archived?: boolean
-  /** Kept out of the sidebar, and gone once the page is left. */
-  temporary?: boolean
-  /** Where its latest run stands. */
-  status?: ConversationStatus
-  /** Finished while it wasn't open, and not opened since. */
-  unread?: boolean
-  messages: ChatMessage[]
-}
 
 const SAMPLE_USER: User = { name: "AI Ellie", plan: "Pro" }
 
@@ -235,4 +220,3 @@ export {
   SAMPLE_USER,
   shareUrlOf,
 }
-export type { Conversation, ConversationStatus }

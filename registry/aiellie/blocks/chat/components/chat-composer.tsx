@@ -13,8 +13,8 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import {
   ChatAttachments,
   toAttachments,
-  type ChatAttachment,
 } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
+import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import { AddMenu } from "@/registry/aiellie/components/add-menu"
 import { BranchesMenu } from "@/registry/aiellie/components/branches-menu"
 import { DictateButton } from "@/registry/aiellie/components/dictate-button"

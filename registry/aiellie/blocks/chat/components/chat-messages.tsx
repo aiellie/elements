@@ -3,10 +3,12 @@
 import * as React from "react"
 import { Globe02Icon } from "@hugeicons/core-free-icons"
 
-import {
-  ChatAttachments,
-  type ChatAttachment,
-} from "@/registry/aiellie/blocks/chat/components/chat-attachments"
+import { ChatAttachments } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
+import type {
+  ChatMessage,
+  ChatSource,
+  ChatToolCall,
+} from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import { InlineCitation } from "@/registry/aiellie/components/inline-citation"
 import {
   Message,
@@ -49,45 +51,6 @@ import {
   isSameDay,
 } from "@/registry/aiellie/components/date-divider"
 import { ThreadItem } from "@/registry/aiellie/components/thread"
-
-type ChatSource = {
-  url: string
-  title?: string
-}
-
-type ChatToolCall = {
-  id: string
-  /** What it says on its row, like "Searched the web". */
-  name: string
-  kind: "search" | "tool"
-  status: "running" | "done" | "error"
-  /** The query, for a search. */
-  summary?: string
-  input?: unknown
-  output?: unknown
-}
-
-type ChatMessage = {
-  id: string
-  role: "user" | "assistant"
-  content: string
-  attachments?: ChatAttachment[]
-  /** Left out once a reply has finished. */
-  status?: "streaming" | "stopped" | "failed"
-  /** Why a failed reply failed. */
-  error?: string
-  /** What the model thought before replying, for a model that shows it. */
-  reasoning?: string
-  /** Seconds from asking to the reply's first word. */
-  reasoningDuration?: number
-  /** What a streaming reply is doing while no words come, like "Searching the web". */
-  activity?: string
-  /** Pages a search turned up for the reply. */
-  sources?: ChatSource[]
-  /** The tools the reply called, in order. */
-  tools?: ChatToolCall[]
-  createdAt?: Date
-}
 
 // A browser can't read another site's page, so the block's own route does,
 // and hands back its title, description, image and icon.
@@ -279,4 +242,3 @@ function ChatMessages({
 }
 
 export { ChatMessages }
-export type { ChatMessage, ChatSource, ChatToolCall }

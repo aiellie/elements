@@ -2,9 +2,11 @@
 
 import type { FileUIPart, TextUIPart, UIMessage } from "ai"
 
+import type {
+  ChatAttachment,
+  ChatMessage,
+} from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import { formatSize, isText } from "@/registry/aiellie/components/file-preview"
-import type { ChatAttachment } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
-import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat-messages"
 
 type AttachmentPart = FileUIPart | TextUIPart
 type Budget = { bytes: number; text: number }

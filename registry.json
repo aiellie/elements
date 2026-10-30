@@ -1494,7 +1494,9 @@
         "@aiellie/empty",
         "@aiellie/sidebar",
         "@aiellie/panels",
+        "@aiellie/nav-bars",
         "@aiellie/user-menu",
+        "@aiellie/settings-dialog",
         "@aiellie/help-menu",
         "@aiellie/menu",
         "@aiellie/status",
@@ -1581,7 +1583,7 @@
           "target": "components/chat-search.tsx"
         },
         {
-          "path": "registry/aiellie/blocks/chat/components/chat-data.ts",
+          "path": "registry/aiellie/blocks/chat/lib/chat-data.ts",
           "type": "registry:lib",
           "target": "lib/chat-data.ts"
         },
@@ -1626,14 +1628,19 @@
           "target": "components/chat-attachments.tsx"
         },
         {
-          "path": "registry/aiellie/blocks/chat/components/chat-ai.ts",
+          "path": "registry/aiellie/blocks/chat/lib/chat-ai.ts",
           "type": "registry:lib",
           "target": "lib/chat-ai.ts"
         },
         {
-          "path": "registry/aiellie/blocks/chat/components/chat-files.ts",
+          "path": "registry/aiellie/blocks/chat/lib/chat-files.ts",
           "type": "registry:lib",
           "target": "lib/chat-files.ts"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/lib/chat-types.ts",
+          "type": "registry:lib",
+          "target": "lib/chat-types.ts"
         }
       ],
       "meta": {

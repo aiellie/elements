@@ -7,18 +7,14 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import type { ChatMessage } from "@/registry/aiellie/blocks/chat/components/chat-messages"
 import {
   ChatOptions,
   hasChatOptions,
   type ChatOptionsProps,
 } from "@/registry/aiellie/blocks/chat/components/chat-options"
+import type { ChatMessage } from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import { EditableTitle } from "@/registry/aiellie/components/editable-title"
-import {
-  Menu,
-  MenuContent,
-  MenuTrigger,
-} from "@/registry/aiellie/ui/menu"
+import { Menu, MenuContent, MenuTrigger } from "@/registry/aiellie/ui/menu"
 import {
   Message,
   MessageContent,

@@ -9,12 +9,12 @@ import {
   type UIMessage,
 } from "ai"
 
-import { toUIMessages } from "@/registry/aiellie/blocks/chat/components/chat-files"
+import { toUIMessages } from "@/registry/aiellie/blocks/chat/lib/chat-files"
 import type {
   ChatMessage,
   ChatSource,
   ChatToolCall,
-} from "@/registry/aiellie/blocks/chat/components/chat-messages"
+} from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import {
   routeOf,
   type ModelOption,

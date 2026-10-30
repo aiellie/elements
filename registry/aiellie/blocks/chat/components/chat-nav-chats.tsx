@@ -14,11 +14,7 @@ import {
 } from "@/registry/aiellie/blocks/chat/components/chat-nav-filter"
 import { ChatOptions } from "@/registry/aiellie/blocks/chat/components/chat-options"
 import { useRenameInput } from "@/registry/aiellie/components/editable-title"
-import {
-  Menu,
-  MenuContent,
-  MenuTrigger,
-} from "@/registry/aiellie/ui/menu"
+import { Menu, MenuContent, MenuTrigger } from "@/registry/aiellie/ui/menu"
 import { usePanels } from "@/registry/aiellie/components/panels"
 import {
   Status,
