@@ -1,13 +1,17 @@
 "use client"
 
 import * as React from "react"
-import { Globe02Icon } from "@hugeicons/core-free-icons"
+import {
+  Brain02Icon,
+  Globe02Icon,
+  Wrench01Icon,
+} from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 
 import { ChatAttachments } from "@/registry/aiellie/blocks/chat/components/chat-attachments"
 import type {
   ChatMessage,
   ChatSource,
-  ChatToolCall,
 } from "@/registry/aiellie/blocks/chat/lib/chat-types"
 import { InlineCitation } from "@/registry/aiellie/components/inline-citation"
 import {
@@ -29,23 +33,24 @@ import {
   StatusLabel,
 } from "@/registry/aiellie/ui/status"
 import {
-  Reasoning,
-  ReasoningContent,
-  ReasoningTrigger,
-} from "@/registry/aiellie/components/reasoning"
-import {
   Source,
   Sources,
   type SourcePreview,
 } from "@/registry/aiellie/components/sources"
-import { ThinkingIndicator } from "@/registry/aiellie/components/thinking-indicator"
 import {
-  ToolCall,
-  ToolCallCode,
-  ToolCallContent,
-  ToolCallSection,
-  ToolCallTrigger,
-} from "@/registry/aiellie/components/tool-call"
+  ThinkingIndicator,
+  formatDuration,
+} from "@/registry/aiellie/components/thinking-indicator"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceDescription,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/registry/aiellie/ui/trace"
 import {
   DateDivider,
   isSameDay,
@@ -95,31 +100,103 @@ function citeSources(sources: ChatSource[] | undefined) {
   }
 }
 
-function ChatToolCalls({ tools }: { tools: ChatToolCall[] }) {
+function ChatToolValue({ title, value }: { title: string; value: unknown }) {
   return (
-    <div className="flex min-w-0 flex-col gap-1">
-      {tools.map((tool) => (
-        <ToolCall key={tool.id} status={tool.status}>
-          <ToolCallTrigger
-            icon={tool.kind === "search" ? Globe02Icon : undefined}
-            name={tool.name}
-            summary={tool.summary ? `“${tool.summary}”` : undefined}
-          />
-          <ToolCallContent>
+    <section className="flex min-w-0 flex-col gap-1">
+      <h4 className="text-xs font-medium">{title}</h4>
+      <pre
+        dir="ltr"
+        tabIndex={0}
+        className="max-h-48 min-w-0 overflow-auto rounded-md bg-muted px-3 py-2 font-mono text-xs leading-5 text-foreground outline-none"
+      >
+        {typeof value === "string" ? value : JSON.stringify(value, null, 2)}
+      </pre>
+    </section>
+  )
+}
+
+// Opens while the model thinks and folds shut once it's done, unless the
+// person has opened or shut it themselves, which it then leaves alone.
+function ChatTraceReasoning({ message }: { message: ChatMessage }) {
+  const working = message.status === "streaming" && !message.content
+  const [open, setOpen] = React.useState(working)
+  const [chosen, setChosen] = React.useState(false)
+  const [wasWorking, setWasWorking] = React.useState(working)
+  if (working !== wasWorking) {
+    setWasWorking(working)
+    if (!chosen) setOpen(working)
+  }
+
+  return (
+    <TraceCollapsible
+      open={open}
+      onOpenChange={(next) => {
+        setChosen(true)
+        setOpen(next)
+      }}
+    >
+      <TraceCollapsibleTrigger>
+        {working ? (
+          <ThinkingIndicator startedAt={message.createdAt}>
+            {message.activity ?? "Thinking"}
+          </ThinkingIndicator>
+        ) : (
+          <TraceLine>
+            <TraceIcon>
+              <HugeiconsIcon icon={Brain02Icon} />
+            </TraceIcon>
+            <TraceTitle>
+              {message.reasoningDuration === undefined
+                ? "Worked for a moment"
+                : `Worked for ${formatDuration(message.reasoningDuration)}`}
+            </TraceTitle>
+          </TraceLine>
+        )}
+      </TraceCollapsibleTrigger>
+      <TraceCollapsibleContent className="whitespace-pre-wrap">
+        {message.reasoning}
+      </TraceCollapsibleContent>
+    </TraceCollapsible>
+  )
+}
+
+function ChatTrace({ message }: { message: ChatMessage }) {
+  return (
+    <Trace>
+      {message.reasoning ? <ChatTraceReasoning message={message} /> : null}
+      {message.tools?.map((tool) => (
+        <TraceCollapsible key={tool.id}>
+          <TraceCollapsibleTrigger>
+            <TraceLine
+              status={tool.status === "done" ? undefined : tool.status}
+            >
+              <TraceIcon>
+                <HugeiconsIcon
+                  icon={tool.kind === "search" ? Globe02Icon : Wrench01Icon}
+                />
+              </TraceIcon>
+              <TraceTitle className="shrink-0">{tool.name}</TraceTitle>
+              {tool.summary ? (
+                <TraceDescription>“{tool.summary}”</TraceDescription>
+              ) : null}
+              {tool.status === "done" ? null : (
+                <span className="sr-only">
+                  , {tool.status === "error" ? "Failed" : "Running"}
+                </span>
+              )}
+            </TraceLine>
+          </TraceCollapsibleTrigger>
+          <TraceCollapsibleContent className="flex flex-col gap-3">
             {tool.input !== undefined ? (
-              <ToolCallSection title="Input">
-                <ToolCallCode value={tool.input} />
-              </ToolCallSection>
+              <ChatToolValue title="Input" value={tool.input} />
             ) : null}
             {tool.output !== undefined ? (
-              <ToolCallSection title="Output">
-                <ToolCallCode value={tool.output} />
-              </ToolCallSection>
+              <ChatToolValue title="Output" value={tool.output} />
             ) : null}
-          </ToolCallContent>
-        </ToolCall>
+          </TraceCollapsibleContent>
+        </TraceCollapsible>
       ))}
-    </div>
+    </Trace>
   )
 }
 
@@ -137,7 +214,6 @@ function ChatMessages({
     // Until the words start, the reasoning row, or failing that the thinking
     // indicator, says what the reply is doing. A search partway through the
     // words shows the indicator after them.
-    const working = streaming && !message.content
     const indicator =
       streaming && (message.content ? message.activity : !message.reasoning)
     const divider = dividerDate(messages, index)
@@ -159,18 +235,8 @@ function ChatMessages({
             streaming={streaming}
           >
             <MessageContent>
-              {message.reasoning ? (
-                <Reasoning
-                  streaming={working}
-                  duration={message.reasoningDuration}
-                  startedAt={message.createdAt}
-                >
-                  <ReasoningTrigger label={message.activity} />
-                  <ReasoningContent>{message.reasoning}</ReasoningContent>
-                </Reasoning>
-              ) : null}
-              {message.tools?.length ? (
-                <ChatToolCalls tools={message.tools} />
+              {message.reasoning || message.tools?.length ? (
+                <ChatTrace message={message} />
               ) : null}
               {message.attachments ? (
                 <ChatAttachments

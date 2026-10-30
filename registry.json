@@ -746,6 +746,41 @@
       "categories": ["feedback"]
     },
     {
+      "name": "trace",
+      "type": "registry:ui",
+      "title": "Trace",
+      "description": "The steps an agent took, one quiet line each, that shimmer while running, turn red when they fail and fold open to show more.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/collapsible", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/trace.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/trace.tsx"
+        }
+      ],
+      "docs": "The shimmer on a running line comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["feedback"]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Base UI's collapsible: a trigger that shows and hides a panel in place.",
+      "dependencies": ["@base-ui/react"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/collapsible.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/collapsible.tsx"
+        }
+      ]
+    },
+    {
       "name": "meter",
       "type": "registry:ui",
       "title": "Meter",
@@ -1525,7 +1560,7 @@
         "@aiellie/message",
         "@aiellie/date-divider",
         "@aiellie/stream-text",
-        "@aiellie/reasoning",
+        "@aiellie/trace",
         "@aiellie/thinking-indicator",
         "@aiellie/suggestions",
         "@aiellie/sources",
@@ -1539,7 +1574,6 @@
         "@aiellie/file-preview",
         "@aiellie/link-preview",
         "@aiellie/response",
-        "@aiellie/tool-call",
         "@aiellie/message-actions",
         "@aiellie/inline-citation",
         "@aiellie/effort-menu"

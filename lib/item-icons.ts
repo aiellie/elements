@@ -204,6 +204,7 @@ const ITEM_ICONS: Record<string, IconSvgElement> = {
   toggle: ToggleOnIcon,
   "toggle-group": TextBoldIcon,
   "tool-call": Wrench01Icon,
+  trace: WorkflowSquare03Icon,
   toolbar: LayoutTopIcon,
   tooltip: Comment01Icon,
   "tooltip-icon-button": CursorInfo02Icon,

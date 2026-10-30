@@ -33,6 +33,7 @@ import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import MeterDemo from "@/registry/aiellie/examples/meter-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
+import TraceDemo from "@/registry/aiellie/examples/trace-demo"
 import ToastDemo from "@/registry/aiellie/examples/toast-demo"
 import ToolbarDemo from "@/registry/aiellie/examples/toolbar-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
@@ -275,8 +276,16 @@ export default async function DesignPage() {
           <StatusDemo />
         </DemoCard>
         <DemoCard
-          href="/design/meter"
+          href="/design/trace"
           index={28}
+          title="Trace"
+          description="The steps an agent took, one line each, folding open for more"
+        >
+          <TraceDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/meter"
+          index={29}
           title="Meter"
           description="How full something is, like a context window or a credit balance"
         >
@@ -284,7 +293,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/toast"
-          index={29}
+          index={30}
           title="Toast"
           description="Stacked notifications with actions and swipe to dismiss"
         >
