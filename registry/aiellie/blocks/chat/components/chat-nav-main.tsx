@@ -4,6 +4,10 @@ import {
   Folder01Icon,
   PencilEdit02Icon,
   BubbleChatAddIcon,
+  CloudIcon,
+  Plug02Icon,
+  TimeScheduleIcon,
+  ChatBotIcon
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -28,6 +32,10 @@ function ChatNavMain({
   onNewChat,
   onQuickChat,
   onProjects,
+  onSpaces,
+  onPlugins,
+  onScheduled,
+  onAgents,
 }: {
   newChatOpen: boolean
   onNewChat: () => void
@@ -35,6 +43,14 @@ function ChatNavMain({
   onQuickChat?: () => void
   /** Where the projects live. Left out, the row is there but goes nowhere. */
   onProjects?: () => void
+  /** Where the spaces live. Left out, the row is there but goes nowhere. */
+  onSpaces?: () => void
+  /** Where the plugins live. Left out, the row is there but goes nowhere. */
+  onPlugins?: () => void
+  /** Where the scheduled tasks live. Left out, the row is there but goes nowhere. */
+  onScheduled?: () => void
+  /** Where the agents live. Left out, the row is there but goes nowhere. */
+  onAgents?: () => void
 }) {
   const { closeSheet } = usePanels()
 
@@ -85,7 +101,23 @@ function ChatNavMain({
             <HugeiconsIcon icon={Folder01Icon} aria-hidden />
             <span>Projects</span>
           </SidebarMenuButton>
+          <SidebarMenuButton onClick={onSpaces}>
+            <HugeiconsIcon icon={CloudIcon} aria-hidden />
+            <span>Spaces</span>
+          </SidebarMenuButton>
+          <SidebarMenuButton onClick={onPlugins}>
+            <HugeiconsIcon icon={Plug02Icon} aria-hidden />
+            <span>Plugins</span>
+          </SidebarMenuButton>
         </SidebarMenuItem>
+        <SidebarMenuButton onClick={onScheduled}>
+          <HugeiconsIcon icon={TimeScheduleIcon} aria-hidden />
+          <span>Scheduled</span>
+        </SidebarMenuButton>
+        <SidebarMenuButton onClick={onAgents}>
+          <HugeiconsIcon icon={ChatBotIcon} aria-hidden />
+          <span>Agents</span>
+        </SidebarMenuButton>
       </SidebarMenu>
     </SidebarGroup>
   )
