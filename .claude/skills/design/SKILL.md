@@ -29,7 +29,7 @@ Ground every surface in a named token, never a raw Tailwind shade:
 
 Separate surfaces with `border` and light, not with shadow. `card` is flush with `background` in light mode, so a card without its border reads as nothing.
 
-`link` is the only ink that changes on hover. Links rest in whatever ink surrounds them and take `link` on hover — no underline, no colour at rest. It is a placeholder blue until the brand hue lands, set one step darker than the status `live` blue so a body-size link clears 4.5:1.
+`link` is the only ink that changes on hover, and it is neutral: the same value as `foreground`, because a hover is not live and blue is kept for what is. Links rest in whatever ink surrounds them, with no underline and no colour at rest. On hover a link in quieter ink (a breadcrumb, a caption, a nav item) steps up to `link`, and a link inside prose also takes a 1px underline 4px below the text, since in `foreground` copy the colour alone can't change.
 
 `selection` is the text-selection highlight — the same zinc as `muted` in each theme. Selecting text is a fill, not a colour event, and selected text keeps `foreground` (18:1 light, 12:1 dark). Set it once globally on `::selection`; never per component.
 
@@ -164,7 +164,7 @@ Fourteen styles, each with its size, leading, weight and tracking fixed:
 
 **A catalog page's eyebrow uses a pulsing `Status` with a `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays visually consistent with status-shaped labels elsewhere in the catalog. Use the default `live` variant for published catalog pages and `construction` for a page that is still being built.
 
-Emphasis comes from size and ink, not weight — the 80-unit spread between light and medium is too small to shout with. Italics are for citation only, and nothing in the UI is underlined except a link on hover.
+Emphasis comes from size and ink, not weight — the 80-unit spread between light and medium is too small to shout with. Italics are for citation only, and nothing in the UI is underlined except a prose link on hover.
 
 ### Radius
 
@@ -210,7 +210,7 @@ Controls are 32px, not shadcn's 36px. That one change is most of what makes the 
 
 Sidebar items are the one row that runs shorter than a control, at 30px, the half-step between the two. A sidebar is a long list read at a glance: at 32px it read as tall, and at 28px as cramped. Its rows, the rename field, the loading row and any icon button beside a row (quick chat, say) all sit at 30px, and the row's action and badge sit 5px from its top to stay centred. Group labels keep 32px, since they space the sections rather than being rows.
 
-Component pages set their prose with `.typeset` (`app/typeset.css`), which is shadcn's typeset set to this scale: 14px on 24px leading, 16px between paragraphs, 40px above a section's heading, headings from the type scale (h1 30/36 light, h2 24/32, h3 20/28, h4 16/24, h5 as label, h6 as overline), nothing heavier than medium, inline code at 13px on `muted`, code blocks in `code-block`, table headers in `caption`, hairline rules in `border`, and links that rest in the ink around them. Change the prose's look in `typeset.css`, never with classes on the prose. Anything that isn't prose, like a preview, a code block or an install command, sits in a `data-not-typeset` wrapper.
+Component pages set their prose with `.typeset` (`app/typeset.css`), which is shadcn's typeset set to this scale: 14px on 24px leading, 16px between paragraphs, 40px above a section's heading, headings from the type scale (h1 30/36 light, h2 24/32, h3 20/28, h4 16/24, h5 as label, h6 as overline), nothing heavier than medium, inline code at 13px on `muted`, code blocks in `code-block`, table headers in `caption`, hairline rules in `border`, and links that rest in the ink around them and underline on hover. Change the prose's look in `typeset.css`, never with classes on the prose. Anything that isn't prose, like a preview, a code block or an install command, sits in a `data-not-typeset` wrapper.
 
 Four rules:
 
@@ -497,7 +497,7 @@ Every value in the system. Generated from `tokens.json` — do not hand-edit her
 | `muted-foreground`           | `oklch(0.53 0.016 285.938)`  | `oklch(0.705 0.015 286.067)` | Secondary text: labels, captions, timestamps, placeholder.                                                                       |
 | `accent`                     | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Hover and active ground for rows, menu items and ghost buttons.                                                                  |
 | `accent-foreground`          | `oklch(0.21 0.006 285.885)`  | `oklch(0.985 0 0)`           | Text on accent.                                                                                                                  |
-| `link`                       | `oklch(0.546 0.245 262.881)` | `oklch(0.623 0.214 259.815)` | Link ink, shown on hover — links rest in the ink around them.                                                                    |
+| `link`                       | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)`           | Link ink, shown on hover — links rest in the ink around them.                                                                    |
 | `selection`                  | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Text-selection highlight.                                                                                                        |
 | `destructive`                | `oklch(0.577 0.245 27.325)`  | `oklch(0.704 0.191 22.216)`  | Status ink for destructive: icons, dots, and the text of a destructive row or badge.                                             |
 | `destructive-foreground`     | `oklch(0.985 0 0)`           | `oklch(0.141 0.005 285.823)` | Text on a destructive fill (4.                                                                                                   |
