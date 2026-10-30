@@ -51,7 +51,7 @@ function MenuSearch({
   return (
     <div
       data-slot="menu-search"
-      className="-mx-1 -mt-1 mb-1 flex shrink-0 items-center gap-2 border-b border-border/60 py-1.5 ps-3 pe-1.5"
+      className="-mx-1 -mt-1 mb-1 flex shrink-0 items-center gap-2 border-b border-border/60 py-1 ps-3 pe-1.5"
     >
       <HugeiconsIcon
         aria-hidden
@@ -175,7 +175,7 @@ function MenuContent({
               {/* Reinstates the gutter the separators bleed into, or they overhang and add a horizontal scrollbar. */}
               <div className="-mx-1 min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-1">
                 {empty ? (
-                  <div className="px-2 py-1.5 text-xs text-muted-foreground/70">
+                  <div className="px-2 py-1 text-xs text-muted-foreground/70">
                     {emptyMessage}
                   </div>
                 ) : (
@@ -201,7 +201,7 @@ function MenuContent({
 }
 
 const menuItem = cn(
-  "flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-medium text-muted-foreground transition-colors outline-none select-none",
+  "flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-1 text-sm font-normal text-muted-foreground transition-colors outline-none select-none",
   "data-highlighted:bg-foreground/[0.06] data-highlighted:text-foreground dark:data-highlighted:bg-foreground/[0.09]",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
   "[&_svg:not([class*='size-'])]:size-4",
@@ -318,7 +318,7 @@ function MenuGroupLabel({
     <MenuPrimitive.GroupLabel
       data-slot="menu-group-label"
       className={cn(
-        "px-2 py-1.5 text-[11px] font-medium text-muted-foreground/70",
+        "px-2 py-1 text-xs font-medium text-muted-foreground/70",
         className
       )}
       {...props}

@@ -112,7 +112,7 @@ function SlashMenu({
           className="absolute start-0 bottom-full z-50 mb-2 flex max-h-64 w-72 max-w-full flex-col overflow-y-auto rounded-xl border border-border/40 bg-popover p-1 shadow-md supports-[backdrop-filter]:bg-background/60 supports-[backdrop-filter]:backdrop-blur-xs dark:supports-[backdrop-filter]:bg-background/70"
         >
           {matches.length === 0 ? (
-            <div className="px-2 py-1.5 text-xs text-foreground/70">
+            <div className="px-2 py-1 text-xs text-foreground/70">
               {emptyMessage}
             </div>
           ) : (
@@ -127,7 +127,7 @@ function SlashMenu({
                 onPointerDown={(event) => event.preventDefault()}
                 onPointerMove={() => setHighlighted(index)}
                 onClick={() => select(command)}
-                className="flex cursor-pointer items-start gap-2 rounded-lg px-2 py-1.5 text-xs text-muted-foreground select-none data-highlighted:bg-foreground/[0.06] data-highlighted:text-foreground dark:data-highlighted:bg-foreground/[0.09]"
+                className="flex cursor-pointer items-start gap-2 rounded-lg px-2 py-1 text-xs text-muted-foreground select-none data-highlighted:bg-foreground/[0.06] data-highlighted:text-foreground dark:data-highlighted:bg-foreground/[0.09]"
               >
                 {command.icon ? (
                   <HugeiconsIcon

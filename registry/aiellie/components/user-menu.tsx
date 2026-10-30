@@ -3,6 +3,7 @@
 import * as React from "react"
 import {
   ChartLineData01Icon,
+  HelpCircleIcon,
   Logout01Icon,
   Settings01Icon,
   UserAdd01Icon,
@@ -68,6 +69,7 @@ function UserMenu({
   settings,
   settingsOpen: settingsOpenProp,
   onSettingsOpenChange,
+  onHelp,
   onLogOut,
 }: {
   user: User
@@ -85,6 +87,7 @@ function UserMenu({
   /** Controls the settings dialog, so something else can open it too. */
   settingsOpen?: boolean
   onSettingsOpenChange?: (open: boolean) => void
+  onHelp?: () => void
   onLogOut?: () => void
 }) {
   const [settingsOpenState, setSettingsOpenState] = React.useState(false)
@@ -109,7 +112,7 @@ function UserMenu({
             </MenuTrigger>
             <MenuContent side="top" className="w-(--anchor-width) min-w-48">
               {/* Small text on glass takes foreground ink to hold its contrast. */}
-              <div className="flex items-center gap-2 px-2 py-1.5">
+              <div className="flex items-center gap-2 px-2 py-1">
                 <UserAvatar user={user} />
                 <span className="min-w-0 flex-1 truncate text-xs font-medium text-foreground">
                   {user.name}
@@ -136,6 +139,10 @@ function UserMenu({
               >
                 <HugeiconsIcon icon={Settings01Icon} aria-hidden />
                 Settings
+              </MenuItem>
+              <MenuItem onClick={onHelp}>
+                <HugeiconsIcon icon={HelpCircleIcon} aria-hidden />
+                Help
               </MenuItem>
               <MenuSeparator />
               <MenuItem onClick={onLogOut}>

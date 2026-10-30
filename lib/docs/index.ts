@@ -19,7 +19,6 @@ import editableTitle from "@/lib/docs/editable-title"
 import effortMenu from "@/lib/docs/effort-menu"
 import filePreview from "@/lib/docs/file-preview"
 import fileTree from "@/lib/docs/file-tree"
-import helpMenu from "@/lib/docs/help-menu"
 import historyButtons from "@/lib/docs/history-buttons"
 import humanHandoff from "@/lib/docs/human-handoff"
 import inlineCitation from "@/lib/docs/inline-citation"
@@ -163,7 +162,6 @@ const DOCS: Record<string, DocContent> = {
   "effort-menu": effortMenu,
   "file-preview": filePreview,
   "file-tree": fileTree,
-  "help-menu": helpMenu,
   "history-buttons": historyButtons,
   "human-handoff": humanHandoff,
   "inline-citation": inlineCitation,

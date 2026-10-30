@@ -10,7 +10,6 @@ import CommandDemo from "@/registry/aiellie/examples/command-demo"
 import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
 import DialogDemo from "@/registry/aiellie/examples/dialog-demo"
 import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
-import HelpMenuDemo from "@/registry/aiellie/examples/help-menu-demo"
 import AttachmentsDemo from "@/registry/aiellie/examples/attachments-demo"
 import EditableTitleDemo from "@/registry/aiellie/examples/editable-title-demo"
 import FilePreviewDemo from "@/registry/aiellie/examples/file-preview-demo"
@@ -172,11 +171,6 @@ const DEMOS: Record<string, Demo> = {
     Demo: TemporaryChatToggleDemo,
   },
   meter: { title: "Meter", gallery: "/design", Demo: MeterDemo },
-  "help-menu": {
-    title: "Help Menu",
-    gallery: "/components",
-    Demo: HelpMenuDemo,
-  },
   "user-menu": {
     title: "User Menu",
     gallery: "/components",

@@ -2,7 +2,7 @@ import type { DocContent } from "@/lib/docs"
 
 const doc: DocContent = {
   intro: [
-    "User menu is the row at the foot of a sidebar with the person's avatar and name, and the account menu it opens: usage, inviting a friend, settings and logging out. Settings opens the [Settings dialog](/components/settings-dialog), which comes with it, so the row works on its own.",
+    "User menu is the row at the foot of a sidebar with the person's avatar and name, and the account menu it opens: usage, inviting a friend, settings, help and logging out. Settings opens the [Settings dialog](/components/settings-dialog), which comes with it, so the row works on its own.",
   ],
   gettingStarted: {
     steps: [
@@ -71,6 +71,7 @@ export function AppSidebar() {
   <div data-slot="menu-item" /> {/* Usage, with \`usage\` at its end */}
   <div data-slot="menu-item" /> {/* Invite a friend */}
   <div data-slot="menu-item" /> {/* Settings, opening the dialog */}
+  <div data-slot="menu-item" /> {/* Help */}
   <div data-slot="menu-separator" />
   <div data-slot="menu-item" /> {/* Log out */}
 </div>
@@ -147,6 +148,7 @@ export function AppSidebar() {
           "",
           "Controls the settings dialog.",
         ],
+        ["`onHelp`", "`() => void`", "", "Runs when Help is chosen."],
         ["`onLogOut`", "`() => void`", "", "Runs when Log out is chosen."],
       ],
     },

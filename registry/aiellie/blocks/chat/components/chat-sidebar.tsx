@@ -15,7 +15,6 @@ import {
   ChatSwitcher,
   type ChatMode,
 } from "@/registry/aiellie/blocks/chat/components/chat-switcher"
-import { HelpMenu } from "@/registry/aiellie/components/help-menu"
 import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 import { UserMenu, type User } from "@/registry/aiellie/components/user-menu"
 import {
@@ -176,11 +175,8 @@ function ChatSidebar({
           ) : null}
         </div>
       </SidebarContent>
-      <SidebarFooter className="flex-row items-center gap-1 border-t border-border/50">
-        <div className="min-w-0 flex-1">
-          <UserMenu {...userMenu} user={user} usage={usage} />
-        </div>
-        <HelpMenu />
+      <SidebarFooter className="border-t border-border/50">
+        <UserMenu {...userMenu} user={user} usage={usage} />
       </SidebarFooter>
     </Sidebar>
   )

@@ -35,7 +35,6 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "effort-menu/in-composer": () => import("./effort-menu/in-composer"),
   "file-preview/pick-a-file": () => import("./file-preview/pick-a-file"),
   "file-tree/with-code": () => import("./file-tree/with-code"),
-  "help-menu/actions": () => import("./help-menu/actions"),
   "history-buttons/shortcuts": () => import("./history-buttons/shortcuts"),
   "human-handoff/unavailable": () => import("./human-handoff/unavailable"),
   "inline-citation/not-a-page": () => import("./inline-citation/not-a-page"),

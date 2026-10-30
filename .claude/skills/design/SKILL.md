@@ -201,7 +201,8 @@ Controls are 32px, not shadcn's 36px. That one change is most of what makes the 
 | button                         | `h-8` 32px            | `px-3`  | `gap-2`      |
 | small button, icon button      | `h-7` 28px / `size-7` | `px-2`  | —            |
 | input, select, combobox        | `h-8` 32px            | `px-3`  | —            |
-| menu item, table row, list row | `h-8` 32px            | `px-2`  | `gap-2`      |
+| menu item                      | `h-7` 28px            | `px-2`  | `gap-2`      |
+| table row, list row            | `h-8` 32px            | `px-2`  | `gap-2`      |
 | card, dialog, popover          | —                     | `p-4`   | `gap-3`      |
 | sidebar item                   | `h-7.5` 30px          | `px-2`  | `gap-2`      |
 | page gutter                    | —                     | `px-6`  | —            |

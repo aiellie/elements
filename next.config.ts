@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
         destination: "/design/:name",
         permanent: true,
       },
+      {
+        source: "/components/help-menu",
+        destination: "/components/user-menu",
+        permanent: true,
+      },
     ]
   },
 }

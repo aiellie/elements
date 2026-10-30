@@ -533,7 +533,7 @@
       "name": "user-menu",
       "type": "registry:component",
       "title": "User Menu",
-      "description": "Who is signed in, at the foot of a sidebar: a small picture and their name, opening a menu headed by them and their plan, with usage, invites, settings and logging out.",
+      "description": "Who is signed in, at the foot of a sidebar: a small picture and their name, opening a menu headed by them and their plan, with usage, invites, settings, help and logging out.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/avatar",
@@ -547,26 +547,6 @@
           "path": "registry/aiellie/components/user-menu.tsx",
           "type": "registry:component",
           "target": "components/aiellie/user-menu.tsx"
-        }
-      ],
-      "categories": ["actions"]
-    },
-    {
-      "name": "help-menu",
-      "type": "registry:component",
-      "title": "Help Menu",
-      "description": "Where to go for help: a question-mark button with a tooltip, opening a menu of help, keyboard shortcuts, what's new and the privacy center.",
-      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
-      "registryDependencies": [
-        "@aiellie/button",
-        "@aiellie/menu",
-        "@aiellie/tooltip"
-      ],
-      "files": [
-        {
-          "path": "registry/aiellie/components/help-menu.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/help-menu.tsx"
         }
       ],
       "categories": ["actions"]
@@ -1497,7 +1477,6 @@
         "@aiellie/nav-bars",
         "@aiellie/user-menu",
         "@aiellie/settings-dialog",
-        "@aiellie/help-menu",
         "@aiellie/menu",
         "@aiellie/status",
         "@aiellie/tooltip-icon-button",
