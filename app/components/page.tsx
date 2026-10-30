@@ -274,7 +274,7 @@ export default function ComponentsPage() {
           href="/components/login-form"
           index={23}
           title="Login Form"
-          description="Email and password, or Google and GitHub, in a dialog"
+          description="One form to sign in or up: an email code, Google or GitHub"
         >
           <LoginFormDemo />
         </DemoCard>

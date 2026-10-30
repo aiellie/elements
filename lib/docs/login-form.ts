@@ -2,14 +2,14 @@ import type { DocContent } from "@/lib/docs"
 
 const doc: DocContent = {
   intro: [
-    "Login form signs someone in with an email and a password, or with Google or GitHub. `LoginForm` is the form on its own, for a page of its own; `LoginDialog` puts it in a dialog, which is what the [User menu](/components/user-menu) opens when no one is signed in. It is only the interface: what signing in does is yours.",
+    "Login form is one form for signing in and signing up: Google or GitHub, or an email and Continue, which sends a verification code. There is no password and no separate sign-up, so a new address simply makes an account. `LoginForm` is the form on its own, for a page of its own; `LoginDialog` puts it in a dialog, which is what the [User menu](/components/user-menu) opens when no one is signed in. It is only the interface: sending the code and checking it are yours.",
   ],
   gettingStarted: {
     steps: [
       {
         title: "Open it from a Sign in button",
         body: [
-          "`LoginDialog` brings no trigger, so open it from wherever Sign in lives. `onSubmit` gets the email and password, and the dialog closes once it resolves.",
+          "`LoginDialog` brings no trigger, so open it from wherever Sign in lives. `onSubmit` gets the email, and the dialog closes once it resolves.",
         ],
         code: {
           title: "components/sign-in.tsx",
@@ -31,7 +31,7 @@ export function SignIn() {
       <LoginDialog
         open={open}
         onOpenChange={setOpen}
-        onSubmit={({ email, password }) => signIn(email, password)}
+        onSubmit={({ email }) => sendCode(email)}
         onProvider={(id) => signInWith(id)}
       />
     </>
@@ -42,16 +42,16 @@ export function SignIn() {
       {
         title: "Say why it failed",
         body: [
-          "Throw from `onSubmit`, or return a promise that rejects, and the error's message shows above the button. The fields keep what was typed and the dialog stays open.",
+          "Throw from `onSubmit`, or return a promise that rejects, and the error's message shows above the button. The field keeps what was typed and the dialog stays open.",
         ],
         code: {
           code: `<LoginDialog
-  onSubmit={async (values) => {
-    const response = await fetch("/api/sign-in", {
+  onSubmit={async ({ email }) => {
+    const response = await fetch("/api/send-code", {
       method: "POST",
-      body: JSON.stringify(values),
+      body: JSON.stringify({ email }),
     })
-    if (!response.ok) throw new Error("That email and password don't match.")
+    if (!response.ok) throw new Error("Couldn't send a code to that address.")
   }}
   {...props}
 />`,
@@ -62,8 +62,7 @@ export function SignIn() {
   anatomy: {
     code: `<div data-slot="login-dialog"> {/* DialogContent, 384px wide at most */}
   <div data-slot="dialog-header">
-    <h2 data-slot="dialog-title">{title}</h2>
-    <p data-slot="dialog-description">{description}</p>
+    <h2 data-slot="dialog-title">{title}</h2> {/* Sign in or sign up */}
   </div>
   <form data-slot="login-form">
     <div data-slot="login-form-providers">
@@ -71,26 +70,22 @@ export function SignIn() {
     </div>
     <div data-slot="login-form-divider" /> {/* or */}
     <label /> <input type="email" />
-    <label /> <button /> {/* Password, Forgot password? */}
-    <div data-slot="input-group">
-      <input type="password" /> <button /> {/* show or hide */}
-    </div>
+    <p /> {/* We'll email you a verification code to sign in. */}
     <p data-slot="login-form-error" /> {/* only after a failed attempt */}
-    <button type="submit" /> {/* Sign in */}
-    <p /> {/* No account? Sign up */}
+    <button type="submit" /> {/* Continue */}
   </form>
 </div>`,
     body: [
-      "Sign in is the view's one primary button; the providers are outline buttons above it. While `onSubmit` runs, every control is disabled and the button reads Signing in with a spinner. Forgot password? and Sign up only show when you pass `onForgotPassword` and `onSignUp`. The fields carry `email` and `current-password` autocomplete, so password managers fill them.",
+      "Continue is the view's one primary button; the providers are outline buttons above it. The line under the field says what Continue does, and the field points to it with `aria-describedby`. While `onSubmit` runs, every control is disabled and the button reads Sending code with a spinner.",
     ],
   },
   examples: [
     {
-      title: "A wrong password",
+      title: "When the code can't be sent",
       body: [
-        "With `providers={[]}` it is the email form alone. This one always fails, to show the error.",
+        "With `providers={[]}` it is the email alone. This one always fails, to show the error.",
       ],
-      sample: "login-form/wrong-password",
+      sample: "login-form/send-failed",
     },
     {
       title: "Other providers",
@@ -114,15 +109,15 @@ export function SignIn() {
       rows: [
         [
           "`onSubmit`",
-          "`(values: { email: string; password: string }) => void | Promise<void>`",
+          "`(values: { email: string }) => void | Promise<void>`",
           "",
-          "Called with what was typed. A rejection's message shows above the button.",
+          "Called with the email to send a code to. A rejection's message shows above the button.",
         ],
         [
           "`providers`",
           "`LoginProvider[]`",
           "Google, GitHub",
-          "Sign-in buttons above the email form. Pass `[]` for none.",
+          "Sign-in buttons above the email field. Pass `[]` for none.",
         ],
         [
           "`onProvider`",
@@ -131,16 +126,10 @@ export function SignIn() {
           "Runs when a provider's button is pressed.",
         ],
         [
-          "`onForgotPassword`",
-          "`() => void`",
-          "",
-          "Shows Forgot password? beside the password's label.",
-        ],
-        [
-          "`onSignUp`",
-          "`() => void`",
-          "",
-          "Shows No account? Sign up under the form.",
+          "`emailDescription`",
+          "`ReactNode`",
+          "`We'll email you a verification code to sign in.`",
+          "Under the email field: what happens after Continue.",
         ],
       ],
     },
@@ -155,13 +144,13 @@ export function SignIn() {
           "required",
           "Called when it closes, including after `onSubmit` resolves.",
         ],
-        ["`title`", "`ReactNode`", '`"Sign in"`', "The dialog's title."],
         [
-          "`description`",
+          "`title`",
           "`ReactNode`",
-          "",
-          "Under the title. Pass `null` for none.",
+          '`"Sign in or sign up"`',
+          "The dialog's title.",
         ],
+        ["`description`", "`ReactNode`", "", "Under the title."],
         ["…", "", "", "Every `LoginForm` prop."],
       ],
     },

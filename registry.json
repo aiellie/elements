@@ -650,7 +650,7 @@
       "name": "login-form",
       "type": "registry:component",
       "title": "Login Form",
-      "description": "Signing in: Google and GitHub buttons, an email and a password with show and forgot, a Sign in button that works while it waits, and an error when it fails. Comes as a form and as a dialog.",
+      "description": "One form to sign in or sign up: Google and GitHub buttons, or an email and Continue, which sends a verification code. Shows it working while it waits and an error when it fails. Comes as a form and as a dialog.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/utils",

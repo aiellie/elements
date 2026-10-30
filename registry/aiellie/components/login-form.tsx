@@ -6,8 +6,6 @@ import {
   Github01Icon,
   GoogleIcon,
   Loading03Icon,
-  ViewIcon,
-  ViewOffSlashIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 
@@ -21,15 +19,9 @@ import {
   DialogTitle,
 } from "@/registry/aiellie/ui/dialog"
 import { Input } from "@/registry/aiellie/ui/input"
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/registry/aiellie/ui/input-group"
 import { Separator } from "@/registry/aiellie/ui/separator"
 
-type LoginValues = { email: string; password: string }
+type LoginValues = { email: string }
 
 type LoginProvider = { id: string; name: string; icon: IconSvgElement }
 
@@ -44,22 +36,19 @@ type LoginFormProps = Omit<React.ComponentProps<"form">, "onSubmit"> & {
   /** Sign-in buttons above the email form. Pass `[]` for none. */
   providers?: LoginProvider[]
   onProvider?: (id: string) => void
-  onForgotPassword?: () => void
-  onSignUp?: () => void
+  /** Under the email field: what happens after Continue. */
+  emailDescription?: React.ReactNode
 }
 
 function LoginForm({
   onSubmit,
   providers = LOGIN_PROVIDERS,
   onProvider,
-  onForgotPassword,
-  onSignUp,
+  emailDescription = "We'll email you a verification code to sign in.",
   className,
   ...props
 }: LoginFormProps) {
   const id = React.useId()
-  const passwordRef = React.useRef<HTMLInputElement>(null)
-  const [shown, setShown] = React.useState(false)
   const [pending, setPending] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
 
@@ -73,15 +62,12 @@ function LoginForm({
         setError(null)
         setPending(true)
         try {
-          await onSubmit?.({
-            email: String(data.get("email") ?? "").trim(),
-            password: String(data.get("password") ?? ""),
-          })
+          await onSubmit?.({ email: String(data.get("email") ?? "").trim() })
         } catch (reason) {
           setError(
             reason instanceof Error && reason.message
               ? reason.message
-              : "Couldn't sign you in. Try again."
+              : "Couldn't send a code. Try again."
           )
         } finally {
           setPending(false)
@@ -134,50 +120,14 @@ function LoginForm({
           required
           disabled={pending}
           aria-invalid={error ? true : undefined}
+          aria-describedby={`${id}-email-description`}
         />
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center justify-between gap-3">
-          <label htmlFor={`${id}-password`} className="text-sm font-medium">
-            Password
-          </label>
-          {onForgotPassword ? (
-            <button
-              type="button"
-              onClick={onForgotPassword}
-              className="text-xs text-muted-foreground transition-colors duration-80 outline-none hover:text-foreground focus-visible:text-foreground motion-reduce:transition-none"
-            >
-              Forgot password?
-            </button>
-          ) : null}
-        </div>
-        <InputGroup>
-          <InputGroupInput
-            ref={passwordRef}
-            id={`${id}-password`}
-            name="password"
-            type={shown ? "text" : "password"}
-            autoComplete="current-password"
-            required
-            disabled={pending}
-            aria-invalid={error ? true : undefined}
-          />
-          <InputGroupAddon align="inline-end">
-            <InputGroupButton
-              size="icon-xs"
-              aria-label={shown ? "Hide password" : "Show password"}
-              aria-pressed={shown}
-              disabled={pending}
-              onClick={() => {
-                setShown(!shown)
-                passwordRef.current?.focus()
-              }}
-            >
-              <HugeiconsIcon icon={shown ? ViewOffSlashIcon : ViewIcon} />
-            </InputGroupButton>
-          </InputGroupAddon>
-        </InputGroup>
+        <p
+          id={`${id}-email-description`}
+          className="text-xs text-muted-foreground"
+        >
+          {emailDescription}
+        </p>
       </div>
 
       {error ? (
@@ -204,21 +154,8 @@ function LoginForm({
             className="animate-spin motion-reduce:animate-none"
           />
         ) : null}
-        {pending ? "Signing in" : "Sign in"}
+        {pending ? "Sending code" : "Continue"}
       </Button>
-
-      {onSignUp ? (
-        <p className="text-center text-xs text-muted-foreground">
-          No account?{" "}
-          <button
-            type="button"
-            onClick={onSignUp}
-            className="text-foreground transition-colors duration-80 outline-none hover:underline hover:underline-offset-4 focus-visible:underline focus-visible:underline-offset-4 motion-reduce:transition-none"
-          >
-            Sign up
-          </button>
-        </p>
-      ) : null}
     </form>
   )
 }
@@ -226,8 +163,8 @@ function LoginForm({
 function LoginDialog({
   open,
   onOpenChange,
-  title = "Sign in",
-  description = "Welcome back. Sign in to pick up where you left off.",
+  title = "Sign in or sign up",
+  description,
   onSubmit,
   ...props
 }: LoginFormProps & {

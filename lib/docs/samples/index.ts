@@ -74,7 +74,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "retrieved-sources/no-scores": () => import("./retrieved-sources/no-scores"),
   "run-budget/no-actions": () => import("./run-budget/no-actions"),
   "sandbox/composed": () => import("./sandbox/composed"),
-  "login-form/wrong-password": () => import("./login-form/wrong-password"),
+  "login-form/send-failed": () => import("./login-form/send-failed"),
   "settings-dialog/providers": () => import("./settings-dialog/providers"),
   "share-dialog/private-by-default": () =>
     import("./share-dialog/private-by-default"),

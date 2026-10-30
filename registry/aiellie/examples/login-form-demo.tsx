@@ -17,8 +17,6 @@ export default function LoginFormDemo() {
         open={open}
         onOpenChange={setOpen}
         onSubmit={() => new Promise((resolve) => setTimeout(resolve, 800))}
-        onForgotPassword={() => {}}
-        onSignUp={() => {}}
       />
     </>
   )

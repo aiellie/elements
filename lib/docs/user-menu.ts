@@ -85,7 +85,7 @@ export function AppSidebar() {
     {
       title: "Signed out",
       body: [
-        "Leave out `user` and the row offers to sign in. `onSignIn` gets the email and password; return a promise and the dialog stays open, its button working, until it settles. A rejection's message shows in the form. Log out to see it again.",
+        "Leave out `user` and the row offers to sign in. `onSignIn` gets the email to send a code to; return a promise and the dialog stays open, its button working, until it settles. A rejection's message shows in the form. Log out to see it again.",
       ],
       sample: "user-menu/signed-out",
     },
@@ -164,13 +164,13 @@ export function AppSidebar() {
         ["`onLogOut`", "`() => void`", "", "Runs when Log out is chosen."],
         [
           "`onSignIn`",
-          "`(values: LoginValues) => void | Promise<void>`",
+          "`(values: { email: string }) => void | Promise<void>`",
           "",
-          "Called with the login form's email and password. The dialog closes once it resolves.",
+          "Called with the email from the login form, to send it a code. The dialog closes once it resolves.",
         ],
         [
           "`login`",
-          "`{ providers, onProvider, onForgotPassword, onSignUp, title, description }`",
+          "`{ providers, onProvider, emailDescription, title, description }`",
           "",
           "Passed on to the login dialog.",
         ],
