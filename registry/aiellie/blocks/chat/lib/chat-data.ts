@@ -167,6 +167,26 @@ const SAMPLE_CONVERSATIONS: Conversation[] = [
         reasoning:
           "The phone screenshot has the chart card running past the right edge, while the stat cards above it fit. So it's the chart, not the page.\n\nIn revenue-chart.tsx, AreaChart gets width={640}. The phone is 390px wide and the card has 16px on each side, so the card is about 358px and the chart can't shrink into it.\n\nThe spec says the chart fills the card at every size, 240px tall on desktop and 180px on phones. So it should be sized from its container: ResponsiveContainer at 100% width, with the height from the spec. If the card is a grid or flex child it needs min-w-0 too, or it keeps the chart's 640px as its minimum.",
         reasoningDuration: 14,
+        tools: [
+          {
+            id: "chart-2-search",
+            name: "Searched the web",
+            kind: "search",
+            status: "done",
+            summary: "recharts responsive chart width",
+            input: { query: "recharts responsive chart width" },
+            output: [
+              {
+                title: "ResponsiveContainer | Recharts",
+                url: "https://recharts.github.io/en-US/api/ResponsiveContainer",
+              },
+              {
+                title: "min-width | MDN",
+                url: "https://developer.mozilla.org/en-US/docs/Web/CSS/min-width",
+              },
+            ],
+          },
+        ],
         sources: [
           {
             url: "https://recharts.github.io/en-US/api/ResponsiveContainer",

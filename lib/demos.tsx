@@ -44,6 +44,7 @@ import SheetDemo from "@/registry/aiellie/examples/sheet-demo"
 import SidebarDemo from "@/registry/aiellie/examples/sidebar-demo"
 import SkeletonDemo from "@/registry/aiellie/examples/skeleton-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
+import TraceDemo from "@/registry/aiellie/examples/trace-demo"
 import TabsDemo from "@/registry/aiellie/examples/tabs-demo"
 import TemporaryChatToggleDemo from "@/registry/aiellie/examples/temporary-chat-toggle-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
@@ -220,6 +221,7 @@ const DEMOS: Record<string, Demo> = {
     Demo: SettingsDialogDemo,
   },
   status: { title: "Status", gallery: "/design", Demo: StatusDemo },
+  trace: { title: "Trace", gallery: "/design", Demo: TraceDemo },
   waveform: { title: "Waveform", gallery: "/components", Demo: WaveformDemo },
   toast: { title: "Toast", gallery: "/design", Demo: ToastDemo },
   composer: { title: "Composer", gallery: "/components", Demo: ComposerDemo },
