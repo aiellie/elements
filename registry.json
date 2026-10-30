@@ -772,13 +772,15 @@
       "title": "Collapsible",
       "description": "Base UI's collapsible: a trigger that shows and hides a panel in place.",
       "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/utils"],
       "files": [
         {
           "path": "registry/aiellie/ui/collapsible.tsx",
           "type": "registry:ui",
           "target": "components/ui/collapsible.tsx"
         }
-      ]
+      ],
+      "categories": ["layout"]
     },
     {
       "name": "meter",

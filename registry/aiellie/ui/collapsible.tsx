@@ -28,8 +28,7 @@ function CollapsibleContent({
     <CollapsiblePrimitive.Panel
       data-slot="collapsible-content"
       className={cn(
-        "h-(--collapsible-panel-height) overflow-hidden",
-        "transition-[height] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] data-ending-style:h-0 data-starting-style:h-0 motion-reduce:transition-none",
+        "h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-280 ease-[cubic-bezier(0.16,1,0.3,1)] data-ending-style:h-0 data-ending-style:ease-[cubic-bezier(0.4,0,1,1)] data-starting-style:h-0 motion-reduce:transition-none",
         className
       )}
       {...props}

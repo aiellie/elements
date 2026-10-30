@@ -119,10 +119,11 @@ function TraceCollapsibleTrigger({
       {...props}
     >
       {children}
-      <TraceIcon>
+      <TraceIcon className="transition-[rotate] duration-150 group-data-panel-open/trace-collapsible-trigger:rotate-90 motion-reduce:transition-none">
         <HugeiconsIcon
           icon={ArrowRight01Icon}
-          className="transition-[rotate] duration-150 group-data-panel-open/trace-collapsible-trigger:rotate-90 motion-reduce:transition-none rtl:-scale-x-100"
+          strokeWidth={2}
+          className="rtl:-scale-x-100"
         />
       </TraceIcon>
     </CollapsibleTrigger>
