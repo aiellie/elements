@@ -153,7 +153,7 @@ function Composer({
           onFilesAdd(files)
         }}
         className={cn(
-          "flex w-full flex-col gap-1 rounded-xl border border-input bg-background p-2 transition-colors has-[textarea:focus-visible]:border-ring data-dragging:border-dashed data-dragging:border-ring motion-reduce:transition-none dark:bg-input/30",
+          "flex w-full flex-col gap-1 rounded-xl border border-input bg-background p-2 transition-colors has-[textarea:focus-visible]:border-ring data-dragging:border-dashed data-dragging:border-ring motion-reduce:transition-none dark:bg-input/30 shadow-md",
           className
         )}
         {...props}

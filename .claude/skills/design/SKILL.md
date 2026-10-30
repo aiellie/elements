@@ -17,7 +17,7 @@ A component registry and pattern library for AI-native and agentic UI. Near-mono
 
 ### Color
 
-A zinc neutral set on shadcn's semantic names. No accent hue is defined yet: the interface is carried entirely by neutrals, with `destructive` as the only chromatic token.
+A zinc neutral set on shadcn's semantic names. The interface is carried by neutrals. Hue appears only to report a state, through the three status tokens below, and the one that reads as an accent, `live`, is reserved for whatever is live right now. Emphasis everywhere else comes from weight, size and ink strength, never from a hue.
 
 Ground every surface in a named token, never a raw Tailwind shade:
 
@@ -29,7 +29,7 @@ Ground every surface in a named token, never a raw Tailwind shade:
 
 Separate surfaces with `border` and light, not with shadow. `card` is flush with `background` in light mode, so a card without its border reads as nothing.
 
-`link` is the only ink that changes on hover. Links rest in whatever ink surrounds them and take `link` on hover — no underline, no colour at rest. It is a placeholder blue until the brand hue lands, set one step darker than the status `live` blue so a body-size link clears 4.5:1.
+`link` is the only ink that changes on hover, and it is neutral: the same value as `foreground`, because a hover is not live and blue is kept for what is. Links rest in whatever ink surrounds them, with no underline and no colour at rest. On hover a link in quieter ink (a breadcrumb, a caption, a nav item) steps up to `link`, and a link inside prose also takes a 1px underline 4px below the text, since in `foreground` copy the colour alone can't change.
 
 `selection` is the text-selection highlight — the same zinc as `muted` in each theme. Selecting text is a fill, not a colour event, and selected text keeps `foreground` (18:1 light, 12:1 dark). Set it once globally on `::selection`; never per component.
 
@@ -67,7 +67,14 @@ Three statuses, built the same way. Each has an ink and two fills — 4% resting
 | `live`        | `#526FFF` / `oklch(0.7 0.17 270)` | `live-bg` 4%        | `live-bg-hover` 7%        |
 | `success`     | emerald-600 / emerald-400         | `success-bg` 4%     | `success-bg-hover` 7%     |
 
-`live` means streaming, running, connected, in progress. `success` means completed, passing, saved. Anything else — pending, queued, draft, idle — is neutral: `muted` fill, `muted-foreground` ink. Resist adding a fourth hue.
+`live` means streaming, running, connected, or currently selected: something happening now, or a toggle the person has switched on, like an open activity panel, a pressed preview toggle or a reaction they added. The current page in navigation, a checked menu option and a chosen tab are not toggles; they stay neutral, carried by `accent` fills and checkmarks. `success` means completed, passing, saved. Anything else — pending, queued, draft, idle, read, suggested — is neutral: `muted` fill, `muted-foreground` ink. Resist adding a fourth hue.
+
+**`live` is the only accent, and it is earned.**
+
+- **No live thing, no blue.** A page where nothing is streaming, running, connected or selected has no `live` on it at all. Blue is never decoration: not a highlight on a suggestion, not the tint of a reacted-to chip that nobody is acting on, not a text caret, not a flash that confirms an edit. A confirmation flash is a `muted` fill.
+- **One live thing per view.** The parts of one live thing may share the ink (a streaming reply's newest words and its caret are one thing), but two separate things in `live` at once compete, and one of them is decoration. Take the hue off the one that isn't the subject.
+- **Blue stops when the state does.** The moment a run finishes, a reply settles or a toggle turns off, its `live` goes: settled work is `success` or neutral, never left blue.
+- **`destructive` and `success` are states, not accents.** Red says something failed, is failing, or will be destroyed; green says it finished. Neither is used to draw the eye, decorate a heading or brand a section.
 
 The formula, as static class strings:
 
@@ -157,7 +164,7 @@ Fourteen styles, each with its size, leading, weight and tracking fixed:
 
 **A catalog page's eyebrow uses a pulsing `Status` with a `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays visually consistent with status-shaped labels elsewhere in the catalog. Use the default `live` variant for published catalog pages and `construction` for a page that is still being built.
 
-Emphasis comes from size and ink, not weight — the 80-unit spread between light and medium is too small to shout with. Italics are for citation only, and nothing in the UI is underlined except a link on hover.
+Emphasis comes from size and ink, not weight — the 80-unit spread between light and medium is too small to shout with. Italics are for citation only, and nothing in the UI is underlined except a prose link on hover.
 
 ### Radius
 
@@ -203,7 +210,7 @@ Controls are 32px, not shadcn's 36px. That one change is most of what makes the 
 
 Sidebar items are the one row that runs shorter than a control, at 30px, the half-step between the two. A sidebar is a long list read at a glance: at 32px it read as tall, and at 28px as cramped. Its rows, the rename field, the loading row and any icon button beside a row (quick chat, say) all sit at 30px, and the row's action and badge sit 5px from its top to stay centred. Group labels keep 32px, since they space the sections rather than being rows.
 
-Component pages set their prose with `.typeset` (`app/typeset.css`), which is shadcn's typeset set to this scale: 14px on 24px leading, 16px between paragraphs, 40px above a section's heading, headings from the type scale (h1 30/36 light, h2 24/32, h3 20/28, h4 16/24, h5 as label, h6 as overline), nothing heavier than medium, inline code at 13px on `muted`, code blocks in `code-block`, table headers in `caption`, hairline rules in `border`, and links that rest in the ink around them. Change the prose's look in `typeset.css`, never with classes on the prose. Anything that isn't prose, like a preview, a code block or an install command, sits in a `data-not-typeset` wrapper.
+Component pages set their prose with `.typeset` (`app/typeset.css`), which is shadcn's typeset set to this scale: 14px on 24px leading, 16px between paragraphs, 40px above a section's heading, headings from the type scale (h1 30/36 light, h2 24/32, h3 20/28, h4 16/24, h5 as label, h6 as overline), nothing heavier than medium, inline code at 13px on `muted`, code blocks in `code-block`, table headers in `caption`, hairline rules in `border`, and links that rest in the ink around them and underline on hover. Change the prose's look in `typeset.css`, never with classes on the prose. Anything that isn't prose, like a preview, a code block or an install command, sits in a `data-not-typeset` wrapper.
 
 Four rules:
 
@@ -323,6 +330,8 @@ Use them as `z-[var(--z-modal)]` rather than Tailwind's numeric `z-50`, so the n
 
 ### Motion
 
+**Every motion has a job.** It explains a state change (a menu came from its trigger, a panel collapsed into the rail), keeps continuity (the eye follows a row to its new place), or confirms an action (a press dents, a moved step flashes). Motion that does none of the three is cut. Motion never gates reading: text is never held back behind an entrance, a delay or a reveal before it can be read. A streaming reply arrives at the speed of the stream, not slower, and anything already on the page at load is simply there.
+
 Motion is not in `tokens.json` — the token format has no motion family — so these are the values, to be declared alongside the rest in `@theme`:
 
 | token                | value                         | for                                                                                                                                       |
@@ -338,7 +347,7 @@ Registry code can't use these tokens, so it writes the value: `duration-80`, `du
 
 Input is answered instantly; layout takes its time. Anything the pointer causes directly finishes in 80 ms — past about 100 ms a press stops feeling connected to the finger. A state the pointer toggles, like a menu opening, takes 150 ms. Anything that arrives or reshapes the page runs at 280 ms, because a panel that snaps open makes the eye lose its place.
 
-**Every animation and transition has a `motion-reduce` escape.** `motion-reduce:transition-none` on a transition, `motion-reduce:animate-none` on an animation, on the same element. No exceptions: a spinner, a stagger, a colour fade and an opacity fade are all motion to someone who asked for less of it. The global rule in `globals.css` is only a backstop for the site. A consumer may not install the theme, so registry code never relies on it. Motion driven from JavaScript, like a waveform following the microphone, has no class to hang the escape on, so it checks `matchMedia("(prefers-reduced-motion: reduce)")` and holds still.
+**Every animation and transition has a `motion-reduce` escape.** `motion-reduce:transition-none` on a transition, `motion-reduce:animate-none` on an animation, on the same element. A `shimmer` takes `motion-reduce:animate-none` too; there is no `shimmer-none`. No exceptions: a spinner, a stagger, a colour fade and an opacity fade are all motion to someone who asked for less of it. The global rule in `globals.css` is only a backstop for the site. A consumer may not install the theme, so registry code never relies on it. Motion driven from JavaScript, like a waveform following the microphone, has no class to hang the escape on, so it checks `matchMedia("(prefers-reduced-motion: reduce)")` and holds still.
 
 **Transition the properties that change, never `all`.** `transition-[opacity,scale]` says what is moving and keeps everything else from being caught up in it. `transition-colors`, `transition-opacity` and `transition-transform` are fine, because each already names its properties. Tailwind v4's `scale-*`, `rotate-*` and `translate-*` set the `scale`, `rotate` and `translate` properties, so list those rather than `transform` inside a bracketed list.
 
@@ -363,7 +372,25 @@ Scale only: the button doesn't also nudge down, and the fill doesn't darken on p
 
 **Stagger only a small set that arrives together**, like a row of suggestions or a fresh batch of chips: 70 ms per item, at 280 ms each. Never stagger a long list or anything that loads on scroll. A stagger needs a way to replay: key the container and bump the key, so the set remounts and a fresh one arrives rather than just appearing.
 
-**Streaming and loading** animate: skeleton shimmer, the caret on streaming text, a running agent's spinner. These are the one place a loop is allowed to run indefinitely, and they stop the moment the work does.
+**Streaming and loading** animate: the skeleton pulse, the caret on streaming text, a running agent's spinner and shimmer. These are the one place a loop is allowed to run indefinitely, and they stop the moment the work does.
+
+**Loading is a skeleton; activity is for real work.** Content whose shape is known while it loads (a hover card, a list, a preview) shows a `Skeleton` in that shape, not a spinner and not a status line. The activity grammar (the pulsing `live` dot, a shimmering step label like "Reading files", a running spinner beside a step) is reserved for machine work that is actually under way, and names that work. It never stands in for a fetch, a page load or a route change. A spinner on its own is for an action the person started whose result has no shape yet, like a toast saying "Saving".
+
+**The keyframes are a closed set.** Every animation in the system runs one of these, each with one job. Reach for one before writing another, and never write a second keyframe for a job one of these already does:
+
+| keyframes                                                | from                             | job                                                                   |
+| -------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------- |
+| `enter`, `exit` (`animate-in`, `animate-out`)            | `tw-animate-css`                 | popups, toasts and dialogs arriving and leaving                       |
+| `accordion-down`, `accordion-up`                         | `shadcn/tailwind.css`            | an accordion or collapsible folding open and shut                     |
+| `caret-blink`                                            | `tw-animate-css`                 | the `live` caret at the end of a streaming reply                      |
+| `tw-shimmer`, `tw-shimmer-translate` (`shimmer`)         | `tw-shimmer`                     | the label of a step that is running                                   |
+| `pulse`                                                  | Tailwind                         | a skeleton, and a message that is still sending                       |
+| `ping`                                                   | Tailwind                         | the pulse ring on a `live` `Status` dot                               |
+| `spin`                                                   | Tailwind                         | a spinner beside an action or attempt that is running                 |
+| `bounce`                                                 | Tailwind                         | the typing indicator's three dots                                     |
+| `panel-toggle-in`, `panel-toggle-icon-in`                | `globals.css`                    | a panel toggle remounting in its new header                           |
+
+A new keyframe is added to this table with its job, in the same change, and ships with its reduced-motion escape. Motion driven from JavaScript (`element.animate`, a canvas, a `requestAnimationFrame` loop) counts as a keyframe too and follows the same rules.
 
 Still open: overlay enter/exit and row-hover fades — the Motion card on this page demos both against no motion, with a switch.
 
@@ -377,6 +404,9 @@ Everything else is static. No scroll-triggered reveals, no parallax, no easing o
 - Every duration is 80, 150 or 280 ms, and a stagger step is 70 ms.
 - Entrances with a delay carry `fill-mode-both`.
 - Anything that loops is streaming or loading, and stops when the work does.
+- It explains a state change, keeps continuity or confirms an action, and never holds text back from being read.
+- It runs a keyframe from the closed set, or adds one to the table.
+- Loading content with a known shape is a skeleton; the activity grammar appears only while real work runs.
 
 ### Themes
 
@@ -467,7 +497,7 @@ Every value in the system. Generated from `tokens.json` — do not hand-edit her
 | `muted-foreground`           | `oklch(0.53 0.016 285.938)`  | `oklch(0.705 0.015 286.067)` | Secondary text: labels, captions, timestamps, placeholder.                                                                       |
 | `accent`                     | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Hover and active ground for rows, menu items and ghost buttons.                                                                  |
 | `accent-foreground`          | `oklch(0.21 0.006 285.885)`  | `oklch(0.985 0 0)`           | Text on accent.                                                                                                                  |
-| `link`                       | `oklch(0.546 0.245 262.881)` | `oklch(0.623 0.214 259.815)` | Link ink, shown on hover — links rest in the ink around them.                                                                    |
+| `link`                       | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)`           | Link ink, shown on hover — links rest in the ink around them.                                                                    |
 | `selection`                  | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Text-selection highlight.                                                                                                        |
 | `destructive`                | `oklch(0.577 0.245 27.325)`  | `oklch(0.704 0.191 22.216)`  | Status ink for destructive: icons, dots, and the text of a destructive row or badge.                                             |
 | `destructive-foreground`     | `oklch(0.985 0 0)`           | `oklch(0.141 0.005 285.823)` | Text on a destructive fill (4.                                                                                                   |

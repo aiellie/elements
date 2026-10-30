@@ -5,7 +5,7 @@
  * Prose at 14px on 24px leading, headings from the scale (h1 30/36 light down
  * to h4 16/24 medium), nothing heavier than medium, spacing on the 4px grid,
  * and colour, radius and borders from the theme's tokens. Links rest in the
- * ink around them and take `link` on hover, with no underline. Every token
+ * ink around them and underline in `link` on hover. Every token
  * has a fallback, so the file still reads well without the theme.
  */
 
@@ -129,16 +129,22 @@
       font-size: 0.85em;
     }
 
-    /* Links rest in the ink around them and take `link` on hover and focus. */
+    /* Links rest in the ink around them and underline on hover and focus. */
     &:where(a) {
       color: inherit;
       font-weight: var(--typeset-medium);
-      text-decoration-line: none;
+      text-decoration-line: underline;
+      text-decoration-color: transparent;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
       outline: none;
-      transition: color 80ms cubic-bezier(0.16, 1, 0.3, 1);
+      transition:
+        color 80ms cubic-bezier(0.16, 1, 0.3, 1),
+        text-decoration-color 80ms cubic-bezier(0.16, 1, 0.3, 1);
     }
     &:where(a:hover, a:focus-visible) {
       color: var(--color-link, currentColor);
+      text-decoration-color: currentColor;
     }
     &:where(:is(h1, h2, h3, h4, h5, h6) :is(a)) {
       font-weight: inherit;

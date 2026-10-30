@@ -44,7 +44,7 @@ export function Attempts({ run }: { run: Run }) {
   <button data-slot="attempt-picker-apply" />
 </div>`,
     body: [
-      "The attempts are a radio group: the arrow keys move the selection. Failing tests and failed attempts take the destructive colour, and the suggested one carries a live tag.",
+      "The attempts are a radio group: the arrow keys move the selection. Failing tests and failed attempts take the destructive colour, and the suggested one carries a quiet tag.",
       "`suggestAttempt` is exported too, if you'd rather show the suggestion somewhere else.",
     ],
   },

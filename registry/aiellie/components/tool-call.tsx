@@ -89,7 +89,7 @@ function ToolCallTrigger({
       <span
         className={cn(
           "shrink-0",
-          status === "running" && "shimmer motion-reduce:shimmer-none"
+          status === "running" && "shimmer motion-reduce:animate-none"
         )}
       >
         {name}

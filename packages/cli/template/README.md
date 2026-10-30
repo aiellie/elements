@@ -12,7 +12,7 @@ Then open [http://localhost:3000](http://localhost:3000). Use `pnpm`, `yarn` or 
 
 ## Connect a model
 
-Replies are simulated for now. The page's state lives in `components/aiellie/chat.tsx`: replace its `stream` function with your model's response and the rest of the page works as it is.
+Replies are simulated for now. The page's state lives in `components/chat.tsx`: replace its `stream` function with your model's response and the rest of the page works as it is.
 
 The composer's `status` uses the same names as the AI SDK's `useChat` (`ready`, `submitted`, `streaming`, `error`), so that value can be passed straight in.
 

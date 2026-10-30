@@ -87,6 +87,63 @@ async function getRegistryItem(name: string): Promise<RegistryItem | null> {
   }
 }
 
+function registryDependencyNames(name: string) {
+  const names: string[] = []
+  const queue = [name]
+
+  for (let current = queue.shift(); current; current = queue.shift()) {
+    if (names.includes(current)) continue
+    names.push(current)
+
+    const item = registry.items.find((candidate) => candidate.name === current)
+    const dependencies: string[] =
+      (item && "registryDependencies" in item && item.registryDependencies) ||
+      []
+    for (const dependency of dependencies) {
+      if (dependency.startsWith("@aiellie/")) {
+        queue.push(dependency.slice("@aiellie/".length))
+      }
+    }
+  }
+
+  return names
+}
+
+// Every file `shadcn add` writes for the item, its own first, with imports
+// pointed at where each registry file lands, the way the CLI rewrites them.
+async function getRegistryInstallFiles(name: string) {
+  const items = await Promise.all(
+    registryDependencyNames(name).map((itemName) => getRegistryItem(itemName))
+  )
+  const files = items.flatMap((item) => item?.files ?? [])
+  const targets = new Map(
+    files.map((file) => [
+      stripExtension(file.path),
+      stripExtension(file.target),
+    ])
+  )
+
+  return files
+    .filter(
+      (file, index) =>
+        files.findIndex((other) => other.target === file.target) === index
+    )
+    .map((file) => ({
+      ...file,
+      content: file.content.replace(
+        /(["'])@\/(registry\/aiellie\/[^"']+)\1/g,
+        (match, quote: string, importPath: string) => {
+          const target = targets.get(importPath)
+          return target ? `${quote}@/${target}${quote}` : match
+        }
+      ),
+    }))
+}
+
+function stripExtension(filePath: string) {
+  return filePath.replace(/\.(tsx?|css)$/, "")
+}
+
 function createRegistryFileTree(files: RegistryFile[]): RegistryFileTree[] {
   const roots: RegistryFileTree[] = []
 
@@ -112,8 +169,27 @@ function createRegistryFileTree(files: RegistryFile[]): RegistryFileTree[] {
     })
   }
 
-  return roots
+  return sortRegistryFileTree(roots)
 }
 
-export { createRegistryFileTree, getRegistryItem, getRegistryItemNames }
+function sortRegistryFileTree(nodes: RegistryFileTree[]): RegistryFileTree[] {
+  return nodes
+    .map((node) =>
+      node.children
+        ? { ...node, children: sortRegistryFileTree(node.children) }
+        : node
+    )
+    .sort(
+      (a, b) =>
+        Number(!a.children) - Number(!b.children) ||
+        a.name.localeCompare(b.name)
+    )
+}
+
+export {
+  createRegistryFileTree,
+  getRegistryInstallFiles,
+  getRegistryItem,
+  getRegistryItemNames,
+}
 export type { RegistryFile, RegistryFileTree, RegistryItem, RegistryItemType }

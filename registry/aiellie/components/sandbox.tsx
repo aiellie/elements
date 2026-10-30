@@ -1045,7 +1045,7 @@ function SandboxPreview({
                 </Button>
               </>
             ) : (
-              <p className="shimmer motion-reduce:shimmer-none">
+              <p className="shimmer motion-reduce:animate-none">
                 {progress ?? "Starting the preview"}
               </p>
             )}

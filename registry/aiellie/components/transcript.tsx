@@ -73,7 +73,7 @@ function TranscriptSegment({
       ) : null}
       <span
         className={cn(
-          interim && "shimmer text-muted-foreground motion-reduce:shimmer-none"
+          interim && "shimmer text-muted-foreground motion-reduce:animate-none"
         )}
       >
         {children}

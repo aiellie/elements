@@ -269,7 +269,7 @@ function PromptAutocomplete({
           onBlur={() => setFocused(false)}
           className={cn(
             textMetrics,
-            "absolute inset-0 size-full resize-none overflow-hidden bg-transparent caret-live outline-none disabled:cursor-not-allowed"
+            "absolute inset-0 size-full resize-none overflow-hidden bg-transparent caret-foreground outline-none disabled:cursor-not-allowed"
           )}
         />
       </div>

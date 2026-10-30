@@ -11,10 +11,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 
 import { cn } from "@/lib/utils"
 import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
-import {
-  codeIcons,
-  type CodeIconName,
-} from "@/registry/aiellie/icons/code-icons"
+import { codeIcons, type CodeIconName } from "@/registry/aiellie/icons"
 import type { CodeToken } from "@/registry/aiellie/lib/highlight-code"
 
 const ICON_ALIASES: Record<string, CodeIconName> = {

@@ -53,7 +53,7 @@ function MessageStatus({
       data-status={status}
       role="status"
       className={cn(
-        "inline-flex items-center gap-1 text-xs text-muted-foreground data-[status=failed]:text-destructive data-[status=read]:text-live",
+        "inline-flex items-center gap-1 text-xs text-muted-foreground data-[status=failed]:text-destructive data-[status=read]:text-foreground",
         className
       )}
       {...props}

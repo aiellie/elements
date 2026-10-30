@@ -162,7 +162,7 @@ function ToastIcon({ type }: { type: string | undefined }) {
 
   if (type === "loading") {
     icon = (
-      <HugeiconsIcon icon={Loading03Icon} strokeWidth={2} className="animate-spin" aria-hidden="true" />
+      <HugeiconsIcon icon={Loading03Icon} strokeWidth={2} className="animate-spin motion-reduce:animate-none" aria-hidden="true" />
     )
   }
 
