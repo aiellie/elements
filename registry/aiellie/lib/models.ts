@@ -1,4 +1,4 @@
-import type { ModelIconName } from "@/registry/aiellie/icons/model-icons"
+import type { ModelIconName } from "@/registry/aiellie/icons"
 
 interface ModelOption {
   /**

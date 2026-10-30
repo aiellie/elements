@@ -1,4 +1,4 @@
-import { brandIcons } from "@/registry/aiellie/icons/brand-icons"
+import { brandIcons } from "@/registry/aiellie/icons"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
   Empty,

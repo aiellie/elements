@@ -39,7 +39,7 @@ A file's folder decides its item `type` and where it installs:
 | `ui/` | shadcn components we restyled (button, tooltip) | `registry:ui` | `components/ui/<name>.tsx`, replacing the consumer's own shadcn file |
 | `components/` | everything we designed, from building blocks to AI pieces (menu, toolbar, status, model-selector) | `registry:component` | `components/aiellie/<name>.tsx` |
 | `blocks/<name>/` | a whole page: `page.tsx`, plus parts private to the block in `components/` | `registry:block` | `page.tsx` → `app/<name>/page.tsx` |
-| `icons/`, `lib/` | vendor marks; data and helpers (`models.ts`, `utils.ts`) | `registry:component` / `registry:lib` | `components/aiellie/icons/`, `lib/` |
+| `icons.tsx`, `lib/` | `icons.tsx` holds every mark we draw rather than take from Hugeicons (vendor, language and file, and our own), as `modelIcons`, `codeIcons` and `brandIcons`; `lib/` holds data and helpers (`models.ts`, `utils.ts`) | `registry:component` / `registry:lib` | `components/aiellie/icons.tsx`, `lib/` |
 | `hooks/` | React hooks that ported shadcn components import (`use-mobile`) | `registry:hook` | `hooks/<name>.ts` |
 | `examples/` | `<item>-demo.tsx` with a default export; used by the site only | none | not published |
 

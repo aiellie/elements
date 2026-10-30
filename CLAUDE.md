@@ -41,7 +41,7 @@ A file's folder decides its item `type` and where it installs:
 | `ui/` | the design system's primitives: shadcn components we restyled (button, tooltip), and our own pieces that aren't specific to AI (menu, toolbar, toast, meter, status, tooltip-icon-button) | `registry:ui` | `components/ui/<name>.tsx`; a restyled shadcn file replaces the consumer's own |
 | `components/` | everything else we designed: AI pieces and app parts (model-selector, composer, panels, nav-bars) | `registry:component` | `components/aiellie/<name>.tsx` |
 | `blocks/<name>/` | a whole page: `page.tsx`, plus parts private to the block in `components/`, and a `route.ts` if it needs a server route | `registry:block` | `page.tsx` → `app/<name>/page.tsx`, `components/*.tsx` → `components/<file>.tsx`, `components/*.ts` → `lib/<file>.ts`, `route.ts` → `app/api/<name>/route.ts` |
-| `icons/`, `lib/` | vendor marks; data and helpers (`models.ts`, `utils.ts`) | `registry:component` / `registry:lib` | `components/aiellie/icons/`, `lib/` |
+| `icons.tsx`, `lib/` | `icons.tsx` holds every mark we draw rather than take from Hugeicons (vendor, language and file, and our own), as `modelIcons`, `codeIcons` and `brandIcons`; `lib/` holds data and helpers (`models.ts`, `utils.ts`) | `registry:component` / `registry:lib` | `components/aiellie/icons.tsx`, `lib/` |
 | `hooks/` | React hooks that ported shadcn components import (`use-mobile`) | `registry:hook` | `hooks/<name>.ts` |
 | `examples/` | `<item>-demo.tsx` with a default export; used by the site only | none | not published |
 

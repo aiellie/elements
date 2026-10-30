@@ -7,8 +7,8 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import {
   modelIcons,
   type ModelIconName,
-  type ModelIconProps,
-} from "@/registry/aiellie/icons/model-icons"
+  type IconProps,
+} from "@/registry/aiellie/icons"
 import { groupByVendor, VENDOR_NAMES } from "@/registry/aiellie/lib/models"
 import type { ModelOption } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
@@ -25,7 +25,7 @@ import {
 function ModelMark({
   vendor,
   ...props
-}: ModelIconProps & { vendor: ModelIconName }) {
+}: IconProps & { vendor: ModelIconName }) {
   const Mark = modelIcons[vendor]
   return <Mark {...props} />
 }

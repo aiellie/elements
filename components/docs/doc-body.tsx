@@ -45,7 +45,7 @@ async function Code({ code }: { code: DocCode }) {
 function asInstalled(source: string) {
   return source
     .replace(/@\/registry\/aiellie\/components\//g, "@/components/aiellie/")
-    .replace(/@\/registry\/aiellie\/icons\//g, "@/components/aiellie/icons/")
+    .replace(/@\/registry\/aiellie\/icons"/g, '@/components/aiellie/icons"')
     .replace(/@\/registry\/aiellie\/ui\//g, "@/components/ui/")
     .replace(/@\/registry\/aiellie\/lib\//g, "@/lib/")
     .replace(/@\/registry\/aiellie\/hooks\//g, "@/hooks/")
