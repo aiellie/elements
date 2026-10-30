@@ -113,7 +113,6 @@ function EffortMenu({
       <PopoverTrigger data-slot="effort-menu" render={render} {...props}>
         <EffortBars level={index} count={options.length} />
         <span className="sr-only">{label}: </span>
-        {selected?.name}
       </PopoverTrigger>
       <PopoverContent
         data-slot="effort-menu-content"
