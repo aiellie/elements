@@ -544,7 +544,7 @@ function PlanReview({
               data-removed={step.removed || undefined}
               data-dragging={dragging || undefined}
               data-flashing={flashing || undefined}
-              className="group/step relative flex h-8 items-center gap-1 rounded-lg pe-1 transition-[background-color,box-shadow] duration-280 data-dragging:z-10 data-dragging:bg-background data-dragging:shadow-md data-dragging:ring-1 data-dragging:ring-border data-flashing:bg-live/6 data-flashing:duration-80 motion-reduce:transition-none dark:data-flashing:bg-live/10"
+              className="group/step relative flex h-8 items-center gap-1 rounded-lg pe-1 transition-[background-color,box-shadow] duration-280 data-dragging:z-10 data-dragging:bg-background data-dragging:shadow-md data-dragging:ring-1 data-dragging:ring-border data-flashing:bg-muted data-flashing:duration-80 motion-reduce:transition-none"
             >
               {editable && !step.removed ? (
                 <Button
@@ -599,14 +599,7 @@ function PlanReview({
                   title={step.label}
                   className="ms-1 min-w-0 flex-1 cursor-text truncate rounded-md border border-transparent px-1.5 py-0.5 text-start text-sm transition-colors duration-80 outline-none hover:bg-muted focus-visible:border-ring motion-reduce:transition-none"
                 >
-                  <span
-                    className={cn(
-                      "transition-colors duration-280 motion-reduce:transition-none",
-                      flashing && "text-live duration-80"
-                    )}
-                  >
-                    {step.label}
-                  </span>
+                  {step.label}
                 </button>
               ) : (
                 <span

@@ -297,7 +297,7 @@ function AttemptRow({
         {suggested ? (
           <span
             aria-hidden
-            className="hidden shrink-0 rounded-sm bg-live/8 px-1.5 text-[11px] leading-4 text-live @[18rem]:inline dark:bg-live/15"
+            className="hidden shrink-0 rounded-sm bg-muted px-1.5 text-[11px] leading-4 text-muted-foreground @[18rem]:inline"
           >
             Suggested
           </span>

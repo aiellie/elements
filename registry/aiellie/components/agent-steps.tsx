@@ -217,7 +217,7 @@ function AgentStep({
           className={cn(
             "min-w-0 leading-5",
             status === "pending" && "text-muted-foreground",
-            status === "active" && "shimmer motion-reduce:shimmer-none"
+            status === "active" && "shimmer motion-reduce:animate-none"
           )}
         >
           {label}

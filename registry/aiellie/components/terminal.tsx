@@ -117,7 +117,7 @@ function TerminalStatus({
       </Status>
       <span
         className={cn(
-          status === "running" && "shimmer motion-reduce:shimmer-none"
+          status === "running" && "shimmer motion-reduce:animate-none"
         )}
       >
         {children ??

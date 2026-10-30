@@ -45,9 +45,8 @@
   --live: #526FFF;
   --success: oklch(0.596 0.145 163.225);
 
-  /* Link ink, used on hover. Placeholder until the brand hue lands — blue-600
-     rather than blue-500 so a body-size link clears 4.5:1 (5.3:1 on white). */
-  --link: oklch(0.546 0.245 262.881);
+  /* Link ink, used on hover. Neutral: blue is kept for things that are live. */
+  --link: oklch(0.141 0.005 285.823);
 
   /* Text selection — the same zinc as muted, so selecting reads as a fill. */
   --selection: oklch(0.967 0.001 286.375);
@@ -112,8 +111,7 @@
   --live: oklch(0.7 0.17 270);
   --success: oklch(0.765 0.177 163.223);
 
-  /* blue-500 in dark: 5.3:1 on background, 4.7:1 on card. */
-  --link: oklch(0.623 0.214 259.815);
+  --link: oklch(0.985 0 0);
 
   --selection: oklch(0.274 0.006 286.033);
 
@@ -129,10 +127,6 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: #ffffff1a;
   --sidebar-ring: oklch(0.552 0.016 285.938);
-  --panel-duration: 220ms;
-  /* Decelerating curve — quick start, soft landing (same family as Sheet). */
-  --panel-ease: cubic-bezier(0.32, 0.72, 0, 1);
-  --panel-toggle-duration: 160ms;
 }
 
 /*
@@ -142,7 +136,7 @@
  * whichever axis the group uses.
  */
 [data-panel] {
-  transition: flex-grow var(--panel-duration) var(--panel-ease);
+  transition: flex-grow var(--duration-layout) var(--ease-out);
 }
 
 /*
@@ -229,9 +223,6 @@
   --blur-xs: 4px;
   --blur-sm: 8px;
   --blur-md: 12px;
-
-  --animate-blink: blink 1s step-end infinite;
-  --animate-pulse-dot: pulse-dot 1.4s ease-in-out infinite;
 }
 
 .dark {
@@ -261,7 +252,7 @@
     scrollbar-color: var(--border) transparent;
   }
 
-  /* The only thing in the UI that changes colour on hover of its own accord. */
+  /* A link in quieter ink steps up to full ink on hover; prose links underline too. */
   a {
     @apply hover:text-link;
   }
@@ -294,26 +285,6 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
-  }
-}
-
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
   }
 }
 
@@ -454,12 +425,11 @@
 }
 
 [data-slot="panel-toggle"] {
-  animation: panel-toggle-in var(--panel-toggle-duration) var(--panel-ease) both;
+  animation: panel-toggle-in var(--duration-fast) var(--ease-out) both;
 }
 
 [data-slot="panel-toggle"] > svg {
-  animation: panel-toggle-icon-in var(--panel-toggle-duration) var(--panel-ease)
-    both;
+  animation: panel-toggle-icon-in var(--duration-fast) var(--ease-out) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -232,7 +232,7 @@ function CompactionMarker({
 
         {state === "compacting" ? (
           <span className="flex shrink-0 items-baseline gap-2 text-xs text-muted-foreground">
-            <span className="shimmer motion-reduce:shimmer-none">
+            <span className="shimmer motion-reduce:animate-none">
               Compacting context
             </span>
             <span className="tabular-nums">{formatTokens(tokensBefore)}</span>
@@ -317,7 +317,7 @@ function CompactionMarker({
                   className="flex h-1 overflow-hidden rounded-full bg-foreground/10"
                 >
                   <span
-                    className="h-full rounded-full bg-foreground/70 transition-[width] delay-150 duration-700 ease-out motion-reduce:transition-none"
+                    className="h-full rounded-full bg-foreground/70 transition-[width] delay-150 duration-280 ease-out motion-reduce:transition-none"
                     style={{
                       width: `${isOpen ? Math.max(2, keptShare * 100) : 100}%`,
                     }}
