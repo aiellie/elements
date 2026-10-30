@@ -3,7 +3,7 @@ import type { DocContent } from "@/lib/docs"
 const doc: DocContent = {
   intro: [
     "Plan Review shows the plan an agent proposes before it runs anything, and lets you shape it first. Drag a step by its handle, or focus the handle and use the arrow keys. Press a step to rewrite it, remove or restore it, or add one of your own. Then run the plan, or send it back with a note saying what should change.",
-    "What comes back is a `PlanDecision`: the steps to run, in order, plus exactly what you changed. A step counts as moved only if it left the order the others kept, so dragging one step down doesn't mark every step it passed. The newest change flashes in the live ink and settles. Once you decide, the controls give way to a line saying what was decided.",
+    "What comes back is a `PlanDecision`: the steps to run, in order, plus exactly what you changed. A step counts as moved only if it left the order the others kept, so dragging one step down doesn't mark every step it passed. The newest change flashes on a `muted` fill and settles. Once you decide, the controls give way to a line saying what was decided.",
   ],
   gettingStarted: {
     steps: [

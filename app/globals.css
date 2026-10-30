@@ -129,10 +129,6 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: #ffffff1a;
   --sidebar-ring: oklch(0.552 0.016 285.938);
-  --panel-duration: 220ms;
-  /* Decelerating curve — quick start, soft landing (same family as Sheet). */
-  --panel-ease: cubic-bezier(0.32, 0.72, 0, 1);
-  --panel-toggle-duration: 160ms;
 }
 
 /*
@@ -142,7 +138,7 @@
  * whichever axis the group uses.
  */
 [data-panel] {
-  transition: flex-grow var(--panel-duration) var(--panel-ease);
+  transition: flex-grow var(--duration-layout) var(--ease-out);
 }
 
 /*
@@ -229,9 +225,6 @@
   --blur-xs: 4px;
   --blur-sm: 8px;
   --blur-md: 12px;
-
-  --animate-blink: blink 1s step-end infinite;
-  --animate-pulse-dot: pulse-dot 1.4s ease-in-out infinite;
 }
 
 .dark {
@@ -294,26 +287,6 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
-  }
-}
-
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
   }
 }
 
@@ -454,12 +427,11 @@
 }
 
 [data-slot="panel-toggle"] {
-  animation: panel-toggle-in var(--panel-toggle-duration) var(--panel-ease) both;
+  animation: panel-toggle-in var(--duration-fast) var(--ease-out) both;
 }
 
 [data-slot="panel-toggle"] > svg {
-  animation: panel-toggle-icon-in var(--panel-toggle-duration) var(--panel-ease)
-    both;
+  animation: panel-toggle-icon-in var(--duration-fast) var(--ease-out) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -2,7 +2,7 @@ import type { DocContent } from "@/lib/docs"
 
 const doc: DocContent = {
   intro: [
-    'Message Status shows how far a message has got: a clock while sending, a tick once sent, a double tick when delivered, the same double tick in the live ink once read, and a warning when it couldn\'t be sent. A failed message can offer "Try again".',
+    'Message Status shows how far a message has got: a clock while sending, a tick once sent, a double tick when delivered, the same double tick in full ink once read, and a warning when it couldn\'t be sent. A failed message can offer "Try again".',
     "It's an icon with its name kept for screen readers, or shown with `showLabel`.",
   ],
   gettingStarted: {
