@@ -45,13 +45,20 @@ function ChatEmpty({
           </EmptyDescription>
         ) : null}
         {onAddKey ? (
-          <EmptyDescription className="flex items-center gap-1 text-xs">
-            Replies are samples for now.
-            <Button variant="ghost" size="xs" onClick={onAddKey}>
+          <>
+            <EmptyDescription className="text-xs">
+              Replies are samples for now.
+            </EmptyDescription>
+            <Button
+              variant="outline"
+              size="xs"
+              onClick={onAddKey}
+              className="mt-1"
+            >
               <HugeiconsIcon icon={Key01Icon} aria-hidden />
               Add an API key
             </Button>
-          </EmptyDescription>
+          </>
         ) : null}
       </EmptyHeader>
     </Empty>
