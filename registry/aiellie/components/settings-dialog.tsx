@@ -3,6 +3,7 @@
 import * as React from "react"
 import {
   AiNetworkIcon,
+  ArrowDown01Icon,
   ArrowUpRight01Icon,
   Cancel01Icon,
   ComputerIcon,
@@ -49,10 +50,12 @@ import {
   InputGroupInput,
 } from "@/registry/aiellie/ui/input-group"
 import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/registry/aiellie/ui/resizable"
+  Menu,
+  MenuContent,
+  MenuRadioGroup,
+  MenuRadioItem,
+  MenuTrigger,
+} from "@/registry/aiellie/ui/menu"
 import {
   Sidebar,
   SidebarContent,
@@ -243,7 +246,7 @@ function ApiKeysSection({
       ref={sectionRef}
       id={id}
       aria-label="API keys"
-      className="flex flex-col p-6 pt-4"
+      className="flex flex-col px-4 pb-4"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 flex-col gap-1">
@@ -498,7 +501,7 @@ function ProvidersSection({
   onChange: (keys: Record<string, string>) => void
 }) {
   return (
-    <section id={id} aria-label="Providers" className="flex flex-col p-6 pt-4">
+    <section id={id} aria-label="Providers" className="flex flex-col px-4 pb-4">
       <div className="flex flex-col gap-1">
         <p className="text-sm font-medium">Providers</p>
         <p className="text-xs text-muted-foreground">
@@ -577,186 +580,210 @@ function SettingsDialogForm({
         onOpenChange(false)
       }}
     >
-      <SidebarProvider className="h-full min-h-0">
-        <ResizablePanelGroup className="h-full min-h-0">
-          <ResizablePanel
-            defaultSize="34%"
-            minSize="24%"
-            maxSize="42%"
-            className="min-h-0"
-          >
-            <Sidebar collapsible="none" className="w-full">
-              <SidebarContent>
-                <SidebarGroup className="p-4 pt-6">
-                  <SidebarMenu className="gap-1">
-                    {sections.map((item) => (
-                      <SidebarMenuItem key={item.id}>
-                        <SidebarMenuButton
+      <SidebarProvider className="h-full min-h-0 items-start">
+        <Sidebar collapsible="none" className="hidden border-e md:flex">
+          <SidebarContent>
+            {/* Centres the first row on the breadcrumb across the way. */}
+            <SidebarGroup className="pt-4.25">
+              <SidebarMenu>
+                {sections.map((item) => (
+                  <SidebarMenuItem key={item.id}>
+                    <SidebarMenuButton
+                      type="button"
+                      isActive={section === item.id}
+                      aria-current={section === item.id ? "page" : undefined}
+                      aria-controls={`${id}-${item.id}-panel`}
+                      onClick={() => setSection(item.id)}
+                    >
+                      <HugeiconsIcon icon={item.icon} aria-hidden />
+                      <span>{item.label}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroup>
+          </SidebarContent>
+        </Sidebar>
+
+        <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col">
+          <DialogHeader className="h-16 shrink-0 flex-row items-center px-4 pe-14">
+            <DialogTitle className="sr-only">
+              Settings: {current.label}
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              Manage your account, appearance, and keys.
+            </DialogDescription>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:inline-flex">
+                  <BreadcrumbLink
+                    render={<button type="button" />}
+                    onClick={() => setSection(sections[0].id)}
+                  >
+                    Settings
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem className="hidden md:inline-flex">
+                  <BreadcrumbPage>{current.label}</BreadcrumbPage>
+                </BreadcrumbItem>
+                {/* The rail is hidden on small screens, so the crumb switches sections there. */}
+                <BreadcrumbItem className="md:hidden">
+                  <Menu>
+                    <MenuTrigger
+                      render={
+                        <Button
                           type="button"
-                          isActive={section === item.id}
-                          aria-current={
-                            section === item.id ? "page" : undefined
-                          }
-                          aria-controls={`${id}-${item.id}-panel`}
-                          onClick={() => setSection(item.id)}
-                        >
-                          <HugeiconsIcon icon={item.icon} aria-hidden />
-                          <span>{item.label}</span>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroup>
-              </SidebarContent>
-            </Sidebar>
-          </ResizablePanel>
-
-          <ResizableHandle withHandle />
-
-          <ResizablePanel minSize="45%" className="min-h-0">
-            <div className="flex h-full min-h-0 flex-col">
-              <DialogHeader className="shrink-0 p-6 pb-4">
-                <DialogTitle className="sr-only">
-                  Settings: {current.label}
-                </DialogTitle>
-                <DialogDescription className="sr-only">
-                  Manage your account, appearance, and keys.
-                </DialogDescription>
-                <Breadcrumb>
-                  <BreadcrumbList>
-                    <BreadcrumbItem>
-                      <BreadcrumbLink
-                        render={<button type="button" />}
-                        onClick={() => setSection(sections[0].id)}
+                          variant="ghost"
+                          className="-ms-2 gap-1 px-2 text-foreground"
+                        />
+                      }
+                    >
+                      <HugeiconsIcon icon={current.icon} aria-hidden />
+                      {current.label}
+                      <HugeiconsIcon
+                        icon={ArrowDown01Icon}
+                        aria-hidden
+                        strokeWidth={2}
+                        className="text-muted-foreground transition-transform duration-150 in-aria-expanded:rotate-180 motion-reduce:transition-none"
+                      />
+                    </MenuTrigger>
+                    <MenuContent variant="solid">
+                      <MenuRadioGroup
+                        value={section}
+                        onValueChange={(value) =>
+                          setSection(value as SettingsSection)
+                        }
                       >
-                        Settings
-                      </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>{current.label}</BreadcrumbPage>
-                    </BreadcrumbItem>
-                  </BreadcrumbList>
-                </Breadcrumb>
-              </DialogHeader>
+                        {sections.map((item) => (
+                          <MenuRadioItem key={item.id} value={item.id}>
+                            <HugeiconsIcon icon={item.icon} aria-hidden />
+                            {item.label}
+                          </MenuRadioItem>
+                        ))}
+                      </MenuRadioGroup>
+                    </MenuContent>
+                  </Menu>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </DialogHeader>
 
-              <div className="min-h-0 flex-1 overflow-y-auto">
-                {section === "general" && user ? (
-                  <section
-                    id={`${id}-general-panel`}
-                    aria-label="General"
-                    className="p-6 pt-4"
-                  >
-                    <div className="flex flex-col gap-4">
-                      <div className="flex items-center gap-3">
-                        <Avatar size="lg">
-                          {user.avatar ? (
-                            <AvatarImage src={user.avatar} alt="" />
-                          ) : null}
-                          <AvatarFallback>
-                            {initials(name || user.name)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="min-w-0">
-                          <p className="truncate text-sm font-medium">
-                            {name || user.name}
-                          </p>
-                          <p className="truncate text-xs text-muted-foreground">
-                            {email || "No email added"}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="grid gap-4 sm:grid-cols-2">
-                        <label
-                          htmlFor={`${id}-name`}
-                          className="flex flex-col gap-1 text-sm font-medium"
-                        >
-                          Display name
-                          <Input
-                            id={`${id}-name`}
-                            name="name"
-                            autoComplete="name"
-                            value={name}
-                            onChange={(event) => setName(event.target.value)}
-                          />
-                        </label>
-                        <label
-                          htmlFor={`${id}-email`}
-                          className="flex flex-col gap-1 text-sm font-medium"
-                        >
-                          Email
-                          <Input
-                            id={`${id}-email`}
-                            name="email"
-                            type="email"
-                            autoComplete="email"
-                            placeholder="you@example.com"
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
-                          />
-                        </label>
-                      </div>
-                    </div>
-                  </section>
-                ) : section === "appearance" ? (
-                  <section
-                    id={`${id}-appearance-panel`}
-                    aria-label="Appearance"
-                    className="p-6 pt-4"
-                  >
-                    <div className="flex flex-col gap-1">
-                      <p className="text-sm font-medium">Theme</p>
-                      <p className="text-xs text-muted-foreground">
-                        Choose how the interface appears on this device.
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            {section === "general" && user ? (
+              <section
+                id={`${id}-general-panel`}
+                aria-label="General"
+                className="px-4 pb-4"
+              >
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-3">
+                    <Avatar size="lg">
+                      {user.avatar ? (
+                        <AvatarImage src={user.avatar} alt="" />
+                      ) : null}
+                      <AvatarFallback>
+                        {initials(name || user.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium">
+                        {name || user.name}
+                      </p>
+                      <p className="truncate text-xs text-muted-foreground">
+                        {email || "No email added"}
                       </p>
                     </div>
-                    <div className="mt-4 flex gap-2">
-                      {THEMES.map((option) => (
-                        <Button
-                          key={option.value}
-                          type="button"
-                          variant="outline"
-                          aria-pressed={theme === option.value}
-                          data-active={theme === option.value ? "" : undefined}
-                          onClick={() => setTheme(option.value)}
-                          className="h-auto flex-1 flex-col gap-2 py-3 data-active:border-ring data-active:bg-muted data-active:text-foreground"
-                        >
-                          <HugeiconsIcon icon={option.icon} aria-hidden />
-                          {option.label}
-                        </Button>
-                      ))}
-                    </div>
-                  </section>
-                ) : section === "providers" ? (
-                  <ProvidersSection
-                    id={`${id}-providers-panel`}
-                    providers={providers}
-                    keys={providerKeys}
-                    onChange={setProviderKeys}
-                  />
-                ) : (
-                  <ApiKeysSection
-                    id={`${id}-api-keys-panel`}
-                    keys={apiKeys}
-                    onChange={setApiKeys}
-                  />
-                )}
-              </div>
+                  </div>
 
-              <DialogFooter className="mx-0 mb-0 shrink-0 rounded-none">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => onOpenChange(false)}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter>
-            </div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label
+                      htmlFor={`${id}-name`}
+                      className="flex flex-col gap-1 text-sm font-medium"
+                    >
+                      Display name
+                      <Input
+                        id={`${id}-name`}
+                        name="name"
+                        autoComplete="name"
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
+                      />
+                    </label>
+                    <label
+                      htmlFor={`${id}-email`}
+                      className="flex flex-col gap-1 text-sm font-medium"
+                    >
+                      Email
+                      <Input
+                        id={`${id}-email`}
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        placeholder="you@example.com"
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                      />
+                    </label>
+                  </div>
+                </div>
+              </section>
+            ) : section === "appearance" ? (
+              <section
+                id={`${id}-appearance-panel`}
+                aria-label="Appearance"
+                className="px-4 pb-4"
+              >
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm font-medium">Theme</p>
+                  <p className="text-xs text-muted-foreground">
+                    Choose how the interface appears on this device.
+                  </p>
+                </div>
+                <div className="mt-4 flex gap-2">
+                  {THEMES.map((option) => (
+                    <Button
+                      key={option.value}
+                      type="button"
+                      variant="outline"
+                      aria-pressed={theme === option.value}
+                      data-active={theme === option.value ? "" : undefined}
+                      onClick={() => setTheme(option.value)}
+                      className="h-auto flex-1 flex-col gap-2 py-3 data-active:border-ring data-active:bg-muted data-active:text-foreground"
+                    >
+                      <HugeiconsIcon icon={option.icon} aria-hidden />
+                      {option.label}
+                    </Button>
+                  ))}
+                </div>
+              </section>
+            ) : section === "providers" ? (
+              <ProvidersSection
+                id={`${id}-providers-panel`}
+                providers={providers}
+                keys={providerKeys}
+                onChange={setProviderKeys}
+              />
+            ) : (
+              <ApiKeysSection
+                id={`${id}-api-keys-panel`}
+                keys={apiKeys}
+                onChange={setApiKeys}
+              />
+            )}
+          </div>
+
+          <DialogFooter className="mx-0 mb-0 shrink-0 rounded-none">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Save changes</Button>
+          </DialogFooter>
+        </div>
       </SidebarProvider>
     </form>
   )
@@ -788,7 +815,7 @@ function SettingsDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="h-3/4 max-h-120 grid-rows-[minmax(0,1fr)] gap-0 overflow-hidden p-0 sm:max-w-3xl [&>[data-slot=dialog-close]]:end-4 [&>[data-slot=dialog-close]]:top-4">
+      <DialogContent className="h-3/4 max-h-120 grid-rows-[minmax(0,1fr)] gap-0 overflow-hidden p-0 sm:max-w-3xl [&>[data-slot=dialog-close]]:end-4 [&>[data-slot=dialog-close]]:top-4.5">
         <SettingsDialogForm
           user={user}
           initialTheme={theme}

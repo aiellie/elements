@@ -61,13 +61,12 @@ export function SettingsButton({ user }: { user: { name: string; email: string }
   anatomy: {
     code: `<div data-slot="dialog-content"> {/* 768px wide at most, 480px tall */}
   <form>
-    <div data-slot="resizable-panel-group">
-      <div data-slot="sidebar"> {/* General, Appearance, Providers, API keys */}
+    <div data-slot="sidebar-wrapper">
+      <div data-slot="sidebar"> {/* General, Appearance, Providers, API keys; hidden below md */}
         <button data-slot="sidebar-menu-button" data-active />
       </div>
-      <div data-slot="resizable-handle" />
       <div>
-        <nav data-slot="breadcrumb" /> {/* Settings › Section */}
+        <nav data-slot="breadcrumb" /> {/* Settings › Section; below md, a menu of sections */}
         <section /> {/* the chosen section; only this scrolls */}
         <footer>
           <button /> {/* Cancel */}
@@ -78,7 +77,7 @@ export function SettingsButton({ user }: { user: { name: string; email: string }
   </form>
 </div>`,
     body: [
-      "The rail is a sidebar rather than tabs, a 30px row per section with the current one filled, and the breadcrumb names the section again over the pane. The header and footer stay put and only the section scrolls. The rail can be dragged wider or narrower.",
+      "The rail is a sidebar rather than tabs, a 30px row per section with the current one filled, and the breadcrumb names the section again over the pane. The header and footer stay put and only the section scrolls. Below `md` the rail is hidden and the breadcrumb becomes a menu of the sections, so a phone still reaches all of them.",
       "Provider keys are hidden in their fields, with a button to show one. A new API key is shown whole once, right after it is made, with a copy button; after that only its first three and last four characters are. The Providers section is left out without `providers`.",
     ],
   },

@@ -603,7 +603,7 @@
       "name": "settings-dialog",
       "type": "registry:component",
       "title": "Settings Dialog",
-      "description": "A wide, resizable settings window with persistent navigation on the left and the active account, appearance, model provider keys, or API keys section on the right.",
+      "description": "A settings window with a section rail on the left and, on the right, a Settings › Section breadcrumb over the active account, appearance, model provider keys, or API keys section. On small screens the rail folds into the breadcrumb.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/avatar",
@@ -612,7 +612,7 @@
         "@aiellie/dialog",
         "@aiellie/input",
         "@aiellie/input-group",
-        "@aiellie/resizable",
+        "@aiellie/menu",
         "@aiellie/sidebar"
       ],
       "files": [

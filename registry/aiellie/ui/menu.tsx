@@ -21,13 +21,14 @@ function MenuTrigger(props: MenuPrimitive.Trigger.Props) {
 
 const menuPopup = (variant: "glass" | "solid") =>
   cn(
-    "border border-border/40 bg-background/60 dark:bg-background/70",
+    "border",
     "min-w-40 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-xl p-1 shadow-xl transition-[opacity,scale] duration-150 ease-out data-starting-style:scale-95 data-starting-style:opacity-0 motion-reduce:transition-none data-closed:scale-95 data-closed:opacity-0",
     // Without a height to overflow, a long menu runs off the screen. Set on the
     // positioner so submenus are capped as well.
     "max-h-(--available-height)",
     variant === "glass" &&
-      "border-border/40 bg-background/60 backdrop-blur-xs dark:bg-background/70"
+      "border-border/40 bg-background/60 backdrop-blur-xs dark:bg-background/70",
+    variant === "solid" && "bg-popover text-popover-foreground"
   )
 
 type PositionerProps = Pick<
