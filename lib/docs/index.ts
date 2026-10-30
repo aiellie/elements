@@ -22,6 +22,7 @@ import fileTree from "@/lib/docs/file-tree"
 import historyButtons from "@/lib/docs/history-buttons"
 import humanHandoff from "@/lib/docs/human-handoff"
 import inlineCitation from "@/lib/docs/inline-citation"
+import loginForm from "@/lib/docs/login-form"
 import mentions from "@/lib/docs/mentions"
 import menu from "@/lib/docs/menu"
 import message from "@/lib/docs/message"
@@ -165,6 +166,7 @@ const DOCS: Record<string, DocContent> = {
   "history-buttons": historyButtons,
   "human-handoff": humanHandoff,
   "inline-citation": inlineCitation,
+  "login-form": loginForm,
   mentions: mentions,
   menu: menu,
   message: message,

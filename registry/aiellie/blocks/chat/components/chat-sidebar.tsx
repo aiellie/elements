@@ -128,7 +128,8 @@ function ChatSidebar({
   userMenu,
   ...chats
 }: ChatNavProps & {
-  user: User
+  /** Who is signed in. Without one, the footer offers to sign in. */
+  user?: User
   /** How much of the plan is left, e.g. "72% left". */
   usage?: string
   /** Passed on to the user menu, for its settings dialog. */

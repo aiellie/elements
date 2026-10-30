@@ -531,7 +531,7 @@ function SettingsDialogForm({
   onOpenChange,
   onSave,
 }: {
-  user: SettingsUser
+  user?: SettingsUser
   initialTheme: SettingsTheme
   initialApiKeys: SettingsApiKey[]
   providers: SettingsProvider[]
@@ -541,18 +541,20 @@ function SettingsDialogForm({
   onSave?: (values: SettingsValues) => void
 }) {
   const id = React.useId()
-  const [name, setName] = React.useState(user.name)
-  const [email, setEmail] = React.useState(user.email ?? "")
+  const [name, setName] = React.useState(user?.name ?? "")
+  const [email, setEmail] = React.useState(user?.email ?? "")
   const [theme, setTheme] = React.useState<SettingsTheme>(initialTheme)
   const [apiKeys, setApiKeys] = React.useState(initialApiKeys)
   const [providerKeys, setProviderKeys] = React.useState(initialProviderKeys)
   const sections = SECTIONS.filter(
-    (item) => item.id !== "providers" || providers.length > 0
+    (item) =>
+      (item.id !== "providers" || providers.length > 0) &&
+      (item.id !== "general" || user)
   )
   const [section, setSection] = React.useState<SettingsSection>(
     sections.some((item) => item.id === initialSection)
       ? initialSection
-      : "general"
+      : sections[0].id
   )
   const current = sections.find((item) => item.id === section) ?? sections[0]
 
@@ -625,7 +627,7 @@ function SettingsDialogForm({
                     <BreadcrumbItem>
                       <BreadcrumbLink
                         render={<button type="button" />}
-                        onClick={() => setSection("general")}
+                        onClick={() => setSection(sections[0].id)}
                       >
                         Settings
                       </BreadcrumbLink>
@@ -639,7 +641,7 @@ function SettingsDialogForm({
               </DialogHeader>
 
               <div className="min-h-0 flex-1 overflow-y-auto">
-                {section === "general" ? (
+                {section === "general" && user ? (
                   <section
                     id={`${id}-general-panel`}
                     aria-label="General"
@@ -771,7 +773,8 @@ function SettingsDialog({
   onOpenChange,
   onSave,
 }: {
-  user: SettingsUser
+  /** Who is signed in. Without one, the General section is left out. */
+  user?: SettingsUser
   theme?: SettingsTheme
   apiKeys?: SettingsApiKey[]
   /** Providers the person brings a key for. Without any, the section is left out. */

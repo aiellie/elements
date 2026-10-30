@@ -15,6 +15,7 @@ import EditableTitleDemo from "@/registry/aiellie/examples/editable-title-demo"
 import FilePreviewDemo from "@/registry/aiellie/examples/file-preview-demo"
 import HistoryButtonsDemo from "@/registry/aiellie/examples/history-buttons-demo"
 import ShareDialogDemo from "@/registry/aiellie/examples/share-dialog-demo"
+import LoginFormDemo from "@/registry/aiellie/examples/login-form-demo"
 import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
 import InputGroupDemo from "@/registry/aiellie/examples/input-group-demo"
@@ -279,6 +280,11 @@ const DEMOS: Record<string, Demo> = {
     title: "Share Dialog",
     gallery: "/components",
     Demo: ShareDialogDemo,
+  },
+  "login-form": {
+    title: "Login Form",
+    gallery: "/components",
+    Demo: LoginFormDemo,
   },
   "file-preview": {
     title: "File Preview",

@@ -41,6 +41,7 @@ import {
   type QuickChatMessage,
 } from "@/registry/aiellie/components/quick-chat"
 import type { SettingsSection } from "@/registry/aiellie/components/settings-dialog"
+import type { User } from "@/registry/aiellie/components/user-menu"
 import { MODELS, PROVIDERS, routeOf } from "@/registry/aiellie/lib/models"
 import { SidebarProvider } from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
@@ -141,6 +142,7 @@ function Chat({
   const [streamingId, setStreamingId] = React.useState<string | null>(null)
   const [keys, setKeys] = useProviderKeys()
   const [settingsOpen, setSettingsOpen] = React.useState(false)
+  const [user, setUser] = React.useState<User>()
   const [settingsSection, setSettingsSection] =
     React.useState<SettingsSection>("general")
 
@@ -819,9 +821,15 @@ function Chat({
             <ChatSidebar
               chats={saved}
               activeId={activeId}
-              user={SAMPLE_USER}
-              usage={SAMPLE_USAGE}
+              user={user}
+              usage={user ? SAMPLE_USAGE : undefined}
               userMenu={{
+                onSignIn: async ({ email }) => {
+                  // Stands in for a real sign-in, so the preview shows both states.
+                  await new Promise((resolve) => setTimeout(resolve, 600))
+                  setUser({ ...SAMPLE_USER, email })
+                },
+                onLogOut: () => setUser(undefined),
                 settings: {
                   providers: PROVIDERS,
                   providerKeys: keys,

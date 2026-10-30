@@ -2,7 +2,7 @@ import type { DocContent } from "@/lib/docs"
 
 const doc: DocContent = {
   intro: [
-    "User menu is the row at the foot of a sidebar with the person's avatar and name, and the account menu it opens: usage, inviting a friend, settings, help and logging out. Settings opens the [Settings dialog](/components/settings-dialog), which comes with it, so the row works on its own.",
+    "User menu is the row at the foot of a sidebar with the person's avatar and name, and the account menu it opens: usage, inviting a friend, settings, help and logging out. Settings opens the [Settings dialog](/components/settings-dialog), which comes with it, so the row works on its own. With no one signed in, the row is a Sign in button that opens the [Login form](/components/login-form) in a dialog.",
   ],
   gettingStarted: {
     steps: [
@@ -83,6 +83,13 @@ export function AppSidebar() {
   },
   examples: [
     {
+      title: "Signed out",
+      body: [
+        "Leave out `user` and the row offers to sign in. `onSignIn` gets the email and password; return a promise and the dialog stays open, its button working, until it settles. A rejection's message shows in the form. Log out to see it again.",
+      ],
+      sample: "user-menu/signed-out",
+    },
+    {
       title: "Settings that save",
       body: [
         "Change the name in Settings and save: `onSettingsSave` passes it back and the row follows.",
@@ -110,7 +117,12 @@ export function AppSidebar() {
       title: "UserMenu",
       head: ["Prop", "Type", "Default", "Description"],
       rows: [
-        ["`user`", "`User`", "required", "Who is signed in."],
+        [
+          "`user`",
+          "`User`",
+          "",
+          "Who is signed in. Without one, the row is a Sign in button.",
+        ],
         [
           "`usage`",
           "`string`",
@@ -150,6 +162,18 @@ export function AppSidebar() {
         ],
         ["`onHelp`", "`() => void`", "", "Runs when Help is chosen."],
         ["`onLogOut`", "`() => void`", "", "Runs when Log out is chosen."],
+        [
+          "`onSignIn`",
+          "`(values: LoginValues) => void | Promise<void>`",
+          "",
+          "Called with the login form's email and password. The dialog closes once it resolves.",
+        ],
+        [
+          "`login`",
+          "`{ providers, onProvider, onForgotPassword, onSignUp, title, description }`",
+          "",
+          "Passed on to the login dialog.",
+        ],
       ],
     },
     {

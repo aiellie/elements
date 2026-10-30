@@ -74,6 +74,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "retrieved-sources/no-scores": () => import("./retrieved-sources/no-scores"),
   "run-budget/no-actions": () => import("./run-budget/no-actions"),
   "sandbox/composed": () => import("./sandbox/composed"),
+  "login-form/wrong-password": () => import("./login-form/wrong-password"),
   "settings-dialog/providers": () => import("./settings-dialog/providers"),
   "share-dialog/private-by-default": () =>
     import("./share-dialog/private-by-default"),
@@ -104,6 +105,7 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "typing-indicator/in-a-thread": () =>
     import("./typing-indicator/in-a-thread"),
   "user-menu/settings": () => import("./user-menu/settings"),
+  "user-menu/signed-out": () => import("./user-menu/signed-out"),
   "video-call/custom-transport": () => import("./video-call/custom-transport"),
   "video-call/from-call-menu": () => import("./video-call/from-call-menu"),
   "waveform/microphone": () => import("./waveform/microphone"),

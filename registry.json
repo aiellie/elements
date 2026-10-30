@@ -533,11 +533,12 @@
       "name": "user-menu",
       "type": "registry:component",
       "title": "User Menu",
-      "description": "Who is signed in, at the foot of a sidebar: a small picture and their name, opening a menu headed by them and their plan, with usage, invites, settings, help and logging out.",
+      "description": "Who is signed in, at the foot of a sidebar: a small picture and their name, opening a menu headed by them and their plan, with usage, invites, settings, help and logging out. Signed out, it's a Sign in button that opens the login form.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@aiellie/avatar",
         "@aiellie/badge",
+        "@aiellie/login-form",
         "@aiellie/menu",
         "@aiellie/settings-dialog",
         "@aiellie/sidebar"
@@ -641,6 +642,29 @@
           "path": "registry/aiellie/components/share-dialog.tsx",
           "type": "registry:component",
           "target": "components/aiellie/share-dialog.tsx"
+        }
+      ],
+      "categories": ["overlays"]
+    },
+    {
+      "name": "login-form",
+      "type": "registry:component",
+      "title": "Login Form",
+      "description": "Signing in: Google and GitHub buttons, an email and a password with show and forgot, a Sign in button that works while it waits, and an error when it fails. Comes as a form and as a dialog.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/utils",
+        "@aiellie/button",
+        "@aiellie/dialog",
+        "@aiellie/input",
+        "@aiellie/input-group",
+        "@aiellie/separator"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/login-form.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/login-form.tsx"
         }
       ],
       "categories": ["overlays"]

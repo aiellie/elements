@@ -4,6 +4,7 @@ import * as React from "react"
 import {
   ChartLineData01Icon,
   HelpCircleIcon,
+  Login03Icon,
   Logout01Icon,
   Settings01Icon,
   UserAdd01Icon,
@@ -29,6 +30,10 @@ import {
   AvatarImage,
 } from "@/registry/aiellie/ui/avatar"
 import { Badge } from "@/registry/aiellie/ui/badge"
+import {
+  LoginDialog,
+  type LoginValues,
+} from "@/registry/aiellie/components/login-form"
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -71,8 +76,11 @@ function UserMenu({
   onSettingsOpenChange,
   onHelp,
   onLogOut,
+  onSignIn,
+  login,
 }: {
-  user: User
+  /** Who is signed in. Without one, the row is a Sign in button that opens the login dialog. */
+  user?: User
   /** How much of their plan is left, e.g. "72% left", shown beside Usage. */
   usage?: string
   onUsage?: () => void
@@ -89,12 +97,56 @@ function UserMenu({
   onSettingsOpenChange?: (open: boolean) => void
   onHelp?: () => void
   onLogOut?: () => void
+  /** Return a promise to keep the dialog open and working until it settles. */
+  onSignIn?: (values: LoginValues) => void | Promise<void>
+  /** Passed on to the login dialog. */
+  login?: Omit<
+    React.ComponentProps<typeof LoginDialog>,
+    "open" | "onOpenChange" | "onSubmit"
+  >
 }) {
+  const [loginOpen, setLoginOpen] = React.useState(false)
   const [settingsOpenState, setSettingsOpenState] = React.useState(false)
   const settingsOpen = settingsOpenProp ?? settingsOpenState
   const setSettingsOpen = (open: boolean) => {
     setSettingsOpenState(open)
     onSettingsOpenChange?.(open)
+  }
+
+  const settingsDialog = (
+    <SettingsDialog
+      {...settings}
+      user={user}
+      open={settingsOpen}
+      onOpenChange={setSettingsOpen}
+      onSave={onSettingsSave}
+    />
+  )
+
+  if (!user) {
+    return (
+      <>
+        <SidebarMenu data-slot="user-menu">
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              data-slot="user-menu-sign-in"
+              aria-haspopup="dialog"
+              onClick={() => setLoginOpen(true)}
+            >
+              <HugeiconsIcon icon={Login03Icon} aria-hidden />
+              <span className="min-w-0 flex-1 truncate">Sign in</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <LoginDialog
+          {...login}
+          open={loginOpen}
+          onOpenChange={setLoginOpen}
+          onSubmit={onSignIn}
+        />
+        {settingsDialog}
+      </>
+    )
   }
 
   return (
@@ -153,13 +205,7 @@ function UserMenu({
           </Menu>
         </SidebarMenuItem>
       </SidebarMenu>
-      <SettingsDialog
-        {...settings}
-        user={user}
-        open={settingsOpen}
-        onOpenChange={setSettingsOpen}
-        onSave={onSettingsSave}
-      />
+      {settingsDialog}
     </>
   )
 }
