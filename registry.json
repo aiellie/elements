@@ -1579,87 +1579,87 @@
         {
           "path": "registry/aiellie/blocks/chat/components/chat.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat.tsx"
+          "target": "components/chat.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-sidebar.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-sidebar.tsx"
+          "target": "components/chat-sidebar.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-nav-main.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-nav-main.tsx"
+          "target": "components/chat-nav-main.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-nav-filter.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-nav-filter.tsx"
+          "target": "components/chat-nav-filter.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-switcher.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-switcher.tsx"
+          "target": "components/chat-switcher.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-search.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-search.tsx"
+          "target": "components/chat-search.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-data.ts",
-          "type": "registry:component",
-          "target": "components/aiellie/chat-data.ts"
+          "type": "registry:lib",
+          "target": "lib/chat-data.ts"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-nav-chats.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-nav-chats.tsx"
+          "target": "components/chat-nav-chats.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-header.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-header.tsx"
+          "target": "components/chat-header.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-options.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-options.tsx"
+          "target": "components/chat-options.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-thread.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-thread.tsx"
+          "target": "components/chat-thread.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-messages.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-messages.tsx"
+          "target": "components/chat-messages.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-empty.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-empty.tsx"
+          "target": "components/chat-empty.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-composer.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-composer.tsx"
+          "target": "components/chat-composer.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-attachments.tsx",
           "type": "registry:component",
-          "target": "components/aiellie/chat-attachments.tsx"
+          "target": "components/chat-attachments.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-ai.ts",
-          "type": "registry:component",
-          "target": "components/aiellie/chat-ai.ts"
+          "type": "registry:lib",
+          "target": "lib/chat-ai.ts"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-files.ts",
-          "type": "registry:component",
-          "target": "components/aiellie/chat-files.ts"
+          "type": "registry:lib",
+          "target": "lib/chat-files.ts"
         }
       ],
       "meta": {
