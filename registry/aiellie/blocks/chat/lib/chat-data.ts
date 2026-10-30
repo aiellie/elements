@@ -25,6 +25,14 @@ const SAMPLE_USAGE = "72% left"
 // Under the main composer. Name your own assistant here.
 const DISCLAIMER = "AI Ellie is a chatbot and can make mistakes."
 
+// Starters over the composer while the chat is empty. Swap in your own.
+const SUGGESTIONS = [
+  "Explain a concept simply",
+  "Draft a short email",
+  "Review a function",
+  "Brainstorm names",
+]
+
 // Sample times are set from when the page loads, so the chat is always today's.
 const minutesAgo = (minutes: number) => new Date(Date.now() - minutes * 60_000)
 
@@ -218,5 +226,6 @@ export {
   SAMPLE_PROJECTS,
   SAMPLE_USAGE,
   SAMPLE_USER,
+  SUGGESTIONS,
   shareUrlOf,
 }

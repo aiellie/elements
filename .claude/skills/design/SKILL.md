@@ -222,6 +222,8 @@ Four rules:
 
 **A composer tray stays on one line and scrolls horizontally.** Context controls in `ComposerHeader` never wrap into a second row, even in a narrow floating composer. Keep their order and control height stable with `flex-nowrap` and `overflow-x-auto`; the person can pan to anything that does not fit. Wrapping changes the tray's height, steals space from the thread and makes related selectors look like separate groups.
 
+**A chat's starters sit in one row right above the composer.** Not in the empty state's middle: a pick belongs next to where the prompt goes, and the empty state stays a greeting. The row is `Suggestions` with `scroll`, centred with `justify-center-safe` while it fits, and on a phone it scrolls sideways with the edge fade rather than wrapping, for the same reason the tray doesn't. It folds open and shut like the tray, shut once the chat has a message. The chat block's composer is the reference.
+
 **A resizable block preview's grip lives on the resize field, never on the preview.** Put the handle entirely outside the bordered preview, over the dotted field that shows the available width. The preview edge stays clean and uninterrupted, and the grip cannot cover the block's content.
 
 **Short vertical separators stay centred on the controls beside them.** In a toolbar, override the separator primitive's stretch with `data-vertical:h-4 data-vertical:self-center`; plain `h-4 self-center` does not override its orientation defaults. The divider marks a relationship between controls and should sit on their shared visual axis, not run to the container edges.

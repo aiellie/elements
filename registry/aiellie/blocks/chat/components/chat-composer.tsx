@@ -38,6 +38,10 @@ import {
 } from "@/registry/aiellie/ui/menu"
 import { ModelSelector } from "@/registry/aiellie/components/model-selector"
 import {
+  Suggestion,
+  Suggestions,
+} from "@/registry/aiellie/components/suggestions"
+import {
   PluginChips,
   PluginSelectorItems,
   type PluginOption,
@@ -124,6 +128,8 @@ function ChatComposer({
   onBranchChange,
   onBranchCreate,
   inputRef,
+  suggestions,
+  onSuggestionSelect,
   note,
 }: {
   value: string
@@ -152,6 +158,9 @@ function ChatComposer({
   onBranchChange: (branch: string) => void
   onBranchCreate: (name: string) => void
   inputRef?: React.Ref<HTMLTextAreaElement>
+  /** Prompts in a row over the composer. Left out, the row folds away. */
+  suggestions?: string[]
+  onSuggestionSelect?: (prompt: string) => void
   /** A quiet line under the composer, like a reminder that replies can be wrong. */
   note?: React.ReactNode
 }) {
@@ -163,6 +172,19 @@ function ChatComposer({
   // empty before it closes.
   const [shownProject, setShownProject] = React.useState(project)
   if (project !== null && project !== shownProject) setShownProject(project)
+
+  // Likewise the last suggestions, and each time the row opens again it's
+  // keyed afresh so the set arrives anew.
+  const suggesting = !!suggestions?.length
+  const [shownSuggestions, setShownSuggestions] = React.useState(suggestions)
+  const [suggestionsRound, setSuggestionsRound] = React.useState(0)
+  const [wasSuggesting, setWasSuggesting] = React.useState(suggesting)
+  if (suggesting && suggestions !== shownSuggestions)
+    setShownSuggestions(suggestions)
+  if (suggesting !== wasSuggesting) {
+    setWasSuggesting(suggesting)
+    if (suggesting) setSuggestionsRound((round) => round + 1)
+  }
 
   const add = (files: File[]) =>
     setAttachments((current) => [...current, ...toAttachments(files)])
@@ -198,6 +220,29 @@ function ChatComposer({
         onChange={pick}
         {...{ webkitdirectory: "" }}
       />
+      <div
+        data-open={suggesting || undefined}
+        inert={!suggesting}
+        className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-280 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none data-open:grid-rows-[1fr] data-open:opacity-100"
+      >
+        <div className="min-h-0 overflow-hidden">
+          <Suggestions
+            key={suggestionsRound}
+            scroll
+            aria-label="Suggestions"
+            className="justify-center-safe pb-2"
+          >
+            {shownSuggestions?.map((prompt) => (
+              <Suggestion
+                key={prompt}
+                onClick={() => onSuggestionSelect?.(prompt)}
+              >
+                {prompt}
+              </Suggestion>
+            ))}
+          </Suggestions>
+        </div>
+      </div>
       <ComposerHeader open={project !== null}>
         {shownProject ? (
           <>

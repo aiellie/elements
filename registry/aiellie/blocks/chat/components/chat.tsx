@@ -19,6 +19,7 @@ import {
   SAMPLE_PROJECTS,
   SAMPLE_USAGE,
   SAMPLE_USER,
+  SUGGESTIONS,
   shareUrlOf,
 } from "@/registry/aiellie/blocks/chat/lib/chat-data"
 import { ChatHeader } from "@/registry/aiellie/blocks/chat/components/chat-header"
@@ -898,7 +899,6 @@ function Chat({
               key={activeId ?? "new"}
               messages={active?.messages ?? []}
               temporary={temporary}
-              onSend={send}
               onRetry={retry}
               onEdit={edit}
               onAddKey={live ? undefined : () => openSettings("providers")}
@@ -930,6 +930,8 @@ function Chat({
                 setBranch(name)
               }}
               inputRef={inputRef}
+              suggestions={active?.messages.length ? undefined : SUGGESTIONS}
+              onSuggestionSelect={send}
               note={DISCLAIMER}
             />
           </div>

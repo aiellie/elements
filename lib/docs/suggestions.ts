@@ -40,7 +40,7 @@ export function Starters({ onPick }: { onPick: (prompt: string) => void }) {
   <button data-slot="suggestion" /> {/* Button, outline, sm */}
 </div>`,
     body: [
-      "The row wraps. Each child fades and rises in 70ms after the one before it, up to the sixth, from `tw-animate-css`; with reduced motion they're simply there.",
+      "The row wraps, or with `scroll` stays on one line and scrolls sideways, fading an edge while more of the set is hidden past it. Each child fades and rises in 70ms after the one before it, up to the sixth, from `tw-animate-css`; with reduced motion they're simply there.",
     ],
   },
   examples: [
@@ -67,6 +67,22 @@ export function Starters({ onPick }: { onPick: (prompt: string) => void }) {
       },
     },
     {
+      title: "One row over the composer",
+      body: [
+        "Starters sit right above the composer, so a pick is next to where the prompt goes. `scroll` keeps them to one line on a phone rather than wrapping the composer upwards, and `justify-center-safe` centres them only while they fit.",
+      ],
+      code: {
+        code: `<Suggestions scroll className="justify-center-safe pb-2">
+  {PROMPTS.map((prompt) => (
+    <Suggestion key={prompt} onClick={() => send(prompt)}>
+      {prompt}
+    </Suggestion>
+  ))}
+</Suggestions>
+<Composer />`,
+      },
+    },
+    {
       title: "A quieter look",
       body: [
         "`variant` and `size` are the `Button`'s, so a row under a reply can be `ghost`.",
@@ -80,7 +96,15 @@ export function Starters({ onPick }: { onPick: (prompt: string) => void }) {
     {
       title: "Suggestions",
       head: ["Prop", "Type", "Default", "Description"],
-      rows: [["`className`", "`string`", "", "Merged onto the row."]],
+      rows: [
+        [
+          "`scroll`",
+          "`boolean`",
+          "`false`",
+          "Keeps the set on one line, scrolling sideways instead of wrapping.",
+        ],
+        ["`className`", "`string`", "", "Merged onto the row."],
+      ],
       after: ["All other `div` props are forwarded."],
     },
     {
