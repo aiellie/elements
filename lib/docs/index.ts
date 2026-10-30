@@ -81,6 +81,7 @@ import userMenu from "@/lib/docs/user-menu"
 import waveform from "@/lib/docs/waveform"
 import webPreview from "@/lib/docs/web-preview"
 import workInMenu from "@/lib/docs/work-in-menu"
+import videoCall from "@/lib/docs/video-call"
 
 /** A paragraph. `backticks` set code and [label](href) sets a link. */
 type DocText = string
@@ -189,6 +190,7 @@ const DOCS: Record<string, DocContent> = {
   "contact-button": contactButton,
   "call-menu": callMenu,
   orb: orb,
+  "video-call": videoCall,
   panels: panels,
   "plan-review": planReview,
   "plugin-selector": pluginSelector,

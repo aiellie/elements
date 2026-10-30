@@ -2259,6 +2259,61 @@
         }
       ],
       "categories": ["voice"]
+    },
+    {
+      "name": "video-call",
+      "type": "registry:component",
+      "title": "Video Call",
+      "description": "A live call with the assistant: the orb listens and speaks, your camera sits in a corner and is shared with it a frame a second, with mute, camera and hang-up, and a transcript beside it. Runs on Gemini Live, or on a mock with no key.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/live-call",
+        "@aiellie/orb",
+        "@aiellie/waveform",
+        "@aiellie/transcript",
+        "@aiellie/mic-menu",
+        "@aiellie/button",
+        "@aiellie/status",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/video-call.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/video-call.tsx"
+        }
+      ],
+      "docs": "For real calls, add `@aiellie/live-token` and set `GEMINI_API_KEY` on the server. Pass `mock` to try it without one.",
+      "categories": ["voice"]
+    },
+    {
+      "name": "live-call",
+      "type": "registry:lib",
+      "title": "Live Call",
+      "description": "The two sides a video call can talk to: Gemini Live over a WebSocket, sending the microphone as PCM and the camera as a JPEG a second, and a mock that plays the assistant with no key or network.",
+      "dependencies": ["@google/genai"],
+      "files": [
+        {
+          "path": "registry/aiellie/lib/live-call.ts",
+          "type": "registry:lib",
+          "target": "lib/live-call.ts"
+        }
+      ]
+    },
+    {
+      "name": "live-token",
+      "type": "registry:item",
+      "title": "Live Token",
+      "description": "A route that turns the server's Gemini key into a one-use token for the browser, locked to one Live model and its settings, so the key never leaves the server.",
+      "dependencies": ["@google/genai"],
+      "files": [
+        {
+          "path": "registry/aiellie/lib/live-token.ts",
+          "type": "registry:file",
+          "target": "app/api/live-token/route.ts"
+        }
+      ]
     }
   ]
 }

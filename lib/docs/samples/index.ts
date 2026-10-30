@@ -105,6 +105,8 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "typing-indicator/in-a-thread": () =>
     import("./typing-indicator/in-a-thread"),
   "user-menu/settings": () => import("./user-menu/settings"),
+  "video-call/custom-transport": () => import("./video-call/custom-transport"),
+  "video-call/from-call-menu": () => import("./video-call/from-call-menu"),
   "waveform/microphone": () => import("./waveform/microphone"),
   "web-preview/console-logs": () => import("./web-preview/console-logs"),
   "work-in-menu/options": () => import("./work-in-menu/options"),
