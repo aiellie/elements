@@ -5,16 +5,19 @@ import { cardCount } from "@/lib/categories"
 import { PAGES } from "@/lib/constants"
 import AddMenuDemo from "@/registry/aiellie/examples/add-menu-demo"
 import AttachmentsDemo from "@/registry/aiellie/examples/attachments-demo"
+import BranchesMenuDemo from "@/registry/aiellie/examples/branches-menu-demo"
+import CodeBlockDemo from "@/registry/aiellie/examples/code-block-demo"
+import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
+import DateDividerDemo from "@/registry/aiellie/examples/date-divider-demo"
+import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
 import EditableTitleDemo from "@/registry/aiellie/examples/editable-title-demo"
+import EffortMenuDemo from "@/registry/aiellie/examples/effort-menu-demo"
 import FilePreviewDemo from "@/registry/aiellie/examples/file-preview-demo"
 import HistoryButtonsDemo from "@/registry/aiellie/examples/history-buttons-demo"
+import InlineCitationDemo from "@/registry/aiellie/examples/inline-citation-demo"
 import ShareDialogDemo from "@/registry/aiellie/examples/share-dialog-demo"
 import LoginFormDemo from "@/registry/aiellie/examples/login-form-demo"
-import BranchesMenuDemo from "@/registry/aiellie/examples/branches-menu-demo"
-import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
-import ComposerDemo from "@/registry/aiellie/examples/composer-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
-import DateDividerDemo from "@/registry/aiellie/examples/date-divider-demo"
 import NavBarsDemo from "@/registry/aiellie/examples/nav-bars-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
 import PluginSelectorDemo from "@/registry/aiellie/examples/plugin-selector-demo"
@@ -35,16 +38,13 @@ import WorkInMenuDemo from "@/registry/aiellie/examples/work-in-menu-demo"
 import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
 import CodeWorkspaceDemo from "@/registry/aiellie/examples/code-workspace-demo"
 import SandboxDemo from "@/registry/aiellie/examples/sandbox-demo"
-import CodeBlockDemo from "@/registry/aiellie/examples/code-block-demo"
 import CodeDiffDemo from "@/registry/aiellie/examples/code-diff-demo"
 import TerminalDemo from "@/registry/aiellie/examples/terminal-demo"
 import ResponseDemo from "@/registry/aiellie/examples/response-demo"
 import ToolCallDemo from "@/registry/aiellie/examples/tool-call-demo"
 import MessageActionsDemo from "@/registry/aiellie/examples/message-actions-demo"
-import InlineCitationDemo from "@/registry/aiellie/examples/inline-citation-demo"
 import QuotedMessageDemo from "@/registry/aiellie/examples/quoted-message-demo"
 import MessageHighlightToolbarDemo from "@/registry/aiellie/examples/message-highlight-toolbar-demo"
-import EffortMenuDemo from "@/registry/aiellie/examples/effort-menu-demo"
 import ApprovalModeMenuDemo from "@/registry/aiellie/examples/approval-mode-menu-demo"
 import SlashMenuDemo from "@/registry/aiellie/examples/slash-menu-demo"
 import MentionsDemo from "@/registry/aiellie/examples/mentions-demo"
@@ -86,8 +86,8 @@ export default function ComponentsPage() {
         {...PAGES["/components"]}
         count={cardCount("registry:component")}
       />
-      <CategorySection category="actions">
-        <DemoCard
+            <CategorySection category="chatblock">
+            <DemoCard
           href="/components/add-menu"
           index={1}
           title="Add Menu"
@@ -95,6 +95,98 @@ export default function ComponentsPage() {
         >
           <AddMenuDemo />
         </DemoCard>
+        <DemoCard
+          href="/components/attachments"
+          index={30}
+          title="Attachments"
+          description="Images as small squares, other files as chips, in a row"
+        >
+          <AttachmentsDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/branches-menu"
+          index={9}
+          title="Branches Menu"
+          description="Search the branches, or create and check out a new one"
+        >
+          <BranchesMenuDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/code-block"
+          index={65}
+          title="Code Block"
+          description="A named block of code to copy, download and point at"
+        >
+          <CodeBlockDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/composer"
+          index={29}
+          title="Composer"
+          description="A simple composer component"
+        >
+          <ComposerDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/date-divider"
+          index={32}
+          title="Date Divider"
+          description="The day and time a thread picks up at, as a quiet line of text"
+        >
+          <DateDividerDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/dictate-button"
+          index={10}
+          title="Dictate Button"
+          description="Speak instead of typing, into any field"
+        >
+          <DictateButtonDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/editable-title"
+          index={11}
+          title="Editable Title"
+          description="A heading you click to rename in place"
+        >
+          <EditableTitleDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/effort-menu"
+          index={12}
+          title="Effort Menu"
+          description="How hard the model thinks, from Off to Max"
+        >
+          <EffortMenuDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/file-preview"
+          index={24}
+          title="File Preview"
+          description="A file opened in full: an image, a PDF, code in color or a folder"
+        >
+          <FilePreviewDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/history-buttons"
+          index={4}
+          title="History Buttons"
+          description="Back and forward through what you opened, with their shortcuts"
+        >
+          <HistoryButtonsDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/inline-citation"
+          index={44}
+          title="Inline Citation"
+          description="A numbered mark in the prose that names its source"
+        >
+          <InlineCitationDemo />
+        </DemoCard>
+            </CategorySection>
+
+      <CategorySection category="actions">
+       
         <DemoCard
           href="/components/user-menu"
           index={2}
@@ -110,14 +202,6 @@ export default function ComponentsPage() {
           description="Start a chat that stays out of history"
         >
           <TemporaryChatToggleDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/history-buttons"
-          index={4}
-          title="History Buttons"
-          description="Back and forward through what you opened, with their shortcuts"
-        >
-          <HistoryButtonsDemo />
         </DemoCard>
       </CategorySection>
       <CategorySection category="inputs">
@@ -152,38 +236,6 @@ export default function ComponentsPage() {
           description="Where work runs: local, a worktree or the cloud"
         >
           <WorkInMenuDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/branches-menu"
-          index={9}
-          title="Branches Menu"
-          description="Search the branches, or create and check out a new one"
-        >
-          <BranchesMenuDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/dictate-button"
-          index={10}
-          title="Dictate Button"
-          description="Speak instead of typing, into any field"
-        >
-          <DictateButtonDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/editable-title"
-          index={11}
-          title="Editable Title"
-          description="A heading you click to rename in place"
-        >
-          <EditableTitleDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/effort-menu"
-          index={12}
-          title="Effort Menu"
-          description="How hard the model thinks, from Off to Max"
-        >
-          <EffortMenuDemo />
         </DemoCard>
         <DemoCard
           href="/components/approval-mode-menu"
@@ -278,14 +330,6 @@ export default function ComponentsPage() {
         >
           <LoginFormDemo />
         </DemoCard>
-        <DemoCard
-          href="/components/file-preview"
-          index={24}
-          title="File Preview"
-          description="A file opened in full: an image, a PDF, code in color or a folder"
-        >
-          <FilePreviewDemo />
-        </DemoCard>
       </CategorySection>
       <CategorySection category="feedback">
         <DemoCard
@@ -322,22 +366,7 @@ export default function ComponentsPage() {
         </DemoCard>
       </CategorySection>
       <CategorySection category="chat">
-        <DemoCard
-          href="/components/composer"
-          index={29}
-          title="Composer"
-          description="A simple composer component"
-        >
-          <ComposerDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/attachments"
-          index={30}
-          title="Attachments"
-          description="Images as small squares, other files as chips, in a row"
-        >
-          <AttachmentsDemo />
-        </DemoCard>
+
         <DemoCard
           href="/components/message"
           index={31}
@@ -346,14 +375,7 @@ export default function ComponentsPage() {
         >
           <MessageDemo />
         </DemoCard>
-        <DemoCard
-          href="/components/date-divider"
-          index={32}
-          title="Date Divider"
-          description="The day and time a thread picks up at, as a quiet line of text"
-        >
-          <DateDividerDemo />
-        </DemoCard>
+      
         <DemoCard
           href="/components/thread"
           index={33}
@@ -441,14 +463,6 @@ export default function ComponentsPage() {
           description="Copy, rate, retry and more under a reply"
         >
           <MessageActionsDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/inline-citation"
-          index={44}
-          title="Inline Citation"
-          description="A numbered mark in the prose that names its source"
-        >
-          <InlineCitationDemo />
         </DemoCard>
         <DemoCard
           href="/components/quoted-message"
@@ -615,14 +629,7 @@ export default function ComponentsPage() {
         </DemoCard>
       </CategorySection>
       <CategorySection category="code">
-        <DemoCard
-          href="/components/code-block"
-          index={65}
-          title="Code Block"
-          description="A named block of code to copy, download and point at"
-        >
-          <CodeBlockDemo />
-        </DemoCard>
+      
         <DemoCard
           href="/components/code-diff"
           index={66}
