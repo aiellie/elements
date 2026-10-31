@@ -75,7 +75,7 @@ function Suggestions({
 
 function Suggestion({
   variant = "outline",
-  size = "sm",
+  size = "default",
   ...props
 }: React.ComponentProps<typeof Button>) {
   return (
