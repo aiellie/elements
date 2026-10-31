@@ -1392,6 +1392,11 @@
           "path": "registry/aiellie/blocks/chat/lib/chat-types.ts",
           "type": "registry:lib",
           "target": "lib/chat-types.ts"
+        },
+        {
+          "path": "packages/cli/template/.env.example",
+          "type": "registry:file",
+          "target": ".env.example"
         }
       ],
       "meta": {

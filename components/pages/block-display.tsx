@@ -8,7 +8,9 @@ import {
 } from "@/lib/registry"
 
 function languageFor(file: RegistryFile) {
-  const extension = file.path.split(".").pop()
+  const name = file.path.split("/").pop() ?? file.path
+  if (name === ".env" || name.startsWith(".env.")) return "dotenv"
+  const extension = name.split(".").pop()
   return extension === "ts" ? "typescript" : (extension ?? "text")
 }
 

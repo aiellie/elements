@@ -41,6 +41,11 @@ function registrySourcePath(filePath: string) {
     return path.join(process.cwd(), "app", "globals.css")
   }
 
+  // The starter copies this file, and the chat item installs the same one.
+  if (filePath === "packages/cli/template/.env.example") {
+    return path.join(process.cwd(), "packages/cli/template/.env.example")
+  }
+
   if (filePath.startsWith("registry/")) {
     return path.join(
       process.cwd(),

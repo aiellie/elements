@@ -33,7 +33,11 @@ const ICON_ALIASES: Record<string, CodeIconName> = {
 // Takes a file name or a language, so `use-tick.ts` and `typescript` land on
 // the same mark.
 function codeIconOf(name: string) {
-  const key = (name.split(".").pop() ?? name).toLowerCase()
+  const base = (name.split("/").pop() ?? name).toLowerCase()
+  const key =
+    base === ".env" || base.startsWith(".env.")
+      ? "env"
+      : (base.split(".").pop() ?? base)
   const icon = Object.hasOwn(codeIcons, key)
     ? (key as CodeIconName)
     : ICON_ALIASES[key]
