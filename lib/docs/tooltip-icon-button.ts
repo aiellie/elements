@@ -2,7 +2,7 @@ import type { DocContent } from "@/lib/docs"
 
 const doc: DocContent = {
   intro: [
-    "Tooltip icon button is a small ghost button that carries only an icon and names itself in a tooltip. The name goes into the button as screen-reader text too, so a row of icons stays labelled without any visible words. It is the button behind the menus, toolbars and message actions in this registry.",
+    "Tooltip icon button is a small ghost button that carries only an icon and names itself in a tooltip. The name goes into the button as screen-reader text too, so a row of icons stays labelled without any visible words. It is the button behind the menus and message actions in this registry.",
   ],
   gettingStarted: {
     steps: [

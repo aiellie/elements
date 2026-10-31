@@ -36,49 +36,8 @@ import ThreadTranscriptDemo from "@/registry/aiellie/examples/thread-transcript-
 import WaveformDemo from "@/registry/aiellie/examples/waveform-demo"
 import WorkInMenuDemo from "@/registry/aiellie/examples/work-in-menu-demo"
 import UserMenuDemo from "@/registry/aiellie/examples/user-menu-demo"
-import CodeWorkspaceDemo from "@/registry/aiellie/examples/code-workspace-demo"
-import SandboxDemo from "@/registry/aiellie/examples/sandbox-demo"
-import CodeDiffDemo from "@/registry/aiellie/examples/code-diff-demo"
-import TerminalDemo from "@/registry/aiellie/examples/terminal-demo"
 import ResponseDemo from "@/registry/aiellie/examples/response-demo"
-import ToolCallDemo from "@/registry/aiellie/examples/tool-call-demo"
 import MessageActionsDemo from "@/registry/aiellie/examples/message-actions-demo"
-import QuotedMessageDemo from "@/registry/aiellie/examples/quoted-message-demo"
-import MessageHighlightToolbarDemo from "@/registry/aiellie/examples/message-highlight-toolbar-demo"
-import ApprovalModeMenuDemo from "@/registry/aiellie/examples/approval-mode-menu-demo"
-import SlashMenuDemo from "@/registry/aiellie/examples/slash-menu-demo"
-import MentionsDemo from "@/registry/aiellie/examples/mentions-demo"
-import OrbDemo from "@/registry/aiellie/examples/orb-demo"
-import TranscriptDemo from "@/registry/aiellie/examples/transcript-demo"
-import AudioPlayerDemo from "@/registry/aiellie/examples/audio-player-demo"
-import MicMenuDemo from "@/registry/aiellie/examples/mic-menu-demo"
-import PromptMenuDemo from "@/registry/aiellie/examples/prompt-menu-demo"
-import CodeSnippetDemo from "@/registry/aiellie/examples/code-snippet-demo"
-import FileTreeDemo from "@/registry/aiellie/examples/file-tree-demo"
-import ReactionsDemo from "@/registry/aiellie/examples/reactions-demo"
-import MessageStatusDemo from "@/registry/aiellie/examples/message-status-demo"
-import TimestampsDemo from "@/registry/aiellie/examples/timestamps-demo"
-import MessageContextMenuDemo from "@/registry/aiellie/examples/message-context-menu-demo"
-import PlanReviewDemo from "@/registry/aiellie/examples/plan-review-demo"
-import CompactionMarkerDemo from "@/registry/aiellie/examples/compaction-marker-demo"
-import WebPreviewDemo from "@/registry/aiellie/examples/web-preview-demo"
-import RunBudgetDemo from "@/registry/aiellie/examples/run-budget-demo"
-import PromptAutocompleteDemo from "@/registry/aiellie/examples/prompt-autocomplete-demo"
-import HumanHandoffDemo from "@/registry/aiellie/examples/human-handoff-demo"
-import AgentCursorDemo from "@/registry/aiellie/examples/agent-cursor-demo"
-import AttemptPickerDemo from "@/registry/aiellie/examples/attempt-picker-demo"
-import NeedsYouDemo from "@/registry/aiellie/examples/needs-you-demo"
-import AgentStepsDemo from "@/registry/aiellie/examples/agent-steps-demo"
-import AgentCardDemo from "@/registry/aiellie/examples/agent-card-demo"
-import TypingIndicatorDemo from "@/registry/aiellie/examples/typing-indicator-demo"
-import ArtifactDemo from "@/registry/aiellie/examples/artifact-demo"
-import StackTraceDemo from "@/registry/aiellie/examples/stack-trace-demo"
-import CommitDemo from "@/registry/aiellie/examples/commit-demo"
-import ContextBreakdownDemo from "@/registry/aiellie/examples/context-breakdown-demo"
-import RetrievedSourcesDemo from "@/registry/aiellie/examples/retrieved-sources-demo"
-import ContactButtonDemo from "@/registry/aiellie/examples/contact-button-demo"
-import CallMenuDemo from "@/registry/aiellie/examples/call-menu-demo"
-import VideoCallDemo from "@/registry/aiellie/examples/video-call-demo"
 export default function ComponentsPage() {
   return (
     <div className="flex flex-col gap-16 py-8 sm:py-12">
@@ -86,8 +45,8 @@ export default function ComponentsPage() {
         {...PAGES["/components"]}
         count={cardCount("registry:component")}
       />
-            <CategorySection category="chatblock">
-            <DemoCard
+      <CategorySection category="chatblock">
+        <DemoCard
           href="/components/add-menu"
           index={1}
           title="Add Menu"
@@ -97,7 +56,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/attachments"
-          index={30}
+          index={2}
           title="Attachments"
           description="Images as small squares, other files as chips, in a row"
         >
@@ -105,7 +64,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/branches-menu"
-          index={9}
+          index={3}
           title="Branches Menu"
           description="Search the branches, or create and check out a new one"
         >
@@ -113,7 +72,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/code-block"
-          index={65}
+          index={4}
           title="Code Block"
           description="A named block of code to copy, download and point at"
         >
@@ -121,7 +80,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/composer"
-          index={29}
+          index={5}
           title="Composer"
           description="A simple composer component"
         >
@@ -129,7 +88,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/date-divider"
-          index={32}
+          index={6}
           title="Date Divider"
           description="The day and time a thread picks up at, as a quiet line of text"
         >
@@ -137,7 +96,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/dictate-button"
-          index={10}
+          index={7}
           title="Dictate Button"
           description="Speak instead of typing, into any field"
         >
@@ -145,7 +104,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/editable-title"
-          index={11}
+          index={8}
           title="Editable Title"
           description="A heading you click to rename in place"
         >
@@ -153,7 +112,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/effort-menu"
-          index={12}
+          index={9}
           title="Effort Menu"
           description="How hard the model thinks, from Off to Max"
         >
@@ -161,7 +120,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/file-preview"
-          index={24}
+          index={10}
           title="File Preview"
           description="A file opened in full: an image, a PDF, code in color or a folder"
         >
@@ -169,7 +128,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/history-buttons"
-          index={4}
+          index={11}
           title="History Buttons"
           description="Back and forward through what you opened, with their shortcuts"
         >
@@ -177,19 +136,18 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/inline-citation"
-          index={44}
+          index={12}
           title="Inline Citation"
           description="A numbered mark in the prose that names its source"
         >
           <InlineCitationDemo />
         </DemoCard>
-            </CategorySection>
+      </CategorySection>
 
       <CategorySection category="actions">
-       
         <DemoCard
           href="/components/user-menu"
-          index={2}
+          index={13}
           title="User Menu"
           description="Who is signed in, and what they can do with their account"
         >
@@ -197,7 +155,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/temporary-chat-toggle"
-          index={3}
+          index={14}
           title="Temporary Chat Toggle"
           description="Start a chat that stays out of history"
         >
@@ -207,7 +165,7 @@ export default function ComponentsPage() {
       <CategorySection category="inputs">
         <DemoCard
           href="/components/model-selector"
-          index={5}
+          index={15}
           title="Model Selector"
           description="A simple model selector component"
         >
@@ -215,7 +173,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/project-selector"
-          index={6}
+          index={16}
           title="Project Selector"
           description="Which project a chat belongs to, and a menu to switch it"
         >
@@ -223,7 +181,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/plugin-selector"
-          index={7}
+          index={17}
           title="Plugin Selector"
           description="Which plugins a chat can use, turned on and off from one menu"
         >
@@ -231,59 +189,11 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/work-in-menu"
-          index={8}
+          index={18}
           title="Work In Menu"
           description="Where work runs: local, a worktree or the cloud"
         >
           <WorkInMenuDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/approval-mode-menu"
-          index={13}
-          title="Approval Mode Menu"
-          description="How much an agent may do without asking"
-        >
-          <ApprovalModeMenuDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/slash-menu"
-          index={14}
-          title="Slash Menu"
-          description="The commands a slash opens in the composer"
-        >
-          <SlashMenuDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/mentions"
-          index={15}
-          title="Mentions"
-          description="The people and agents an at sign opens"
-        >
-          <MentionsDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/prompt-menu"
-          index={16}
-          title="Prompt Menu"
-          description="Preset instructions to put the assistant under"
-        >
-          <PromptMenuDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/prompt-autocomplete"
-          index={17}
-          title="Prompt Autocomplete"
-          description="Ghost text that finishes the prompt, taken with Tab"
-        >
-          <PromptAutocompleteDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/agent-cursor"
-          index={18}
-          title="Agent Cursor"
-          description="A document you and the agent edit at once, without clobbering each other"
-        >
-          <AgentCursorDemo />
         </DemoCard>
       </CategorySection>
       <CategorySection category="layout">
@@ -334,51 +244,26 @@ export default function ComponentsPage() {
       <CategorySection category="feedback">
         <DemoCard
           href="/components/waveform"
-          index={25}
+          index={24}
           title="Waveform"
           description="Live bars that follow a microphone, so you can see it hears you"
         >
           <WaveformDemo />
         </DemoCard>
-        <DemoCard
-          href="/components/run-budget"
-          index={26}
-          title="Run Budget"
-          description="A spend cap for an agent run, and what happens at it"
-        >
-          <RunBudgetDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/needs-you"
-          index={27}
-          title="Needs You"
-          description="Every agent waiting on you, oldest first, answered in place"
-        >
-          <NeedsYouDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/context-breakdown"
-          index={28}
-          title="Context Breakdown"
-          description="What fills the context window, part by part"
-        >
-          <ContextBreakdownDemo />
-        </DemoCard>
       </CategorySection>
       <CategorySection category="chat">
-
         <DemoCard
           href="/components/message"
-          index={31}
+          index={25}
           title="Message"
           description="A simple message component"
         >
           <MessageDemo />
         </DemoCard>
-      
+
         <DemoCard
           href="/components/thread"
-          index={33}
+          index={26}
           title="Thread"
           description="A simple thread component"
         >
@@ -386,7 +271,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread-transcript"
-          index={34}
+          index={27}
           title="Thread Transcript"
           description="A rail of your turns beside a thread that jumps to each one"
         >
@@ -394,7 +279,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/quick-chat"
-          index={35}
+          index={28}
           title="Quick Chat"
           description="A compact conversation that floats over the current page"
         >
@@ -402,7 +287,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/stream-text"
-          index={36}
+          index={29}
           title="Stream Text"
           description="A streamed reply written out word by word, at a steady pace"
         >
@@ -410,7 +295,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/reasoning"
-          index={37}
+          index={30}
           title="Reasoning"
           description="How long the model thought, folding open to show its thoughts"
         >
@@ -418,7 +303,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thinking-indicator"
-          index={38}
+          index={31}
           title="Thinking Indicator"
           description="What a reply is doing before its first word, as a live dot and a shimmer"
         >
@@ -426,7 +311,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/sources"
-          index={39}
+          index={32}
           title="Sources"
           description="The pages a reply drew on, as small chips that open them"
         >
@@ -434,7 +319,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/suggestions"
-          index={40}
+          index={33}
           title="Suggestions"
           description="Prompts to start from, arriving together as a row"
         >
@@ -442,284 +327,19 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/response"
-          index={41}
+          index={34}
           title="Response"
           description="A Markdown reply set as prose, fading in as it streams"
         >
           <ResponseDemo />
         </DemoCard>
         <DemoCard
-          href="/components/tool-call"
-          index={42}
-          title="Tool Call"
-          description="A tool the model called, folded behind one row"
-        >
-          <ToolCallDemo />
-        </DemoCard>
-        <DemoCard
           href="/components/message-actions"
-          index={43}
+          index={35}
           title="Message Actions"
           description="Copy, rate, retry and more under a reply"
         >
           <MessageActionsDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/quoted-message"
-          index={45}
-          title="Quoted Message"
-          description="The words a reply is about, kept above it"
-        >
-          <QuotedMessageDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/message-highlight-toolbar"
-          index={46}
-          title="Message Highlight Toolbar"
-          description="Actions over the words selected in a thread"
-        >
-          <MessageHighlightToolbarDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/reactions"
-          index={47}
-          title="Reactions"
-          description="Emoji counts you press to add or take back"
-        >
-          <ReactionsDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/message-status"
-          index={48}
-          title="Message Status"
-          description="Sending, sent, delivered, read, or not sent"
-        >
-          <MessageStatusDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/timestamps"
-          index={49}
-          title="Timestamps"
-          description="When a message was sent, worded by how long ago"
-        >
-          <TimestampsDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/message-context-menu"
-          index={50}
-          title="Message Context Menu"
-          description="Reactions and actions on a right click"
-        >
-          <MessageContextMenuDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/plan-review"
-          index={51}
-          title="Plan Review"
-          description="A proposed plan to reshape before it runs"
-        >
-          <PlanReviewDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/compaction-marker"
-          index={52}
-          title="Compaction Marker"
-          description="Where the agent compacted its context, and what it kept"
-        >
-          <CompactionMarkerDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/human-handoff"
-          index={53}
-          title="Human Handoff"
-          description="Hand the chat to a person, with what they should know"
-        >
-          <HumanHandoffDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/agent-steps"
-          index={54}
-          title="Agent Steps"
-          description="A run laid out step by step, with what each step found"
-        >
-          <AgentStepsDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/agent-card"
-          index={55}
-          title="Agent Card"
-          description="What an agent is: its model, instructions, tools and output"
-        >
-          <AgentCardDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/typing-indicator"
-          index={56}
-          title="Typing Indicator"
-          description="Three dots that say someone is writing a reply"
-        >
-          <TypingIndicatorDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/retrieved-sources"
-          index={57}
-          title="Retrieved Sources"
-          description="The passages a reply was built from, with their scores"
-        >
-          <RetrievedSourcesDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/contact-button"
-          index={58}
-          title="Contact Button"
-          description="Who you're talking to, opening more about them"
-        >
-          <ContactButtonDemo />
-        </DemoCard>
-      </CategorySection>
-      <CategorySection category="voice">
-        <DemoCard
-          href="/components/orb"
-          index={59}
-          title="Orb"
-          description="The assistant as a sphere that listens, thinks and speaks"
-        >
-          <OrbDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/transcript"
-          index={60}
-          title="Transcript"
-          description="Speech as text, with guesses that settle as they're heard"
-        >
-          <TranscriptDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/audio-player"
-          index={61}
-          title="Audio Player"
-          description="A clip to play, scrub through and time"
-        >
-          <AudioPlayerDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/mic-menu"
-          index={62}
-          title="Mic Menu"
-          description="Which microphone to listen with"
-        >
-          <MicMenuDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/call-menu"
-          index={63}
-          title="Call Menu"
-          description="A picture that opens a video or voice call"
-        >
-          <CallMenuDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/video-call"
-          index={64}
-          title="Video Call"
-          description="A live call with the assistant that sees your camera"
-          wide
-        >
-          <VideoCallDemo />
-        </DemoCard>
-      </CategorySection>
-      <CategorySection category="code">
-      
-        <DemoCard
-          href="/components/code-diff"
-          index={66}
-          title="Code Diff"
-          description="What a change did, from the diff that describes it"
-        >
-          <CodeDiffDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/terminal"
-          index={67}
-          title="Terminal"
-          description="A command, what came back, and whether it worked"
-        >
-          <TerminalDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/code-snippet"
-          index={68}
-          title="Code Snippet"
-          description="A command to copy, for whichever package manager you use"
-        >
-          <CodeSnippetDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/file-tree"
-          index={69}
-          title="File Tree"
-          description="The files a change touched, and how"
-        >
-          <FileTreeDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/code-workspace"
-          index={70}
-          title="Code Workspace"
-          description="Files to browse, search and replace across, in tabs"
-          wide
-        >
-          <CodeWorkspaceDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/sandbox"
-          index={71}
-          title="Sandbox"
-          description="Code that runs, with its preview, editor and console"
-          wide
-        >
-          <SandboxDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/web-preview"
-          index={72}
-          title="Web Preview"
-          description="A page to load, browse and debug, like a browser tab"
-          wide
-        >
-          <WebPreviewDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/attempt-picker"
-          index={73}
-          title="Attempt Picker"
-          description="Several tries at one task, compared, with one to apply"
-        >
-          <AttemptPickerDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/artifact"
-          index={74}
-          title="Artifact"
-          description="A panel for something a reply made, with its actions"
-        >
-          <ArtifactDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/stack-trace"
-          index={75}
-          title="Stack Trace"
-          description="An error with its frames, library code folded away"
-        >
-          <StackTraceDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/commit"
-          index={76}
-          title="Commit"
-          description="A commit's message, author and hash, opening to its files"
-        >
-          <CommitDemo />
         </DemoCard>
       </CategorySection>
     </div>
