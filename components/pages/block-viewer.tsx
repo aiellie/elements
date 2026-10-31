@@ -207,7 +207,7 @@ function InstallButton() {
   return (
     <Button
       variant="outline"
-      size="sm"
+      size="default"
       className="max-w-60 gap-1.5 font-mono text-xs"
       onClick={() => copyToClipboard(command)}
     >
