@@ -1,4 +1,3 @@
-import { CategorySection } from "@/components/pages/category-separator"
 import { DemoCard } from "@/components/pages/demo-card"
 import { PageHero } from "@/components/pages/page-hero"
 import { cardCount } from "@/lib/categories"
@@ -45,7 +44,7 @@ export default function ComponentsPage() {
         {...PAGES["/components"]}
         count={cardCount("registry:component")}
       />
-      <CategorySection category="chatblock">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
         <DemoCard
           href="/components/add-menu"
           index={1}
@@ -142,64 +141,49 @@ export default function ComponentsPage() {
         >
           <InlineCitationDemo />
         </DemoCard>
-      </CategorySection>
-
-      <CategorySection category="actions">
         <DemoCard
-          href="/components/user-menu"
+          href="/components/login-form"
           index={13}
-          title="User Menu"
-          description="Who is signed in, and what they can do with their account"
+          title="Login Form"
+          description="One form to sign in or up: an email code, Google or GitHub"
         >
-          <UserMenuDemo />
+          <LoginFormDemo />
         </DemoCard>
         <DemoCard
-          href="/components/temporary-chat-toggle"
+          href="/components/message"
           index={14}
-          title="Temporary Chat Toggle"
-          description="Start a chat that stays out of history"
+          title="Message"
+          description="A simple message component"
         >
-          <TemporaryChatToggleDemo />
+          <MessageDemo />
         </DemoCard>
-      </CategorySection>
-      <CategorySection category="inputs">
+        <DemoCard
+          href="/components/message-actions"
+          index={15}
+          title="Message Actions"
+          description="Copy, rate, retry and more under a reply"
+        >
+          <MessageActionsDemo />
+        </DemoCard>
         <DemoCard
           href="/components/model-selector"
-          index={15}
+          index={16}
           title="Model Selector"
           description="A simple model selector component"
         >
           <ModelSelectorDemo />
         </DemoCard>
         <DemoCard
-          href="/components/project-selector"
-          index={16}
-          title="Project Selector"
-          description="Which project a chat belongs to, and a menu to switch it"
-        >
-          <ProjectSelectorDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/plugin-selector"
+          href="/components/nav-bars"
           index={17}
-          title="Plugin Selector"
-          description="Which plugins a chat can use, turned on and off from one menu"
+          title="Nav Bars"
+          description="A rail of bars for a page's sections or a thread's turns"
         >
-          <PluginSelectorDemo />
+          <NavBarsDemo />
         </DemoCard>
-        <DemoCard
-          href="/components/work-in-menu"
-          index={18}
-          title="Work In Menu"
-          description="Where work runs: local, a worktree or the cloud"
-        >
-          <WorkInMenuDemo />
-        </DemoCard>
-      </CategorySection>
-      <CategorySection category="layout">
         <DemoCard
           href="/components/panels"
-          index={19}
+          index={18}
           title="Panels"
           description="An app shell with resizable panels on three sides"
           wide
@@ -207,18 +191,48 @@ export default function ComponentsPage() {
           <PanelsDemo />
         </DemoCard>
         <DemoCard
-          href="/components/nav-bars"
-          index={20}
-          title="Nav Bars"
-          description="A rail of bars for a page's sections or a thread's turns"
+          href="/components/plugin-selector"
+          index={19}
+          title="Plugin Selector"
+          description="Which plugins a chat can use, turned on and off from one menu"
         >
-          <NavBarsDemo />
+          <PluginSelectorDemo />
         </DemoCard>
-      </CategorySection>
-      <CategorySection category="overlays">
+        <DemoCard
+          href="/components/project-selector"
+          index={20}
+          title="Project Selector"
+          description="Which project a chat belongs to, and a menu to switch it"
+        >
+          <ProjectSelectorDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/quick-chat"
+          index={21}
+          title="Quick Chat"
+          description="A compact conversation that floats over the current page"
+        >
+          <QuickChatDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/reasoning"
+          index={22}
+          title="Reasoning"
+          description="How long the model thought, folding open to show its thoughts"
+        >
+          <ReasoningDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/response"
+          index={23}
+          title="Response"
+          description="A Markdown reply set as prose, fading in as it streams"
+        >
+          <ResponseDemo />
+        </DemoCard>
         <DemoCard
           href="/components/settings-dialog"
-          index={21}
+          index={24}
           title="Settings Dialog"
           description="Profile, appearance, and API keys in one focused dialog"
         >
@@ -226,44 +240,55 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/share-dialog"
-          index={22}
+          index={25}
           title="Share Dialog"
           description="Who can open it, a link to copy, and places to post it"
         >
           <ShareDialogDemo />
         </DemoCard>
         <DemoCard
-          href="/components/login-form"
-          index={23}
-          title="Login Form"
-          description="One form to sign in or up: an email code, Google or GitHub"
+          href="/components/sources"
+          index={26}
+          title="Sources"
+          description="The pages a reply drew on, as small chips that open them"
         >
-          <LoginFormDemo />
+          <SourcesDemo />
         </DemoCard>
-      </CategorySection>
-      <CategorySection category="feedback">
         <DemoCard
-          href="/components/waveform"
-          index={24}
-          title="Waveform"
-          description="Live bars that follow a microphone, so you can see it hears you"
+          href="/components/stream-text"
+          index={27}
+          title="Stream Text"
+          description="A streamed reply written out word by word, at a steady pace"
         >
-          <WaveformDemo />
+          <StreamTextDemo />
         </DemoCard>
-      </CategorySection>
-      <CategorySection category="chat">
         <DemoCard
-          href="/components/message"
-          index={25}
-          title="Message"
-          description="A simple message component"
+          href="/components/suggestions"
+          index={28}
+          title="Suggestions"
+          description="Prompts to start from, arriving together as a row"
         >
-          <MessageDemo />
+          <SuggestionsDemo />
         </DemoCard>
-
+        <DemoCard
+          href="/components/temporary-chat-toggle"
+          index={29}
+          title="Temporary Chat Toggle"
+          description="Start a chat that stays out of history"
+        >
+          <TemporaryChatToggleDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/thinking-indicator"
+          index={30}
+          title="Thinking Indicator"
+          description="What a reply is doing before its first word, as a live dot and a shimmer"
+        >
+          <ThinkingIndicatorDemo />
+        </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={26}
+          index={31}
           title="Thread"
           description="A simple thread component"
         >
@@ -271,77 +296,37 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread-transcript"
-          index={27}
+          index={32}
           title="Thread Transcript"
           description="A rail of your turns beside a thread that jumps to each one"
         >
           <ThreadTranscriptDemo />
         </DemoCard>
         <DemoCard
-          href="/components/quick-chat"
-          index={28}
-          title="Quick Chat"
-          description="A compact conversation that floats over the current page"
-        >
-          <QuickChatDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/stream-text"
-          index={29}
-          title="Stream Text"
-          description="A streamed reply written out word by word, at a steady pace"
-        >
-          <StreamTextDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/reasoning"
-          index={30}
-          title="Reasoning"
-          description="How long the model thought, folding open to show its thoughts"
-        >
-          <ReasoningDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/thinking-indicator"
-          index={31}
-          title="Thinking Indicator"
-          description="What a reply is doing before its first word, as a live dot and a shimmer"
-        >
-          <ThinkingIndicatorDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/sources"
-          index={32}
-          title="Sources"
-          description="The pages a reply drew on, as small chips that open them"
-        >
-          <SourcesDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/suggestions"
+          href="/components/user-menu"
           index={33}
-          title="Suggestions"
-          description="Prompts to start from, arriving together as a row"
+          title="User Menu"
+          description="Who is signed in, and what they can do with their account"
         >
-          <SuggestionsDemo />
+          <UserMenuDemo />
         </DemoCard>
         <DemoCard
-          href="/components/response"
+          href="/components/waveform"
           index={34}
-          title="Response"
-          description="A Markdown reply set as prose, fading in as it streams"
+          title="Waveform"
+          description="Live bars that follow a microphone, so you can see it hears you"
         >
-          <ResponseDemo />
+          <WaveformDemo />
         </DemoCard>
         <DemoCard
-          href="/components/message-actions"
+          href="/components/work-in-menu"
           index={35}
-          title="Message Actions"
-          description="Copy, rate, retry and more under a reply"
+          title="Work In Menu"
+          description="Where work runs: local, a worktree or the cloud"
         >
-          <MessageActionsDemo />
+          <WorkInMenuDemo />
         </DemoCard>
-      </CategorySection>
+      </div>
     </div>
   )
 }

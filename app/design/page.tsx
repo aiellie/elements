@@ -1,7 +1,6 @@
 import { readFile } from "node:fs/promises"
 import path from "node:path"
 
-import { CategorySection } from "@/components/pages/category-separator"
 import { DemoCard } from "@/components/pages/demo-card"
 import { DesignMdDialog } from "@/components/pages/design-md-dialog"
 import { PageHero } from "@/components/pages/page-hero"
@@ -45,36 +44,82 @@ export default async function DesignPage() {
         count={cardCount("registry:ui")}
         actions={<DesignMdDialog markdown={designMd} />}
       />
-      <CategorySection category="actions">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
+        <DemoCard
+          href="/design/avatar"
+          index={1}
+          title="Avatar"
+          description="A picture of someone, or their initials"
+        >
+          <AvatarDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/badge"
+          index={2}
+          title="Badge"
+          description="A short label beside something, like a plan or a status"
+        >
+          <BadgeDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/breadcrumb"
+          index={3}
+          title="Breadcrumb"
+          description="A path from a parent place to the current one"
+        >
+          <BreadcrumbDemo />
+        </DemoCard>
         <DemoCard
           href="/design/button"
-          index={1}
+          index={4}
           title="Button"
           description="A simple button component"
         >
           <ButtonDemo />
         </DemoCard>
         <DemoCard
-          href="/design/tooltip-icon-button"
-          index={2}
-          title="Tooltip Icon Button"
-          description="An icon button that carries its own tooltip and label"
+          href="/design/collapsible"
+          index={5}
+          title="Collapsible"
+          description="A trigger that folds a panel open and shut in place"
         >
-          <TooltipIconButtonDemo />
+          <CollapsibleDemo />
         </DemoCard>
-      </CategorySection>
-      <CategorySection category="inputs">
         <DemoCard
-          href="/design/textarea"
-          index={3}
-          title="Textarea"
-          description="A simple textarea component"
+          href="/design/command"
+          index={6}
+          title="Command"
+          description="A searchable list you move through with the keyboard"
         >
-          <TextareaDemo />
+          <CommandDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/dialog"
+          index={7}
+          title="Dialog"
+          description="A panel in the middle of the screen, over a dimmed page"
+        >
+          <DialogDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/empty"
+          index={8}
+          title="Empty"
+          description="What a place shows before there is anything in it"
+        >
+          <EmptyDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/hover-card"
+          index={9}
+          title="Hover Card"
+          description="A glass card that opens while you hover or focus its trigger"
+        >
+          <HoverCardDemo />
         </DemoCard>
         <DemoCard
           href="/design/input"
-          index={4}
+          index={10}
           title="Input"
           description="A single line of text"
         >
@@ -82,17 +127,39 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/input-group"
-          index={5}
+          index={11}
           title="Input Group"
           description="An input with icons, text or buttons inside its edge"
         >
           <InputGroupDemo />
         </DemoCard>
-      </CategorySection>
-      <CategorySection category="layout">
+        <DemoCard
+          href="/design/marker"
+          index={12}
+          title="Marker"
+          description="A quiet line of text, on its own or between rules"
+        >
+          <MarkerDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/menu"
+          index={13}
+          title="Menu"
+          description="A menu of actions, with an optional search box"
+        >
+          <MenuDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/popover"
+          index={14}
+          title="Popover"
+          description="A glass panel beside its trigger, for small forms and details"
+        >
+          <PopoverDemo />
+        </DemoCard>
         <DemoCard
           href="/design/resizable"
-          index={6}
+          index={15}
           title="Resizable"
           description="Panels you can resize by dragging the line between them"
         >
@@ -100,104 +167,28 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/separator"
-          index={7}
+          index={16}
           title="Separator"
           description="A hairline between groups, across or down"
         >
           <SeparatorDemo />
         </DemoCard>
         <DemoCard
-          href="/design/marker"
-          index={8}
-          title="Marker"
-          description="A quiet line of text, on its own or between rules"
-        >
-          <MarkerDemo />
-        </DemoCard>
-        <DemoCard
-          href="/design/sidebar"
-          index={9}
-          title="Sidebar"
-          description="Groups of rows down the side of an app"
-        >
-          <SidebarDemo />
-        </DemoCard>
-        <DemoCard
-          href="/design/breadcrumb"
-          index={10}
-          title="Breadcrumb"
-          description="A path from a parent place to the current one"
-        >
-          <BreadcrumbDemo />
-        </DemoCard>
-        <DemoCard
-          href="/design/collapsible"
-          index={11}
-          title="Collapsible"
-          description="A trigger that folds a panel open and shut in place"
-        >
-          <CollapsibleDemo />
-        </DemoCard>
-      </CategorySection>
-      <CategorySection category="overlays">
-        <DemoCard
-          href="/design/tooltip"
-          index={12}
-          title="Tooltip"
-          description="A simple tooltip component"
-        >
-          <TooltipDemo />
-        </DemoCard>
-        <DemoCard
           href="/design/sheet"
-          index={13}
+          index={17}
           title="Sheet"
           description="A simple sheet component"
         >
           <SheetDemo />
         </DemoCard>
         <DemoCard
-          href="/design/dialog"
-          index={14}
-          title="Dialog"
-          description="A panel in the middle of the screen, over a dimmed page"
-        >
-          <DialogDemo />
-        </DemoCard>
-        <DemoCard
-          href="/design/popover"
-          index={15}
-          title="Popover"
-          description="A glass panel beside its trigger, for small forms and details"
-        >
-          <PopoverDemo />
-        </DemoCard>
-        <DemoCard
-          href="/design/hover-card"
-          index={16}
-          title="Hover Card"
-          description="A glass card that opens while you hover or focus its trigger"
-        >
-          <HoverCardDemo />
-        </DemoCard>
-        <DemoCard
-          href="/design/command"
-          index={17}
-          title="Command"
-          description="A searchable list you move through with the keyboard"
-        >
-          <CommandDemo />
-        </DemoCard>
-        <DemoCard
-          href="/design/menu"
+          href="/design/sidebar"
           index={18}
-          title="Menu"
-          description="A menu of actions, with an optional search box"
+          title="Sidebar"
+          description="Groups of rows down the side of an app"
         >
-          <MenuDemo />
+          <SidebarDemo />
         </DemoCard>
-      </CategorySection>
-      <CategorySection category="feedback">
         <DemoCard
           href="/design/skeleton"
           index={19}
@@ -207,36 +198,36 @@ export default async function DesignPage() {
           <SkeletonDemo />
         </DemoCard>
         <DemoCard
-          href="/design/avatar"
-          index={20}
-          title="Avatar"
-          description="A picture of someone, or their initials"
-        >
-          <AvatarDemo />
-        </DemoCard>
-        <DemoCard
-          href="/design/badge"
-          index={21}
-          title="Badge"
-          description="A short label beside something, like a plan or a status"
-        >
-          <BadgeDemo />
-        </DemoCard>
-        <DemoCard
-          href="/design/empty"
-          index={22}
-          title="Empty"
-          description="What a place shows before there is anything in it"
-        >
-          <EmptyDemo />
-        </DemoCard>
-        <DemoCard
           href="/design/status"
-          index={23}
+          index={20}
           title="Status"
           description="A labelled state pill with an optional pulse"
         >
           <StatusDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/textarea"
+          index={21}
+          title="Textarea"
+          description="A simple textarea component"
+        >
+          <TextareaDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/tooltip"
+          index={22}
+          title="Tooltip"
+          description="A simple tooltip component"
+        >
+          <TooltipDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/tooltip-icon-button"
+          index={23}
+          title="Tooltip Icon Button"
+          description="An icon button that carries its own tooltip and label"
+        >
+          <TooltipIconButtonDemo />
         </DemoCard>
         <DemoCard
           href="/design/trace"
@@ -246,7 +237,7 @@ export default async function DesignPage() {
         >
           <TraceDemo />
         </DemoCard>
-      </CategorySection>
+      </div>
     </div>
   )
 }
