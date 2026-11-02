@@ -557,7 +557,7 @@ function PlanReview({
                   onPointerMove={onHandlePointerMove}
                   onPointerUp={endDrag}
                   onPointerCancel={endDrag}
-                  className="cursor-grab touch-none text-muted-foreground focus-visible:border-ring active:cursor-grabbing"
+                  className="cursor-grab touch-none text-muted-foreground active:cursor-grabbing"
                 >
                   <HugeiconsIcon aria-hidden icon={DragDropVerticalIcon} />
                 </Button>
@@ -631,7 +631,7 @@ function PlanReview({
                   }
                   onClick={() => setRemoved(step, !step.removed)}
                   className={cn(
-                    "text-muted-foreground opacity-0 group-focus-within/step:opacity-100 group-hover/step:opacity-100 focus-visible:border-ring focus-visible:opacity-100 pointer-coarse:opacity-100",
+                    "text-muted-foreground opacity-0 group-focus-within/step:opacity-100 group-hover/step:opacity-100 focus-visible:opacity-100 pointer-coarse:opacity-100",
                     step.removed && "opacity-100"
                   )}
                 >
@@ -651,7 +651,7 @@ function PlanReview({
           variant="ghost"
           size="sm"
           onClick={addStep}
-          className="-mt-1.5 w-fit text-muted-foreground focus-visible:border-ring"
+          className="-mt-1.5 w-fit text-muted-foreground"
         >
           <HugeiconsIcon aria-hidden icon={PlusSignIcon} />
           Add step
