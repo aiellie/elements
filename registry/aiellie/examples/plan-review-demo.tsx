@@ -9,10 +9,11 @@ import {
 } from "@/registry/aiellie/components/plan-review"
 
 const STEPS = [
-  { id: "read", label: "Read the checkout flow and its tests" },
-  { id: "extract", label: "Move the price maths into lib/price.ts" },
-  { id: "tests", label: "Write tests for discounts and tax" },
-  { id: "wire", label: "Use the new helper in the cart" },
+  { id: "read", label: "Read the agents.md and design.md files" },
+  { id: "build", label: "Write the element in the kit registry/aiellie/<slug>.tsx" },
+  { id: "tests", label: "Use the test quality skill to test the element" },
+  { id: "register", label: "Register it for installation in registry.json" },
+  { id: "demo", label: "Add registry/aiellie/examples/<slug-demo>.tsx with realistic standalone data." },
 ]
 
 export default function PlanReviewDemo() {
@@ -23,6 +24,7 @@ export default function PlanReviewDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col items-center gap-3">
       <PlanReview
+        title="Build an element"
         steps={STEPS}
         state={state}
         decision={decision}
