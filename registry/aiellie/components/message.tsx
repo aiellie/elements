@@ -54,7 +54,7 @@ function MessageAvatar({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="message-avatar"
       className={cn(
-        "flex size-7 shrink-0 items-center justify-center self-end rounded-full border border-border/40 bg-background/70 group-has-data-[slot=message-footer]/message:-translate-y-8 dark:bg-background/70",
+        "flex w-fit min-w-8 shrink-0 items-center justify-center self-end overflow-hidden rounded-full bg-muted group-has-data-[slot=message-footer]/message:-translate-y-8",
         "[&_svg:not([class*='size-'])]:size-4",
         className
       )}
@@ -68,7 +68,7 @@ function MessageContent({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="message-content"
       className={cn(
-        "flex w-full min-w-0 flex-col gap-2 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end",
+        "flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end",
         "[&>[data-slot=message-part]+[data-slot=message-part]]:-mt-1",
         "group-data-streaming/message:[&>[data-slot=message-part]:not(:has(~[data-slot=message-part])):not(:has([data-slot=stream-text],[data-slot=response]))>[data-slot=message-caret]]:inline-block",
         className

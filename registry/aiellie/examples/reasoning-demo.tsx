@@ -4,11 +4,7 @@ import * as React from "react"
 import { RepeatIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import {
-  Reasoning,
-  ReasoningContent,
-  ReasoningTrigger,
-} from "@/registry/aiellie/components/reasoning"
+import { Reasoning } from "@/registry/aiellie/components/reasoning"
 import { Button } from "@/registry/aiellie/ui/button"
 
 const THOUGHTS =
@@ -39,16 +35,11 @@ export default function ReasoningDemo() {
     <div className="flex w-full max-w-md flex-col items-start gap-6 px-4">
       <Reasoning
         key={run}
+        text={words.slice(0, shown).join("")}
         streaming={streaming}
-        duration={(words.length * WORD_DELAY) / 1000}
-      >
-        <ReasoningTrigger />
-        <ReasoningContent>{words.slice(0, shown).join("")}</ReasoningContent>
-      </Reasoning>
-      <Reasoning duration={12}>
-        <ReasoningTrigger />
-        <ReasoningContent>{FINISHED}</ReasoningContent>
-      </Reasoning>
+        duration={streaming ? undefined : (words.length * WORD_DELAY) / 1000}
+      />
+      <Reasoning text={FINISHED} duration={12} />
       <Button
         variant="outline"
         size="sm"

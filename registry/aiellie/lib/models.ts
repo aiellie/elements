@@ -1,18 +1,48 @@
 import type { ModelIconName } from "@/registry/aiellie/icons"
 
+/** Reasoning effort, as the AI SDK's `reasoning` setting takes it. */
+const EFFORTS = [
+  "none",
+  "minimal",
+  "low",
+  "medium",
+  "high",
+  "xhigh",
+  "max",
+] as const
+
+type Effort = (typeof EFFORTS)[number]
+
 interface ModelOption {
-  /**
-   * What `value` holds while this model is the chosen one: its Vercel AI
-   * Gateway id, `vendor/model`.
-   */
+  /** Its Vercel AI Gateway id, `vendor/model`, such as "anthropic/claude-opus-5.5". */
   id: string
   /** What the row says, and what the trigger says once this is chosen. */
   name: string
-  vendor: ModelIconName
+  /** Whose mark it shows. Left out, it's read from the first half of `id`. */
+  vendor?: ModelIconName
   /** Its id at the vendor's own API, where that isn't the part of `id` after the slash. */
   vendorId?: string
   /** Listed, but not choosable — a model the current plan does not include. */
   disabled?: boolean
+  /** How many tokens a request to it can hold, prompt and reply together. */
+  contextWindow?: number
+  /** US dollars per token. */
+  pricing?: { input: number; output: number; cacheRead?: number }
+  /** The reasoning efforts it takes, lowest first. None for a model that doesn't reason. */
+  efforts?: Effort[]
+  /**
+   * Context sizes to pick from, smallest first, ending with its full window.
+   * Each below it is where a pricier long-context rate starts. Only for
+   * models with more than one.
+   */
+  contexts?: number[]
+  /** Its fast variant's id, for the Fast switch. */
+  fastId?: string
+  /**
+   * The realtime model a voice chat talks to while it's picked. None for a
+   * model whose maker has none, which can't be talked with.
+   */
+  voice?: { id: string; name: string }
 }
 
 type ModelProvider = "gateway" | "openai" | "anthropic" | "google"
@@ -40,14 +70,32 @@ const VENDOR_NAMES: Record<ModelIconName, string> = {
   v0: "Vercel",
 }
 
+// Keyed by the provider half of a gateway id.
+const GATEWAY_VENDORS: Record<string, ModelIconName> = {
+  anthropic: "claude",
+  openai: "openai",
+  google: "gemini",
+  spacexai: "grok",
+  xai: "grok",
+  deepseek: "deepseek",
+  mistral: "mistral",
+  vercel: "v0",
+}
+
+function vendorOf(model: ModelOption): ModelIconName | undefined {
+  return model.vendor ?? GATEWAY_VENDORS[model.id.split("/")[0]]
+}
+
 // A group sits where its first model was, so the list needs no sorting.
 function groupByVendor(models: ModelOption[]) {
   const groups = new Map<ModelIconName, ModelOption[]>()
 
   for (const model of models) {
-    const group = groups.get(model.vendor)
+    const vendor = vendorOf(model)
+    if (!vendor) continue
+    const group = groups.get(vendor)
     if (group) group.push(model)
-    else groups.set(model.vendor, [model])
+    else groups.set(vendor, [model])
   }
 
   return [...groups]
@@ -132,7 +180,7 @@ type ProviderKeys = Partial<Record<ModelProvider, string>>
 // The vendor's own key when there is one, since it skips a hop; otherwise the
 // gateway, which reaches every model.
 function routeOf(model: ModelOption, keys: ProviderKeys) {
-  const own = PROVIDERS.find((provider) => provider.vendor === model.vendor)
+  const own = PROVIDERS.find((provider) => provider.vendor === vendorOf(model))
   if (own && keys[own.id]) {
     return {
       provider: own.id,
@@ -146,5 +194,69 @@ function routeOf(model: ModelOption, keys: ProviderKeys) {
   return null
 }
 
-export { VENDOR_NAMES, groupByVendor, MODELS, PROVIDERS, routeOf }
-export type { ModelOption, ModelProvider, ModelProviderOption, ProviderKeys }
+// Used until the person picks another, and whenever a request names none.
+const defaultModel = "anthropic/claude-opus-5.5"
+
+/**
+ * A gateway realtime model, which hears and speaks itself rather than going
+ * through text, and the voice it speaks in where its maker's default isn't
+ * the one wanted.
+ */
+type VoiceModel = {
+  id: string
+  voice?: string
+  /**
+   * Takes its instructions only as it starts, and closes the chat if sent
+   * more, so it isn't told what's typed while it talks.
+   */
+  setOnce?: boolean
+}
+
+// Each maker's realtime model, by the provider half of a gateway id. xAI's,
+// spacexai/grok-voice-3.0, is left out while the team's Gateway allowlist
+// refuses it, though the Gateway still lists it.
+const VOICE_MODELS: Record<string, VoiceModel> = {
+  openai: { id: "openai/gpt-realtime-2.1", voice: "marin" },
+  google: { id: "google/gemini-3.8-live", setOnce: true },
+}
+
+/** The realtime model a voice chat with this model talks to, if there's one. */
+const voiceModelOf = (modelId: string): VoiceModel | undefined =>
+  VOICE_MODELS[modelId.split("/")[0]]
+
+/** Whether this is one of the realtime models above. */
+const isVoiceModel = (modelId: unknown) =>
+  Object.values(VOICE_MODELS).some((model) => model.id === modelId)
+
+/** Medium where a model has it, otherwise its lowest effort that reasons. */
+function defaultEffort(efforts: Effort[]) {
+  return efforts.includes("medium")
+    ? "medium"
+    : (efforts.find((effort) => effort !== "none") ?? efforts[0])
+}
+
+const isEffort = (value: unknown): value is Effort =>
+  EFFORTS.includes(value as Effort)
+
+export {
+  defaultEffort,
+  defaultModel,
+  EFFORTS,
+  groupByVendor,
+  isEffort,
+  isVoiceModel,
+  MODELS,
+  PROVIDERS,
+  routeOf,
+  VENDOR_NAMES,
+  vendorOf,
+  voiceModelOf,
+}
+export type {
+  Effort,
+  ModelOption,
+  ModelProvider,
+  ModelProviderOption,
+  ProviderKeys,
+  VoiceModel,
+}

@@ -56,5 +56,27 @@ export function cardCount(
 }
 
 // Still published and installable, but left out of the gallery, the sidebar
-// and the pager.
-export const HIDDEN_ITEMS = new Set<string>([])
+// and the pager. These are the parts the chat block no longer uses, kept for
+// later.
+export const HIDDEN_ITEMS = new Set<string>([
+  "add-menu",
+  "attachments",
+  "branches-menu",
+  "breadcrumb",
+  "command",
+  "dictate-button",
+  "effort-menu",
+  "empty",
+  "file-preview",
+  "marker",
+  "nav-bars",
+  "plugin-selector",
+  "project-selector",
+  "quick-chat",
+  "settings-dialog",
+  "share-dialog",
+  "temporary-chat-toggle",
+  "user-menu",
+  "waveform",
+  "work-in-menu",
+])

@@ -16,21 +16,17 @@ import {
   MessageContent,
   MessagePart,
 } from "@/registry/aiellie/components/message"
-import {
-  Reasoning,
-  ReasoningContent,
-  ReasoningTrigger,
-} from "@/registry/aiellie/components/reasoning"
+import { Reasoning } from "@/registry/aiellie/components/reasoning"
 import { StreamText } from "@/registry/aiellie/components/stream-text"
 import { ThinkingIndicator } from "@/registry/aiellie/components/thinking-indicator"
 import {
-  Thread,
-  ThreadContent,
-  ThreadItem,
-  ThreadProvider,
-  ThreadScrollButton,
-  ThreadViewport,
-} from "@/registry/aiellie/components/thread"
+  MessageScroller,
+  MessageScrollerContent,
+  MessageScrollerItem,
+  MessageScrollerProvider,
+  MessageScrollerButton,
+  MessageScrollerViewport,
+} from "@/registry/aiellie/components/message-scroller"
 import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 import { cn } from "@/lib/utils"
 
@@ -166,15 +162,15 @@ function QuickChat({
           <HugeiconsIcon icon={Cancel01Icon} aria-hidden />
         </TooltipIconButton>
       </header>
-      <ThreadProvider autoScroll defaultScrollPosition="last-anchor">
-        <Thread>
-          <ThreadViewport
+      <MessageScrollerProvider autoScroll defaultScrollPosition="last-anchor">
+        <MessageScroller>
+          <MessageScrollerViewport
             aria-label={typeof title === "string" ? title : "Conversation"}
           >
-            <ThreadContent className="gap-4 px-3 py-4">
+            <MessageScrollerContent className="mx-auto w-full max-w-2xl gap-4 px-3 py-4">
               {messages.length > 0 ? (
                 messages.map((message) => (
-                  <ThreadItem
+                  <MessageScrollerItem
                     key={message.id}
                     messageId={message.id}
                     scrollAnchor={message.from === "user"}
@@ -187,15 +183,10 @@ function QuickChat({
                       <MessageContent>
                         {message.reasoning ? (
                           <Reasoning
+                            text={message.reasoning}
                             streaming={message.streaming && !message.content}
                             duration={message.reasoningDuration}
-                            startedAt={message.startedAt}
-                          >
-                            <ReasoningTrigger label={message.activity} />
-                            <ReasoningContent>
-                              {message.reasoning}
-                            </ReasoningContent>
-                          </Reasoning>
+                          />
                         ) : null}
                         {message.attachments}
                         {message.content ? (
@@ -224,20 +215,20 @@ function QuickChat({
                         ) : null}
                       </MessageContent>
                     </Message>
-                  </ThreadItem>
+                  </MessageScrollerItem>
                 ))
               ) : (
-                <ThreadItem className="m-auto">
+                <MessageScrollerItem className="m-auto">
                   <p className="max-w-56 text-center text-xs leading-5 text-foreground/60">
                     {empty}
                   </p>
-                </ThreadItem>
+                </MessageScrollerItem>
               )}
-            </ThreadContent>
-          </ThreadViewport>
-          <ThreadScrollButton />
-        </Thread>
-      </ThreadProvider>
+            </MessageScrollerContent>
+          </MessageScrollerViewport>
+          <MessageScrollerButton />
+        </MessageScroller>
+      </MessageScrollerProvider>
       <div
         data-slot="quick-chat-footer"
         className={cn("shrink-0", !composer && "p-3 pt-0")}

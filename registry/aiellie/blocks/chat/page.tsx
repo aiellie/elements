@@ -1,9 +1,12 @@
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
+import { TooltipProvider } from "@/registry/aiellie/ui/tooltip"
 
 export default function ChatPage() {
   return (
-    <div className="h-dvh">
-      <Chat />
-    </div>
+    <TooltipProvider>
+      <div className="flex h-dvh">
+        <Chat />
+      </div>
+    </TooltipProvider>
   )
 }

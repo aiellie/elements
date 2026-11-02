@@ -1,153 +1,453 @@
 "use client"
 
 import * as React from "react"
-import { ArrowDown02Icon } from "@hugeicons/core-free-icons"
+import { RefreshIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
+import type { UIMessage } from "ai"
+
+import { AttachmentGroup } from "@/registry/aiellie/components/attachment"
 import {
-  MessageScroller as ThreadPrimitive,
-  useMessageScroller as useThread,
-  useMessageScrollerScrollable as useThreadScrollable,
-  useMessageScrollerVisibility as useThreadVisibility,
-} from "@shadcn/react/message-scroller"
-
+  DateDivider,
+  dayOf,
+  timeLabel,
+} from "@/registry/aiellie/components/date-divider"
+import { FileAttachment } from "@/registry/aiellie/components/file-attachment"
+import { Response } from "@/registry/aiellie/components/response"
+import { Reasoning } from "@/registry/aiellie/components/reasoning"
+import { Sources } from "@/registry/aiellie/components/sources"
+import { ThinkingIndicator } from "@/registry/aiellie/components/thinking-indicator"
+import { ThreadTranscript } from "@/registry/aiellie/components/thread-transcript"
+import { SpokenMark, VoiceDivider } from "@/registry/aiellie/components/voice-divider"
+import {
+  citedFirst,
+  searchesIn,
+  WebSearch,
+} from "@/registry/aiellie/components/web-search"
+import {
+  MessageAction,
+  MessageActions,
+  MessageCopyAction,
+  MessageMoreActions,
+  MessageRateAction,
+  type Rating,
+  type Report,
+} from "@/registry/aiellie/components/message-actions"
+import { Bubble, BubbleContent } from "@/registry/aiellie/components/bubble"
+import {
+  Message,
+  MessageContent,
+  MessageFooter,
+} from "@/registry/aiellie/components/message"
+import type { MessageMetadata } from "@/registry/aiellie/lib/messages"
 import { Button } from "@/registry/aiellie/ui/button"
+import { Status, StatusIndicator, StatusLabel } from "@/registry/aiellie/ui/status"
 import { cn } from "@/lib/utils"
+import {
+  MessageScroller,
+  MessageScrollerButton,
+  MessageScrollerContent,
+  MessageScrollerItem,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/registry/aiellie/components/message-scroller"
 
-const REDUCED_MOTION = "(prefers-reduced-motion: reduce)"
-
-function subscribeToReducedMotion(onChange: () => void) {
-  const query = window.matchMedia(REDUCED_MOTION)
-  query.addEventListener("change", onChange)
-  return () => query.removeEventListener("change", onChange)
+/**
+ * The reason a reply failed, from its error: the first line of the message.
+ * A request that never got an answer, or got a page of HTML back, has
+ * nothing worth reading, so it says that instead.
+ */
+function reasonOf(error: Error) {
+  if (error instanceof TypeError)
+    return "The chat couldn't be reached. Check the connection, then retry."
+  const line = error.message.trim().split("\n")[0]
+  return line && !line.startsWith("<") ? line : "The reply failed."
 }
 
-function ThreadProvider(
-  props: React.ComponentProps<typeof ThreadPrimitive.Provider>
-) {
-  return <ThreadPrimitive.Provider {...props} />
+const sentAtOf = (message: UIMessage) =>
+  (message.metadata as MessageMetadata | undefined)?.createdAt
+
+// The messages a date divider goes above: the first, and each that starts a
+// new day. Messages from before timestamps were kept start none.
+function firstsOfDay(messages: UIMessage[]) {
+  const firsts = new Set<string>()
+  let lastDay: number | undefined
+  for (const message of messages) {
+    const sentAt = sentAtOf(message)
+    if (sentAt === undefined) continue
+    if (dayOf(sentAt) !== lastDay) firsts.add(message.id)
+    lastDay = dayOf(sentAt)
+  }
+  return firsts
+}
+
+const spokenOf = (message: UIMessage) =>
+  (message.metadata as MessageMetadata | undefined)?.spoken
+
+// Where each voice chat starts and ends: the first and last of its turns
+// said aloud, with the chat's id and the model it was with.
+function voiceChatsIn(messages: UIMessage[]) {
+  const chats = new Map<
+    string,
+    { first: string; last: string; model: string }
+  >()
+  for (const message of messages) {
+    const spoken = spokenOf(message)
+    if (!spoken) continue
+    const chat = chats.get(spoken.chat)
+    if (chat) chat.last = message.id
+    else
+      chats.set(spoken.chat, {
+        first: message.id,
+        last: message.id,
+        model: spoken.model,
+      })
+  }
+  const starts = new Map<string, { chat: string; model: string }>()
+  const ends = new Map<string, string>()
+  for (const [chat, { first, last, model }] of chats) {
+    starts.set(first, { chat, model })
+    ends.set(last, chat)
+  }
+  return { starts, ends }
 }
 
 function Thread({
-  className,
-  ...props
-}: React.ComponentProps<typeof ThreadPrimitive.Root>) {
-  return (
-    <ThreadPrimitive.Root
-      data-slot="thread"
-      className={cn(
-        "group/thread relative flex min-h-0 flex-1 flex-col overflow-hidden",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function ThreadViewport({
-  className,
-  ...props
-}: React.ComponentProps<typeof ThreadPrimitive.Viewport>) {
-  return (
-    <ThreadPrimitive.Viewport
-      data-slot="thread-viewport"
-      className={cn(
-        "scroll-fade-size-6 size-full min-h-0 min-w-0 scroll-fade-b [scrollbar-width:thin] [scrollbar-gutter:stable] overflow-y-auto overscroll-contain border border-transparent contain-content outline-none data-autoscrolling:[scrollbar-color:transparent_transparent] data-pending-scroll:invisible",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function ThreadContent({
-  className,
-  ...props
-}: React.ComponentProps<typeof ThreadPrimitive.Content>) {
-  return (
-    <ThreadPrimitive.Content
-      data-slot="thread-content"
-      className={cn(
-        "mx-auto flex h-max min-h-full w-full max-w-2xl flex-col gap-6 px-4 py-6",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function ThreadItem({
-  className,
-  scrollAnchor = false,
-  ...props
-}: React.ComponentProps<typeof ThreadPrimitive.Item>) {
-  return (
-    <ThreadPrimitive.Item
-      data-slot="thread-item"
-      scrollAnchor={scrollAnchor}
-      className={cn(
-        "min-w-0 shrink-0 [contain-intrinsic-size:auto_10rem] [content-visibility:auto]",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function ThreadScrollButton({
-  direction = "end",
-  behavior,
-  className,
-  children,
-  render,
-  variant = "outline",
-  size = "icon-sm",
-  ...props
-}: React.ComponentProps<typeof ThreadPrimitive.Button> &
-  Pick<React.ComponentProps<typeof Button>, "variant" | "size">) {
-  // The primitive scrolls smoothly from JavaScript, which the CSS
-  // reduced-motion rule can't reach.
-  const reducedMotion = React.useSyncExternalStore(
-    subscribeToReducedMotion,
-    () => window.matchMedia(REDUCED_MOTION).matches,
-    () => false
-  )
+  messages,
+  voiceChat,
+  streaming = false,
+  thinkingSince,
+  error,
+  onRetry,
+  onRegenerate,
+  onRate,
+  onBranch,
+  onReport,
+}: {
+  messages: UIMessage[]
+  /** The voice chat going, by its id, which isn't marked as ended yet. */
+  voiceChat?: string
+  /** Whether a reply is on its way. Once it has begun, it's the last message. */
+  streaming?: boolean
+  /**
+   * While a reply is on its way, when it was asked for. Until the reply has
+   * something to show, the thread shows it's thinking.
+   */
+  thinkingSince?: number
+  /**
+   * Shows the reply failed, with the error's message as the reason, and a
+   * Retry button with `onRetry`.
+   */
+  error?: Error
+  onRetry?: () => void
+  // Each reply action is left out without its handler.
+  /** Asks for a reply again. */
+  onRegenerate?: (messageId: string) => void
+  /** Rates a reply, or clears its rating. */
+  onRate?: (messageId: string, rating: Rating | undefined) => void
+  /** Starts a new chat from the conversation up to this reply. */
+  onBranch?: (messageId: string) => void
+  /** Reports a reply. */
+  onReport?: (messageId: string, report: Report) => void
+}) {
+  const firsts = firstsOfDay(messages)
+  const voice = voiceChatsIn(messages)
+  // The reply whose thinking is still being written out. Its words wait for
+  // that, so the two aren't written at once.
+  const [thinkingId, setThinkingId] = React.useState<string>()
 
   return (
-    <ThreadPrimitive.Button
-      data-slot="thread-scroll-button"
-      data-direction={direction}
-      direction={direction}
-      behavior={reducedMotion ? "auto" : behavior}
-      className={cn(
-        "absolute start-1/2 -translate-x-1/2 rounded-full bg-popover shadow-md backdrop-blur-xs supports-[backdrop-filter]:bg-background/60 rtl:translate-x-1/2",
-        "transition-[opacity,translate,scale] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
-        "data-[active=false]:pointer-events-none data-[active=false]:opacity-0 data-[active=false]:ease-[cubic-bezier(0.4,0,1,1)]",
-        "data-[direction=end]:bottom-3 data-[direction=end]:data-[active=false]:translate-y-2 data-[direction=start]:top-3 data-[direction=start]:data-[active=false]:-translate-y-2 data-[direction=start]:[&_svg]:rotate-180",
-        className
-      )}
-      render={render ?? <Button variant={variant} size={size} />}
-      {...props}
-    >
-      {children ?? (
-        <>
-          <HugeiconsIcon icon={ArrowDown02Icon} strokeWidth={2} aria-hidden />
-          <span className="sr-only">
-            {direction === "end" ? "Jump to latest" : "Jump to start"}
-          </span>
-        </>
-      )}
-    </ThreadPrimitive.Button>
+    // The chat's header is glass over the top 40px, so the thread scrolls
+    // under it: it starts below it, and a message brought to the top stops
+    // clear of it.
+    <MessageScrollerProvider autoScroll scrollMargin={40}>
+      {/* A container, so the transcript shows by the thread's own width:
+          only where it has a gutter beside the messages to sit in. */}
+      <MessageScroller className="@container">
+        <MessageScrollerViewport>
+          {/* Items are spaced by their own bottom padding, not a gap: each
+              clips what it paints to its box, and a message's time sits in
+              that space. */}
+          <MessageScrollerContent className="mx-auto w-full max-w-3xl gap-0 px-4 pt-16 pb-0">
+            {messages.map((message, index) => {
+              const text = message.parts
+                .map((part) => (part.type === "text" ? part.text : ""))
+                .join("")
+              const files = message.parts.filter((part) => part.type === "file")
+              const mine = message.role === "user"
+              const live = streaming && !mine && index === messages.length - 1
+              const held = message.id === thinkingId
+              const thoughts = message.parts.filter(
+                (part) => part.type === "reasoning"
+              )
+              const reasoning = thoughts
+                .map((part) => part.text)
+                .filter(Boolean)
+                .join("\n\n")
+              const thinking =
+                live && thoughts.some((part) => part.state === "streaming")
+              const metadata = message.metadata as MessageMetadata | undefined
+              const sentAt = metadata?.createdAt
+              const web = mine ? undefined : searchesIn(message)
+              // The pages cited first, in the order the reply cites them, so
+              // its citations count up from 1 and match its sources.
+              const sources = web ? citedFirst(web.found, text) : []
+              const searching =
+                live &&
+                !!web?.searches.some((part) =>
+                  ["input-streaming", "input-available"].includes(part.state)
+                )
+              const writing =
+                live &&
+                message.parts.some(
+                  (part) => part.type === "text" && part.state === "streaming"
+                )
+              // At work with nothing coming in to show for it: before its
+              // first words, or while it reads what a search found.
+              const waiting = live && !thinking && !searching && !writing
+              const spoken = spokenOf(message)
+              // A voice chat's marks are live while it's going.
+              const spokenLive = !!spoken && spoken.chat === voiceChat
+              const voiceStart = voice.starts.get(message.id)
+              const voiceEnd = voice.ends.get(message.id)
+              return (
+                <React.Fragment key={message.id}>
+                  <MessageScrollerItem
+                    messageId={message.id}
+                    scrollAnchor={mine}
+                    // A reply's footer holds its actions, so it needs the room.
+                    className={mine ? "pb-6" : "pb-8"}
+                  >
+                    {sentAt !== undefined && firsts.has(message.id) ? (
+                      <DateDivider at={sentAt} className="mb-6" />
+                    ) : null}
+                    {voiceStart !== undefined ? (
+                      <VoiceDivider
+                        edge="start"
+                        model={voiceStart.model}
+                        live={voiceStart.chat === voiceChat}
+                        className="mb-6"
+                      />
+                    ) : null}
+                    <Message align={mine ? "end" : "start"}>
+                      <MessageContent>
+                        {/* Above the reply, as it came first. */}
+                        {!mine && (reasoning || thinking) ? (
+                          <Reasoning
+                            text={reasoning}
+                            streaming={thinking}
+                            duration={metadata?.reasoningSeconds}
+                            onThinkingChange={(on) =>
+                              setThinkingId((current) =>
+                                on
+                                  ? message.id
+                                  : current === message.id
+                                    ? undefined
+                                    : current
+                              )
+                            }
+                          />
+                        ) : null}
+                        {web &&
+                        (web.searches.length > 0 || web.found.length > 0) ? (
+                          <WebSearch
+                            queries={web.queries}
+                            found={web.found}
+                            searching={searching}
+                            typing={
+                              live &&
+                              web.searches.at(-1)?.state === "input-streaming"
+                            }
+                          />
+                        ) : null}
+                        {files.length > 0 ? (
+                          <AttachmentGroup className="max-w-full">
+                            {files.map((file, index) => (
+                              <FileAttachment
+                                key={index}
+                                name={file.filename ?? "File"}
+                                mediaType={file.mediaType}
+                                src={file.url || undefined}
+                              />
+                            ))}
+                          </AttachmentGroup>
+                        ) : null}
+                        {/* A reply with no words yet, or none it may show yet,
+                          shows it's thinking instead. */}
+                        {!held && (text || (files.length === 0 && !live)) ? (
+                          <Bubble variant={mine ? "secondary" : "ghost"}>
+                            {/* Markdown lays out its own lines, so only what
+                              the person typed keeps theirs as written. */}
+                            <BubbleContent
+                              className={cn(
+                                mine && "whitespace-pre-wrap",
+                                spoken && "flex items-start gap-2"
+                              )}
+                            >
+                              {spoken ? (
+                                // On the first line, which runs about 23px.
+                                <SpokenMark
+                                  live={spokenLive}
+                                  className="mt-1 shrink-0"
+                                />
+                              ) : null}
+                              {mine ? (
+                                text
+                              ) : (
+                                // Each word fades in as it arrives; replies
+                                // loaded from history show at once.
+                                <Response
+                                  streaming={live}
+                                  citations={sources.map((page) => ({
+                                    url: page.url,
+                                    title: page.title,
+                                    description: page.snippet,
+                                  }))}
+                                >
+                                  {text}
+                                </Response>
+                              )}
+                            </BubbleContent>
+                          </Bubble>
+                        ) : null}
+                        {waiting ? (
+                          // Gives way to a trace line above it that's still at
+                          // work, like thinking still being written out.
+                          <ThinkingIndicator
+                            startedAt={thinkingSince}
+                            className="in-[[data-slot=message-content]:has([data-status=running])]:hidden"
+                          />
+                        ) : null}
+                        {/* The pages the reply drew on, once it's written. */}
+                        {sources.length > 0 && !live && !held ? (
+                          <Sources sources={sources} />
+                        ) : null}
+                      </MessageContent>
+                      {/* A reply's footer, time and all, waits until it's
+                        written: before then there's nothing to act on. */}
+                      {(mine ? sentAt !== undefined : !live && !held) ? (
+                        // Laid in the gap under the message, so showing it on
+                        // hover moves nothing, and padded rather than spaced
+                        // clear of it, so the pointer crossing to it never
+                        // leaves the message. Hovering it counts as hovering
+                        // the message, so it shows as the pointer reaches it,
+                        // from above or below. It shows too while a button in
+                        // it has focus or its menu is open.
+                        <MessageFooter className="absolute start-0 top-full gap-2 pt-2 opacity-0 transition-opacity duration-150 group-focus-within/message:opacity-100 group-hover/message:opacity-100 group-data-[align=end]/message:start-auto group-data-[align=end]/message:end-0 has-data-popup-open:opacity-100">
+                          {!mine ? (
+                            <MessageActions>
+                              <MessageCopyAction value={text} />
+                              {onRate ? (
+                                <>
+                                  <MessageRateAction
+                                    value="up"
+                                    pressed={metadata?.rating === "up"}
+                                    onPressedChange={(on) =>
+                                      onRate(message.id, on ? "up" : undefined)
+                                    }
+                                  />
+                                  <MessageRateAction
+                                    value="down"
+                                    pressed={metadata?.rating === "down"}
+                                    onPressedChange={(on) =>
+                                      onRate(
+                                        message.id,
+                                        on ? "down" : undefined
+                                      )
+                                    }
+                                  />
+                                </>
+                              ) : null}
+                              {onRegenerate ? (
+                                <MessageAction
+                                  tooltip="Regenerate"
+                                  disabled={streaming}
+                                  onClick={() => onRegenerate(message.id)}
+                                >
+                                  <HugeiconsIcon
+                                    aria-hidden
+                                    icon={RefreshIcon}
+                                  />
+                                </MessageAction>
+                              ) : null}
+                              <MessageMoreActions
+                                text={text}
+                                onBranch={
+                                  onBranch
+                                    ? () => onBranch(message.id)
+                                    : undefined
+                                }
+                                onReport={
+                                  onReport
+                                    ? (report) => onReport(message.id, report)
+                                    : undefined
+                                }
+                                reported={metadata?.report !== undefined}
+                              />
+                            </MessageActions>
+                          ) : null}
+                          {sentAt !== undefined ? (
+                            <time dateTime={new Date(sentAt).toISOString()}>
+                              {timeLabel(sentAt)}
+                            </time>
+                          ) : null}
+                        </MessageFooter>
+                      ) : null}
+                    </Message>
+                  </MessageScrollerItem>
+                  {/* After its last turn said aloud, once it's over. */}
+                  {voiceEnd !== undefined && voiceEnd !== voiceChat ? (
+                    <MessageScrollerItem className="pb-8">
+                      <VoiceDivider edge="end" />
+                    </MessageScrollerItem>
+                  ) : null}
+                </React.Fragment>
+              )
+            })}
+            {/* Asked, and nothing back yet. */}
+            {thinkingSince !== undefined && messages.at(-1)?.role === "user" ? (
+              <MessageScrollerItem className="pb-6">
+                <Message>
+                  <MessageContent>
+                    <ThinkingIndicator startedAt={thinkingSince} />
+                  </MessageContent>
+                </Message>
+              </MessageScrollerItem>
+            ) : null}
+            {/* "Failed" alone doesn't say what to do, so the reason goes
+                beside it, then a way to try again. */}
+            {error ? (
+              <MessageScrollerItem className="pb-6">
+                <Message>
+                  <MessageContent>
+                    <div
+                      role="alert"
+                      data-slot="reply-failed"
+                      className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs"
+                    >
+                      <Status variant="destructive">
+                        <StatusIndicator />
+                        <StatusLabel>Failed</StatusLabel>
+                      </Status>
+                      <span className="text-muted-foreground">
+                        {reasonOf(error)}
+                      </span>
+                      {onRetry ? (
+                        <Button variant="ghost" size="xs" onClick={onRetry}>
+                          Retry
+                        </Button>
+                      ) : null}
+                    </div>
+                  </MessageContent>
+                </Message>
+              </MessageScrollerItem>
+            ) : null}
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+        <MessageScrollerButton />
+        <ThreadTranscript messages={messages} />
+      </MessageScroller>
+    </MessageScrollerProvider>
   )
 }
 
-export {
-  Thread,
-  ThreadContent,
-  ThreadItem,
-  ThreadProvider,
-  ThreadScrollButton,
-  ThreadViewport,
-  useThread,
-  useThreadScrollable,
-  useThreadVisibility,
-}
+export { Thread }

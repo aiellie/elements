@@ -3,61 +3,94 @@
 import * as React from "react"
 import {
   Copy01Icon,
+  Flag02Icon,
+  GitBranchIcon,
   MoreHorizontalIcon,
-  PencilEdit01Icon,
-  RepeatIcon,
   ThumbsDownIcon,
   ThumbsUpIcon,
   Tick02Icon,
+  VolumeHighIcon,
+  VolumeOffIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { cn } from "@/lib/utils"
+import { Button } from "@/registry/aiellie/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/registry/aiellie/ui/dialog"
 import {
   Menu,
   MenuContent,
+  MenuItem,
+  MenuSeparator,
   MenuTrigger,
 } from "@/registry/aiellie/ui/menu"
-import { MessageAction } from "@/registry/aiellie/components/message"
+import { Textarea } from "@/registry/aiellie/ui/textarea"
+import {
+  TooltipIconButton,
+  type TooltipIconButtonProps,
+} from "@/registry/aiellie/ui/tooltip-icon-button"
+import { cn } from "@/lib/utils"
 
-type ActionProps = Omit<
-  React.ComponentProps<typeof MessageAction>,
-  "tooltip" | "children"
-> & {
-  tooltip?: string
+/** A row of small buttons for what can be done with a message. */
+function MessageActions({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="message-actions"
+      role="toolbar"
+      aria-label="Message actions"
+      className={cn("flex items-center gap-0.5", className)}
+      {...props}
+    />
+  )
 }
 
-function MessageCopyAction({
-  text,
-  tooltip = "Copy",
-  onCopy,
+/** One action: an icon button named by its tooltip. */
+function MessageAction({
+  className,
+  side = "bottom",
   ...props
-}: Omit<ActionProps, "onCopy"> & {
-  /** What goes on the clipboard. */
-  text: string
-  onCopy?: () => void
+}: TooltipIconButtonProps) {
+  return (
+    <TooltipIconButton
+      data-slot="message-action"
+      type="button"
+      side={side}
+      className={cn("size-6 rounded-md p-1", className)}
+      {...props}
+    />
+  )
+}
+
+/** Copies the message's text, and shows a tick for a moment once it has. */
+function MessageCopyAction({
+  value,
+  ...props
+}: Omit<TooltipIconButtonProps, "tooltip" | "onClick" | "children"> & {
+  value: string
 }) {
   const [copied, setCopied] = React.useState(false)
 
   React.useEffect(() => {
     if (!copied) return
-    const timeout = setTimeout(() => setCopied(false), 1500)
+    const timeout = setTimeout(() => setCopied(false), 2000)
     return () => clearTimeout(timeout)
   }, [copied])
 
   return (
     <MessageAction
-      data-slot="message-copy-action"
-      tooltip={copied ? "Copied" : tooltip}
-      onClick={async () => {
-        try {
-          await navigator.clipboard.writeText(text)
-          setCopied(true)
-          onCopy?.()
-        } catch {
-          // Refused, so there is nothing to confirm.
-        }
-      }}
+      tooltip={copied ? "Copied" : "Copy"}
+      onClick={() =>
+        navigator.clipboard
+          .writeText(value)
+          .then(() => setCopied(true))
+          .catch(() => {})
+      }
       {...props}
     >
       <HugeiconsIcon aria-hidden icon={copied ? Tick02Icon : Copy01Icon} />
@@ -65,100 +98,217 @@ function MessageCopyAction({
   )
 }
 
-function MessageRetryAction({ tooltip = "Retry", ...props }: ActionProps) {
+type Rating = "up" | "down"
+
+/** A thumb up or down, held down while it's the message's rating. */
+function MessageRateAction({
+  value,
+  pressed = false,
+  onPressedChange,
+  className,
+  ...props
+}: Omit<TooltipIconButtonProps, "tooltip" | "onClick" | "children"> & {
+  value: Rating
+  pressed?: boolean
+  onPressedChange: (pressed: boolean) => void
+}) {
   return (
     <MessageAction
-      data-slot="message-retry-action"
-      tooltip={tooltip}
+      tooltip={value === "up" ? "Good response" : "Bad response"}
+      aria-pressed={pressed}
+      onClick={() => onPressedChange(!pressed)}
+      className={cn(pressed && "bg-muted [&_svg]:text-foreground", className)}
       {...props}
     >
       <HugeiconsIcon
         aria-hidden
-        icon={RepeatIcon}
-        className="rtl:-scale-x-100"
+        icon={value === "up" ? ThumbsUpIcon : ThumbsDownIcon}
       />
     </MessageAction>
   )
 }
 
-function MessageEditAction({ tooltip = "Edit", ...props }: ActionProps) {
-  return (
-    <MessageAction data-slot="message-edit-action" tooltip={tooltip} {...props}>
-      <HugeiconsIcon aria-hidden icon={PencilEdit01Icon} />
-    </MessageAction>
-  )
+// Spoken, Markdown's marks would be read out, and code makes no sense aloud.
+function spokenText(markdown: string) {
+  return markdown
+    .replace(/```[\s\S]*?(```|$)/g, " Code block. ")
+    .replace(/`([^`]*)`/g, "$1")
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/^\s{0,3}(#{1,6}|>|[-+*]|\d+\.)\s+/gm, "")
+    .replace(/[*_~|]+/g, "")
 }
 
-type Feedback = "up" | "down"
+/** Reads text aloud with the browser's voice, or stops it reading. */
+function useReadAloud(text: string) {
+  const [reading, setReading] = React.useState(false)
 
-// Pressing the rating that's already chosen takes it back.
-function MessageFeedback({
-  value,
-  onValueChange,
-  className,
-  ...props
-}: Omit<React.ComponentProps<"div">, "onChange"> & {
-  value: Feedback | null
-  onValueChange: (value: Feedback | null) => void
+  // Leaving the message stops what it was reading.
+  React.useEffect(() => {
+    if (!reading) return
+    return () => window.speechSynthesis.cancel()
+  }, [reading])
+
+  const toggle = () => {
+    // One voice at a time: this also ends another message's reading.
+    window.speechSynthesis.cancel()
+    if (reading) return
+    const utterance = new SpeechSynthesisUtterance(spokenText(text))
+    utterance.onend = () => setReading(false)
+    utterance.onerror = () => setReading(false)
+    window.speechSynthesis.speak(utterance)
+    setReading(true)
+  }
+
+  return { reading, toggle }
+}
+
+const REASONS = [
+  "Inaccurate",
+  "Harmful or offensive",
+  "Not helpful",
+  "Something else",
+] as const
+
+type Report = { reason: (typeof REASONS)[number]; details: string }
+
+function ReportDialog({
+  open,
+  onOpenChange,
+  onSubmit,
+}: {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onSubmit: (report: Report) => void
 }) {
+  const [reason, setReason] = React.useState<Report["reason"]>()
+  const [details, setDetails] = React.useState("")
+
   return (
-    <div
-      data-slot="message-feedback"
-      role="group"
-      aria-label="Rate this reply"
-      className={cn("flex items-center gap-0.5", className)}
-      {...props}
-    >
-      {(["up", "down"] as const).map((rating) => (
-        <MessageAction
-          key={rating}
-          tooltip={rating === "up" ? "Good reply" : "Bad reply"}
-          aria-pressed={value === rating}
-          onClick={() => onValueChange(value === rating ? null : rating)}
-          className="aria-pressed:[&_svg]:text-foreground"
-        >
-          <HugeiconsIcon
-            aria-hidden
-            icon={rating === "up" ? ThumbsUpIcon : ThumbsDownIcon}
-          />
-        </MessageAction>
-      ))}
-    </div>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Report this response</DialogTitle>
+          <DialogDescription>What was wrong with it?</DialogDescription>
+        </DialogHeader>
+        <div role="radiogroup" className="flex flex-wrap gap-2">
+          {REASONS.map((option) => (
+            <Button
+              key={option}
+              role="radio"
+              aria-checked={reason === option}
+              variant={reason === option ? "default" : "outline"}
+              size="sm"
+              onClick={() => setReason(option)}
+            >
+              {option}
+            </Button>
+          ))}
+        </div>
+        <Textarea
+          value={details}
+          onChange={(event) => setDetails(event.target.value)}
+          placeholder="Anything else to add (optional)"
+          aria-label="Details"
+          rows={3}
+        />
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
+          <Button
+            disabled={!reason}
+            onClick={() => {
+              if (!reason) return
+              onSubmit({ reason, details: details.trim() })
+              onOpenChange(false)
+            }}
+          >
+            Report
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 
+/**
+ * A more button whose menu reads the message aloud, branches the chat from
+ * it, or reports it. Branch and report are left out without their handlers.
+ */
 function MessageMoreActions({
-  tooltip = "More",
-  side = "bottom",
-  align = "start",
-  children,
-  ...props
-}: ActionProps & {
-  /** Menu rows, like `MenuItem`s. */
-  children: React.ReactNode
-  side?: React.ComponentProps<typeof MenuContent>["side"]
-  align?: React.ComponentProps<typeof MenuContent>["align"]
+  text,
+  onBranch,
+  onReport,
+  reported = false,
+}: {
+  /** The message's text, as Markdown. */
+  text: string
+  onBranch?: () => void
+  onReport?: (report: Report) => void
+  /** Already reported, so it can't be again. */
+  reported?: boolean
 }) {
+  const { reading, toggle } = useReadAloud(text)
+  const [reporting, setReporting] = React.useState(false)
+
   return (
-    <Menu>
-      <MenuTrigger
-        data-slot="message-more-actions"
-        render={<MessageAction tooltip={tooltip} {...props} />}
-      >
-        <HugeiconsIcon aria-hidden icon={MoreHorizontalIcon} />
-      </MenuTrigger>
-      <MenuContent side={side} align={align}>
-        {children}
-      </MenuContent>
-    </Menu>
+    <>
+      <Menu>
+        <MenuTrigger
+          render={
+            <MessageAction
+              tooltip="More"
+              className="data-popup-open:bg-muted data-popup-open:[&_svg]:text-foreground"
+            />
+          }
+        >
+          <HugeiconsIcon aria-hidden icon={MoreHorizontalIcon} />
+        </MenuTrigger>
+        <MenuContent side="bottom" align="start">
+          <MenuItem onClick={toggle}>
+            <HugeiconsIcon
+              aria-hidden
+              icon={reading ? VolumeOffIcon : VolumeHighIcon}
+            />
+            {reading ? "Stop reading" : "Read aloud"}
+          </MenuItem>
+          {onBranch ? (
+            <MenuItem onClick={onBranch}>
+              <HugeiconsIcon aria-hidden icon={GitBranchIcon} />
+              Branch in new chat
+            </MenuItem>
+          ) : null}
+          {onReport ? (
+            <>
+              <MenuSeparator />
+              <MenuItem
+                variant="destructive"
+                disabled={reported}
+                onClick={() => setReporting(true)}
+              >
+                <HugeiconsIcon aria-hidden icon={Flag02Icon} />
+                {reported ? "Reported" : "Report"}
+              </MenuItem>
+            </>
+          ) : null}
+        </MenuContent>
+      </Menu>
+      {onReport ? (
+        <ReportDialog
+          open={reporting}
+          onOpenChange={setReporting}
+          onSubmit={onReport}
+        />
+      ) : null}
+    </>
   )
 }
 
 export {
+  MessageAction,
+  MessageActions,
   MessageCopyAction,
-  MessageEditAction,
-  MessageFeedback,
   MessageMoreActions,
-  MessageRetryAction,
+  MessageRateAction,
 }
-export type { Feedback }
+export type { Rating, Report }

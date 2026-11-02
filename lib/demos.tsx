@@ -108,6 +108,16 @@ import ContactButtonDemo from "@/registry/aiellie/examples/contact-button-demo"
 import CallMenuDemo from "@/registry/aiellie/examples/call-menu-demo"
 import VideoCallDemo from "@/registry/aiellie/examples/video-call-demo"
 import { Chat } from "@/registry/aiellie/blocks/chat/components/chat"
+import AttachmentDemo from "@/registry/aiellie/examples/attachment-demo"
+import BubbleDemo from "@/registry/aiellie/examples/bubble-demo"
+import ContextMeterDemo from "@/registry/aiellie/examples/context-meter-demo"
+import EmojiSelectorDemo from "@/registry/aiellie/examples/emoji-selector-demo"
+import FileAttachmentDemo from "@/registry/aiellie/examples/file-attachment-demo"
+import MarkdownDemo from "@/registry/aiellie/examples/markdown-demo"
+import MessageScrollerDemo from "@/registry/aiellie/examples/message-scroller-demo"
+import VoiceDividerDemo from "@/registry/aiellie/examples/voice-divider-demo"
+import WebSearchDemo from "@/registry/aiellie/examples/web-search-demo"
+import SwitchDemo from "@/registry/aiellie/examples/switch-demo"
 
 type Demo = {
   title: string
@@ -230,6 +240,44 @@ const DEMOS: Record<string, Demo> = {
   trace: { title: "Trace", gallery: "/design", Demo: TraceDemo },
   waveform: { title: "Waveform", gallery: "/components", Demo: WaveformDemo },
   toast: { title: "Toast", gallery: "/design", Demo: ToastDemo },
+  attachment: {
+    title: "Attachment",
+    gallery: "/components",
+    Demo: AttachmentDemo,
+  },
+  bubble: { title: "Bubble", gallery: "/components", Demo: BubbleDemo },
+  "context-meter": {
+    title: "Context Meter",
+    gallery: "/components",
+    Demo: ContextMeterDemo,
+  },
+  "emoji-selector": {
+    title: "Emoji Selector",
+    gallery: "/components",
+    Demo: EmojiSelectorDemo,
+  },
+  "file-attachment": {
+    title: "File Attachment",
+    gallery: "/components",
+    Demo: FileAttachmentDemo,
+  },
+  markdown: { title: "Markdown", gallery: "/components", Demo: MarkdownDemo },
+  "message-scroller": {
+    title: "Message Scroller",
+    gallery: "/components",
+    Demo: MessageScrollerDemo,
+  },
+  "voice-divider": {
+    title: "Voice Divider",
+    gallery: "/components",
+    Demo: VoiceDividerDemo,
+  },
+  "web-search": {
+    title: "Web Search",
+    gallery: "/components",
+    Demo: WebSearchDemo,
+  },
+  switch: { title: "Switch", gallery: "/design", Demo: SwitchDemo },
   composer: { title: "Composer", gallery: "/components", Demo: ComposerDemo },
   attachments: {
     title: "Attachments",

@@ -13,6 +13,7 @@ import {
   DEFAULT_VIEW,
 } from "@/registry/aiellie/blocks/chat/components/chat-nav-filter"
 import { ChatOptions } from "@/registry/aiellie/blocks/chat/components/chat-options"
+import { ThinkingIndicator } from "@/registry/aiellie/components/thinking-indicator"
 import { useRenameInput } from "@/registry/aiellie/components/editable-title"
 import { Menu, MenuContent, MenuTrigger } from "@/registry/aiellie/ui/menu"
 import { usePanels } from "@/registry/aiellie/components/panels"
@@ -32,17 +33,10 @@ import {
   SidebarMenuItem,
 } from "@/registry/aiellie/ui/sidebar"
 import { cn } from "@/lib/utils"
-
-type ChatNavStatus = "running" | "completed" | "failed"
-
-type ChatNavChat = {
-  id: string
-  title: string
-  pinned?: boolean
-  status?: ChatNavStatus
-  /** Finished while it wasn't open, and not opened since. */
-  unread?: boolean
-}
+import type {
+  ChatNavChat,
+  ChatNavStatus,
+} from "@/registry/aiellie/blocks/chat/lib/chat-types"
 
 type ChatNavProps = {
   chats: ChatNavChat[]
@@ -68,18 +62,21 @@ function markOf(chat: ChatNavChat): ChatNavMark | null {
   return null
 }
 
+// A running chat shows it's thinking in place of its title, so only these
+// marks sit at the end of the row.
+type ChatNavBadge = Exclude<ChatNavMark, "running">
+
 const MARKS: Record<
-  ChatNavMark,
+  ChatNavBadge,
   { label: string; variant: "live" | "destructive"; pulse: boolean }
 > = {
-  running: { label: "Running", variant: "live", pulse: true },
   unread: { label: "Unread", variant: "live", pulse: false },
   failed: { label: "Failed", variant: "destructive", pulse: false },
 }
 
 // Sits where the options button appears, so it gives way whenever that does.
 // On a touch screen the button never hides, so the mark moves in beside it.
-function ChatNavStatusMark({ mark }: { mark: ChatNavMark }) {
+function ChatNavStatusMark({ mark }: { mark: ChatNavBadge }) {
   const { label, variant, pulse } = MARKS[mark]
 
   return (
@@ -129,7 +126,7 @@ function ChatNavTitle({ title }: { title: string }) {
       }
       className="text-clip! transition-[mask-image] transition-discrete duration-0 group-hover/menu-item:delay-300 data-overflow:[mask-image:linear-gradient(to_right,#000_calc(100%-1.5rem),transparent)] group-hover/menu-item:data-overflow:[mask-image:linear-gradient(to_right,transparent,#000_1.5rem)] motion-reduce:transition-none rtl:data-overflow:[mask-image:linear-gradient(to_left,#000_calc(100%-1.5rem),transparent)] rtl:group-hover/menu-item:data-overflow:[mask-image:linear-gradient(to_left,transparent,#000_1.5rem)]"
     >
-      <span className="inline-block transition-[translate] duration-150 ease-out group-hover/menu-item:translate-x-[calc(var(--overflow)*-1)] group-hover/menu-item:delay-300 group-hover/menu-item:duration-(--scroll-duration) group-hover/menu-item:ease-linear motion-reduce:transition-none rtl:group-hover/menu-item:translate-x-(--overflow)">
+      <span className="inline-block transition-[translate] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/menu-item:translate-x-[calc(var(--overflow)*-1)] group-hover/menu-item:delay-300 group-hover/menu-item:duration-(--scroll-duration) group-hover/menu-item:ease-linear motion-reduce:transition-none rtl:group-hover/menu-item:translate-x-(--overflow)">
         {title}
       </span>
     </span>
@@ -169,6 +166,7 @@ function ChatNavItem({
   const { closeSheet } = usePanels()
   const active = chat.id === activeId
   const mark = markOf(chat)
+  const badge = mark === "running" ? null : mark
 
   return (
     <SidebarMenuItem>
@@ -189,11 +187,20 @@ function ChatNavItem({
               onSelect(chat.id)
               closeSheet()
             }}
-            className={cn(mark && "pointer-coarse:pe-14")}
+            className={cn(badge && "pointer-coarse:pe-14")}
           >
-            <ChatNavTitle title={chat.title} />
+            {mark === "running" ? (
+              <ThinkingIndicator
+                startedAt={chat.startedAt}
+                className="text-current"
+              >
+                {chat.title}
+              </ThinkingIndicator>
+            ) : (
+              <ChatNavTitle title={chat.title} />
+            )}
           </SidebarMenuButton>
-          {mark ? <ChatNavStatusMark mark={mark} /> : null}
+          {badge ? <ChatNavStatusMark mark={badge} /> : null}
           <Menu>
             <MenuTrigger
               render={
@@ -249,7 +256,7 @@ function ChatNavGroup({
               onClick={() => setOpen((current) => !current)}
             />
           }
-          className="group/section w-full gap-1 pe-8 text-muted-foreground/50 hover:text-muted-foreground"
+          className="group/section w-full gap-1 pe-8 text-muted-foreground hover:text-muted-foreground"
         >
           {label}
           <HugeiconsIcon

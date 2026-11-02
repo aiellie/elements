@@ -1,202 +1,81 @@
 "use client"
 
 import * as React from "react"
-import {
-  Attachment01Icon,
-  ComputerScreenShareIcon,
-  Folder01Icon,
-  FolderLibraryIcon,
-  Github01Icon,
-  GoogleDriveIcon,
-  PuzzleIcon,
-  SlackIcon,
-} from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
+import { GlobalSearchIcon } from "@hugeicons/core-free-icons"
 
-import { AddMenu } from "@/registry/aiellie/components/add-menu"
-import { BranchesMenu } from "@/registry/aiellie/components/branches-menu"
-import { DictateButton } from "@/registry/aiellie/components/dictate-button"
 import {
   Composer,
+  ComposerAddFiles,
+  ComposerAddFolder,
+  ComposerAddMenu,
+  ComposerAddScreenshot,
+  ComposerDictate,
+  ComposerEmoji,
   ComposerFooter,
-  ComposerHeader,
   ComposerInput,
   ComposerSubmit,
+  ComposerToggle,
   type ComposerStatus,
 } from "@/registry/aiellie/components/composer"
-import {
-  MenuGroup,
-  MenuGroupLabel,
-  MenuItem,
-  MenuSeparator,
-  MenuSub,
-  MenuSubContent,
-  MenuSubTrigger,
-} from "@/registry/aiellie/ui/menu"
 import { ModelSelector } from "@/registry/aiellie/components/model-selector"
-import {
-  PluginChips,
-  PluginSelectorItems,
-  type PluginOption,
-} from "@/registry/aiellie/components/plugin-selector"
-import {
-  ProjectSelector,
-  projectSelectorItems,
-  type ProjectOption,
-} from "@/registry/aiellie/components/project-selector"
-import { WorkInMenu } from "@/registry/aiellie/components/work-in-menu"
-import { MODELS } from "@/registry/aiellie/lib/models"
-import { Button } from "@/registry/aiellie/ui/button"
+import type { Effort, ModelOption } from "@/registry/aiellie/lib/models"
 
-const PROJECTS: ProjectOption[] = [
-  { id: "website", name: "Website redesign" },
-  { id: "planning", name: "Q3 planning" },
+const MODELS: ModelOption[] = [
+  {
+    id: "anthropic/claude-opus-5.5",
+    name: "Claude Opus 5.5",
+    efforts: ["low", "medium", "high", "max"],
+  },
+  { id: "openai/gpt-6-sol", name: "GPT-6 Sol", efforts: ["low", "medium", "high"] },
+  { id: "google/gemini-3.1-pro-preview", name: "Gemini 3.1 Pro" },
 ]
-
-const PLUGINS: PluginOption[] = [
-  { id: "github", name: "GitHub", icon: Github01Icon },
-  { id: "drive", name: "Google Drive", icon: GoogleDriveIcon },
-  { id: "slack", name: "Slack", icon: SlackIcon },
-]
-
-const trayButton = (
-  <Button
-    variant="ghost"
-    size="sm"
-    className="hover:bg-background aria-expanded:bg-background dark:hover:bg-background/60 dark:aria-expanded:bg-background/60"
-  />
-)
 
 export default function ComposerDemo() {
-  const [value, setValue] = React.useState("")
-  const [model, setModel] = React.useState(MODELS[0].id)
-  const [project, setProject] = React.useState<string | null>("website")
-  // Kept while the tray folds away, so it doesn't empty before it closes.
-  const [shownProject, setShownProject] = React.useState(project)
-  if (project !== null && project !== shownProject) setShownProject(project)
-  const [plugins, setPlugins] = React.useState<string[]>(["github"])
-  const [workIn, setWorkIn] = React.useState("local")
-  const [branches, setBranches] = React.useState(["main", "feat/tray"])
-  const [branch, setBranch] = React.useState("main")
   const [status, setStatus] = React.useState<ComposerStatus>("ready")
-  const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [search, setSearch] = React.useState(false)
+  const [model, setModel] = React.useState(MODELS[0].id)
+  const [effort, setEffort] = React.useState<Effort>("medium")
+  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
 
-  React.useEffect(
-    () => () => {
-      if (timer.current) clearTimeout(timer.current)
-    },
-    []
-  )
+  React.useEffect(() => () => clearTimeout(timer.current), [])
 
   return (
-    <div className="flex w-full max-w-md flex-col">
-      <ComposerHeader open={project !== null}>
-        {shownProject ? (
-          <ProjectSelector
-            projects={PROJECTS}
-            value={shownProject}
-            onValueChange={setProject}
-            render={trayButton}
-          />
-        ) : null}
-        <WorkInMenu
-          value={workIn}
-          onValueChange={setWorkIn}
-          onConnect={() => {}}
-          render={trayButton}
-        />
-        <BranchesMenu
-          branches={branches}
-          value={branch}
-          onValueChange={setBranch}
-          onCreate={(name) => {
-            setBranches((all) => [name, ...all])
-            setBranch(name)
-          }}
-          render={trayButton}
-        />
-      </ComposerHeader>
+    <div className="w-full max-w-xl px-4">
       <Composer
-        value={value}
-        onValueChange={setValue}
         status={status}
         onSubmit={() => {
           setStatus("streaming")
-          timer.current = setTimeout(() => setStatus("ready"), 2500)
+          timer.current = setTimeout(() => setStatus("ready"), 2400)
         }}
         onStop={() => {
-          if (timer.current) clearTimeout(timer.current)
+          clearTimeout(timer.current)
           setStatus("ready")
         }}
       >
-        <PluginChips
-          plugins={PLUGINS}
-          value={plugins}
-          onValueChange={setPlugins}
-          className="px-1 pt-1"
-        />
-        <ComposerInput />
+        <ComposerInput placeholder="Ask anything" />
         <ComposerFooter>
-          <AddMenu className="me-auto">
-            <MenuGroup>
-              <MenuGroupLabel>Attach</MenuGroupLabel>
-              <MenuItem>
-                <HugeiconsIcon aria-hidden icon={Attachment01Icon} />
-                Upload files
-              </MenuItem>
-              <MenuItem>
-                <HugeiconsIcon aria-hidden icon={Folder01Icon} />
-                Upload folder
-              </MenuItem>
-              <MenuItem>
-                <HugeiconsIcon aria-hidden icon={ComputerScreenShareIcon} />
-                Take screenshot
-              </MenuItem>
-            </MenuGroup>
-            <MenuSeparator />
-            <MenuGroup>
-              <MenuGroupLabel>Connect</MenuGroupLabel>
-              <MenuSub>
-                <MenuSubTrigger>
-                  <HugeiconsIcon aria-hidden icon={FolderLibraryIcon} />
-                  Projects
-                </MenuSubTrigger>
-                <MenuSubContent
-                  showSearch
-                  searchPlaceholder="Search projects"
-                  emptyMessage="No projects match"
-                  className="min-w-56"
-                >
-                  {projectSelectorItems({
-                    projects: PROJECTS,
-                    value: project,
-                    onValueChange: setProject,
-                  })}
-                </MenuSubContent>
-              </MenuSub>
-              <MenuSub>
-                <MenuSubTrigger>
-                  <HugeiconsIcon aria-hidden icon={PuzzleIcon} />
-                  Plugins
-                </MenuSubTrigger>
-                <MenuSubContent className="min-w-48">
-                  <PluginSelectorItems
-                    plugins={PLUGINS}
-                    value={plugins}
-                    onValueChange={setPlugins}
-                  />
-                </MenuSubContent>
-              </MenuSub>
-            </MenuGroup>
-          </AddMenu>
+          <ComposerAddMenu>
+            <ComposerAddFiles />
+            <ComposerAddFolder />
+            <ComposerAddScreenshot />
+          </ComposerAddMenu>
+          <ComposerEmoji />
+          <ComposerToggle
+            pressed={search}
+            onPressedChange={setSearch}
+            icon={GlobalSearchIcon}
+            label="Search"
+            tooltip="Search the web"
+          />
           <ModelSelector
             models={MODELS}
             value={model}
             onValueChange={setModel}
-            side="top"
-            render={<Button variant="ghost" size="sm" />}
+            effort={MODELS.find((option) => option.id === model)?.efforts ? effort : undefined}
+            onEffortChange={setEffort}
           />
-          <DictateButton value={value} onValueChange={setValue} />
+          <div className="flex-1" />
+          <ComposerDictate />
           <ComposerSubmit />
         </ComposerFooter>
       </Composer>

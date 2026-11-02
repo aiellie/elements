@@ -1,82 +1,77 @@
-"use client"
-
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { Marker, MarkerContent } from "@/registry/aiellie/ui/marker"
 
 const DAY = 24 * 60 * 60 * 1000
+
+const weekday = new Intl.DateTimeFormat(undefined, { weekday: "long" })
+const thisYear = new Intl.DateTimeFormat(undefined, {
+  weekday: "short",
+  month: "short",
+  day: "numeric",
+})
+const otherYear = new Intl.DateTimeFormat(undefined, {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+})
+const time = new Intl.DateTimeFormat(undefined, { timeStyle: "short" })
 
 function startOfDay(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate())
 }
 
-function isSameDay(a: Date, b: Date) {
-  return startOfDay(a).getTime() === startOfDay(b).getTime()
+/** A value equal for two times on the same day, here. */
+function dayOf(at: number) {
+  return startOfDay(new Date(at)).getTime()
 }
 
-// "Today at 5:16 PM", "Yesterday at 5:16 PM", "Sunday, September 6 at 5:16
-// PM", with the year added once it isn't this one.
-function formatDividerDate(
-  date: Date,
-  { now = new Date(), locale }: { now?: Date; locale?: string } = {}
-) {
-  const time = date.toLocaleTimeString(locale, {
-    hour: "numeric",
-    minute: "2-digit",
-  })
-  const days = Math.round(
-    (startOfDay(now).getTime() - startOfDay(date).getTime()) / DAY
-  )
-  if (days === 0 || days === 1) {
-    const day = new Intl.RelativeTimeFormat(locale, {
-      numeric: "auto",
-    }).format(-days, "day")
-    return `${day.charAt(0).toLocaleUpperCase(locale)}${day.slice(1)} at ${time}`
-  }
-  const day = date.toLocaleDateString(locale, {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: date.getFullYear() === now.getFullYear() ? undefined : "numeric",
-  })
-  return `${day} at ${time}`
+/** "Today", "Yesterday", a weekday within the week, then a date. */
+function dayLabel(at: number, now = Date.now()) {
+  const days = Math.round((dayOf(now) - dayOf(at)) / DAY)
+  const date = new Date(at)
+  if (days === 0) return "Today"
+  if (days === 1) return "Yesterday"
+  if (days > 1 && days < 7) return weekday.format(date)
+  return date.getFullYear() === new Date(now).getFullYear()
+    ? thisYear.format(date)
+    : otherYear.format(date)
 }
 
-const subscribe = () => () => {}
+/** The time of day, with the day in front unless it's today. */
+function timeLabel(at: number, now = Date.now()) {
+  const clock = time.format(new Date(at))
+  return dayOf(at) === dayOf(now) ? clock : `${dayLabel(at, now)}, ${clock}`
+}
 
+/**
+ * The day of what follows it, as plain centred caption text: the messages
+ * already set the thread apart, so lines either side would only add weight.
+ */
 function DateDivider({
-  date,
-  locale,
+  at,
   className,
   ...props
-}: Omit<React.ComponentProps<typeof Marker>, "children" | "variant"> & {
-  date: Date
-  locale?: string
+}: Omit<React.ComponentProps<"div">, "children"> & {
+  /** Any time on the day, in milliseconds. */
+  at: number
 }) {
-  // Worked out in the browser only: the server doesn't know the reader's day
-  // or time zone, and a label that differs between the two breaks hydration.
-  const client = React.useSyncExternalStore(
-    subscribe,
-    () => true,
-    () => false
-  )
+  const label = dayLabel(at)
 
   return (
-    <Marker
+    <div
+      role="separator"
+      aria-label={label}
       data-slot="date-divider"
-      className={cn("justify-center", className)}
+      className={cn(
+        "flex justify-center text-xs text-muted-foreground",
+        className
+      )}
       {...props}
     >
-      <MarkerContent className="text-center tabular-nums">
-        {client ? (
-          <time dateTime={date.toISOString()}>
-            {formatDividerDate(date, { locale })}
-          </time>
-        ) : null}
-      </MarkerContent>
-    </Marker>
+      <time dateTime={new Date(at).toISOString()}>{label}</time>
+    </div>
   )
 }
 
-export { DateDivider, formatDividerDate, isSameDay }
+export { DateDivider, dayLabel, dayOf, timeLabel }
