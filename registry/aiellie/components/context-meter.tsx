@@ -150,7 +150,7 @@ function ContextMeter({
               aria-label={label}
               data-slot="context-meter"
               className={cn(
-                "border border-transparent inline-flex size-7 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none hover:text-foreground focus-visible:border-ring data-popup-open:text-foreground",
+                "inline-flex size-7 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring data-popup-open:text-foreground",
                 share >= 0.75 && "text-foreground",
                 share >= 0.9 && "text-destructive hover:text-destructive",
                 className

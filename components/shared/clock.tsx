@@ -50,7 +50,7 @@ export function Clock() {
     <button
       type="button"
       onClick={() => setCityId(next.id)}
-      className="flex shrink-0 press items-center gap-1.5 rounded-sm border border-transparent text-xs whitespace-nowrap text-muted-foreground outline-none hover:text-foreground focus-visible:border-ring sm:gap-2"
+      className="flex shrink-0 press items-center gap-1.5 rounded-sm border border-transparent text-xs whitespace-nowrap text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring sm:gap-2"
     >
       <span className="sm:hidden">{city.short}</span>
       <span className="hidden sm:inline">{city.label}</span>

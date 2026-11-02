@@ -35,7 +35,7 @@ Separate surfaces with `border` and light, not with shadow. `card` is flush with
 
 ### Global base
 
-Four rules that belong in `globals.css` rather than in any component:
+Five rules that belong in `globals.css` rather than in any component:
 
 ```css
 html {
@@ -51,9 +51,13 @@ button:not(:disabled),
 [role="button"]:not(:disabled) {
   cursor: pointer;
 }
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 0;
+}
 ```
 
-Scrollbars are furniture: the `border` hairline on no track at all, so a scrolling region doesn't announce itself with a grey gutter. `overscroll-y-none` kills the rubber-band bounce that makes a fixed header look unmoored; `scroll-smooth` is overridden to `auto` under reduced motion. The cursor rule exists because Tailwind's preflight leaves buttons on the default arrow — a disabled button keeps it, which is the intended signal.
+Scrollbars are furniture: the `border` hairline on no track at all, so a scrolling region doesn't announce itself with a grey gutter. `overscroll-y-none` kills the rubber-band bounce that makes a fixed header look unmoored; `scroll-smooth` is overridden to `auto` under reduced motion. The cursor rule exists because Tailwind's preflight leaves buttons on the default arrow — a disabled button keeps it, which is the intended signal. The focus rule gives anything that draws no focus of its own, like a link in prose, the same 2px ring a control draws (see Focus and edges); a component that draws its own says `outline-none`, which wins.
 
 `::selection` is set once here too, in `selection` with `foreground` ink. Never per component.
 
@@ -65,9 +69,9 @@ Three statuses, built the same way. Each has an ink and two fills — 4% resting
 | ------------- | --------------------------------- | ------------------- | ------------------------- |
 | `destructive` | red-600 / red-400                 | `destructive-bg` 4% | `destructive-bg-hover` 7% |
 | `live`        | `#526FFF` / `oklch(0.7 0.17 270)` | `live-bg` 4%        | `live-bg-hover` 7%        |
-| `success`     | emerald-600 / emerald-400         | `success-bg` 4%     | `success-bg-hover` 7%     |
+| `success`     | `success` (emerald)               | `success-bg` 4%     | `success-bg-hover` 7%     |
 
-`live` means streaming, running, connected, or currently selected: something happening now, or a toggle the person has switched on, like an open activity panel, a pressed preview toggle or a reaction they added. The current page in navigation, a checked menu option and a chosen tab are not toggles; they stay neutral, carried by `accent` fills and checkmarks. `success` means completed, passing, saved. Anything else — pending, queued, draft, idle, read, suggested — is neutral: `muted` fill, `muted-foreground` ink. Resist adding a fourth hue.
+`live` means streaming, running, connected, or currently selected: something happening now, or a toggle the person has switched on, like an open activity panel, a pressed preview toggle or a reaction they added. The current page in navigation, a checked menu option and a chosen tab are not toggles; they stay neutral, carried by `accent` fills and checkmarks. `success` means completed, passing, saved. Anything else — pending, queued, draft, idle, read, suggested — is neutral: `muted` fill, `muted-foreground` ink. There is no fourth hue, so `Status` has exactly the three variants.
 
 **`live` is the only accent, and it is earned.**
 
@@ -83,7 +87,7 @@ bg-destructive/4 text-destructive          — a static badge or row
 bg-destructive/4 hover:bg-destructive/7    — the same thing when it is clickable
 ```
 
-**`live` is always the `live` token, never a blue shade.** Registry code and site code alike write `text-live`, `bg-live/4`, `hover:bg-live/7` and `border-live/20`. No `dark:` twin, since `--live` already changes with the theme, and no fallback colour.
+**`live` is always the `live` token, never a blue shade.** Registry code and site code alike write `text-live`, `bg-live/4`, `hover:bg-live/7` and `border-live/20`. No `dark:` twin, since `--live` already changes with the theme, and no fallback colour. `success` works the same way, as the `success` token (`text-success`, `bg-success/4`), never an emerald shade.
 
 The 7% step is only for items that are genuinely interactive. A status badge sitting in a table cell stays at 4% and never lights up on hover.
 
@@ -96,10 +100,10 @@ Contrast, in the light theme: `destructive` clears 4.5:1, but `live` (3.8:1) and
 Anything that floats over the page without dimming it — popovers, dropdowns, menus, hover cards, a sticky header — is translucent rather than solid. The treatment is one fill plus one blur, and it never varies:
 
 ```
-bg-popover supports-[backdrop-filter]:bg-background/60 backdrop-blur-xs
+bg-popover supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-background/70 backdrop-blur-xs
 ```
 
-The opaque `bg-popover` comes first as the fallback; browsers without `backdrop-filter` get a solid surface rather than an unreadable one. `glass` is that 60% fill as a token (`#ffffff99` light, `#09090b99` dark) for anywhere the class strings aren't available; `blur-xs` is 4px.
+The opaque `bg-popover` comes first as the fallback; browsers without `backdrop-filter` get a solid surface rather than an unreadable one. `glass` is the 60% fill as a token (`#ffffff99` light, `#09090b99` dark) for anywhere the class strings aren't available; `blur-xs` is 4px.
 
 Three rules:
 
@@ -109,9 +113,9 @@ Three rules:
 
 **A panel over a scrim is solid, never glass.** Dialogs, sheets, drawers and the command palette sit on `bg-popover`, with no blur. A 60% fill composited over a dimmed page turns a muddy grey, and `muted-foreground` on it drops below 4.5:1. The scrim has already set the page apart, so the panel doesn't need translucency to read as on top. In dark mode `popover` is a step lighter than `background`, which keeps the panel's edge clear against the scrim.
 
-A modal's scrim is `overlay` — black at 50% light, 70% dark, with `blur-md` if the page beneath should read as genuinely out of focus. The scrim never carries text.
+A dialog's scrim is a veil, black at 10% with `backdrop-blur-xs` (`bg-black/10 supports-backdrop-filter:backdrop-blur-xs`), so the page behind goes soft rather than dark. A sheet's is `overlay`, black at 50% light and 70% dark. The scrim never carries text.
 
-Borders stay `border` on glass; a glass panel keeps its hairline, since the fill alone no longer defines where the surface ends. A panel that floats also carries `shadow-md` or `shadow-lg` — see Elevation below. A solid panel over a scrim keeps its hairline and its `shadow-lg` too.
+A glass panel keeps its hairline, since the fill alone no longer defines where the surface ends. Popovers, hover cards and dialogs draw it as `ring-1 ring-foreground/10`, which sits outside the box, and menus as a `border`. A panel that floats also carries `shadow-md` or `shadow-lg` — see Elevation below. A solid panel over a scrim keeps its hairline and its `shadow-lg` too.
 
 **A header that content scrolls under is glass, laid over the content rather than stacked above it.** In-flow glass over a flat `background` is just `background`, so the header has to sit over the scroll area for the blur to show anything. The chat's main header is the reference: `Panels` with `glassHeader` lays it over the top of the main panel, and the thread pads its own top by the header's 40px plus its usual 24px, so the first message rests exactly where it would under a solid header. The header keeps its `border` hairline and carries no shadow. It's docked to an edge rather than floating, and the hairline already says where it ends. A header inside something that is already glass, like quick chat, or on a panel over a scrim, like a sheet, stays solid under the rules above.
 
@@ -162,7 +166,7 @@ Fourteen styles, each with its size, leading, weight and tracking fixed:
 - `code` (13px) sits inline on a `muted` ground; `code-block` is the same size with looser leading. `code-sm` is 11px for dense work — token and prop names in reference tables, paths, ids, and inline code inside `caption` or `body-sm`. `kbd` is 12px.
 - The code group runs one weight heavier at its small end: `code-sm` and `kbd` are `medium`, since mono at 11 and 12px goes thin against a `muted` fill.
 
-**A catalog page's eyebrow uses a pulsing `Status` with a `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays visually consistent with status-shaped labels elsewhere in the catalog. Use the default `live` variant for published catalog pages and `construction` for a page that is still being built.
+**A catalog page's eyebrow uses a pulsing `Status` with a `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays visually consistent with status-shaped labels elsewhere in the catalog. Use the default `live` variant.
 
 Emphasis comes from size and ink, not weight — the 80-unit spread between light and medium is too small to shout with. Italics are for citation only, and nothing in the UI is underlined except a prose link on hover.
 
@@ -173,11 +177,11 @@ The base is `radius`, 0.875rem — 14px. Every other step is derived from it exa
 | token         | value    | for                                                                                |
 | ------------- | -------- | ---------------------------------------------------------------------------------- |
 | `radius-sm`   | 10px     | things nested inside something already rounded                                     |
-| `radius-md`   | 12px     | dense controls: inputs, selects, small buttons, menu items, tabs                   |
-| `radius-lg`   | **14px** | the default: buttons, badges, popovers, dropdowns, tooltips, toasts, sidebar items |
+| `radius-md`   | 12px     | dense controls: selects, small buttons, menu items, tabs, tooltips                 |
+| `radius-lg`   | **14px** | the default: buttons, inputs, popovers, hover cards, dropdowns, toasts, sidebar items |
 | `radius-xl`   | 18px     | containers that hold components: cards, dialogs, sheets, image frames              |
 | `radius-2xl`  | 24px     | large full-width surfaces only — hero and marketing panels                         |
-| `radius-full` | pill     | switches, circular icon buttons, avatars, progress tracks, status dots             |
+| `radius-full` | pill     | switches, circular icon buttons, avatars, progress tracks, status dots, badges     |
 
 `radius-lg` is the one to reach for when unsure. The shape of the system is a 14px corner; the steps either side exist to keep nesting honest, not to give every component its own curve.
 
@@ -200,10 +204,11 @@ Controls are 32px, not shadcn's 36px. That one change is most of what makes the 
 | ------------------------------ | --------------------- | ------- | ------------ |
 | button                         | `h-8` 32px            | `px-3`  | `gap-2`      |
 | small button, icon button      | `h-7` 28px / `size-7` | `px-2`  | —            |
-| input, select, combobox        | `h-8` 32px            | `px-3`  | —            |
+| input, select, combobox        | `h-8` 32px            | `px-2.5`| —            |
 | menu item                      | `h-7` 28px            | `px-2`  | `gap-2`      |
 | table row, list row            | `h-8` 32px            | `px-2`  | `gap-2`      |
-| card, dialog, popover          | —                     | `p-4`   | `gap-3`      |
+| card, dialog                   | —                     | `p-4`   | `gap-4`      |
+| popover, hover card            | —                     | `p-2.5` | `gap-2.5`    |
 | sidebar item                   | `h-7.5` 30px          | `px-2`  | `gap-2`      |
 | page gutter                    | —                     | `px-6`  | —            |
 | between sections               | —                     | —       | `gap-6`      |
@@ -238,17 +243,23 @@ A 32px control with a 12px corner (`radius-md`) has 10px of straight edge on eac
 
 ### Focus and edges
 
-**There are no rings in this system.** No `ring-1`, no `ring-2`, no `ring-[3px]`, no offset, no glow. A focused control keeps exactly the geometry it had at rest — its 1px border changes colour, and nothing else moves.
+Keyboard focus only: `focus-visible`, never `focus`, so clicking a field doesn't paint it. Focus is drawn in `ring` at full strength, never faded (`/50`, `/60`), in one of two ways.
+
+**Fields you type into, and chips with a hairline, turn their border `ring`.** Their edge is already there, so the edge is what changes, and nothing grows around a field while you type in it:
 
 ```
 border border-input focus-visible:border-ring focus-visible:ring-0 outline-none
 ```
 
-`focus-visible:ring-0` is load-bearing: shadcn's own inputs and buttons ship `focus-visible:ring-ring/50 focus-visible:ring-[3px]`, so inherited components need it stripped or they grow a halo. This applies to everything focusable — buttons, inputs, selects, checkboxes, tabs, menu items, links. A button with no resting border gets its border on focus only, in `ring`, so nothing reflows.
+**Everything else you can focus gets a 2px ring**, with no offset and no glow: buttons, icon buttons, menu triggers, tabs, toggles, the orb, a fold's trigger.
 
-`ring` is zinc-500 in both themes. That value is chosen so the swap is actually perceivable: 4.8:1 against `background` and 3.8:1 against the resting `input` edge in light, 4.1:1 on `background` and 3.7:1 on `card` in dark — a focus indicator has to clear 3:1 against what surrounds it, and a colour change alone only counts if the two colours differ by that much. A lighter zinc would look more restrained and would not be a focus indicator.
+```
+outline-none focus-visible:ring-2 focus-visible:ring-ring
+```
 
-Keyboard focus is the only thing that triggers it: `focus-visible`, never `focus`, so clicking a field doesn't paint the border.
+Rows in a list (a sidebar item, a file in a tree) keep the border swap, in `sidebar-ring` inside the sidebar: they sit edge to edge, where a ring outside the box would cut into the row beside it. Anything that draws no focus of its own, like a link in prose, gets the same 2px ring as an outline from `globals.css`. shadcn's own components ship `focus-visible:ring-[3px] focus-visible:ring-ring/50`; a port swaps that for one of the two forms above.
+
+`ring` is zinc at L 0.64 in light and 0.552 in dark, the lightest zinc whose focus edge clears 3:1 on every surface here. A focus indicator has to clear 3:1 against what surrounds it; a lighter zinc would look more restrained and would not be a focus indicator.
 
 `border` and `input` are deliberate hairlines at roughly 1.3:1. They are decoration and containment, not information: every control also carries a visible label, and every state that matters is carried by text or ink as well. When a boundary must be perceivable on its own — a chart axis, a table rule that encodes structure — use `muted-foreground` instead.
 
@@ -260,7 +271,7 @@ Keyboard focus is the only thing that triggers it: `focus-visible`, never `focus
 
 **A settings dialog with a persistent rail has a medium footprint, not a full-screen one.** Cap it at 768px wide and 480px tall (`sm:max-w-3xl h-3/4 max-h-120`). The pane's header is 64px tall (`h-16`, `px-4`) with the breadcrumb centred in it, and its content runs at `px-4 pb-4`. Keep its header and footer fixed inside that frame and let only the active content pane scroll, so a short section does not turn into a mostly empty window.
 
-The active tab carries an `input` hairline in both themes, since the `shadow-sm` shadcn lifts it with resolves to none here. It gives way to `ring` under keyboard focus (`data-active:not-focus-visible:border-input`), so a focused active tab still shows focus.
+The active tab carries an `input` hairline in both themes, since the `shadow-sm` shadcn lifts it with resolves to none here. Keyboard focus draws the 2px ring around it, as on any other control.
 
 ### Scrolling lists
 
@@ -386,6 +397,7 @@ Scale only: the button doesn't also nudge down, and the fill doesn't darken on p
 | `enter`, `exit` (`animate-in`, `animate-out`)            | `tw-animate-css`                 | popups, toasts and dialogs arriving and leaving                       |
 | `accordion-down`, `accordion-up`                         | `shadcn/tailwind.css`            | an accordion or collapsible folding open and shut                     |
 | `caret-blink`                                            | `tw-animate-css`                 | the `live` caret at the end of a streaming reply                      |
+| `sd-liveIn`                                              | `globals.css`                    | each new word of a `Markdown` reply landing in `live` ink             |
 | `tw-shimmer`, `tw-shimmer-translate` (`shimmer`)         | `tw-shimmer`                     | the label of a step that is running                                   |
 | `pulse`                                                  | Tailwind                         | a skeleton, and a message that is still sending                       |
 | `ping`                                                   | Tailwind                         | the pulse ring on a `live` `Status` dot                               |
@@ -514,7 +526,7 @@ Every value in the system. Generated from `tokens.json` — do not hand-edit her
 | `success-bg-hover`           | `#00996612`                  | `#00d49212`                  | Success at 7%.                                                                                                                   |
 | `border`                     | `oklch(0.92 0.004 286.32)`   | `#ffffff1a`                  | Hairline separators and container edges.                                                                                         |
 | `input`                      | `oklch(0.92 0.004 286.32)`   | `#ffffff26`                  | Field and control edges at rest.                                                                                                 |
-| `ring`                       | `oklch(0.552 0.016 285.938)` | `oklch(0.552 0.016 285.938)` | The focused border colour, not a ring.                                                                                           |
+| `ring`                       | `oklch(0.64 0.016 286)`      | `oklch(0.552 0.016 285.938)` | Focus: the 2px ring on a control, and the border a field or a chip turns.                                                        |
 | `sidebar`                    | `oklch(0.985 0 0)`           | `oklch(0.21 0.006 285.885)`  | Sidebar ground: one step off background, set apart by tone rather than a heavy border.                                           |
 | `sidebar-foreground`         | `oklch(0.141 0.005 285.823)` | `oklch(0.985 0 0)`           | Sidebar text.                                                                                                                    |
 | `sidebar-primary`            | `oklch(0.21 0.006 285.885)`  | `oklch(0.92 0.004 286.32)`   | Solid fill of the active sidebar item or a sidebar CTA.                                                                          |
@@ -522,10 +534,10 @@ Every value in the system. Generated from `tokens.json` — do not hand-edit her
 | `sidebar-accent`             | `oklch(0.967 0.001 286.375)` | `oklch(0.274 0.006 286.033)` | Hover and current-item ground inside the sidebar.                                                                                |
 | `sidebar-accent-foreground`  | `oklch(0.21 0.006 285.885)`  | `oklch(0.985 0 0)`           | Text on sidebar-accent.                                                                                                          |
 | `sidebar-border`             | `oklch(0.92 0.004 286.32)`   | `#ffffff1a`                  | Sidebar rail edge and group separators.                                                                                          |
-| `sidebar-ring`               | `oklch(0.552 0.016 285.938)` | `oklch(0.552 0.016 285.938)` | Focused border colour inside the sidebar.                                                                                        |
+| `sidebar-ring`               | `oklch(0.64 0.016 286)`      | `oklch(0.552 0.016 285.938)` | Focused border colour of a row inside the sidebar.                                                                               |
 | `glass`                      | `#ffffff99`                  | `#09090b99`                  | Background at 60%, the translucent fill behind popovers, dropdowns, menus and sticky headers. Never behind a panel over a scrim. |
 | `glass-strong`               | `#ffffffcc`                  | `#09090bcc`                  | Background at 80%.                                                                                                               |
-| `overlay`                    | `#00000080`                  | `#000000b3`                  | The scrim behind a dialog, sheet or drawer.                                                                                      |
+| `overlay`                    | `#00000080`                  | `#000000b3`                  | The scrim behind a sheet or drawer. A dialog's is lighter: black at 10% with a 4px blur.                                         |
 
 ## Font weight
 
@@ -584,9 +596,9 @@ Every value in the system. Generated from `tokens.json` — do not hand-edit her
 
 | token     | value  | use                                                                                                       |
 | --------- | ------ | --------------------------------------------------------------------------------------------------------- |
-| `blur-xs` | `4px`  | The system default for glass: popovers, dropdowns, menus, sticky headers.                                 |
+| `blur-xs` | `4px`  | The system default for glass: popovers, dropdowns, menus, sticky headers, and a dialog's scrim.           |
 | `blur-sm` | `8px`  | Heavier separation for a glass layer that covers most of the page without a scrim.                        |
-| `blur-md` | `12px` | The scrim behind a modal, when the page underneath should read as out of focus rather than merely dimmed. |
+| `blur-md` | `12px` | A glass header over busy content, like quick chat's.                                                      |
 
 ## Z-index
 
