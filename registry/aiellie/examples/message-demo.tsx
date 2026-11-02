@@ -63,7 +63,7 @@ export default function MessageDemo() {
           </MessageFooter>
         </MessageContent>
       </Message>
-      <Message variant="ghost" streaming>
+      <Message variant="ghost">
         <MessageAvatar>
           <HugeiconsIcon icon={SparklesIcon} aria-hidden />
         </MessageAvatar>

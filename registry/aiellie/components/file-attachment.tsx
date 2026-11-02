@@ -6,10 +6,12 @@ import {
   Copy01Icon,
   Csv01Icon,
   Delete01Icon,
+  Download01Icon,
   Download04Icon,
   File01Icon,
   FileCodeIcon,
   Image01Icon,
+  TextIcon,
   Tick02Icon,
   Txt01Icon,
 } from "@hugeicons/core-free-icons"
@@ -27,8 +29,12 @@ import {
 } from "@/registry/aiellie/components/attachment"
 import {
   CodeBlock,
+  CodeBlockActions,
   CodeBlockContent,
+  CodeBlockCopyButton,
+  CodeBlockHeader,
   CodeBlockLine,
+  CodeBlockTitle,
 } from "@/registry/aiellie/components/code-block"
 import { codeIcons, type CodeIconName } from "@/registry/aiellie/icons"
 import { Button, buttonVariants } from "@/registry/aiellie/ui/button"
@@ -194,13 +200,50 @@ async function pngOf(src: string) {
   return canvas.convertToBlob({ type: "image/png" })
 }
 
+function downloadText(value: string, filename: string) {
+  const url = URL.createObjectURL(
+    new Blob([value], { type: "text/plain;charset=utf-8" })
+  )
+  const link = document.createElement("a")
+  link.href = url
+  link.download = filename
+  link.click()
+  // Revoked a tick later, or some browsers cancel before reading it.
+  setTimeout(() => URL.revokeObjectURL(url), 0)
+}
+
 /** A text file's lines, highlighted by its extension when it's code. */
 function TextPreview({ text, name }: { text: string; name: string }) {
+  const [wrap, setWrap] = React.useState(false)
   const lines = useHighlightedCode(text, name.slice(name.lastIndexOf(".") + 1))
 
   return (
     <CodeBlock size="sm" className="max-h-[60vh]">
-      <CodeBlockContent lineNumbers>
+      <CodeBlockHeader>
+        <CodeBlockTitle>{name}</CodeBlockTitle>
+        <CodeBlockActions>
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            aria-label="Wrap lines"
+            aria-pressed={wrap}
+            className="aria-pressed:text-foreground"
+            onClick={() => setWrap((value) => !value)}
+          >
+            <HugeiconsIcon aria-hidden icon={TextIcon} />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            aria-label="Download"
+            onClick={() => downloadText(text, name)}
+          >
+            <HugeiconsIcon aria-hidden icon={Download01Icon} />
+          </Button>
+          <CodeBlockCopyButton value={text} />
+        </CodeBlockActions>
+      </CodeBlockHeader>
+      <CodeBlockContent wrap={wrap} lineNumbers>
         {lines.map((line, index) => (
           <CodeBlockLine key={index}>{line}</CodeBlockLine>
         ))}
@@ -396,7 +439,10 @@ function FileAttachment({
         <DialogTrigger
           render={<AttachmentTrigger aria-label={`Open ${title}`} />}
         />
-        <AttachmentMedia variant={thumbnail ? "image" : "icon"} className="bg-background border">
+        <AttachmentMedia
+          variant={thumbnail ? "image" : "icon"}
+          className="bg-transparent [&_svg:not([class*='size-'])]:size-5 group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-5"
+        >
           {thumbnail ? (
             // A blob or data URL, which next/image has nothing to optimise.
             // eslint-disable-next-line @next/next/no-img-element
