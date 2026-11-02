@@ -40,7 +40,7 @@ type Side = "left" | "right" | "bottom"
 // `fill` is whether a panel's toggle takes a fill while the panel is open.
 const PANELS = {
   left: {
-    title: "Left",
+    title: "",
     size: ["18rem", "12rem", "28rem"],
     key: "b",
     openIcon: SidebarLeftIcon,
@@ -48,7 +48,7 @@ const PANELS = {
     fill: false,
   },
   right: {
-    title: "Right",
+    title: "",
     size: ["24rem", "16rem", "42rem"],
     key: "i",
     openIcon: SidebarRightIcon,
@@ -56,7 +56,7 @@ const PANELS = {
     fill: true,
   },
   bottom: {
-    title: "Bottom",
+    title: "",
     size: ["16rem", "8rem", "70%"],
     key: "j",
     openIcon: SidebarBottomIcon,
@@ -496,7 +496,7 @@ function Panels({
               style={{ overflow: "hidden" }}
             >
               <PanelHeader
-                title={headers.main ?? "Main"}
+                title={headers.main}
                 border={headerBorder.main}
                 glass={glassHeader}
                 start={

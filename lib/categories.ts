@@ -1,5 +1,7 @@
-import {
+  import {
   Add01Icon,
+  AiTemplateIcon,
+  ThreadIcon,
   BrainIcon,
   BubbleChatIcon,
   InputTextIcon,
@@ -25,6 +27,8 @@ import registry from "@/registry.json"
  */
 export const CATEGORIES = {
   /** Things you think. */
+  thread: { name: "Thread", icon: ThreadIcon },
+  template: { name: "Template", icon: AiTemplateIcon },
   reasoning: { name: "Reasoning", icon: BrainIcon },
   /** Things you add. */
   composer: { name: "Composer", icon: Add01Icon },

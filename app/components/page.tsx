@@ -166,88 +166,7 @@ export default function ComponentsPage() {
           <MessageScrollerDemo />
         </DemoCard>
         </CategorySection>
-        <DemoCard
-          href="/components/code-block"
-          index={3}
-          title="Code Block"
-          description="A named block of code to copy, download and point at"
-        >
-          <CodeBlockDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/date-divider"
-          index={6}
-          title="Date Divider"
-          description="The day and time a thread picks up at, as a quiet line of text"
-        >
-          <DateDividerDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/editable-title"
-          index={7}
-          title="Editable Title"
-          description="A heading you click to rename in place"
-        >
-          <EditableTitleDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/history-buttons"
-          index={10}
-          title="History Buttons"
-          description="Back and forward through what you opened, with their shortcuts"
-        >
-          <HistoryButtonsDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/inline-citation"
-          index={11}
-          title="Inline Citation"
-          description="A numbered mark in the prose that names its source"
-        >
-          <InlineCitationDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/login-form"
-          index={12}
-          title="Login Form"
-          description="One form to sign in or up: an email code, Google or GitHub"
-        >
-          <LoginFormDemo />
-        </DemoCard>
-      
-        <DemoCard
-          href="/components/panels"
-          index={18}
-          title="Panels"
-          description="An app shell with resizable panels on three sides"
-          wide
-        >
-          <PanelsDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/plan-review"
-          index={19}
-          title="Plan Review"
-          description="A proposed plan to reshape before it runs"
-        >
-          <PlanReviewDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/sources"
-          index={22}
-          title="Sources"
-          description="The pages a reply drew on, as small chips that open them"
-        >
-          <SourcesDemo />
-        </DemoCard>
-        <DemoCard
-          href="/components/suggestions"
-          index={24}
-          title="Suggestions"
-          description="Prompts to start from, arriving together as a row"
-        >
-          <SuggestionsDemo />
-        </DemoCard>
+        <CategorySection category="thread">
         <DemoCard
           href="/components/thread"
           index={26}
@@ -265,6 +184,58 @@ export default function ComponentsPage() {
           <ThreadTranscriptDemo />
         </DemoCard>
         <DemoCard
+          href="/components/inline-citation"
+          index={11}
+          title="Inline Citation"
+          description="A numbered mark in the prose that names its source"
+        >
+          <InlineCitationDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/sources"
+          index={22}
+          title="Sources"
+          description="The pages a reply drew on, as small chips that open them"
+        >
+          <SourcesDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/date-divider"
+          index={6}
+          title="Date Divider"
+          description="The day and time a thread picks up at, as a quiet line of text"
+        >
+          <DateDividerDemo />
+        </DemoCard>
+        </CategorySection>
+        <DemoCard
+          href="/components/code-block"
+          index={3}
+          title="Code Block"
+          description="A named block of code to copy, download and point at"
+        >
+          <CodeBlockDemo />
+        </DemoCard>
+  
+      
+        <DemoCard
+          href="/components/plan-review"
+          index={19}
+          title="Plan Review"
+          description="A proposed plan to reshape before it runs"
+        >
+          <PlanReviewDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/suggestions"
+          index={24}
+          title="Suggestions"
+          description="Prompts to start from, arriving together as a row"
+        >
+          <SuggestionsDemo />
+        </DemoCard>
+       
+        <DemoCard
           href="/components/voice-divider"
           index={28}
           title="Voice Divider"
@@ -280,6 +251,41 @@ export default function ComponentsPage() {
         >
           <WebSearchDemo />
         </DemoCard>
+        <CategorySection category="template">
+        <DemoCard
+          href="/components/editable-title"
+          index={7}
+          title="Editable Title"
+          description="A heading you click to rename in place"
+        >
+          <EditableTitleDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/history-buttons"
+          index={10}
+          title="History Buttons"
+          description="Back and forward through what you opened, with their shortcuts"
+        >
+          <HistoryButtonsDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/login-form"
+          index={12}
+          title="Login Form"
+          description="One form to sign in or up: an email code, Google or GitHub"
+        >
+          <LoginFormDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/panels"
+          index={18}
+          title="Panels"
+          description="An app shell with resizable panels on three sides"
+          wide
+        >
+          <PanelsDemo />
+        </DemoCard>
+        </CategorySection>
       </div>
   )
 }
