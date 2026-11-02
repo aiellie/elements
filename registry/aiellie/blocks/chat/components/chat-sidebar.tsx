@@ -16,7 +16,10 @@ import {
   type ChatMode,
 } from "@/registry/aiellie/blocks/chat/components/chat-switcher"
 import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
-import { UserMenu, type User } from "@/registry/aiellie/components/user-menu"
+import {
+  NavUser,
+  type User,
+} from "@/registry/aiellie/blocks/chat/components/chat-nav-user"
 import {
   Sidebar,
   SidebarContent,
@@ -95,6 +98,7 @@ function ChatSidebarHeader({
         <TooltipIconButton
           tooltip="Search"
           shortcut="⌘K"
+          aria-keyshortcuts="Meta+K"
           onClick={onSearch}
           className="size-7"
         >
@@ -126,14 +130,15 @@ function ChatSidebar({
   activityOpen,
   onActivity,
   userMenu,
+  header = true,
   ...chats
 }: ChatNavProps & {
   /** Who is signed in. Without one, the footer offers to sign in. */
   user?: User
   /** How much of the plan is left, e.g. "72% left". */
   usage?: string
-  /** Passed on to the user menu, for its settings dialog. */
-  userMenu?: Omit<React.ComponentProps<typeof UserMenu>, "user" | "usage">
+  /** Passed on to the user menu. */
+  userMenu?: Omit<React.ComponentProps<typeof NavUser>, "user" | "usage">
   mode: ChatMode
   onModeChange: (mode: ChatMode) => void
   onNewChat: () => void
@@ -142,18 +147,22 @@ function ChatSidebar({
   onSearch?: () => void
   activityOpen: boolean
   onActivity: () => void
+  /** Off when the panel around it shows `ChatSidebarHeader` in its own header. */
+  header?: boolean
 }) {
   const { ref: listRef, style: fadeStyle } = useScrollFade()
 
   return (
     <Sidebar collapsible="none" className="w-full bg-background">
-      <ChatSidebarHeader
-        mode={mode}
-        onModeChange={onModeChange}
-        onSearch={onSearch}
-        activityOpen={activityOpen}
-        onActivity={onActivity}
-      />
+      {header ? (
+        <ChatSidebarHeader
+          mode={mode}
+          onModeChange={onModeChange}
+          onSearch={onSearch}
+          activityOpen={activityOpen}
+          onActivity={onActivity}
+        />
+      ) : null}
       <ChatNavMain
         newChatOpen={chats.activeId === null}
         onNewChat={onNewChat}
@@ -177,10 +186,10 @@ function ChatSidebar({
         </div>
       </SidebarContent>
       <SidebarFooter className="border-t border-border/50">
-        <UserMenu {...userMenu} user={user} usage={usage} />
+        <NavUser {...userMenu} user={user} usage={usage} />
       </SidebarFooter>
     </Sidebar>
   )
 }
 
-export { ChatSidebar }
+export { ChatSidebar, ChatSidebarHeader }

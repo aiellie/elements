@@ -7,7 +7,7 @@ import {
   CloudIcon,
   Plug02Icon,
   TimeScheduleIcon,
-  ChatBotIcon
+  ChatBotIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -110,14 +110,6 @@ function ChatNavMain({
             <span>Plugins</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
-        <SidebarMenuButton onClick={onScheduled}>
-          <HugeiconsIcon icon={TimeScheduleIcon} aria-hidden />
-          <span>Scheduled</span>
-        </SidebarMenuButton>
-        <SidebarMenuButton onClick={onAgents}>
-          <HugeiconsIcon icon={ChatBotIcon} aria-hidden />
-          <span>Agents</span>
-        </SidebarMenuButton>
       </SidebarMenu>
     </SidebarGroup>
   )

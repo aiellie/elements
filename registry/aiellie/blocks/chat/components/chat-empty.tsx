@@ -1,68 +1,42 @@
-"use client"
+import * as React from "react"
 
-import { BubbleChatTemporaryIcon, Key01Icon } from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
+import { cn } from "@/lib/utils"
 
-import { brandIcons } from "@/registry/aiellie/icons"
-import { Button } from "@/registry/aiellie/ui/button"
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/registry/aiellie/ui/empty"
-
-function ChatEmpty({
-  temporary = false,
-  onAddKey,
-}: {
-  temporary?: boolean
-  /** Offered while replies are samples, for want of an API key. */
-  onAddKey?: () => void
-}) {
+// What a new chat shows in place of its thread, until its first message.
+function ChatEmpty({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <Empty className="gap-5">
-      <EmptyHeader>
-        <EmptyMedia className="size-10 rounded-lg" variant="icon">
-          {temporary ? (
-            <HugeiconsIcon
-              aria-hidden
-              icon={BubbleChatTemporaryIcon}
-              className="size-6 text-foreground"
-            />
-          ) : (
-            brandIcons.elephant("size-6 text-foreground")
-          )}
-        </EmptyMedia>
-        <EmptyTitle className="text-2xl font-light tracking-tight">
-          {temporary ? "Temporary chat" : "Ready when you are."}
-        </EmptyTitle>
-        {temporary ? (
-          <EmptyDescription className="max-w-xs">
-            It won&apos;t appear in your history, and it won&apos;t use or
-            update your memory.
-          </EmptyDescription>
-        ) : null}
-        {onAddKey ? (
-          <>
-            <EmptyDescription className="text-xs">
-              Replies are samples for now.
-            </EmptyDescription>
-            <Button
-              variant="outline"
-              size="xs"
-              onClick={onAddKey}
-              className="mt-1"
-            >
-              <HugeiconsIcon icon={Key01Icon} aria-hidden />
-              Add an API key
-            </Button>
-          </>
-        ) : null}
-      </EmptyHeader>
-    </Empty>
+    <div
+      data-slot="chat-empty"
+      className={cn(
+        "mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col items-center justify-center gap-2 px-4 pt-10 text-center",
+        className
+      )}
+      {...props}
+    />
   )
 }
 
-export { ChatEmpty }
+function ChatEmptyTitle({ className, ...props }: React.ComponentProps<"h1">) {
+  return (
+    <h1
+      data-slot="chat-empty-title"
+      className={cn("text-2xl font-medium tracking-tight", className)}
+      {...props}
+    />
+  )
+}
+
+function ChatEmptyDescription({
+  className,
+  ...props
+}: React.ComponentProps<"p">) {
+  return (
+    <p
+      data-slot="chat-empty-description"
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  )
+}
+
+export { ChatEmpty, ChatEmptyTitle, ChatEmptyDescription }

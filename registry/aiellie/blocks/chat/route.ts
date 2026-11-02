@@ -1,169 +1,199 @@
-import { createAnthropic } from "@ai-sdk/anthropic"
-import { createGoogleGenerativeAI } from "@ai-sdk/google"
-import { createOpenAI } from "@ai-sdk/openai"
 import {
-  convertToModelMessages,
-  createGateway,
+  createUIMessageStream,
   createUIMessageStreamResponse,
   isStepCount,
   streamText,
   toUIMessageStream,
-  type LanguageModel,
+  type TextStreamPart,
   type ToolSet,
   type UIMessage,
 } from "ai"
 
+import { apiKeysFrom } from "@/registry/aiellie/blocks/chat/lib/chat-keys"
+import { failureReason } from "@/registry/aiellie/blocks/chat/lib/chat-failures"
+import { defaultModel, isEffort } from "@/registry/aiellie/lib/models"
+import {
+  fitToContext,
+  toModelMessages,
+  type MessageMetadata,
+} from "@/registry/aiellie/lib/messages"
+import { resolveModel } from "@/registry/aiellie/blocks/chat/lib/chat-providers"
+
+// With search on, the model cites what it found where it uses it, in the form
+// a reply draws as a numbered citation that previews the page.
+const CITE_SOURCES =
+  "When you use something a web search found, cite the page right after the sentence that uses it, as a markdown link with a number for its text and the page's address, like [1](https://example.com/page). Cite only pages your searches returned, and don't list them again at the end: the chat shows them under your reply."
+
 export const maxDuration = 60
 
-// The thread renders Markdown, so the reply is asked for it, kept light.
-const INSTRUCTIONS =
-  'You are a helpful assistant in a chat app. Reply in Markdown: prose paragraphs first, with lists, tables and headings only where they help. Wrap code, commands, file names and identifiers in single backticks, and put longer code in fenced blocks that name their language. When a sentence comes from a page you found, link the page right after it. Files the person attaches come as images, PDFs, or text inside <file name="…"> tags. Search the web when a question needs current information, or facts you aren\'t sure of.'
+// Without a key there's no model to ask, so the reply is a sample, streamed
+// the way a real one is. A deployment with no key set, like a public
+// preview, never spends anyone's credits.
+const SAMPLE_THOUGHTS =
+  "There's no API key yet, so these thoughts are a sample too. They stream in first, then fold away once the answer starts."
+const SAMPLE_REPLY =
+  "This is a sample reply, since there's no API key yet. Add one under **API keys** in the account menu, or set `AI_GATEWAY_API_KEY` on the server, and replies come from the model you pick."
 
-// The AI SDK's reasoning levels, which the composer's effort menu offers.
-const EFFORTS = new Set(["none", "minimal", "low", "medium", "high", "xhigh"])
+const pause = (ms: number) => new Promise((done) => setTimeout(done, ms))
 
-// What the models behind every provider here can all read.
-const FILE_TYPES = new Set([
-  "image/png",
-  "image/jpeg",
-  "image/gif",
-  "image/webp",
-  "application/pdf",
-])
-
-type Provider = {
-  model: (id: string) => LanguageModel
-  /** Web search, run by the provider itself rather than by this route. */
-  tools: ToolSet
-}
-
-// The gateway's search works with every model it serves. Anthropic's has to
-// be turned on for the organization in the Claude Console first.
-const PROVIDERS: Record<string, (apiKey: string) => Provider> = {
-  gateway: (apiKey) => {
-    const gateway = createGateway({ apiKey })
-    return {
-      model: gateway,
-      tools: { perplexity_search: gateway.tools.perplexitySearch() },
-    }
-  },
-  openai: (apiKey) => {
-    const openai = createOpenAI({ apiKey })
-    return { model: openai, tools: { web_search: openai.tools.webSearch() } }
-  },
-  anthropic: (apiKey) => {
-    const anthropic = createAnthropic({ apiKey })
-    return {
-      model: anthropic,
-      tools: {
-        web_search: anthropic.tools.webSearch_20260318({ maxUses: 5 }),
+function sampleReply(modelId: string) {
+  const started = Date.now()
+  return createUIMessageStreamResponse({
+    stream: createUIMessageStream({
+      async execute({ writer }) {
+        writer.write({
+          type: "start",
+          messageMetadata: { createdAt: started } satisfies MessageMetadata,
+        })
+        writer.write({ type: "reasoning-start", id: "thoughts" })
+        for (const word of SAMPLE_THOUGHTS.split(/(?<= )/)) {
+          writer.write({ type: "reasoning-delta", id: "thoughts", delta: word })
+          await pause(40)
+        }
+        writer.write({ type: "reasoning-end", id: "thoughts" })
+        writer.write({ type: "text-start", id: "reply" })
+        for (const word of SAMPLE_REPLY.split(/(?<= )/)) {
+          writer.write({ type: "text-delta", id: "reply", delta: word })
+          await pause(30)
+        }
+        writer.write({ type: "text-end", id: "reply" })
+        writer.write({
+          type: "finish",
+          finishReason: "stop",
+          messageMetadata: {
+            model: modelId,
+            reasoningSeconds: Math.max(
+              1,
+              Math.round((Date.now() - started) / 1000)
+            ),
+          } satisfies MessageMetadata,
+        })
       },
-    }
-  },
-  google: (apiKey) => {
-    const google = createGoogleGenerativeAI({ apiKey })
-    return {
-      model: google,
-      tools: { google_search: google.tools.googleSearch({}) },
-    }
-  },
+    }),
+  })
 }
 
-// Providers mostly say plainly what went wrong, like a model a team hasn't
-// allowed, so their words are kept. A 403 is a refusal of the request, not of
-// the key. Links are dropped, since a reply's footer can't follow them.
-function describeError(error: unknown) {
-  const status =
-    typeof error === "object" && error !== null && "statusCode" in error
-      ? error.statusCode
-      : undefined
-  if (status === 401) return "The API key was refused. Check it in Settings."
-  if (status === 429) return "Rate limited or out of credit. Try again soon."
-  const message =
-    error instanceof Error
-      ? error.message.replace(/\s*\(https?:\/\/[^)]*\)/g, "").trim()
-      : ""
-  return message || "Something went wrong."
-}
-
-// Keeps text, and files sent inline as data. A file given by address would
-// have this server fetch whatever a request names.
-function clean(messages: UIMessage[]): UIMessage[] {
+// Files come inline, as data. One given by address would have this server
+// fetch whatever a request names, so it's treated as a file no longer there.
+function inlineFilesOnly(messages: UIMessage[]): UIMessage[] {
   return messages.map((message) => ({
-    id: String(message.id),
-    role: message.role === "assistant" ? "assistant" : "user",
-    parts: (Array.isArray(message.parts) ? message.parts : []).flatMap(
-      (part): UIMessage["parts"] => {
-        if (part.type === "text" && typeof part.text === "string") {
-          return [{ type: "text", text: part.text }]
-        }
-        if (
-          part.type === "file" &&
-          FILE_TYPES.has(part.mediaType) &&
-          typeof part.url === "string" &&
-          part.url.startsWith(`data:${part.mediaType};base64,`)
-        ) {
-          return [
-            {
-              type: "file",
-              mediaType: part.mediaType,
-              filename: part.filename,
-              url: part.url,
-            },
-          ]
-        }
-        return []
-      }
+    ...message,
+    parts: message.parts.map((part) =>
+      part.type === "file" && !part.url.startsWith("data:")
+        ? { ...part, url: "" }
+        : part
     ),
   }))
 }
 
-// The key comes with each request and is never stored. The route never falls
-// back to keys in the environment, so it can't spend yours on someone else.
-export async function POST(request: Request) {
-  const key = request.headers
-    .get("authorization")
-    ?.replace(/^Bearer\s+/i, "")
-    .trim()
-  if (!key) return new Response("Add an API key in Settings.", { status: 401 })
-
-  const { messages, provider, model, effort } = (await request.json()) as {
-    messages: UIMessage[]
-    provider: string
-    model: string
-    effort?: string
-  }
-  if (
-    !Object.hasOwn(PROVIDERS, provider) ||
-    typeof model !== "string" ||
-    !Array.isArray(messages)
-  ) {
-    return new Response("Unknown provider or model.", { status: 400 })
-  }
-
-  const { model: languageModel, tools } = PROVIDERS[provider](key)
-  const result = streamText({
-    model: languageModel(model),
-    instructions: INSTRUCTIONS,
-    tools,
-    // Searches run at the provider and come back in the same reply. The limit
-    // only matters if one ever needs another round.
-    stopWhen: isStepCount(5),
-    messages: await convertToModelMessages(clean(messages)),
-    // Models that can think do, and send their thoughts along. Gemini keeps
-    // them to itself unless asked.
-    reasoning: (effort && EFFORTS.has(effort)
-      ? effort
-      : "medium") as Parameters<typeof streamText>[0]["reasoning"],
-    providerOptions: { google: { thinkingConfig: { includeThoughts: true } } },
-    abortSignal: request.signal,
+/**
+ * Times the reasoning as it streams past, block by block, so a reply keeps
+ * how long the model thought for. `seconds()` is the total so far.
+ */
+function reasoningClock() {
+  const started = new Map<string, number>()
+  let total = 0
+  const watch = new TransformStream<
+    TextStreamPart<ToolSet>,
+    TextStreamPart<ToolSet>
+  >({
+    transform(part, controller) {
+      if (part.type === "reasoning-start") started.set(part.id, Date.now())
+      if (part.type === "reasoning-end") {
+        const at = started.get(part.id)
+        if (at !== undefined) total += Date.now() - at
+        started.delete(part.id)
+      }
+      controller.enqueue(part)
+    },
   })
+  return {
+    watch,
+    seconds: () =>
+      total > 0 ? Math.max(1, Math.round(total / 1000)) : undefined,
+  }
+}
+
+export async function POST(req: Request) {
+  const {
+    messages,
+    model,
+    effort,
+    context,
+    search,
+  }: {
+    messages: UIMessage[]
+    /** The model picked, or its fast variant with Fast on. */
+    model?: unknown
+    /** The reasoning effort picked, for a model that reasons. */
+    effort?: unknown
+    /** The context size picked, in tokens, for a model with a choice. */
+    context?: unknown
+    /** Whether the model may search the web for this reply. */
+    search?: unknown
+  } = await req.json()
+  const modelId = typeof model === "string" && model ? model : defaultModel
+  const keys = apiKeysFrom(req)
+  // Straight to the provider when there's a key for it, from the API keys
+  // dialog or the server's environment; otherwise through the AI Gateway.
+  const resolved = resolveModel(modelId, keys)
+  // The Gateway also signs in with a Vercel deployment's own token, so only a
+  // key someone set counts. Without one, the reply is a sample.
+  if (
+    resolved.route.via === "gateway" &&
+    !keys.gateway &&
+    !process.env.AI_GATEWAY_API_KEY
+  )
+    return sampleReply(modelId)
+  const tools = search === true ? resolved.search : undefined
+
+  const modelMessages = await toModelMessages(inlineFilesOnly(messages))
+
+  const result = streamText({
+    model: resolved.model,
+    instructions: tools ? CITE_SOURCES : undefined,
+    // A smaller context size picked keeps the request under it, so it stays
+    // at the model's standard rate: the oldest messages are left out.
+    messages:
+      typeof context === "number" && context > 0
+        ? fitToContext(modelMessages, context)
+        : modelMessages,
+    // Each provider maps this to its own setting, whichever way the request
+    // goes. Its reasoning streams to the client, where the reply's reasoning
+    // line shows it. Google sends its thoughts back only when asked to.
+    reasoning: isEffort(effort) ? effort : "provider-default",
+    providerOptions: {
+      google: { thinkingConfig: { includeThoughts: true } },
+    },
+    // With search on, the model can look things up, then answer from what it
+    // found: a few steps in all.
+    tools,
+    stopWhen: tools ? isStepCount(5) : undefined,
+  })
+
+  const clock = reasoningClock()
 
   return createUIMessageStreamResponse({
     stream: toUIMessageStream({
-      stream: result.stream,
+      stream: result.stream.pipeThrough(clock.watch),
+      // Pages a search turned up, for the reply to list.
       sendSources: true,
-      onError: describeError,
+      // Why it failed, for the thread to say beside "Failed".
+      onError: (error) => failureReason(error, resolved.route),
+      // When the reply started, for its timestamp, and how it went, for the
+      // context meter and reasoning line. Small, so it's kept with the message.
+      messageMetadata: ({ part }): MessageMetadata | undefined =>
+        part.type === "start"
+          ? { createdAt: Date.now() }
+          : part.type === "finish"
+            ? {
+                model: modelId,
+                via: resolved.route.via,
+                finishReason: part.finishReason,
+                usage: part.totalUsage,
+                reasoningSeconds: clock.seconds(),
+              }
+            : undefined,
     }),
   })
 }

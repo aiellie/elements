@@ -10,7 +10,7 @@ import {
   CollapsibleTrigger,
 } from "@/registry/aiellie/ui/collapsible"
 
-const FILES = ["chat.tsx", "chat-messages.tsx", "chat-composer.tsx"]
+const FILES = ["chat.tsx", "chat-thread.tsx", "chat-sidebar.tsx"]
 
 export default function CollapsibleDemo() {
   return (

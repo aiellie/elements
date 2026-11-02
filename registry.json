@@ -473,8 +473,8 @@
       "title": "Panels",
       "description": "An app shell: the page in the middle, with resizable panels on the left, the right and along the bottom, toggled from their headers or with ⌘B, ⌘I and ⌘J. On a phone the side panels open as sheets.",
       "dependencies": [
-        "@hugeicons/react",
         "@hugeicons/core-free-icons",
+        "@hugeicons/react",
         "react-resizable-panels"
       ],
       "registryDependencies": [
@@ -501,8 +501,8 @@
       "description": "Base UI's menu with this registry's surface on it, plus an optional search box that filters the rows.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/react",
-        "@hugeicons/core-free-icons"
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react"
       ],
       "registryDependencies": ["@aiellie/utils"],
       "files": [
@@ -566,14 +566,14 @@
       "type": "registry:component",
       "title": "Login Form",
       "description": "One form to sign in or sign up: Google and GitHub buttons, or an email and Continue, which sends a verification code. Shows it working while it waits and an error when it fails. Comes as a form and as a dialog.",
-      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
       "registryDependencies": [
-        "@aiellie/utils",
         "@aiellie/button",
         "@aiellie/dialog",
         "@aiellie/icons",
         "@aiellie/input",
-        "@aiellie/separator"
+        "@aiellie/separator",
+        "@aiellie/utils"
       ],
       "files": [
         {
@@ -649,11 +649,7 @@
       "type": "registry:ui",
       "title": "Trace",
       "description": "The steps an agent took, one quiet line each, that shimmer while running, turn red when they fail and fold open to show more.",
-      "dependencies": [
-        "@base-ui/react",
-        "@hugeicons/react",
-        "@hugeicons/core-free-icons"
-      ],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
       "registryDependencies": ["@aiellie/collapsible", "@aiellie/utils"],
       "files": [
         {
@@ -849,12 +845,14 @@
       "type": "registry:component",
       "title": "Model Selector",
       "description": "A simple model selector component",
-      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
       "registryDependencies": [
         "@aiellie/button",
-        "@aiellie/menu",
         "@aiellie/icons",
-        "@aiellie/models"
+        "@aiellie/menu",
+        "@aiellie/models",
+        "@aiellie/switch",
+        "@aiellie/utils"
       ],
       "files": [
         {
@@ -874,10 +872,13 @@
       "type": "registry:component",
       "title": "Composer",
       "description": "The box a message is written in: a field that grows as you type, and a row beneath it for controls, like an add menu or a model selector, that ends in a send button that turns into stop while a reply streams.",
-      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
       "registryDependencies": [
         "@aiellie/button",
+        "@aiellie/emoji-selector",
+        "@aiellie/menu",
         "@aiellie/textarea",
+        "@aiellie/tooltip-icon-button",
         "@aiellie/utils"
       ],
       "files": [
@@ -910,11 +911,7 @@
       "type": "registry:component",
       "title": "Message",
       "description": "One turn in a conversation: a bubble or plain text in six variants, with an avatar, header, footer, timestamp, reactions, hover actions and a caret while the reply streams.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority",
-        "tw-animate-css"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "@aiellie/tooltip-icon-button",
         "@aiellie/utils"
@@ -934,7 +931,7 @@
       "type": "registry:component",
       "title": "Date Divider",
       "description": "The day and time a thread picks up at, centred above its messages as plain text, like Yesterday at 5:16 PM.",
-      "registryDependencies": ["@aiellie/marker", "@aiellie/utils"],
+      "registryDependencies": ["@aiellie/utils"],
       "files": [
         {
           "path": "registry/aiellie/components/date-divider.tsx",
@@ -949,7 +946,6 @@
       "type": "registry:component",
       "title": "Stream Text",
       "description": "A streamed reply written out whole words at a time, at the rate the stream arrives, so bursts and pauses read as one steady cadence.",
-      "dependencies": ["tw-animate-css"],
       "registryDependencies": ["@aiellie/utils"],
       "files": [
         {
@@ -982,12 +978,8 @@
       "type": "registry:component",
       "title": "Reasoning",
       "description": "What a model thought before replying: a row that reads Thinking and counts the seconds while it works, then Worked for 12s, folding open to show the thoughts.",
-      "dependencies": [
-        "@base-ui/react",
-        "@hugeicons/react",
-        "@hugeicons/core-free-icons"
-      ],
-      "registryDependencies": ["@aiellie/thinking-indicator", "@aiellie/utils"],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
+      "registryDependencies": ["@aiellie/markdown", "@aiellie/trace"],
       "files": [
         {
           "path": "registry/aiellie/components/reasoning.tsx",
@@ -1003,11 +995,11 @@
       "type": "registry:component",
       "title": "Sources",
       "description": "The pages a reply drew on: chips that show each site's favicon and name and open the page, with a hover card previewing its image, title and description, and the rest folded into a +N chip.",
-      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
       "registryDependencies": [
         "@aiellie/hover-card",
-        "@aiellie/skeleton",
-        "@aiellie/utils"
+        "@aiellie/utils",
+        "@aiellie/web-search"
       ],
       "files": [
         {
@@ -1053,13 +1045,28 @@
       "type": "registry:component",
       "title": "Thread",
       "description": "The scrolling part of a conversation, on shadcn's message scroller. It anchors each new turn near the top, follows a streaming reply only while you are at the end, opens a saved chat at its last turn, and keeps your place when older messages load.",
-      "dependencies": [
-        "@shadcn/react",
-        "@hugeicons/react",
-        "@hugeicons/core-free-icons"
-      ],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react", "ai"],
       "docs": "The bottom fade comes from shadcn/tailwind.css. Add `@import \"shadcn/tailwind.css\";` to your global stylesheet if it is not there already.",
-      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "registryDependencies": [
+        "@aiellie/attachment",
+        "@aiellie/bubble",
+        "@aiellie/button",
+        "@aiellie/date-divider",
+        "@aiellie/file-attachment",
+        "@aiellie/message",
+        "@aiellie/message-actions",
+        "@aiellie/message-scroller",
+        "@aiellie/messages",
+        "@aiellie/reasoning",
+        "@aiellie/response",
+        "@aiellie/sources",
+        "@aiellie/status",
+        "@aiellie/thinking-indicator",
+        "@aiellie/thread-transcript",
+        "@aiellie/utils",
+        "@aiellie/voice-divider",
+        "@aiellie/web-search"
+      ],
       "files": [
         {
           "path": "registry/aiellie/components/thread.tsx",
@@ -1090,8 +1097,8 @@
       "title": "Thread Transcript",
       "description": "Nav bars wired to a thread: one bar per turn, marking the turns in view and jumping to the one you pick.",
       "registryDependencies": [
-        "@aiellie/thread",
-        "@aiellie/nav-bars",
+        "@aiellie/message-scroller",
+        "@aiellie/tooltip",
         "@aiellie/utils"
       ],
       "files": [
@@ -1101,21 +1108,22 @@
           "target": "components/aiellie/thread-transcript.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["chat"],
+      "dependencies": ["ai"]
     },
     {
       "name": "quick-chat",
       "type": "registry:component",
       "title": "Quick Chat",
       "description": "A compact conversation panel that floats at the bottom corner of the current page, keeping a quick question separate from the main thread.",
-      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
       "registryDependencies": [
         "@aiellie/composer",
         "@aiellie/message",
+        "@aiellie/message-scroller",
         "@aiellie/reasoning",
         "@aiellie/stream-text",
         "@aiellie/thinking-indicator",
-        "@aiellie/thread",
         "@aiellie/tooltip-icon-button",
         "@aiellie/utils"
       ],
@@ -1134,13 +1142,14 @@
       "title": "Code Block",
       "description": "A block of code named by its file, with copy and download in its header, highlighted by Shiki in light and dark, with line numbers, marked lines and a caret while it streams.",
       "dependencies": [
-        "@hugeicons/react",
         "@hugeicons/core-free-icons",
-        "tw-animate-css"
+        "@hugeicons/react",
+        "class-variance-authority"
       ],
       "registryDependencies": [
-        "@aiellie/icons",
+        "@aiellie/button",
         "@aiellie/highlight-code",
+        "@aiellie/icons",
         "@aiellie/tooltip-icon-button",
         "@aiellie/utils"
       ],
@@ -1159,8 +1168,14 @@
       "type": "registry:component",
       "title": "Response",
       "description": "A reply written in Markdown, set as prose: headings, lists, quotes, links, tables and inline code, with fenced code in a code block, and each word fading in while it streams.",
-      "dependencies": ["react-markdown", "remark-gfm", "tw-animate-css"],
-      "registryDependencies": ["@aiellie/code-block", "@aiellie/utils"],
+      "dependencies": ["react-markdown", "remark-gfm"],
+      "registryDependencies": [
+        "@aiellie/code-block",
+        "@aiellie/inline-citation",
+        "@aiellie/use-highlighted-code",
+        "@aiellie/utils",
+        "@aiellie/web-search"
+      ],
       "files": [
         {
           "path": "registry/aiellie/components/response.tsx",
@@ -1176,10 +1191,13 @@
       "type": "registry:component",
       "title": "Message Actions",
       "description": "Ready-made controls for a message's footer: copy with a tick once copied, retry, edit, a thumbs up or down, and a menu for the rest.",
-      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
       "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/dialog",
         "@aiellie/menu",
-        "@aiellie/message",
+        "@aiellie/textarea",
+        "@aiellie/tooltip-icon-button",
         "@aiellie/utils"
       ],
       "files": [
@@ -1231,66 +1249,54 @@
       "name": "chat",
       "type": "registry:block",
       "title": "Chat",
-      "description": "A chat page: your chats in a sidebar, a thread that streams replies from OpenAI, Anthropic, Google or the Vercel AI Gateway with your own key, showing what the model is doing, its thoughts and the pages it searched, and a composer with a model selector that sends images, PDFs, files and folders along.",
+      "description": "A chat page: your chats saved in the browser and listed in a sidebar, with search, quick chat for asides and links that share a chat. Replies stream from any model on the Vercel AI Gateway, or straight from OpenAI, Anthropic, Google, Mistral or DeepSeek with your own key, showing their thoughts and the pages they searched, and the composer sends images, PDFs, files and folders along. With no key anywhere, replies are samples.",
       "dependencies": [
-        "@hugeicons/react",
-        "@hugeicons/core-free-icons",
-        "fflate",
-        "ai",
-        "@ai-sdk/openai",
         "@ai-sdk/anthropic",
-        "@ai-sdk/google"
+        "@ai-sdk/deepseek",
+        "@ai-sdk/google",
+        "@ai-sdk/mistral",
+        "@ai-sdk/openai",
+        "@ai-sdk/react",
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "ai",
+        "zod"
       ],
       "registryDependencies": [
-        "@aiellie/icons",
+        "@aiellie/attachment",
+        "@aiellie/avatar",
+        "@aiellie/badge",
+        "@aiellie/bubble",
         "@aiellie/button",
-        "@aiellie/empty",
-        "@aiellie/sidebar",
-        "@aiellie/panels",
-        "@aiellie/nav-bars",
-        "@aiellie/user-menu",
-        "@aiellie/settings-dialog",
-        "@aiellie/menu",
-        "@aiellie/status",
-        "@aiellie/tooltip-icon-button",
-        "@aiellie/tooltip",
-        "@aiellie/separator",
-        "@aiellie/input",
-        "@aiellie/add-menu",
-        "@aiellie/dictate-button",
-        "@aiellie/temporary-chat-toggle",
-        "@aiellie/attachments",
+        "@aiellie/composer",
+        "@aiellie/context-meter",
         "@aiellie/dialog",
-        "@aiellie/command",
-        "@aiellie/project-selector",
-        "@aiellie/plugin-selector",
-        "@aiellie/work-in-menu",
-        "@aiellie/branches-menu",
-        "@aiellie/waveform",
+        "@aiellie/editable-title",
+        "@aiellie/file-attachment",
+        "@aiellie/history-buttons",
+        "@aiellie/input",
+        "@aiellie/input-group",
+        "@aiellie/login-form",
+        "@aiellie/menu",
+        "@aiellie/message",
+        "@aiellie/message-scroller",
+        "@aiellie/messages",
         "@aiellie/model-selector",
         "@aiellie/models",
-        "@aiellie/highlight-code",
-        "@aiellie/composer",
-        "@aiellie/message",
-        "@aiellie/date-divider",
-        "@aiellie/stream-text",
-        "@aiellie/trace",
-        "@aiellie/thinking-indicator",
-        "@aiellie/suggestions",
-        "@aiellie/sources",
-        "@aiellie/thread",
-        "@aiellie/thread-transcript",
-        "@aiellie/quick-chat",
-        "@aiellie/utils",
-        "@aiellie/history-buttons",
-        "@aiellie/editable-title",
-        "@aiellie/share-dialog",
-        "@aiellie/file-preview",
-        "@aiellie/link-preview",
+        "@aiellie/panels",
+        "@aiellie/popover",
         "@aiellie/response",
-        "@aiellie/message-actions",
-        "@aiellie/inline-citation",
-        "@aiellie/effort-menu"
+        "@aiellie/sidebar",
+        "@aiellie/sources",
+        "@aiellie/status",
+        "@aiellie/thinking-indicator",
+        "@aiellie/thread",
+        "@aiellie/tooltip",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/use-browser-history",
+        "@aiellie/utils",
+        "@aiellie/web-search"
       ],
       "files": [
         {
@@ -1304,64 +1310,19 @@
           "target": "app/api/chat/route.ts"
         },
         {
-          "path": "registry/aiellie/blocks/chat/components/chat.tsx",
-          "type": "registry:component",
-          "target": "components/chat.tsx"
+          "path": "registry/aiellie/blocks/chat/models-route.ts",
+          "type": "registry:file",
+          "target": "app/api/models/route.ts"
         },
         {
-          "path": "registry/aiellie/blocks/chat/components/chat-sidebar.tsx",
+          "path": "registry/aiellie/blocks/chat/components/chat-api-keys.tsx",
           "type": "registry:component",
-          "target": "components/chat-sidebar.tsx"
+          "target": "components/chat-api-keys.tsx"
         },
         {
-          "path": "registry/aiellie/blocks/chat/components/chat-nav-main.tsx",
+          "path": "registry/aiellie/blocks/chat/components/chat-content.tsx",
           "type": "registry:component",
-          "target": "components/chat-nav-main.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-nav-filter.tsx",
-          "type": "registry:component",
-          "target": "components/chat-nav-filter.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-switcher.tsx",
-          "type": "registry:component",
-          "target": "components/chat-switcher.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-search.tsx",
-          "type": "registry:component",
-          "target": "components/chat-search.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/lib/chat-data.ts",
-          "type": "registry:lib",
-          "target": "lib/chat-data.ts"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-nav-chats.tsx",
-          "type": "registry:component",
-          "target": "components/chat-nav-chats.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-header.tsx",
-          "type": "registry:component",
-          "target": "components/chat-header.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-options.tsx",
-          "type": "registry:component",
-          "target": "components/chat-options.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-thread.tsx",
-          "type": "registry:component",
-          "target": "components/chat-thread.tsx"
-        },
-        {
-          "path": "registry/aiellie/blocks/chat/components/chat-messages.tsx",
-          "type": "registry:component",
-          "target": "components/chat-messages.tsx"
+          "target": "components/chat-content.tsx"
         },
         {
           "path": "registry/aiellie/blocks/chat/components/chat-empty.tsx",
@@ -1369,24 +1330,104 @@
           "target": "components/chat-empty.tsx"
         },
         {
-          "path": "registry/aiellie/blocks/chat/components/chat-composer.tsx",
+          "path": "registry/aiellie/blocks/chat/components/chat-header.tsx",
           "type": "registry:component",
-          "target": "components/chat-composer.tsx"
+          "target": "components/chat-header.tsx"
         },
         {
-          "path": "registry/aiellie/blocks/chat/components/chat-attachments.tsx",
+          "path": "registry/aiellie/blocks/chat/components/chat-nav-chats.tsx",
           "type": "registry:component",
-          "target": "components/chat-attachments.tsx"
+          "target": "components/chat-nav-chats.tsx"
         },
         {
-          "path": "registry/aiellie/blocks/chat/lib/chat-ai.ts",
+          "path": "registry/aiellie/blocks/chat/components/chat-nav-filter.tsx",
+          "type": "registry:component",
+          "target": "components/chat-nav-filter.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-nav-main.tsx",
+          "type": "registry:component",
+          "target": "components/chat-nav-main.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-nav-user.tsx",
+          "type": "registry:component",
+          "target": "components/chat-nav-user.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-options.tsx",
+          "type": "registry:component",
+          "target": "components/chat-options.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-quick-chat.tsx",
+          "type": "registry:component",
+          "target": "components/chat-quick-chat.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-search.tsx",
+          "type": "registry:component",
+          "target": "components/chat-search.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-share.tsx",
+          "type": "registry:component",
+          "target": "components/chat-share.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-sidebar.tsx",
+          "type": "registry:component",
+          "target": "components/chat-sidebar.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-switcher.tsx",
+          "type": "registry:component",
+          "target": "components/chat-switcher.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat-thread.tsx",
+          "type": "registry:component",
+          "target": "components/chat-thread.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/components/chat.tsx",
+          "type": "registry:component",
+          "target": "components/chat.tsx"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/lib/chat-address.ts",
           "type": "registry:lib",
-          "target": "lib/chat-ai.ts"
+          "target": "lib/chat-address.ts"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/lib/chat-failures.ts",
+          "type": "registry:lib",
+          "target": "lib/chat-failures.ts"
         },
         {
           "path": "registry/aiellie/blocks/chat/lib/chat-files.ts",
           "type": "registry:lib",
           "target": "lib/chat-files.ts"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/lib/chat-keys.ts",
+          "type": "registry:lib",
+          "target": "lib/chat-keys.ts"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/lib/chat-providers.ts",
+          "type": "registry:lib",
+          "target": "lib/chat-providers.ts"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/lib/chat-search-intent.ts",
+          "type": "registry:lib",
+          "target": "lib/chat-search-intent.ts"
+        },
+        {
+          "path": "registry/aiellie/blocks/chat/lib/chat-store.ts",
+          "type": "registry:lib",
+          "target": "lib/chat-store.ts"
         },
         {
           "path": "registry/aiellie/blocks/chat/lib/chat-types.ts",
@@ -1404,6 +1445,264 @@
         "iframeHeight": "500px"
       },
       "categories": ["chat"]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:component",
+      "title": "Attachment",
+      "description": "One attachment, an image square or a file chip, and a row to hold several, with actions that show on hover.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/attachment.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/attachment.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:component",
+      "title": "Bubble",
+      "description": "The bubble a message sits in, grouped with the ones next to it, with room for reactions.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/bubble.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/bubble.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "context-meter",
+      "type": "registry:component",
+      "title": "Context Meter",
+      "description": "A ring that fills as a chat uses up the model's context, opening onto what the last reply took and what the chat has cost.",
+      "dependencies": ["ai"],
+      "registryDependencies": [
+        "@aiellie/messages",
+        "@aiellie/models",
+        "@aiellie/popover",
+        "@aiellie/tooltip",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/context-meter.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/context-meter.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "emoji-selector",
+      "type": "registry:component",
+      "title": "Emoji Selector",
+      "description": "A button that opens a searchable emoji panel and remembers your recent picks.",
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
+      "registryDependencies": [
+        "@aiellie/emojis",
+        "@aiellie/popover",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/emoji-selector.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/emoji-selector.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "file-attachment",
+      "type": "registry:component",
+      "title": "File Attachment",
+      "description": "A file as a chip or a picture as a square, that opens to preview, copy or download it.",
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
+      "registryDependencies": [
+        "@aiellie/attachment",
+        "@aiellie/button",
+        "@aiellie/code-block",
+        "@aiellie/dialog",
+        "@aiellie/icons",
+        "@aiellie/skeleton",
+        "@aiellie/use-highlighted-code"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/file-attachment.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/file-attachment.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "markdown",
+      "type": "registry:component",
+      "title": "Markdown",
+      "description": "A reply's Markdown, written out word by word as it streams, with code blocks and numbered citations that preview their page.",
+      "dependencies": ["streamdown"],
+      "registryDependencies": [
+        "@aiellie/code-block",
+        "@aiellie/inline-citation",
+        "@aiellie/stream-text",
+        "@aiellie/use-highlighted-code",
+        "@aiellie/utils",
+        "@aiellie/web-search"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/markdown.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/markdown.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:component",
+      "title": "Message Scroller",
+      "description": "The scrolling part of a conversation, on shadcn's message scroller: it anchors each new turn, follows a streaming reply only while you're at the end, and has a jump-to-latest button.",
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "@shadcn/react"
+      ],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/message-scroller.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/message-scroller.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
+      "name": "voice-divider",
+      "type": "registry:component",
+      "title": "Voice Divider",
+      "description": "Marks in a thread for a voice chat: where it started and ended, and a mark on each turn said aloud.",
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/voice-divider.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/voice-divider.tsx"
+        }
+      ],
+      "categories": ["voice"]
+    },
+    {
+      "name": "web-search",
+      "type": "registry:component",
+      "title": "Web Search",
+      "description": "The searches a reply ran and the pages they found, as a trace line that opens onto the results.",
+      "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react", "ai"],
+      "registryDependencies": ["@aiellie/stream-text", "@aiellie/trace"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/web-search.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/web-search.tsx"
+        }
+      ],
+      "categories": ["chat"]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A toggle for a setting that takes effect at once.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/switch.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/switch.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "emojis",
+      "type": "registry:lib",
+      "title": "Emojis",
+      "description": "Every emoji with its name and keywords, grouped as the emoji selector shows them.",
+      "files": [
+        {
+          "path": "registry/aiellie/lib/emojis.ts",
+          "type": "registry:lib",
+          "target": "lib/emojis.ts"
+        }
+      ]
+    },
+    {
+      "name": "highlighter",
+      "type": "registry:lib",
+      "title": "Highlighter",
+      "description": "A shared Shiki highlighter that loads each language once, on first use.",
+      "dependencies": ["shiki"],
+      "files": [
+        {
+          "path": "registry/aiellie/lib/highlighter.tsx",
+          "type": "registry:lib",
+          "target": "lib/highlighter.tsx"
+        }
+      ]
+    },
+    {
+      "name": "messages",
+      "type": "registry:lib",
+      "title": "Messages",
+      "description": "What a chat's messages carry, and turning them into what a model is sent.",
+      "dependencies": ["ai"],
+      "files": [
+        {
+          "path": "registry/aiellie/lib/messages.ts",
+          "type": "registry:lib",
+          "target": "lib/messages.ts"
+        }
+      ]
+    },
+    {
+      "name": "use-highlighted-code",
+      "type": "registry:hook",
+      "title": "Use Highlighted Code",
+      "description": "Code coloured by Shiki, line by line, that keeps its colours while it streams.",
+      "registryDependencies": ["@aiellie/highlighter"],
+      "files": [
+        {
+          "path": "registry/aiellie/hooks/use-highlighted-code.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-highlighted-code.ts"
+        }
+      ]
+    },
+    {
+      "name": "use-browser-history",
+      "type": "registry:hook",
+      "title": "Use Browser History",
+      "description": "Whether the tab can go back or forward, and ⌘[ and ⌘] to do it.",
+      "files": [
+        {
+          "path": "registry/aiellie/hooks/use-browser-history.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-browser-history.ts"
+        }
+      ]
     }
   ]
 }
