@@ -1,3 +1,5 @@
+"use client"
+
 import { AttachmentGroup } from "@/registry/aiellie/components/attachment"
 import { FileAttachment } from "@/registry/aiellie/components/file-attachment"
 

@@ -1,3 +1,5 @@
+"use client"
+
 import { FileAttachment } from "@/registry/aiellie/components/file-attachment"
 
 const CODE = `export function useCopied() {

@@ -28,6 +28,7 @@ import SkeletonDemo from "@/registry/aiellie/examples/skeleton-demo"
 import StatusDemo from "@/registry/aiellie/examples/status-demo"
 import TextareaDemo from "@/registry/aiellie/examples/textarea-demo"
 import TooltipIconButtonDemo from "@/registry/aiellie/examples/tooltip-icon-button-demo"
+import SwitchDemo from "@/registry/aiellie/examples/switch-demo"
 import TooltipDemo from "@/registry/aiellie/examples/tooltip-demo"
 import TraceDemo from "@/registry/aiellie/examples/trace-demo"
 
@@ -206,8 +207,16 @@ export default async function DesignPage() {
           <StatusDemo />
         </DemoCard>
         <DemoCard
-          href="/design/textarea"
+          href="/design/switch"
           index={21}
+          title="Switch"
+          description="A toggle for a setting that takes effect at once"
+        >
+          <SwitchDemo />
+        </DemoCard>
+        <DemoCard
+          href="/design/textarea"
+          index={22}
           title="Textarea"
           description="A simple textarea component"
         >
@@ -215,7 +224,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/tooltip"
-          index={22}
+          index={23}
           title="Tooltip"
           description="A simple tooltip component"
         >
@@ -223,7 +232,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/tooltip-icon-button"
-          index={23}
+          index={24}
           title="Tooltip Icon Button"
           description="An icon button that carries its own tooltip and label"
         >
@@ -231,7 +240,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/trace"
-          index={24}
+          index={25}
           title="Trace"
           description="The steps an agent took, one line each, folding open for more"
         >
