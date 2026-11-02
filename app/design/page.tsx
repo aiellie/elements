@@ -8,16 +8,12 @@ import { cardCount } from "@/lib/categories"
 import { PAGES } from "@/lib/constants"
 import AvatarDemo from "@/registry/aiellie/examples/avatar-demo"
 import BadgeDemo from "@/registry/aiellie/examples/badge-demo"
-import BreadcrumbDemo from "@/registry/aiellie/examples/breadcrumb-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
 import CollapsibleDemo from "@/registry/aiellie/examples/collapsible-demo"
-import CommandDemo from "@/registry/aiellie/examples/command-demo"
 import DialogDemo from "@/registry/aiellie/examples/dialog-demo"
-import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import HoverCardDemo from "@/registry/aiellie/examples/hover-card-demo"
 import InputGroupDemo from "@/registry/aiellie/examples/input-group-demo"
 import InputDemo from "@/registry/aiellie/examples/input-demo"
-import MarkerDemo from "@/registry/aiellie/examples/marker-demo"
 import MenuDemo from "@/registry/aiellie/examples/menu-demo"
 import PopoverDemo from "@/registry/aiellie/examples/popover-demo"
 import ResizableDemo from "@/registry/aiellie/examples/resizable-demo"
@@ -63,16 +59,8 @@ export default async function DesignPage() {
           <BadgeDemo />
         </DemoCard>
         <DemoCard
-          href="/design/breadcrumb"
-          index={3}
-          title="Breadcrumb"
-          description="A path from a parent place to the current one"
-        >
-          <BreadcrumbDemo />
-        </DemoCard>
-        <DemoCard
           href="/design/button"
-          index={4}
+          index={3}
           title="Button"
           description="A simple button component"
         >
@@ -80,39 +68,23 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/collapsible"
-          index={5}
+          index={4}
           title="Collapsible"
           description="A trigger that folds a panel open and shut in place"
         >
           <CollapsibleDemo />
         </DemoCard>
         <DemoCard
-          href="/design/command"
-          index={6}
-          title="Command"
-          description="A searchable list you move through with the keyboard"
-        >
-          <CommandDemo />
-        </DemoCard>
-        <DemoCard
           href="/design/dialog"
-          index={7}
+          index={5}
           title="Dialog"
           description="A panel in the middle of the screen, over a dimmed page"
         >
           <DialogDemo />
         </DemoCard>
         <DemoCard
-          href="/design/empty"
-          index={8}
-          title="Empty"
-          description="What a place shows before there is anything in it"
-        >
-          <EmptyDemo />
-        </DemoCard>
-        <DemoCard
           href="/design/hover-card"
-          index={9}
+          index={6}
           title="Hover Card"
           description="A glass card that opens while you hover or focus its trigger"
         >
@@ -120,7 +92,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/input"
-          index={10}
+          index={7}
           title="Input"
           description="A single line of text"
         >
@@ -128,23 +100,15 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/input-group"
-          index={11}
+          index={8}
           title="Input Group"
           description="An input with icons, text or buttons inside its edge"
         >
           <InputGroupDemo />
         </DemoCard>
         <DemoCard
-          href="/design/marker"
-          index={12}
-          title="Marker"
-          description="A quiet line of text, on its own or between rules"
-        >
-          <MarkerDemo />
-        </DemoCard>
-        <DemoCard
           href="/design/menu"
-          index={13}
+          index={9}
           title="Menu"
           description="A menu of actions, with an optional search box"
         >
@@ -152,7 +116,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/popover"
-          index={14}
+          index={10}
           title="Popover"
           description="A glass panel beside its trigger, for small forms and details"
         >
@@ -160,7 +124,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/resizable"
-          index={15}
+          index={11}
           title="Resizable"
           description="Panels you can resize by dragging the line between them"
         >
@@ -168,7 +132,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/separator"
-          index={16}
+          index={12}
           title="Separator"
           description="A hairline between groups, across or down"
         >
@@ -176,7 +140,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/sheet"
-          index={17}
+          index={13}
           title="Sheet"
           description="A simple sheet component"
         >
@@ -184,7 +148,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/sidebar"
-          index={18}
+          index={14}
           title="Sidebar"
           description="Groups of rows down the side of an app"
         >
@@ -192,7 +156,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/skeleton"
-          index={19}
+          index={15}
           title="Skeleton"
           description="A placeholder that pulses while content loads"
         >
@@ -200,7 +164,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/status"
-          index={20}
+          index={16}
           title="Status"
           description="A labelled state pill with an optional pulse"
         >
@@ -208,7 +172,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/switch"
-          index={21}
+          index={17}
           title="Switch"
           description="A toggle for a setting that takes effect at once"
         >
@@ -216,7 +180,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/textarea"
-          index={22}
+          index={18}
           title="Textarea"
           description="A simple textarea component"
         >
@@ -224,7 +188,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/tooltip"
-          index={23}
+          index={19}
           title="Tooltip"
           description="A simple tooltip component"
         >
@@ -232,7 +196,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/tooltip-icon-button"
-          index={24}
+          index={20}
           title="Tooltip Icon Button"
           description="An icon button that carries its own tooltip and label"
         >
@@ -240,7 +204,7 @@ export default async function DesignPage() {
         </DemoCard>
         <DemoCard
           href="/design/trace"
-          index={25}
+          index={21}
           title="Trace"
           description="The steps an agent took, one line each, folding open for more"
         >

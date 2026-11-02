@@ -1290,6 +1290,7 @@
         "@aiellie/sidebar",
         "@aiellie/sources",
         "@aiellie/status",
+        "@aiellie/suggestions",
         "@aiellie/thinking-indicator",
         "@aiellie/thread",
         "@aiellie/tooltip",

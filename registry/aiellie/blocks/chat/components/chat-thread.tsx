@@ -33,6 +33,10 @@ import {
 import { ModelSelector } from "@/registry/aiellie/components/model-selector"
 import { Thread } from "@/registry/aiellie/components/thread"
 import {
+  Suggestion,
+  Suggestions,
+} from "@/registry/aiellie/components/suggestions"
+import {
   getReplies,
   loadMessages,
   saveMessages,
@@ -64,6 +68,45 @@ type PendingFile = { id: string; file: File; url: string }
 
 function revoke(files: PendingFile[]) {
   for (const { url } of files) URL.revokeObjectURL(url)
+}
+
+// Starters over the composer while the chat is empty. Swap in your own.
+const SUGGESTIONS = [
+  "Explain a concept simply",
+  "Draft a short email",
+  "Review a function",
+  "Brainstorm names",
+]
+
+// Folds away once the chat starts, rather than vanishing.
+function Starters({
+  open,
+  onPick,
+}: {
+  open: boolean
+  onPick: (prompt: string) => void
+}) {
+  return (
+    <div
+      data-open={open || undefined}
+      inert={!open}
+      className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-280 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none data-open:grid-rows-[1fr] data-open:opacity-100"
+    >
+      <div className="min-h-0 overflow-hidden">
+        <Suggestions
+          scroll
+          aria-label="Suggestions"
+          className="justify-center-safe pb-2"
+        >
+          {SUGGESTIONS.map((prompt) => (
+            <Suggestion key={prompt} onClick={() => onPick(prompt)}>
+              {prompt}
+            </Suggestion>
+          ))}
+        </Suggestions>
+      </div>
+    </div>
+  )
 }
 
 // API keys from the dialog go with every request, read fresh each time.
@@ -210,6 +253,29 @@ function ChatThread({
     saveMessages(id, messages)
   }, [id, messages, status])
 
+  const send = async (text: string) => {
+    const sent = pending
+    setPending([])
+    if (messages.length === 0) onFirstMessage?.(id, text || sent[0].file.name)
+    const files = await toFileParts(sent.map((item) => item.file))
+    revoke(sent)
+    // When it was sent, for its timestamp in the thread.
+    const metadata: MessageMetadata = { createdAt: Date.now() }
+    // Asking to search turns search on, for this message and those
+    // after it, as the toggle would.
+    const searching = search || asksToSearch(text)
+    if (searching !== search) setSearch(true)
+    // An empty text part is refused by some providers, so files can go alone.
+    sendMessage(
+      files.length === 0
+        ? { text, metadata }
+        : text
+          ? { text, files, metadata }
+          : { files, metadata },
+      { body: { ...body, search: searching } }
+    )
+  }
+
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       {/* A new chat, on the home page, has no thread to show yet. */}
@@ -258,6 +324,9 @@ function ChatThread({
             : "mx-auto w-full max-w-3xl shrink-0 px-4 pb-4"
         }
       >
+        {compact ? null : (
+          <Starters open={messages.length === 0} onPick={send} />
+        )}
         <ComposerHeader open={pending.length > 0}>
           <AttachmentGroup>
             {pending.map((item) => (
@@ -276,29 +345,7 @@ function ChatThread({
           status={status}
           hasAttachments={pending.length > 0}
           onFilesAdd={addFiles}
-          onSubmit={async (text) => {
-            const sent = pending
-            setPending([])
-            if (messages.length === 0)
-              onFirstMessage?.(id, text || sent[0].file.name)
-            const files = await toFileParts(sent.map((item) => item.file))
-            revoke(sent)
-            // When it was sent, for its timestamp in the thread.
-            const metadata: MessageMetadata = { createdAt: Date.now() }
-            // Asking to search turns search on, for this message and those
-            // after it, as the toggle would.
-            const searching = search || asksToSearch(text)
-            if (searching !== search) setSearch(true)
-            // An empty text part is refused by some providers, so files can go alone.
-            sendMessage(
-              files.length === 0
-                ? { text, metadata }
-                : text
-                  ? { text, files, metadata }
-                  : { files, metadata },
-              { body: { ...body, search: searching } }
-            )
-          }}
+          onSubmit={send}
           onStop={() => stop()}
         >
           <ComposerInput />
