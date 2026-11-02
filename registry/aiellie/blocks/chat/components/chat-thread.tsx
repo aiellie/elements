@@ -26,6 +26,8 @@ import {
   ChatEmptyTitle,
 } from "@/registry/aiellie/blocks/chat/components/chat-empty"
 import { FileAttachment } from "@/registry/aiellie/components/file-attachment"
+import { brandIcons } from "@/registry/aiellie/icons"
+import { EmptyMedia } from "@/registry/aiellie/ui/empty"
 import {
   ContextMeter,
   contextOf,
@@ -281,6 +283,9 @@ function ChatThread({
       {/* A new chat, on the home page, has no thread to show yet. */}
       {messages.length === 0 ? (
         <ChatEmpty>
+          <EmptyMedia className="size-10 rounded-lg" variant="icon">
+            {brandIcons.elephant("size-6 text-foreground")}
+          </EmptyMedia>
           <ChatEmptyTitle className={compact ? "text-lg" : undefined}>
             How can I help?
           </ChatEmptyTitle>
