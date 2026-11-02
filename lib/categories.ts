@@ -1,6 +1,7 @@
   import {
   Add01Icon,
   AiTemplateIcon,
+  AiProgrammingIcon,
   ThreadIcon,
   BrainIcon,
   BubbleChatIcon,
@@ -29,6 +30,7 @@ export const CATEGORIES = {
   /** Things you think. */
   thread: { name: "Thread", icon: ThreadIcon },
   template: { name: "Template", icon: AiTemplateIcon },
+  building: { name: "Building", icon: AiProgrammingIcon },
   reasoning: { name: "Reasoning", icon: BrainIcon },
   /** Things you add. */
   composer: { name: "Composer", icon: Add01Icon },

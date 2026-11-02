@@ -39,6 +39,17 @@ export default function ComponentsPage() {
       {...PAGES["/components"]}
       count={cardCount("registry:component")}
     />
+        <CategorySection category="building">
+        <DemoCard
+          href="/components/plan-review"
+          index={19}
+          title="Plan Review"
+          description="A proposed plan to reshape before it runs"
+          wide
+        >
+          <PlanReviewDemo />
+        </DemoCard>
+        </CategorySection>
     <CategorySection category="reasoning">
       <DemoCard
           href="/components/reasoning"
@@ -215,16 +226,6 @@ export default function ComponentsPage() {
           description="A named block of code to copy, download and point at"
         >
           <CodeBlockDemo />
-        </DemoCard>
-  
-      
-        <DemoCard
-          href="/components/plan-review"
-          index={19}
-          title="Plan Review"
-          description="A proposed plan to reshape before it runs"
-        >
-          <PlanReviewDemo />
         </DemoCard>
         <DemoCard
           href="/components/suggestions"
