@@ -143,16 +143,16 @@ function PanelHeader({
   return (
     <header
       className={cn(
-        "flex h-10 shrink-0 items-center gap-2 bg-background px-3",
-        border && "border-b",
+        "flex h-10 shrink-0 items-center gap-2 bg-background px-2",
+        border && "border-0",
         glass &&
           "absolute inset-x-0 top-0 z-[var(--z-sticky,20)] bg-popover backdrop-blur-xs supports-[backdrop-filter]:bg-background/60"
       )}
     >
       {start}
       <div className="flex min-w-0 flex-1 items-center gap-1">
-        {typeof title === "string" ? (
-          <span className="min-w-0 truncate px-1 text-xs font-medium text-muted-foreground">
+        {typeof title === "string" && title ? (
+          <span className="min-w-0 truncate px-1 font-medium text-foreground">
             {title}
           </span>
         ) : (
@@ -291,7 +291,7 @@ function PanelSheet({
           </SheetDescription>
         </SheetHeader>
         <PanelHeader
-          title={header ?? title}
+          title={header === undefined ? title : header}
           border={border}
           {...{ [toggleAt]: <PanelToggle side={side} close /> }}
         />
@@ -350,6 +350,7 @@ function Panels({
   headerBorder = {},
   glassHeader = false,
   toggleAt = {},
+  toggles = {},
   defaultOpen = { left: true, right: false, bottom: false },
   className,
   children,
@@ -365,6 +366,11 @@ function Panels({
   glassHeader?: boolean
   /** "end" by default, or "start", ahead of whatever `headers` gives it. */
   toggleAt?: Partial<Record<Side, "start" | "end">>
+  /**
+   * Which panels' show buttons the other headers leave off. Each has one by
+   * default. Its shortcut still opens it, and once open it keeps its own.
+   */
+  toggles?: Partial<Record<Side, boolean>>
   defaultOpen?: Partial<Record<Side, boolean>>
   className?: string
   children: React.ReactNode
@@ -426,7 +432,8 @@ function Panels({
       if (!(event.metaKey || event.ctrlKey) || event.altKey || event.shiftKey)
         return
       const side = (Object.keys(PANELS) as Side[]).find(
-        (side) => has[side] && PANELS[side].key === event.key.toLowerCase()
+        // Some keydowns carry no key, such as the ones autofill sends.
+        (side) => has[side] && PANELS[side].key === event.key?.toLowerCase()
       )
       if (!side) return
       event.preventDefault()
@@ -453,7 +460,8 @@ function Panels({
 
   const leftOpen = open.left && !isMobile
   const rightOpen = open.right && !isMobile
-  const bottomToggle = has.bottom ? <PanelToggle side="bottom" /> : null
+  const shows = (side: Side) => has[side] && toggles[side] !== false
+  const bottomToggle = shows("bottom") ? <PanelToggle side="bottom" /> : null
 
   return (
     <PanelsContext.Provider value={value}>
@@ -466,7 +474,7 @@ function Panels({
         {has.left ? (
           <CollapsiblePanel side="left" open={leftOpen}>
             <PanelHeader
-              title={headers.left ?? PANELS.left.title}
+              title={"left" in headers ? headers.left : PANELS.left.title}
               border={headerBorder.left}
               {...{ [toggleAt.left ?? "end"]: <PanelToggle side="left" /> }}
             />
@@ -492,13 +500,15 @@ function Panels({
                 border={headerBorder.main}
                 glass={glassHeader}
                 start={
-                  has.left && !leftOpen ? <PanelToggle side="left" /> : null
+                  shows("left") && !leftOpen ? (
+                    <PanelToggle side="left" />
+                  ) : null
                 }
                 end={
                   rightOpen ? null : (
                     <>
                       {bottomToggle}
-                      {has.right ? <PanelToggle side="right" /> : null}
+                      {shows("right") ? <PanelToggle side="right" /> : null}
                     </>
                   )
                 }

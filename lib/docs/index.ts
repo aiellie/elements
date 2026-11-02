@@ -13,7 +13,6 @@ import codeSnippet from "@/lib/docs/code-snippet"
 import codeWorkspace from "@/lib/docs/code-workspace"
 import compactionMarker from "@/lib/docs/compaction-marker"
 import composer from "@/lib/docs/composer"
-import dateDivider from "@/lib/docs/date-divider"
 import dictateButton from "@/lib/docs/dictate-button"
 import editableTitle from "@/lib/docs/editable-title"
 import effortMenu from "@/lib/docs/effort-menu"
@@ -26,13 +25,11 @@ import loginForm from "@/lib/docs/login-form"
 import mentions from "@/lib/docs/mentions"
 import menu from "@/lib/docs/menu"
 import message from "@/lib/docs/message"
-import messageActions from "@/lib/docs/message-actions"
 import messageContextMenu from "@/lib/docs/message-context-menu"
 import messageHighlightToolbar from "@/lib/docs/message-highlight-toolbar"
 import messageStatus from "@/lib/docs/message-status"
 import meter from "@/lib/docs/meter"
 import micMenu from "@/lib/docs/mic-menu"
-import modelSelector from "@/lib/docs/model-selector"
 import navBars from "@/lib/docs/nav-bars"
 import needsYou from "@/lib/docs/needs-you"
 import agentSteps from "@/lib/docs/agent-steps"
@@ -55,22 +52,18 @@ import promptMenu from "@/lib/docs/prompt-menu"
 import quickChat from "@/lib/docs/quick-chat"
 import quotedMessage from "@/lib/docs/quoted-message"
 import reactions from "@/lib/docs/reactions"
-import reasoning from "@/lib/docs/reasoning"
 import response from "@/lib/docs/response"
 import runBudget from "@/lib/docs/run-budget"
 import sandbox from "@/lib/docs/sandbox"
 import settingsDialog from "@/lib/docs/settings-dialog"
 import shareDialog from "@/lib/docs/share-dialog"
 import slashMenu from "@/lib/docs/slash-menu"
-import sources from "@/lib/docs/sources"
 import status from "@/lib/docs/status"
 import streamText from "@/lib/docs/stream-text"
 import suggestions from "@/lib/docs/suggestions"
 import temporaryChatToggle from "@/lib/docs/temporary-chat-toggle"
 import terminal from "@/lib/docs/terminal"
 import thinkingIndicator from "@/lib/docs/thinking-indicator"
-import thread from "@/lib/docs/thread"
-import threadTranscript from "@/lib/docs/thread-transcript"
 import timestamps from "@/lib/docs/timestamps"
 import toast from "@/lib/docs/toast"
 import toolCall from "@/lib/docs/tool-call"
@@ -157,7 +150,6 @@ const DOCS: Record<string, DocContent> = {
   "code-workspace": codeWorkspace,
   "compaction-marker": compactionMarker,
   composer: composer,
-  "date-divider": dateDivider,
   "dictate-button": dictateButton,
   "editable-title": editableTitle,
   "effort-menu": effortMenu,
@@ -170,13 +162,11 @@ const DOCS: Record<string, DocContent> = {
   mentions: mentions,
   menu: menu,
   message: message,
-  "message-actions": messageActions,
   "message-context-menu": messageContextMenu,
   "message-highlight-toolbar": messageHighlightToolbar,
   "message-status": messageStatus,
   meter: meter,
   "mic-menu": micMenu,
-  "model-selector": modelSelector,
   "nav-bars": navBars,
   "needs-you": needsYou,
   "agent-steps": agentSteps,
@@ -200,22 +190,18 @@ const DOCS: Record<string, DocContent> = {
   "quick-chat": quickChat,
   "quoted-message": quotedMessage,
   reactions: reactions,
-  reasoning: reasoning,
   response: response,
   "run-budget": runBudget,
   sandbox: sandbox,
   "settings-dialog": settingsDialog,
   "share-dialog": shareDialog,
   "slash-menu": slashMenu,
-  sources: sources,
   status: status,
   "stream-text": streamText,
   suggestions: suggestions,
   "temporary-chat-toggle": temporaryChatToggle,
   terminal: terminal,
   "thinking-indicator": thinkingIndicator,
-  thread: thread,
-  "thread-transcript": threadTranscript,
   timestamps: timestamps,
   toast: toast,
   "tool-call": toolCall,

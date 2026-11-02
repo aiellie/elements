@@ -28,8 +28,6 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "contact-button/initials": () => import("./contact-button/initials"),
   "context-breakdown/nearly-full": () =>
     import("./context-breakdown/nearly-full"),
-  "date-divider/between-messages": () =>
-    import("./date-divider/between-messages"),
   "dictate-button/errors": () => import("./dictate-button/errors"),
   "editable-title/from-menu": () => import("./editable-title/from-menu"),
   "effort-menu/in-composer": () => import("./effort-menu/in-composer"),
@@ -42,7 +40,6 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "menu/checkbox-and-radio": () => import("./menu/checkbox-and-radio"),
   "menu/search": () => import("./menu/search"),
   "menu/submenu": () => import("./menu/submenu"),
-  "message-actions/your-turn": () => import("./message-actions/your-turn"),
   "message-context-menu/your-reactions": () =>
     import("./message-context-menu/your-reactions"),
   "message-highlight-toolbar/ask-about": () =>
@@ -51,8 +48,6 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "message/clickable-part": () => import("./message/clickable-part"),
   "message/variants": () => import("./message/variants"),
   "meter/context-window": () => import("./meter/context-window"),
-  "model-selector/availability": () => import("./model-selector/availability"),
-  "model-selector/ghost": () => import("./model-selector/ghost"),
   "nav-bars/expand": () => import("./nav-bars/expand"),
   "nav-bars/peek": () => import("./nav-bars/peek"),
   "needs-you/read-only": () => import("./needs-you/read-only"),
@@ -69,7 +64,6 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "quick-chat/echo": () => import("./quick-chat/echo"),
   "quoted-message/in-composer": () => import("./quoted-message/in-composer"),
   "reactions/who-reacted": () => import("./reactions/who-reacted"),
-  "reasoning/activity": () => import("./reasoning/activity"),
   "response/citations": () => import("./response/citations"),
   "retrieved-sources/no-scores": () => import("./retrieved-sources/no-scores"),
   "run-budget/no-actions": () => import("./run-budget/no-actions"),
@@ -79,7 +73,6 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "share-dialog/private-by-default": () =>
     import("./share-dialog/private-by-default"),
   "slash-menu/run-a-command": () => import("./slash-menu/run-a-command"),
-  "sources/given": () => import("./sources/given"),
   "stack-trace/library-frames": () => import("./stack-trace/library-frames"),
   "status/running": () => import("./status/running"),
   "stream-text/fresh-words": () => import("./stream-text/fresh-words"),
@@ -90,8 +83,6 @@ const SAMPLES: Record<string, () => SampleModule> = {
   "terminal/running": () => import("./terminal/running"),
   "thinking-indicator/started-at": () =>
     import("./thinking-indicator/started-at"),
-  "thread-transcript/peek": () => import("./thread-transcript/peek"),
-  "thread/load-earlier": () => import("./thread/load-earlier"),
   "timestamps/formats": () => import("./timestamps/formats"),
   "toast/anchored": () => import("./toast/anchored"),
   "toast/promise": () => import("./toast/promise"),

@@ -2,7 +2,7 @@
 
 import { InlineCitation } from "@/registry/aiellie/components/inline-citation"
 import { Response } from "@/registry/aiellie/components/response"
-import { Source, Sources } from "@/registry/aiellie/components/sources"
+import { Sources } from "@/registry/aiellie/components/sources"
 
 const SOURCES = [
   {
@@ -38,11 +38,7 @@ export default function Citations() {
       >
         {REPLY}
       </Response>
-      <Sources>
-        {SOURCES.map((source) => (
-          <Source key={source.url} href={source.url} title={source.title} />
-        ))}
-      </Sources>
+      <Sources sources={SOURCES} />
     </div>
   )
 }
