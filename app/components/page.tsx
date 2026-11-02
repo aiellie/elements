@@ -11,6 +11,7 @@ import InlineCitationDemo from "@/registry/aiellie/examples/inline-citation-demo
 import LoginFormDemo from "@/registry/aiellie/examples/login-form-demo"
 import MessageDemo from "@/registry/aiellie/examples/message-demo"
 import PanelsDemo from "@/registry/aiellie/examples/panels-demo"
+import PlanReviewDemo from "@/registry/aiellie/examples/plan-review-demo"
 import ReasoningDemo from "@/registry/aiellie/examples/reasoning-demo"
 import ThinkingIndicatorDemo from "@/registry/aiellie/examples/thinking-indicator-demo"
 import SourcesDemo from "@/registry/aiellie/examples/sources-demo"
@@ -184,8 +185,16 @@ export default function ComponentsPage() {
           <PanelsDemo />
         </DemoCard>
         <DemoCard
-          href="/components/reasoning"
+          href="/components/plan-review"
           index={19}
+          title="Plan Review"
+          description="A proposed plan to reshape before it runs"
+        >
+          <PlanReviewDemo />
+        </DemoCard>
+        <DemoCard
+          href="/components/reasoning"
+          index={20}
           title="Reasoning"
           description="How long the model thought, folding open to show its thoughts"
         >
@@ -193,7 +202,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/response"
-          index={20}
+          index={21}
           title="Response"
           description="A Markdown reply set as prose, fading in as it streams"
         >
@@ -201,7 +210,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/sources"
-          index={21}
+          index={22}
           title="Sources"
           description="The pages a reply drew on, as small chips that open them"
         >
@@ -209,7 +218,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/stream-text"
-          index={22}
+          index={23}
           title="Stream Text"
           description="A streamed reply written out word by word, at a steady pace"
         >
@@ -217,7 +226,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/suggestions"
-          index={23}
+          index={24}
           title="Suggestions"
           description="Prompts to start from, arriving together as a row"
         >
@@ -225,7 +234,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thinking-indicator"
-          index={24}
+          index={25}
           title="Thinking Indicator"
           description="What a reply is doing before its first word, as a live dot and a shimmer"
         >
@@ -233,7 +242,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread"
-          index={25}
+          index={26}
           title="Thread"
           description="A simple thread component"
         >
@@ -241,7 +250,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/thread-transcript"
-          index={26}
+          index={27}
           title="Thread Transcript"
           description="A rail of your turns beside a thread that jumps to each one"
         >
@@ -249,7 +258,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/voice-divider"
-          index={27}
+          index={28}
           title="Voice Divider"
           description="Where a voice chat started and ended in a thread"
         >
@@ -257,7 +266,7 @@ export default function ComponentsPage() {
         </DemoCard>
         <DemoCard
           href="/components/web-search"
-          index={28}
+          index={29}
           title="Web Search"
           description="The searches a reply ran and the pages they found"
         >

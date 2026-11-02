@@ -1246,6 +1246,34 @@
       "categories": ["inputs"]
     },
     {
+      "name": "plan-review",
+      "type": "registry:component",
+      "title": "Plan Review",
+      "description": "The plan an agent proposes, to reorder, rewrite, trim and add to before it runs, or send back with a note. It reports exactly what changed.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/input",
+        "@aiellie/textarea",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/plan-review.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/plan-review.tsx"
+        }
+      ],
+      "docs": "The receipt fades in with tw-animate-css. Add `@import \"tw-animate-css\";` to your global stylesheet if it is not there already.",
+      "categories": [
+        "agents"
+      ]
+    },
+    {
       "name": "chat",
       "type": "registry:block",
       "title": "Chat",

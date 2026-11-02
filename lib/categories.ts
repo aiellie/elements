@@ -8,6 +8,7 @@ import {
   TouchInteraction01Icon,
   VoiceIcon,
   ChatIcon,
+  CheckListIcon,
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
 
@@ -34,6 +35,8 @@ export const CATEGORIES = {
   chat: { name: "Chat", icon: BubbleChatIcon },
   /** Talking to the assistant: what it hears, says and plays back. */
   voice: { name: "Voice", icon: VoiceIcon },
+  /** An agent's work, and where a person steps in: plans, approvals, runs. */
+  agents: { name: "Agents", icon: CheckListIcon },
   /** What a model wrote or ran: code, diffs and commands. */
   code: { name: "Code", icon: SourceCodeIcon },
   chatblock: { name: "Chat Block", icon: ChatIcon },
