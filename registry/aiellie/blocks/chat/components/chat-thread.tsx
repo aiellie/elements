@@ -33,7 +33,8 @@ import {
   contextOf,
 } from "@/registry/aiellie/components/context-meter"
 import { ModelSelector } from "@/registry/aiellie/components/model-selector"
-import { Thread } from "@/registry/aiellie/components/thread"
+import { PlanReview } from "@/registry/aiellie/components/plan-review"
+import { Thread, type ToolPart } from "@/registry/aiellie/components/thread"
 import {
   Suggestion,
   Suggestions,
@@ -58,6 +59,11 @@ import {
 import type { MessageMetadata } from "@/registry/aiellie/lib/messages"
 import { asksToSearch } from "@/registry/aiellie/blocks/chat/lib/chat-search-intent"
 import {
+  PLAN_TOOL,
+  planStepsOf,
+  type PlanOutput,
+} from "@/registry/aiellie/blocks/chat/lib/chat-plan"
+import {
   defaultEffort,
   defaultModel,
   type Effort,
@@ -77,7 +83,7 @@ const SUGGESTIONS = [
   "Explain a concept simply",
   "Draft a short email",
   "Review a function",
-  "Brainstorm names",
+  "Plan a refactor",
 ]
 
 // Folds away once the chat starts, rather than vanishing.
@@ -114,6 +120,8 @@ function Starters({
 // API keys from the dialog go with every request, read fresh each time.
 const transport = new DefaultChatTransport({ headers: apiKeyHeaders })
 
+const planPartType = `tool-${PLAN_TOOL}`
+
 function ChatThread({
   id,
   onFirstMessage,
@@ -136,6 +144,7 @@ function ChatThread({
     stop,
     error,
     regenerate,
+    addToolOutput,
   } = useChat({
     id,
     messages: loadMessages(id),
@@ -186,6 +195,45 @@ function ChatThread({
     effort,
     context,
     search,
+  }
+  // The decision goes back to the model as the plan's output, and the reply
+  // carries on from it.
+  const decidePlan = async (toolCallId: string, output: PlanOutput) => {
+    await addToolOutput({ tool: PLAN_TOOL, toolCallId, output })
+    sendMessage(undefined, { body })
+  }
+
+  // A plan waits for a decision only while it's the newest thing in the chat
+  // and nothing is on its way. Otherwise it shows as it stands.
+  const renderTool = (part: ToolPart, message: UIMessage) => {
+    if (part.type !== planPartType) return null
+    const steps = planStepsOf(part.input)
+    if (steps.length === 0) return null
+    const output =
+      part.state === "output-available"
+        ? (part.output as PlanOutput)
+        : undefined
+    const decided = output && output.state !== "unanswered" ? output : undefined
+    const open =
+      part.state === "input-available" &&
+      !busy &&
+      message.id === messages.at(-1)?.id
+    return (
+      <PlanReview
+        className="w-full max-w-lg"
+        steps={steps}
+        state={decided?.state ?? "review"}
+        decision={decided?.decision}
+        note={decided?.note}
+        readOnly={!open && !decided}
+        onApprove={(decision) =>
+          decidePlan(part.toolCallId, { state: "approved", decision })
+        }
+        onRevise={(note, decision) =>
+          decidePlan(part.toolCallId, { state: "revising", decision, note })
+        }
+      />
+    )
   }
 
   const addFiles = async (files: File[]) => {
@@ -301,6 +349,7 @@ function ChatThread({
           streaming={busy}
           thinkingSince={thinkingSince}
           error={error}
+          renderTool={renderTool}
           onRetry={() => regenerate({ body })}
           onRegenerate={(messageId) => regenerate({ messageId, body })}
           onRate={(messageId, rating) => annotate(messageId, { rating })}

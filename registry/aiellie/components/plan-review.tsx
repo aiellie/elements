@@ -544,7 +544,7 @@ function PlanReview({
               data-removed={step.removed || undefined}
               data-dragging={dragging || undefined}
               data-flashing={flashing || undefined}
-              className="group/step relative flex h-8 items-center gap-1 rounded-lg pe-1 transition-[background-color,box-shadow] duration-280 data-dragging:z-10 data-dragging:bg-background data-dragging:shadow-md data-dragging:ring-1 data-dragging:ring-border data-flashing:bg-muted data-flashing:duration-80 motion-reduce:transition-none"
+              className="group/step relative flex h-8 items-center gap-1 rounded-lg border border-transparent pe-1 transition-[background-color,border-color,box-shadow] duration-280 data-dragging:z-10 data-dragging:border-border data-dragging:bg-background data-dragging:shadow-md data-flashing:bg-muted data-flashing:duration-80 motion-reduce:transition-none"
             >
               {editable && !step.removed ? (
                 <Button

@@ -18,6 +18,13 @@ import {
   type MessageMetadata,
 } from "@/registry/aiellie/lib/messages"
 import { resolveModel } from "@/registry/aiellie/blocks/chat/lib/chat-providers"
+import {
+  PLAN_INSTRUCTIONS,
+  PLAN_TOOL,
+  planTool,
+  type PlanInput,
+  type PlanOutput,
+} from "@/registry/aiellie/blocks/chat/lib/chat-plan"
 
 // With search on, the model cites what it found where it uses it, in the form
 // a reply draws as a numbered citation that previews the page.
@@ -34,38 +41,118 @@ const SAMPLE_THOUGHTS =
 const SAMPLE_REPLY =
   "This is a sample reply, since there's no API key yet. Add one under **API keys** in the account menu, or set `AI_GATEWAY_API_KEY` on the server, and replies come from the model you pick."
 
+// Asking for a plan gets a sample one to review, so the preview shows how a
+// plan waits for a decision.
+const SAMPLE_PLAN: PlanInput = {
+  title: "Plan",
+  steps: [
+    { id: "s1", label: "Read the checkout flow and its tests" },
+    { id: "s2", label: "Move the price maths into lib/price.ts" },
+    { id: "s3", label: "Write tests for discounts and tax" },
+    { id: "s4", label: "Use the new helper in the cart" },
+  ],
+}
+const SAMPLE_APPROVED =
+  "That's the plan approved. With an API key, the model would now work through your steps in the order you left them."
+const SAMPLE_REVISING =
+  "Thanks for the note. With an API key, the model would come back with a new plan that follows it."
+
 const pause = (ms: number) => new Promise((done) => setTimeout(done, ms))
 
-function sampleReply(modelId: string) {
+const planPartType = `tool-${PLAN_TOOL}`
+
+// The decision on the newest plan, once the person has made it, for the
+// sample reply that follows.
+function decidedPlan(messages: UIMessage[]) {
+  const last = messages.at(-1)
+  if (last?.role !== "assistant") return undefined
+  const part = last.parts.findLast((part) => part.type === planPartType)
+  return part && "output" in part && part.state === "output-available"
+    ? (part.output as PlanOutput)
+    : undefined
+}
+
+const asksForPlan = (messages: UIMessage[]) => {
+  const last = messages.at(-1)
+  return (
+    last?.role === "user" &&
+    last.parts.some(
+      (part) => part.type === "text" && /\bplan\b/i.test(part.text)
+    )
+  )
+}
+
+function sampleReply(modelId: string, messages: UIMessage[]) {
   const started = Date.now()
+  const decided = decidedPlan(messages)
+  const planning = !decided && asksForPlan(messages)
+  const reply =
+    decided?.state === "approved"
+      ? SAMPLE_APPROVED
+      : decided?.state === "revising"
+        ? SAMPLE_REVISING
+        : SAMPLE_REPLY
   return createUIMessageStreamResponse({
     stream: createUIMessageStream({
+      // A reply that carries on from a decided plan keeps the plan's message.
+      originalMessages: messages,
       async execute({ writer }) {
         writer.write({
           type: "start",
           messageMetadata: { createdAt: started } satisfies MessageMetadata,
         })
-        writer.write({ type: "reasoning-start", id: "thoughts" })
-        for (const word of SAMPLE_THOUGHTS.split(/(?<= )/)) {
-          writer.write({ type: "reasoning-delta", id: "thoughts", delta: word })
-          await pause(40)
+        if (!decided) {
+          writer.write({ type: "reasoning-start", id: "thoughts" })
+          for (const word of SAMPLE_THOUGHTS.split(/(?<= )/)) {
+            writer.write({
+              type: "reasoning-delta",
+              id: "thoughts",
+              delta: word,
+            })
+            await pause(40)
+          }
+          writer.write({ type: "reasoning-end", id: "thoughts" })
         }
-        writer.write({ type: "reasoning-end", id: "thoughts" })
-        writer.write({ type: "text-start", id: "reply" })
-        for (const word of SAMPLE_REPLY.split(/(?<= )/)) {
-          writer.write({ type: "text-delta", id: "reply", delta: word })
-          await pause(30)
+        if (planning) {
+          // Streamed a step at a time, the way a model writes a tool's input.
+          const toolCallId = `plan-${started}`
+          writer.write({
+            type: "tool-input-start",
+            toolCallId,
+            toolName: PLAN_TOOL,
+          })
+          const json = JSON.stringify(SAMPLE_PLAN)
+          for (const chunk of json.match(/.{1,12}/g) ?? []) {
+            writer.write({
+              type: "tool-input-delta",
+              toolCallId,
+              inputTextDelta: chunk,
+            })
+            await pause(30)
+          }
+          writer.write({
+            type: "tool-input-available",
+            toolCallId,
+            toolName: PLAN_TOOL,
+            input: SAMPLE_PLAN,
+          })
+        } else {
+          writer.write({ type: "text-start", id: "reply" })
+          for (const word of reply.split(/(?<= )/)) {
+            writer.write({ type: "text-delta", id: "reply", delta: word })
+            await pause(30)
+          }
+          writer.write({ type: "text-end", id: "reply" })
         }
-        writer.write({ type: "text-end", id: "reply" })
         writer.write({
           type: "finish",
-          finishReason: "stop",
+          finishReason: planning ? "tool-calls" : "stop",
           messageMetadata: {
             model: modelId,
-            reasoningSeconds: Math.max(
-              1,
-              Math.round((Date.now() - started) / 1000)
-            ),
+            // A reply that carries on from a plan keeps the plan's thinking time.
+            reasoningSeconds: decided
+              ? undefined
+              : Math.max(1, Math.round((Date.now() - started) / 1000)),
           } satisfies MessageMetadata,
         })
       },
@@ -81,6 +168,27 @@ function inlineFilesOnly(messages: UIMessage[]): UIMessage[] {
     parts: message.parts.map((part) =>
       part.type === "file" && !part.url.startsWith("data:")
         ? { ...part, url: "" }
+        : part
+    ),
+  }))
+}
+
+// A plan left without a decision, because the person wrote something else,
+// still needs an answer before the model can be asked again.
+function answerOpenPlans(messages: UIMessage[]): UIMessage[] {
+  return messages.map((message) => ({
+    ...message,
+    parts: message.parts.map((part): UIMessage["parts"][number] =>
+      part.type === planPartType &&
+      "toolCallId" in part &&
+      (part.state === "input-streaming" || part.state === "input-available")
+        ? {
+            type: planPartType as `tool-${string}`,
+            toolCallId: part.toolCallId,
+            state: "output-available",
+            input: part.input ?? { steps: [] },
+            output: { state: "unanswered" } satisfies PlanOutput,
+          }
         : part
     ),
   }))
@@ -144,14 +252,22 @@ export async function POST(req: Request) {
     !keys.gateway &&
     !process.env.AI_GATEWAY_API_KEY
   )
-    return sampleReply(modelId)
-  const tools = search === true ? resolved.search : undefined
+    return sampleReply(modelId, messages)
+  const searching = search === true
+  const tools = {
+    ...(searching ? resolved.search : {}),
+    [PLAN_TOOL]: planTool,
+  }
 
-  const modelMessages = await toModelMessages(inlineFilesOnly(messages))
+  const modelMessages = await toModelMessages(
+    answerOpenPlans(inlineFilesOnly(messages))
+  )
 
   const result = streamText({
     model: resolved.model,
-    instructions: tools ? CITE_SOURCES : undefined,
+    instructions: searching
+      ? `${PLAN_INSTRUCTIONS}\n\n${CITE_SOURCES}`
+      : PLAN_INSTRUCTIONS,
     // A smaller context size picked keeps the request under it, so it stays
     // at the model's standard rate: the oldest messages are left out.
     messages:
@@ -166,9 +282,9 @@ export async function POST(req: Request) {
       google: { thinkingConfig: { includeThoughts: true } },
     },
     // With search on, the model can look things up, then answer from what it
-    // found: a few steps in all.
+    // found: a few steps in all. A plan stops the reply until it's decided.
     tools,
-    stopWhen: tools ? isStepCount(5) : undefined,
+    stopWhen: isStepCount(5),
   })
 
   const clock = reasoningClock()
@@ -176,6 +292,8 @@ export async function POST(req: Request) {
   return createUIMessageStreamResponse({
     stream: toUIMessageStream({
       stream: result.stream.pipeThrough(clock.watch),
+      // A reply that carries on from a decided plan keeps the plan's message.
+      originalMessages: messages,
       // Pages a search turned up, for the reply to list.
       sendSources: true,
       // Why it failed, for the thread to say beside "Failed".
