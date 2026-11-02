@@ -254,9 +254,9 @@ function CodeBlockCopyButton({
         {...props}
       >
         {copied ? (
-          <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} />
+          <HugeiconsIcon icon={Tick02Icon}  />
         ) : (
-          <HugeiconsIcon icon={Copy01Icon} strokeWidth={2} />
+          <HugeiconsIcon icon={Copy01Icon}  />
         )}
       </Button>
       <span aria-live="polite" className="sr-only">

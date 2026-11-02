@@ -116,6 +116,7 @@ function Reasoning({
         <TraceCollapsibleContent className="text-sm">
           <Markdown
             streaming={streaming}
+            quiet
             revealInitial={thinking}
             onRevealed={() => setRevealed(true)}
           >

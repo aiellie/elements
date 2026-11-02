@@ -19,6 +19,7 @@ import {
   CodeBlockHeader,
   CodeBlockLine,
   CodeBlockTitle,
+  CodeBlockDownload,
 } from "@/registry/aiellie/components/code-block"
 import { InlineCitation } from "@/registry/aiellie/components/inline-citation"
 import { useWordReveal } from "@/registry/aiellie/components/stream-text"
@@ -41,6 +42,7 @@ function MarkdownCodeBlock({
         <CodeBlockTitle>{language || "text"}</CodeBlockTitle>
         <CodeBlockActions>
           <CodeBlockCopyButton value={code} disabled={incomplete} />
+          <CodeBlockDownload code={code} />
         </CodeBlockActions>
       </CodeBlockHeader>
       <CodeBlockContent lineNumbers>
@@ -153,6 +155,14 @@ const FADE = {
   stagger: 0,
 } as const
 
+// The same fade without the live ink: Streamdown's own `sd-blurIn`.
+const QUIET_FADE = {
+  animation: "blurIn",
+  duration: 280,
+  easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+  stagger: 0,
+} as const
+
 /**
  * Markdown, drawn by Streamdown with this app's code blocks. Given
  * `streaming` or `revealInitial`, it writes the text out word by word at
@@ -166,6 +176,7 @@ function Markdown({
   streaming = false,
   revealInitial = false,
   pace = 16,
+  quiet = false,
   onRevealed,
   citations = NO_CITATIONS,
   className,
@@ -182,6 +193,8 @@ function Markdown({
   revealInitial?: boolean
   /** Words a second, until the stream's own rate is known. */
   pace?: number
+  /** Write words out in the text's own ink, caret too, rather than in `live`. */
+  quiet?: boolean
   /** Called once the text is finished and every word of it is on screen. */
   onRevealed?: () => void
   /** The pages the text may cite, numbered from 1 in this order. */
@@ -213,11 +226,12 @@ function Markdown({
       <Streamdown
         data-slot="markdown"
         data-streaming={busy || undefined}
+        data-quiet={quiet || undefined}
         mode={paced ? "streaming" : "static"}
         isAnimating={busy}
         // Streamdown's end of animating is the last word landing.
         onAnimationEnd={onRevealed}
-        animated={paced ? FADE : undefined}
+        animated={paced ? (quiet ? QUIET_FADE : FADE) : undefined}
         components={components}
         controls={controls}
         className={cn("cn-markdown w-full min-w-0 overflow-hidden", className)}

@@ -22,7 +22,7 @@
       "type": "registry:item",
       "title": "Theme",
       "description": "The whole aiellie stylesheet: color, type, radius, shadow and motion tokens. It replaces your app/globals.css.",
-      "dependencies": ["shadcn", "tw-animate-css", "tw-shimmer"],
+      "dependencies": ["shadcn", "tw-animate-css"],
       "files": [
         {
           "path": "app/globals.css",

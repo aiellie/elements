@@ -9,10 +9,6 @@ import { Button } from "@/registry/aiellie/ui/button"
 
 const THOUGHTS =
   "The chart has a fixed width of 640px, and the phone's card is about 358px wide, so it can't fit. The spec says the chart fills the card at every size, so the fix is to size it from its container instead."
-
-const FINISHED =
-  "They want a name that sounds quiet. Monochrome points to grays, so something like graphite. Hairline fits too, since the borders do most of the work."
-
 const WORD_DELAY = 90
 
 export default function ReasoningDemo() {
@@ -39,7 +35,6 @@ export default function ReasoningDemo() {
         streaming={streaming}
         duration={streaming ? undefined : (words.length * WORD_DELAY) / 1000}
       />
-      <Reasoning text={FINISHED} duration={12} />
       <Button
         variant="outline"
         size="sm"

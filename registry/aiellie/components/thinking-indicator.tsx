@@ -63,7 +63,7 @@ function ThinkingIndicator({
         {children}
       </span>
       {elapsed > 0 ? (
-        <span aria-hidden className="shrink-0 tabular-nums">
+        <span aria-hidden className="shrink-0 tabular-nums ">
           · {formatDuration(elapsed)}
         </span>
       ) : null}

@@ -174,7 +174,7 @@ const ITEM_ICONS: Record<string, IconSvgElement> = {
   "needs-you": InboxIcon,
   "agent-steps": WorkflowSquare03Icon,
   "agent-card": RoboticIcon,
-  "typing-indicator": MoreHorizontalIcon,
+  "typing-indicator": BubbleChatIcon,
   artifact: ArtboardIcon,
   "stack-trace": Bug01Icon,
   commit: GitCommitIcon,

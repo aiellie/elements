@@ -1,4 +1,6 @@
 import {
+  Add01Icon,
+  BrainIcon,
   BubbleChatIcon,
   InputTextIcon,
   Layers01Icon,
@@ -9,6 +11,7 @@ import {
   VoiceIcon,
   ChatIcon,
   CheckListIcon,
+  Message01Icon,
 } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
 
@@ -21,6 +24,10 @@ import registry from "@/registry.json"
  * word.
  */
 export const CATEGORIES = {
+  /** Things you think. */
+  reasoning: { name: "Reasoning", icon: BrainIcon },
+  /** Things you add. */
+  composer: { name: "Composer", icon: Add01Icon },
   /** Things you press. */
   actions: { name: "Actions", icon: TouchInteraction01Icon },
   /** Things you type into or choose with. */
@@ -32,6 +39,7 @@ export const CATEGORIES = {
   /** Things that report state: running, done, failed. */
   feedback: { name: "Feedback", icon: Notification03Icon },
   /** The pieces of a conversation. */
+  messages: { name: "Messages", icon: Message01Icon },
   chat: { name: "Chat", icon: BubbleChatIcon },
   /** Talking to the assistant: what it hears, says and plays back. */
   voice: { name: "Voice", icon: VoiceIcon },

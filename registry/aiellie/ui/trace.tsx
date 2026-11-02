@@ -22,23 +22,31 @@ function Trace({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+type TraceStatus = "running" | "error" | "pending"
+
+// `shimmer` can't take a variant (Tailwind drops the stacked class), so the
+// title reads the line's status and adds the plain class itself.
+const TraceLineContext = React.createContext<TraceStatus | undefined>(undefined)
+
 function TraceLine({
   className,
   status,
   ...props
 }: React.ComponentProps<"span"> & {
-  status?: "running" | "error" | "pending"
+  status?: TraceStatus
 }) {
   return (
-    <span
-      data-slot="trace-line"
-      data-status={status}
-      className={cn(
-        "flex w-fit max-w-full min-w-0 items-center gap-2 text-sm text-muted-foreground transition-colors in-[a,button]:cursor-pointer in-[a:hover,button:hover]:text-foreground data-[status=error]:text-destructive data-[status=error]:in-[a:hover,button:hover]:text-destructive data-[status=pending]:opacity-60 data-[status=running]:*:data-[slot=trace-title]:shimmer",
-        className
-      )}
-      {...props}
-    />
+    <TraceLineContext.Provider value={status}>
+      <span
+        data-slot="trace-line"
+        data-status={status}
+        className={cn(
+          "flex w-fit max-w-full min-w-0 items-center gap-2 text-sm text-muted-foreground transition-colors in-[a,button]:cursor-pointer in-[a:hover,button:hover]:text-foreground data-[status=error]:text-destructive data-[status=error]:in-[a:hover,button:hover]:text-destructive data-[status=pending]:opacity-60",
+          className
+        )}
+        {...props}
+      />
+    </TraceLineContext.Provider>
   )
 }
 
@@ -57,10 +65,16 @@ function TraceIcon({ className, ...props }: React.ComponentProps<"span">) {
 }
 
 function TraceTitle({ className, ...props }: React.ComponentProps<"span">) {
+  const status = React.useContext(TraceLineContext)
+
   return (
     <span
       data-slot="trace-title"
-      className={cn("min-w-0 truncate motion-reduce:shimmer-none", className)}
+      className={cn(
+        "min-w-0 truncate",
+        status === "running" && "shimmer motion-reduce:animate-none",
+        className
+      )}
       {...props}
     />
   )

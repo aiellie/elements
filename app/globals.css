@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "tw-shimmer";
 
 /* Streamdown draws replies with Tailwind classes from inside its package. */
 @source "../node_modules/streamdown/dist/*.js";
@@ -46,7 +45,7 @@
   /* Status. live is a placeholder blue until the brand hue is chosen. */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --live: #526FFF;
+  --live: #526fff;
   --success: oklch(0.596 0.145 163.225);
 
   /* Link ink, used on hover. Neutral: blue is kept for things that are live. */
@@ -479,4 +478,14 @@
   > li:last-child::after {
   content: "";
   @apply ms-0.5 inline-block h-3.5 w-0.5 animate-caret-blink bg-live align-middle motion-reduce:animate-none;
+}
+
+/* A quiet Markdown, like a reply's reasoning, isn't the live thing on the
+   page, so its caret takes the text's ink. */
+[data-slot="markdown"][data-streaming][data-quiet]
+  > :last-child:not([data-sd-caret-hidden], ul, ol)::after,
+[data-slot="markdown"][data-streaming][data-quiet]
+  > :is(ul, ol):last-child:not([data-sd-caret-hidden])
+  > li:last-child::after {
+  @apply bg-current;
 }
