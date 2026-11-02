@@ -80,9 +80,9 @@ function revoke(files: PendingFile[]) {
 
 // Starters over the composer while the chat is empty. Swap in your own.
 const SUGGESTIONS = [
-  "Explain a concept simply",
-  "Draft a short email",
-  "Review a function",
+  "Search the best ice cream in NYC",
+  "Generate an image for my brand",
+  "Create a resume",
   "Plan a refactor",
 ]
 
