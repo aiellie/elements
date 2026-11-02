@@ -3,6 +3,9 @@
 @import "shadcn/tailwind.css";
 @import "tw-shimmer";
 
+/* Streamdown draws replies with Tailwind classes from inside its package. */
+@source "../node_modules/streamdown/dist/*.js";
+
 @custom-variant dark (&:is(.dark *));
 
 /* ---------------------------------------------------------------------------
@@ -33,11 +36,12 @@
   --accent: oklch(0.967 0.001 286.375);
   --accent-foreground: oklch(0.21 0.006 285.885);
 
-  /* Edges. Focus is a border-colour swap, so --ring must differ from --input
-     by at least 3:1 — zinc-500 clears it, zinc-400 does not. */
+  /* Edges. --ring is focus: the 2px ring on a control, and the border a
+     field or a chip turns. The lightest zinc whose focus edge clears 3:1 on
+     every surface here. */
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(.871 0.006 286.286);
+  --ring: oklch(0.64 0.016 286);
 
   /* Status. live is a placeholder blue until the brand hue is chosen. */
   --destructive: oklch(0.577 0.245 27.325);
@@ -64,7 +68,7 @@
   --sidebar-accent: oklch(0.967 0.001 286.375);
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(.705 0.015 286.067);
+  --sidebar-ring: oklch(0.64 0.016 286);
 
   /* Layers */
   --z-base: 0;
@@ -190,6 +194,7 @@
      var(--font-geist-sans), "Geist", ui-sans-serif, … */
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-heading: var(--font-sans);
 
   /* Weights. Nothing resolves above 430, so an inherited font-semibold or
      font-bold comes out at medium without touching its class string. */
@@ -267,13 +272,12 @@
     color: var(--foreground);
   }
 
-  /* There are no rings in this system. Focus is a 1px border-colour swap,
-     so nothing reflows and nothing grows a halo. Components inherited from
-     shadcn still ship focus-visible:ring-[3px] — this cancels it globally. */
-  *:focus-visible {
-    outline: none;
-    --tw-ring-shadow: 0 0 #0000;
-    --tw-ring-offset-shadow: 0 0 #0000;
+  /* Focus a component doesn't draw itself, like a link's, is the same 2px
+     ring in --ring that controls draw with ring-2. A component that draws
+     its own focus says outline-none. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -441,4 +445,38 @@
   [data-slot="panel-toggle"] > svg {
     animation: none;
   }
+}
+
+/* A reply is written out the way StreamText writes: each new word lands in
+   the live ink, blurred, and settles into the text's own colour. Streamdown
+   plays this on each word it adds, as its `liveIn` animation. */
+@keyframes sd-liveIn {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    color: var(--live);
+  }
+  45% {
+    opacity: 1;
+    filter: blur(0);
+    color: var(--live);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="markdown"] [data-sd-animate] {
+    animation: none;
+  }
+}
+
+/* StreamText's caret, after the last word of a reply still being written. A
+   list's goes after its last item. Streamdown marks a last block the caret
+   shouldn't follow, like a code block. */
+[data-slot="markdown"][data-streaming]
+  > :last-child:not([data-sd-caret-hidden], ul, ol)::after,
+[data-slot="markdown"][data-streaming]
+  > :is(ul, ol):last-child:not([data-sd-caret-hidden])
+  > li:last-child::after {
+  content: "";
+  @apply ms-0.5 inline-block h-3.5 w-0.5 animate-caret-blink bg-live align-middle motion-reduce:animate-none;
 }

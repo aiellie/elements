@@ -12,19 +12,15 @@ export default function StatusDemo() {
       <div className="flex flex-wrap items-center justify-center gap-2">
         <Status variant="live" pulse>
           <StatusIndicator />
-          <StatusLabel>Live</StatusLabel>
-        </Status>
-        <Status variant="success" pulse>
-          <StatusIndicator />
           <StatusLabel>Deploying</StatusLabel>
         </Status>
-        <Status variant="destructive" pulse>
+        <Status variant="success">
           <StatusIndicator />
-          <StatusLabel>Degraded</StatusLabel>
+          <StatusLabel>Deployed</StatusLabel>
         </Status>
-        <Status variant="construction" pulse>
+        <Status variant="destructive">
           <StatusIndicator />
-          <StatusLabel>Under construction</StatusLabel>
+          <StatusLabel>Failed</StatusLabel>
         </Status>
       </div>
     </div>

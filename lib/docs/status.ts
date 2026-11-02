@@ -2,7 +2,7 @@ import type { DocContent } from "@/lib/docs"
 
 const doc: DocContent = {
   intro: [
-    "Status is a small pill that says what state something is in: live, done, failed, under construction. A dot leads the word, pulsing while the thing is still going, and the pill takes a tint of the state's color. The word is always there, so the state never rests on color alone.",
+    "Status is a small pill that says what state something is in: live, done or failed. A dot leads the word, pulsing while the thing is still going, and the pill takes a tint of the state's color. The word is always there, so the state never rests on color alone.",
   ],
   gettingStarted: {
     steps: [
@@ -35,7 +35,7 @@ export function DeployStatus({ running }: { running: boolean }) {
   <span data-slot="status-label" />
 </span>`,
     body: [
-      "The pill is 12px text in the state's color on a 4% tint of it, with a hairline border. `live` uses the theme's `live` token; `success` and `construction` use emerald and yellow, since a shadcn theme has neither. The ping stops with reduced motion, and the dot stays.",
+      "The pill is 12px text in the state's color on a 4% tint of it, with a hairline border. `live` and `success` use the aiellie theme's tokens of those names, and `destructive` uses shadcn's. Anything else, like pending or queued, is neutral rather than a fourth hue, so it isn't a variant. The ping stops with reduced motion, and the dot stays.",
       "Use `pulse` for something still running, and leave it off once it has finished. `statusVariants` is exported for a pill of your own that should look the same.",
     ],
   },
@@ -65,7 +65,7 @@ export function DeployStatus({ running }: { running: boolean }) {
       rows: [
         [
           "`variant`",
-          '`"live" | "success" | "destructive" | "construction"`',
+          '`"live" | "success" | "destructive"`',
           '`"live"`',
           "The state, and its color.",
         ],

@@ -85,7 +85,7 @@ function Toast({
       className={cn(
         toastSurface(variant),
         placement === "stacked" ? toastStacked : toastAnchored,
-        "outline-none focus-visible:border-ring",
+        "outline-none focus-visible:ring-2 focus-visible:ring-ring",
         className
       )}
       {...props}

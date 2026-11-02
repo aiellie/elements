@@ -138,7 +138,7 @@ function VoiceOrb({
       data-slot="voice-orb"
       data-state={state}
       className={cn(
-        "border border-transparent group/orb relative grid size-20 place-items-center rounded-full outline-none focus-visible:border-ring disabled:cursor-default",
+        "group/orb relative grid size-20 place-items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-default",
         className
       )}
       style={{ "--level": 0, ...style } as React.CSSProperties}
