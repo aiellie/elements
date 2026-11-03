@@ -2,7 +2,7 @@ import type { DocContent } from "@/lib/docs"
 
 const doc: DocContent = {
   intro: [
-    "Status is a small pill that says what state something is in: live, done or failed. A dot leads the word, pulsing while the thing is still going, and the pill takes a tint of the state's color. The word is always there, so the state never rests on color alone.",
+    "Status is a small pill that says what state something is in: live, done, failed, waiting on you, or idle. A dot leads the word, pulsing while the thing is still going, and the pill takes a tint of the state's color. The word is always there, so the state never rests on color alone.",
   ],
   gettingStarted: {
     steps: [
@@ -35,14 +35,16 @@ export function DeployStatus({ running }: { running: boolean }) {
   <span data-slot="status-label" />
 </span>`,
     body: [
-      "The pill is 12px text in the state's color on a 4% tint of it, with a hairline border. `live` and `success` use the aiellie theme's tokens of those names, and `destructive` uses shadcn's. Anything else, like pending or queued, is neutral rather than a fourth hue, so it isn't a variant. The ping stops with reduced motion, and the dot stays.",
+      "The pill is 12px text in the state's color on a 4% tint of it, with a hairline border. `live`, `success` and `pending` use the aiellie theme's tokens of those names, and `destructive` uses shadcn's. `pending` is amber, for something waiting on the person, like an approval; it never pulses. Anything else, like queued, draft or idle, is `muted`: neutral, on a `muted` fill. The ping stops with reduced motion, and the dot stays.",
       "Use `pulse` for something still running, and leave it off once it has finished. `statusVariants` is exported for a pill of your own that should look the same.",
     ],
   },
   examples: [
     {
       title: "A task's state",
-      body: ["Pulsing while it runs, still once it has an outcome."],
+      body: [
+        "Neutral while queued, pulsing while it runs, amber while it waits on you, and still once it has an outcome.",
+      ],
       sample: "status/running",
     },
     {
@@ -65,7 +67,7 @@ export function DeployStatus({ running }: { running: boolean }) {
       rows: [
         [
           "`variant`",
-          '`"live" | "success" | "destructive"`',
+          '`"live" | "success" | "destructive" | "pending" | "muted"`',
           '`"live"`',
           "The state, and its color.",
         ],

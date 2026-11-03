@@ -17,7 +17,7 @@ A component registry and pattern library for AI-native and agentic UI. Near-mono
 
 ## 1. Brand is live
 
-The brand colour, **#5170FF**, is carried by the `--live` token. It replaces assistant-ui's `blue-500` and means exactly what their blue means: **something happening now.** That covers four cases:
+The brand colour, **#5170FF**, is the `--brand` token (`oklch(0.603 0.215 269.582)`, the same in both themes), and `--live` carries it. It replaces assistant-ui's `blue-500` and means exactly what their blue means: **something happening now.** That covers four cases:
 
 - **streaming:** a reply being written, its newest words and its caret;
 - **running:** machine work under way, like a tool fetching;
@@ -32,7 +32,7 @@ Rules:
 - **One live thing per view.** The parts of one live thing may share the ink, like a streaming reply's words and its caret. Two separate things in brand at once compete; take it off the one that isn't the subject.
 - **The brand stops when the state does.** Finished, ended, switched off: the brand goes at once, with no fade-out. Settled work is `success` or neutral, never left blue.
 - **Always the token:** `text-live`, `bg-live/4`, `hover:bg-live/7`, `border-live/20`. Never a hex, never `blue-*`, never `primary` used to mean "brand", and no `dark:` twin, since `--live` already changes with the theme.
-- **`live`, not `brand`.** An element writes `live`, so the code says why it's blue. This repo has no separate `--brand` token, so `text-brand` resolves to nothing. `--live` is `#526fff` in light and `oklch(0.7 0.17 270)` in dark, lifted so small marks hold up on the dark ground.
+- **`brand` or `live`?** `--brand` holds the colour; `--live` is the same colour with a meaning. An element writes `live`, so the code says why it's blue. `text-brand` is only for the brand itself, like a logo.
 - **Contrast.** #5170FF is 4.1:1 on white, so in the light theme it clears 3:1 for marks (dots, the caret, rings, icons, fills) but not 4.5:1 for small text. Put brand ink on a word only where the word is brief and paired with a mark, like a `StatusLabel` beside its dot, or passing, like a streamed word settling. Never on body copy or links.
 
 ## 2. List the states
@@ -53,9 +53,7 @@ Before drawing anything, list every state the element can be in. Most elements n
 | Error    | `Status variant="destructive"` with "Failed", then why, then a way to retry.                                                |
 | Done     | `success` ink with a word or a tick, only for "completed, passing or saved", and only where the person needs to know.       |
 
-Waiting on the person (an approval, an answer they owe) is `pending`: amber, with a dot that doesn't pulse. Anything else (queued, draft, idle, read, suggested) is neutral: `muted` fill, `muted-foreground` ink. There is no fifth hue.
-
-> **Not built yet.** `Status` (`ui/status.tsx`) ships only `live`, `success` and `destructive`, and the theme has no amber token. Until a `pending` and a `muted` variant land, a neutral state sets `bg-muted text-muted-foreground border-transparent` on a `Status` through `className`, and nothing is amber.
+Waiting on the person (an approval, an answer they owe) is `Status variant="pending"`: the `pending` token, amber, with a dot that doesn't pulse. Anything else (queued, draft, idle, read, suggested) is neutral: `Status variant="muted"`. There is no fifth hue.
 
 ## 3. Surfaces and layout
 
@@ -73,7 +71,7 @@ Use these before writing markup. Extend one with a prop before adding a sibling.
 
 | Need                             | Use                                                                                                                                                  |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A state with a word              | `Status` + `StatusIndicator` + `StatusLabel` (`ui/status.tsx`), `variant` live, success or destructive; `pulse` while running                         |
+| A state with a word              | `Status` + `StatusIndicator` + `StatusLabel` (`ui/status.tsx`), `variant` live, success, destructive, pending or muted; `pulse` while running                         |
 | Loading with a known shape       | `Skeleton` (`ui/skeleton.tsx`), sized like the content it stands for                                                                                |
 | A running label                  | the `shimmer` class, with `motion-reduce:animate-none`                                                                                               |
 | Work under way with no shape yet | `ThinkingIndicator` (`components/thinking-indicator.tsx`), named for the work ("Searching")                                                           |
@@ -83,14 +81,14 @@ Use these before writing markup. Extend one with a prop before adding a sibling.
 | Actions                          | `Button` (`ui/button.tsx`): `default` for the main action, `ghost` or `outline` beside it, `destructive` only when it destroys                        |
 | An icon-only control             | `TooltipIconButton` (`ui/tooltip-icon-button.tsx`), or a `Button` size `icon-*` inside a `Tooltip`, with an `aria-label`                              |
 | A menu or popover                | `Menu` (`ui/menu.tsx`), `Popover` (`ui/popover.tsx`); a search at the top of a menu is `MenuSearch`                                                   |
-| A dialog                         | `Dialog` (`ui/dialog.tsx`)                                                                                                                           |
+| A dialog                         | `Dialog` (`ui/dialog.tsx`), or `AlertDialog` (`ui/alert-dialog.tsx`) to confirm something destructive                                               |
+| Rows of facts                    | `Item` (`ui/item.tsx`) with `ItemMedia`, `ItemContent`, `ItemTitle`, `ItemDescription`, `ItemActions`                                                  |
 | A toggle                         | `Switch` (`ui/switch.tsx`) or `Toggle`; when it's on, it's live                                                                                       |
 
-Not in this repo yet, so don't reach for them in registry code:
+Two things to know:
 
-- `AlertDialog`, `Item`, `DetailList` and `DetailRow` don't exist. Port `AlertDialog` and `Item` from shadcn (see CLAUDE.md) before an element needs them.
-- `ToolMark` doesn't exist.
-- `SwapLabel`, `ShimmerLabel`, `iconSwap` (`iconSwapIn`, `iconSwapOut`), `collapsePanel`, `field`, `fieldInteractive` and `floating` live in `lib/surfaces.tsx`, which is site-only: registry code can't import it. They also predate the motion rules (`SwapLabel` runs at 300 ms, `iconSwap` and `collapsePanel` at 200 ms, on other curves, and `floating` uses `shadow-xl`), so bring them in line before promoting any of them into `ui/`.
+- `DetailList`, `DetailRow` and `ToolMark` don't exist; use `Item` for rows of facts, and a tool's icon in `muted-foreground` with no tile.
+- `SwapLabel`, `ShimmerLabel`, `iconSwap` (`iconSwapIn`, `iconSwapOut`), `collapsePanel`, `field`, `fieldInteractive` and `floating` live in `lib/surfaces.tsx`. They follow these rules, but the file is site-only, so registry code writes the same classes itself rather than importing them.
 
 ## 5. Motion
 
@@ -105,8 +103,8 @@ Every motion explains a state change, keeps continuity, or confirms an action. M
 | A press                            | `Button` already dents: `active:scale-[0.97]`, icon buttons `active:scale-90`, at 80 ms.                                                                                                        |
 | A row's hover                      | `transition-colors duration-80 hover:bg-foreground/[0.04] motion-reduce:transition-none`                                                                                                        |
 | A trigger's icon                   | Turns at 150 ms while open: a chevron 180°, a plus 45°, a fold's chevron 90°.                                                                                                                   |
-| A label changing in place          | Blur one label into the next and ease the width, at 150 ms.                                                                                                                                     |
-| An icon changing in place          | Cross-fade and scale the two icons in one grid cell, at 150 ms, like Copy turning into a tick and back.                                                                                         |
+| A label changing in place          | `SwapLabel` on the site; in registry code, blur one label into the next and ease the width, at 150 ms.                                                                                          |
+| An icon changing in place          | `iconSwap` on the site; in registry code, cross-fade and scale the two icons in one grid cell, at 150 ms, like Copy turning into a tick and back.                                              |
 | A region appearing inside a layout | Fold, don't pop: `CollapsibleContent`, or `grid-template-rows` from `0fr` to `1fr` at 280 ms, `inert` while shut.                                                                               |
 | A floating layer arriving          | `animate-in` and `animate-out` from tw-animate-css, as `Menu` and `Popover` already do.                                                                                                         |
 | A few items arriving together      | `animate-in fade-in slide-in-from-bottom-1 duration-280 ease-[cubic-bezier(0.16,1,0.3,1)] fill-mode-both motion-reduce:animate-none`, delay `index × 70ms`. Three to five items, never a list. |
@@ -148,6 +146,7 @@ Never: a spinner where a skeleton fits, a loop on something settled, an entrance
 - The brand as decoration: brand buttons, brand headings, a brand border at rest.
 - Two live things at once.
 - A coloured tile behind every icon, rainbow badges, gradients, glows, blobs.
+- A brand `Status` used as a label, like a page's eyebrow or a count: that's `Status variant="muted"`.
 - A box in a box, or a card around every section.
 - Tiny muted text used to make density fit.
 - A spinner alone where the content's shape is known.
@@ -166,7 +165,7 @@ A tool's part moves through the AI SDK's states. This table is the default; chan
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------- |
 | `input-streaming`    | The frame with a `Skeleton` in the result's shape, and a caption naming the work ("Checking the weather").                    | Caption shimmers |
 | `input-available`    | The same, now with the input shown ("Checking the weather in Lisbon"). Root gets `data-status="running"` and `aria-busy`.     | Yes              |
-| `approval-requested` | The settled request, fully readable, with its actions. Waiting on the person: `pending`, amber, no pulse (see section 2).      | No               |
+| `approval-requested` | The settled request, fully readable, with its actions. Waiting on the person: `Status variant="pending"`, amber, no pulse.      | No               |
 | `approval-responded` | Actions replaced by the running caption until the result arrives.                                                             | Yes              |
 | `output-available`   | The result. No loops, no brand, nothing moving.                                                                               | No               |
 | `output-error`       | The frame stays. `Status variant="destructive"` with "Failed", then the reason as a sentence, then Retry if there is one.     | No               |
@@ -356,13 +355,14 @@ Scrollbars are furniture: the `border` hairline on no track at all, so a scrolli
 
 ### Status colors
 
-Three statuses, built the same way. Each has an ink and two fills — 4% resting, 7% on hover — and nothing else:
+Four statuses, built the same way. Each has an ink and two fills — 4% resting, 7% on hover — and nothing else:
 
 | status        | ink (light / dark)                | resting fill        | hover fill                |
 | ------------- | --------------------------------- | ------------------- | ------------------------- |
 | `destructive` | red-600 / red-400                 | `destructive-bg` 4% | `destructive-bg-hover` 7% |
-| `live`        | `#526FFF` / `oklch(0.7 0.17 270)` | `live-bg` 4%        | `live-bg-hover` 7%        |
+| `live`        | `brand`, #5170FF in both themes   | `live-bg` 4%        | `live-bg-hover` 7%        |
 | `success`     | `success` (emerald)               | `success-bg` 4%     | `success-bg-hover` 7%     |
+| `pending`     | `pending` (amber-600 / amber-400) | 4%                  | 7%                        |
 
 `live` is the brand, and means something happening now; section 1 has its rules. `success` means completed, passing, saved. Waiting on the person is `pending` (amber, still), and anything else (queued, draft, idle, read, suggested) is neutral: `muted` fill, `muted-foreground` ink. Section 2 says what `Status` ships today.
 
@@ -381,7 +381,7 @@ The 7% step is only for items that are genuinely interactive. A status badge sit
 
 Borders are not part of the formula: a status fill reads at 4% because the whole system is near-monochrome, so it needs no outline. Add `border-destructive/20` only when a status block sits on a fill of its own rather than on `background` or `card`.
 
-Contrast, in the light theme: `destructive` clears 4.5:1, but `live` (4.1:1) and `success` (3.7:1) do not. Both are sound for dots, icons and large or bold text; for status text at `body-sm` or `caption` size, keep the word brief and beside its mark (section 1), or set it in `foreground` and let the hue carry only the mark. In dark all three clear comfortably.
+Contrast, in the light theme: `destructive` clears 4.5:1, but `live` (4.1:1) and `success` (3.7:1) do not. Both are sound for dots, icons and large or bold text; for status text at `body-sm` or `caption` size, keep the word brief and beside its mark (section 1), or set it in `foreground` and let the hue carry only the mark. `pending` is for marks and brief words beside them only. In dark, `destructive` and `success` clear comfortably, and `live` holds 4.2:1 on `background`.
 
 ### Glass surfaces
 
@@ -454,7 +454,7 @@ Fourteen styles, each with its size, leading, weight and tracking fixed:
 - `code` (13px) sits inline on a `muted` ground; `code-block` is the same size with looser leading. `code-sm` is 11px for dense work — token and prop names in reference tables, paths, ids, and inline code inside `caption` or `body-sm`. `kbd` is 12px.
 - The code group runs one weight heavier at its small end: `code-sm` and `kbd` are `medium`, since mono at 11 and 12px goes thin against a `muted` fill.
 
-**A catalog page's eyebrow uses a pulsing `Status` with a `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays visually consistent with status-shaped labels elsewhere in the catalog. Use the default `live` variant.
+**A catalog page's eyebrow is a `muted` `Status` with a still `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays consistent with status-shaped labels elsewhere. It never takes `live` or `pulse`: a page's count isn't happening now, so blue there would be decoration.
 
 Emphasis comes from size and ink, not weight — the 80-unit spread between light and medium is too small to shout with. Italics are for citation only, and nothing in the UI is underlined except a prose link on hover.
 
@@ -796,7 +796,9 @@ Every value in the system. Generated from `tokens.json` — do not hand-edit her
 | `destructive-foreground`     | `oklch(0.985 0 0)`           | `oklch(0.141 0.005 285.823)` | Text on a destructive fill (4.                                                                                                   |
 | `destructive-bg`             | `#e7000b0a`                  | `#ff64670a`                  | Destructive at 4%.                                                                                                               |
 | `destructive-bg-hover`       | `#e7000b12`                  | `#ff646712`                  | Destructive at 7%.                                                                                                               |
-| `live`                       | `#526fff`                    | `oklch(0.7 0.17 270)`        | The brand, as status ink for live: streaming, running, connected, switched on.                                                   |
+| `brand`                      | `oklch(0.603 0.215 269.582)` | `oklch(0.603 0.215 269.582)` | The brand, #5170FF. Only for the brand itself, like a logo; elements write `live`.                                               |
+| `live`                       | `var(--brand)`               | `var(--brand)`               | The brand as status ink: streaming, running, connected, switched on.                                                             |
+| `pending`                    | `oklch(0.666 0.179 58.318)`  | `oklch(0.828 0.189 84.429)`  | Status ink for waiting on the person, like an approval. Never pulses.                                                            |
 | `live-bg`                    | `#2b7fff0a`                  | `#51a2ff0a`                  | Live at 4%.                                                                                                                      |
 | `live-bg-hover`              | `#2b7fff12`                  | `#51a2ff12`                  | Live at 7%.                                                                                                                      |
 | `success`                    | `oklch(0.596 0.145 163.225)` | `oklch(0.765 0.177 163.223)` | Status ink for success — completed, passing, saved.                                                                              |

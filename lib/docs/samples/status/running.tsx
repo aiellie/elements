@@ -10,7 +10,9 @@ import {
 import { Button } from "@/registry/aiellie/ui/button"
 
 const STATES = {
+  queued: { variant: "muted", pulse: false, label: "Queued" },
   running: { variant: "live", pulse: true, label: "Running" },
+  waiting: { variant: "pending", pulse: false, label: "Needs approval" },
   done: { variant: "success", pulse: false, label: "Done" },
   failed: { variant: "destructive", pulse: false, label: "Failed" },
 } as const

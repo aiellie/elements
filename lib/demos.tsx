@@ -8,7 +8,9 @@ import BreadcrumbDemo from "@/registry/aiellie/examples/breadcrumb-demo"
 import ButtonDemo from "@/registry/aiellie/examples/button-demo"
 import CommandDemo from "@/registry/aiellie/examples/command-demo"
 import DictateButtonDemo from "@/registry/aiellie/examples/dictate-button-demo"
+import AlertDialogDemo from "@/registry/aiellie/examples/alert-dialog-demo"
 import DialogDemo from "@/registry/aiellie/examples/dialog-demo"
+import ItemDemo from "@/registry/aiellie/examples/item-demo"
 import EmptyDemo from "@/registry/aiellie/examples/empty-demo"
 import AttachmentsDemo from "@/registry/aiellie/examples/attachments-demo"
 import EditableTitleDemo from "@/registry/aiellie/examples/editable-title-demo"
@@ -160,6 +162,12 @@ const DEMOS: Record<string, Demo> = {
   tooltip: { title: "Tooltip", gallery: "/design", Demo: TooltipDemo },
   sheet: { title: "Sheet", gallery: "/design", Demo: SheetDemo },
   dialog: { title: "Dialog", gallery: "/design", Demo: DialogDemo },
+  "alert-dialog": {
+    title: "Alert Dialog",
+    gallery: "/design",
+    Demo: AlertDialogDemo,
+  },
+  item: { title: "Item", gallery: "/design", Demo: ItemDemo },
   popover: { title: "Popover", gallery: "/design", Demo: PopoverDemo },
   "hover-card": {
     title: "Hover Card",

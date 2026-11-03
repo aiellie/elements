@@ -190,6 +190,38 @@
       "categories": ["overlays"]
     },
     {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Base UI's alert dialog: a solid panel that asks the person to confirm something that can't be undone.",
+      "dependencies": ["@base-ui/react", "tw-animate-css"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/alert-dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/alert-dialog.tsx"
+        }
+      ],
+      "categories": ["overlays"]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "shadcn's item: a row of facts with media, a title, a description and actions.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/separator", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/item.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/item.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
       "name": "command",
       "type": "registry:ui",
       "title": "Command",
@@ -1269,9 +1301,7 @@
         }
       ],
       "docs": "The receipt fades in with tw-animate-css. Add `@import \"tw-animate-css\";` to your global stylesheet if it is not there already.",
-      "categories": [
-        "agents"
-      ]
+      "categories": ["agents"]
     },
     {
       "name": "chat",

@@ -11,7 +11,6 @@ type ComingSoonProps = PageMeta
 
 export function ComingSoon({
   eyebrow,
-  eyebrowVariant,
   title,
   icon,
   description,
@@ -29,7 +28,7 @@ export function ComingSoon({
           />
         </div>
 
-        <Status variant={eyebrowVariant} pulse>
+        <Status variant="muted">
           <StatusIndicator />
           <StatusLabel>{eyebrow}</StatusLabel>
         </Status>
