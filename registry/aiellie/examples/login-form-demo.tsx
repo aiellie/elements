@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { LoginDialog } from "@/registry/aiellie/components/login-form"
+import { LoginDialog } from "@/registry/aiellie/ui/login-form"
 import { Button } from "@/registry/aiellie/ui/button"
 
 export default function LoginFormDemo() {

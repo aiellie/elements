@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { EmojiSelector } from "@/registry/aiellie/components/emoji-selector"
+import { EmojiSelector } from "@/registry/aiellie/ui/emoji-selector"
 
 export default function EmojiSelectorDemo() {
   const [picked, setPicked] = React.useState("")

@@ -13,7 +13,7 @@ import {
   ChatHeader,
   ChatHeaderTitle,
 } from "@/registry/aiellie/blocks/chat/components/chat-header"
-import { HistoryButtons } from "@/registry/aiellie/components/history-buttons"
+import { HistoryButtons } from "@/registry/aiellie/ui/history-buttons"
 import {
   NO_REPLIES,
   NO_THREADS,
@@ -32,7 +32,7 @@ import { ContentSummary } from "@/registry/aiellie/blocks/chat/components/chat-c
 import type { ChatMode } from "@/registry/aiellie/blocks/chat/components/chat-switcher"
 import type { ChatNavChat } from "@/registry/aiellie/blocks/chat/components/chat-nav-chats"
 import type { User } from "@/registry/aiellie/blocks/chat/components/chat-nav-user"
-import { Panels, usePanels } from "@/registry/aiellie/components/panels"
+import { Panels, usePanels } from "@/registry/aiellie/ui/panels"
 import { QuickChat } from "@/registry/aiellie/blocks/chat/components/chat-quick-chat"
 import { ChatSearch } from "@/registry/aiellie/blocks/chat/components/chat-search"
 import {

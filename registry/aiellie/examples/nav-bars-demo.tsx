@@ -6,7 +6,7 @@ import {
   NavBars,
   useNavBarsInView,
   type NavBarsVariant,
-} from "@/registry/aiellie/components/nav-bars"
+} from "@/registry/aiellie/ui/nav-bars"
 import { Tabs, TabsList, TabsTrigger } from "@/registry/aiellie/ui/tabs"
 
 const SECTIONS = [

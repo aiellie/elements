@@ -17,7 +17,7 @@ const doc: DocContent = {
 
 import * as React from "react"
 
-import { SettingsDialog } from "@/components/aiellie/settings-dialog"
+import { SettingsDialog } from "@/components/ui/settings-dialog"
 import { Button } from "@/components/ui/button"
 
 export function SettingsButton({ user }: { user: { name: string; email: string } }) {

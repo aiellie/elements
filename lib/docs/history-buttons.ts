@@ -17,7 +17,7 @@ const doc: DocContent = {
 
 import { useRouter } from "next/navigation"
 
-import { HistoryButtons } from "@/components/aiellie/history-buttons"
+import { HistoryButtons } from "@/components/ui/history-buttons"
 
 export function AppHeader({
   canGoBack,

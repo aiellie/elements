@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { ShareDialog } from "@/registry/aiellie/components/share-dialog"
+import { ShareDialog } from "@/registry/aiellie/ui/share-dialog"
 
 export default function ShareDialogDemo() {
   const [open, setOpen] = React.useState(false)

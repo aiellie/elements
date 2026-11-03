@@ -8,7 +8,7 @@ import type { UIMessage } from "ai"
 
 import { loadMessages } from "@/registry/aiellie/blocks/chat/lib/chat-store"
 import type { ChatNavChat } from "@/registry/aiellie/blocks/chat/components/chat-nav-chats"
-import { usePanels } from "@/registry/aiellie/components/panels"
+import { usePanels } from "@/registry/aiellie/ui/panels"
 import { Dialog, DialogContent } from "@/registry/aiellie/ui/dialog"
 
 /** A chat that matched, with the bit of a message that did if it was one. */

@@ -10,7 +10,8 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "registry:build": "shadcn build"
+    "registry:build": "shadcn build",
+    "audit:design": "node scripts/audit-design.mjs"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.94",

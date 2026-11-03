@@ -1,6 +1,6 @@
 "use client"
 
-import { Panels, usePanels } from "@/registry/aiellie/components/panels"
+import { Panels, usePanels } from "@/registry/aiellie/ui/panels"
 import { Button } from "@/registry/aiellie/ui/button"
 
 function ShowDetails() {

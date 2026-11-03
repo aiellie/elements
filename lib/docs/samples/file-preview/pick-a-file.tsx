@@ -6,7 +6,7 @@ import {
   FilePreview,
   describe,
   type FilePreviewItem,
-} from "@/registry/aiellie/components/file-preview"
+} from "@/registry/aiellie/ui/file-preview"
 import { Button } from "@/registry/aiellie/ui/button"
 
 function toItem(file: File): FilePreviewItem {

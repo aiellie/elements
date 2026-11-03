@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+import { AuditStatus } from "@/components/pages/audit-status"
 import { ITEM_ICONS } from "@/lib/item-icons"
 import { cn } from "@/lib/utils"
 import {
@@ -20,6 +21,7 @@ export function DemoCard({
   description,
   item: itemProp,
   wide = false,
+  audit = false,
   children,
 }: {
   href: string
@@ -34,6 +36,8 @@ export function DemoCard({
    */
   item?: string
   wide?: boolean
+  /** Shows whether the item passed the design audit (`lib/audit.json`). */
+  audit?: boolean
   children: React.ReactNode
 }) {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -110,13 +114,18 @@ export function DemoCard({
             {String(index).padStart(2, "0")}
           </span>
         </Link>
+        {audit ? (
+          <span className="ms-auto self-center">
+            <AuditStatus item={item} />
+          </span>
+        ) : null}
         <DemoActions
           item={item}
           href={demoHref(item)}
           title={title}
           background={background}
           onBackgroundChange={setBackground}
-          className="ms-auto self-center"
+          className={cn("self-center", !audit && "ms-auto")}
         />
       </div>
       <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">

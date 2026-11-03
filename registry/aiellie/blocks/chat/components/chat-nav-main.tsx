@@ -11,7 +11,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { usePanels } from "@/registry/aiellie/components/panels"
+import { usePanels } from "@/registry/aiellie/ui/panels"
 import { TooltipIconButton } from "@/registry/aiellie/ui/tooltip-icon-button"
 import {
   SidebarGroup,

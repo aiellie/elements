@@ -14,9 +14,9 @@ import {
 } from "@/registry/aiellie/blocks/chat/components/chat-nav-filter"
 import { ChatOptions } from "@/registry/aiellie/blocks/chat/components/chat-options"
 import { ThinkingIndicator } from "@/registry/aiellie/components/thinking-indicator"
-import { useRenameInput } from "@/registry/aiellie/components/editable-title"
+import { useRenameInput } from "@/registry/aiellie/ui/editable-title"
 import { Menu, MenuContent, MenuTrigger } from "@/registry/aiellie/ui/menu"
-import { usePanels } from "@/registry/aiellie/components/panels"
+import { usePanels } from "@/registry/aiellie/ui/panels"
 import {
   Status,
   StatusIndicator,
