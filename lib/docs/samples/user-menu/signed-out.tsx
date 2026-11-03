@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { UserMenu, type User } from "@/registry/aiellie/components/user-menu"
+import { UserMenu, type User } from "@/registry/aiellie/ui/user-menu"
 import { SidebarProvider } from "@/registry/aiellie/ui/sidebar"
 
 export default function SignedOut() {

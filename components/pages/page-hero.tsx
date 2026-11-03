@@ -17,7 +17,6 @@ interface PageMeta {
   label: string
   /** Given a count, the hero puts the number before this word or phrase. */
   eyebrow: string
-  eyebrowVariant?: React.ComponentProps<typeof Status>["variant"]
   title: string
   icon: IconSvgElement
   /** One or two sentences under the title, kept to `max-w-prose`. */
@@ -33,7 +32,6 @@ interface PageMeta {
 function PageHero({
   label,
   eyebrow,
-  eyebrowVariant,
   count,
   title,
   icon,
@@ -59,7 +57,7 @@ function PageHero({
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="flex min-w-0 flex-col gap-3">
-          <Status variant={eyebrowVariant} pulse>
+          <Status variant="muted">
             <StatusIndicator />
             <StatusLabel className="tabular-nums">
               {count === undefined

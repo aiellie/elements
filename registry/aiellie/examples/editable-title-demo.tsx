@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { EditableTitle } from "@/registry/aiellie/components/editable-title"
+import { EditableTitle } from "@/registry/aiellie/ui/editable-title"
 
 export default function EditableTitleDemo() {
   const [title, setTitle] = React.useState("Launch checklist")

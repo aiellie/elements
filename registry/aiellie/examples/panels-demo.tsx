@@ -1,4 +1,4 @@
-import { Panels } from "@/registry/aiellie/components/panels"
+import { Panels } from "@/registry/aiellie/ui/panels"
 
 function Placeholder({ children }: { children: React.ReactNode }) {
   return (

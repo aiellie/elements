@@ -20,7 +20,7 @@ function filterSections(sections: DocsSection[], query: string): DocsSection[] {
   if (!normalized) return sections
   return sections
     .map((section) => ({
-      title: section.title,
+      ...section,
       items: section.items.filter((item) =>
         `${item.title} ${item.name}`.toLowerCase().includes(normalized)
       ),

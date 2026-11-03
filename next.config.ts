@@ -12,9 +12,16 @@ const nextConfig: NextConfig = {
         destination: "/design/:name",
         permanent: true,
       },
+      // Moved to the design page once only chat pieces stayed on /components.
+      {
+        source:
+          "/components/:name(panels|nav-bars|editable-title|history-buttons|user-menu|login-form|settings-dialog|share-dialog|file-preview|emoji-selector)",
+        destination: "/design/:name",
+        permanent: true,
+      },
       {
         source: "/components/help-menu",
-        destination: "/components/user-menu",
+        destination: "/design/user-menu",
         permanent: true,
       },
     ]

@@ -22,6 +22,14 @@ export default function StatusDemo() {
           <StatusIndicator />
           <StatusLabel>Failed</StatusLabel>
         </Status>
+        <Status variant="pending">
+          <StatusIndicator />
+          <StatusLabel>Needs approval</StatusLabel>
+        </Status>
+        <Status variant="muted">
+          <StatusIndicator />
+          <StatusLabel>Queued</StatusLabel>
+        </Status>
       </div>
     </div>
   )

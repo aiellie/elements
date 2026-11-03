@@ -42,11 +42,16 @@
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.64 0.016 286);
 
-  /* Status. live is a placeholder blue until the brand hue is chosen. */
+  /* The brand, #5170FF, the same in both themes. live is the brand with a
+     meaning (something happening now), and is what elements write. */
+  --brand: oklch(0.603 0.215 269.582);
+
+  /* Status. pending is waiting on the person. */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --live: #526fff;
+  --live: var(--brand);
   --success: oklch(0.596 0.145 163.225);
+  --pending: oklch(0.666 0.179 58.318);
 
   /* Link ink, used on hover. Neutral: blue is kept for things that are live. */
   --link: oklch(0.141 0.005 285.823);
@@ -111,8 +116,8 @@
   --destructive: oklch(0.704 0.191 22.216);
   /* Near-black ink: white on this red is 2.9:1. */
   --destructive-foreground: oklch(0.141 0.005 285.823);
-  --live: oklch(0.7 0.17 270);
   --success: oklch(0.765 0.177 163.223);
+  --pending: oklch(0.828 0.189 84.429);
 
   --link: oklch(0.985 0 0);
 
@@ -168,8 +173,10 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-brand: var(--brand);
   --color-live: var(--live);
   --color-success: var(--success);
+  --color-pending: var(--pending);
   --color-link: var(--link);
   --color-selection: var(--selection);
   --color-glass: var(--glass);

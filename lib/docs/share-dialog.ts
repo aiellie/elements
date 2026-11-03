@@ -17,7 +17,7 @@ const doc: DocContent = {
 
 import * as React from "react"
 
-import { ShareDialog } from "@/components/aiellie/share-dialog"
+import { ShareDialog } from "@/components/ui/share-dialog"
 
 export function ChatShare({ id, title }: { id: string; title: string }) {
   const [open, setOpen] = React.useState(false)

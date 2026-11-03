@@ -47,16 +47,16 @@
     },
     {
       "name": "editable-title",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Editable Title",
       "description": "A heading you click to rename in place: Enter keeps the new name, Escape keeps the old one. Also exports the hook behind the field, for renaming anywhere else.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": ["@aiellie/input", "@aiellie/utils"],
       "files": [
         {
-          "path": "registry/aiellie/components/editable-title.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/editable-title.tsx"
+          "path": "registry/aiellie/ui/editable-title.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/editable-title.tsx"
         }
       ],
       "categories": ["inputs"]
@@ -188,6 +188,38 @@
         }
       ],
       "categories": ["overlays"]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Base UI's alert dialog: a solid panel that asks the person to confirm something that can't be undone.",
+      "dependencies": ["@base-ui/react", "tw-animate-css"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/alert-dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/alert-dialog.tsx"
+        }
+      ],
+      "categories": ["overlays"]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "shadcn's item: a row of facts with media, a title, a description and actions.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/separator", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/item.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/item.tsx"
+        }
+      ],
+      "categories": ["layout"]
     },
     {
       "name": "command",
@@ -446,7 +478,7 @@
     },
     {
       "name": "user-menu",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "User Menu",
       "description": "Who is signed in, at the foot of a sidebar: a small picture and their name, opening a menu headed by them and their plan, with usage, invites, settings, help and logging out. Signed out, it's a Sign in button that opens the login form.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
@@ -460,16 +492,16 @@
       ],
       "files": [
         {
-          "path": "registry/aiellie/components/user-menu.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/user-menu.tsx"
+          "path": "registry/aiellie/ui/user-menu.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/user-menu.tsx"
         }
       ],
-      "categories": ["actions"]
+      "categories": ["overlays"]
     },
     {
       "name": "panels",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Panels",
       "description": "An app shell: the page in the middle, with resizable panels on the left, the right and along the bottom, toggled from their headers or with ⌘B, ⌘I and ⌘J. On a phone the side panels open as sheets.",
       "dependencies": [
@@ -487,9 +519,9 @@
       ],
       "files": [
         {
-          "path": "registry/aiellie/components/panels.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/panels.tsx"
+          "path": "registry/aiellie/ui/panels.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/panels.tsx"
         }
       ],
       "categories": ["layout"]
@@ -516,7 +548,7 @@
     },
     {
       "name": "settings-dialog",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Settings Dialog",
       "description": "A settings window with a section rail on the left and, on the right, a Settings › Section breadcrumb over the active account, appearance, model provider keys, or API keys section. On small screens the rail folds into the breadcrumb.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
@@ -532,16 +564,16 @@
       ],
       "files": [
         {
-          "path": "registry/aiellie/components/settings-dialog.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/settings-dialog.tsx"
+          "path": "registry/aiellie/ui/settings-dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/settings-dialog.tsx"
         }
       ],
       "categories": ["overlays"]
     },
     {
       "name": "share-dialog",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Share Dialog",
       "description": "Sharing something by link: who can open it, the link to copy, a preview slot, and buttons to post it to X, LinkedIn or Reddit.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
@@ -554,16 +586,16 @@
       ],
       "files": [
         {
-          "path": "registry/aiellie/components/share-dialog.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/share-dialog.tsx"
+          "path": "registry/aiellie/ui/share-dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/share-dialog.tsx"
         }
       ],
       "categories": ["overlays"]
     },
     {
       "name": "login-form",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Login Form",
       "description": "One form to sign in or sign up: Google and GitHub buttons, or an email and Continue, which sends a verification code. Shows it working while it waits and an error when it fails. Comes as a form and as a dialog.",
       "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
@@ -577,16 +609,16 @@
       ],
       "files": [
         {
-          "path": "registry/aiellie/components/login-form.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/login-form.tsx"
+          "path": "registry/aiellie/ui/login-form.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/login-form.tsx"
         }
       ],
-      "categories": ["overlays"]
+      "categories": ["inputs"]
     },
     {
       "name": "file-preview",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "File Preview",
       "description": "A file opened in a dialog: an image, a PDF, text or code highlighted by language, or the files in a folder, with a download button that zips a folder.",
       "dependencies": [
@@ -602,9 +634,9 @@
       ],
       "files": [
         {
-          "path": "registry/aiellie/components/file-preview.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/file-preview.tsx"
+          "path": "registry/aiellie/ui/file-preview.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/file-preview.tsx"
         }
       ],
       "categories": ["overlays"]
@@ -626,7 +658,7 @@
           "target": "components/aiellie/temporary-chat-toggle.tsx"
         }
       ],
-      "categories": ["actions"]
+      "categories": ["options"]
     },
     {
       "name": "status",
@@ -698,7 +730,7 @@
     },
     {
       "name": "history-buttons",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "History Buttons",
       "description": "Back and forward buttons for stepping through what was opened, each with a tooltip naming its shortcut.",
       "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
@@ -708,9 +740,9 @@
       ],
       "files": [
         {
-          "path": "registry/aiellie/components/history-buttons.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/history-buttons.tsx"
+          "path": "registry/aiellie/ui/history-buttons.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/history-buttons.tsx"
         }
       ],
       "categories": ["actions"]
@@ -733,7 +765,7 @@
           "target": "components/aiellie/add-menu.tsx"
         }
       ],
-      "categories": ["actions"]
+      "categories": ["composer"]
     },
     {
       "name": "waveform",
@@ -748,7 +780,7 @@
           "target": "components/aiellie/waveform.tsx"
         }
       ],
-      "categories": ["feedback"]
+      "categories": ["voice"]
     },
     {
       "name": "project-selector",
@@ -764,7 +796,7 @@
           "target": "components/aiellie/project-selector.tsx"
         }
       ],
-      "categories": ["inputs"]
+      "categories": ["options"]
     },
     {
       "name": "plugin-selector",
@@ -785,7 +817,7 @@
           "target": "components/aiellie/plugin-selector.tsx"
         }
       ],
-      "categories": ["inputs"]
+      "categories": ["options"]
     },
     {
       "name": "work-in-menu",
@@ -801,7 +833,7 @@
           "target": "components/aiellie/work-in-menu.tsx"
         }
       ],
-      "categories": ["inputs"]
+      "categories": ["options"]
     },
     {
       "name": "branches-menu",
@@ -817,7 +849,7 @@
           "target": "components/aiellie/branches-menu.tsx"
         }
       ],
-      "categories": ["inputs"]
+      "categories": ["options"]
     },
     {
       "name": "dictate-button",
@@ -838,7 +870,7 @@
           "target": "components/aiellie/dictate-button.tsx"
         }
       ],
-      "categories": ["inputs"]
+      "categories": ["composer"]
     },
     {
       "name": "model-selector",
@@ -865,7 +897,7 @@
         "icon": "AiBrain01Icon",
         "iframeHeight": "400px"
       },
-      "categories": ["inputs"]
+      "categories": ["options"]
     },
     {
       "name": "composer",
@@ -888,7 +920,7 @@
           "target": "components/aiellie/composer.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["composer"]
     },
     {
       "name": "attachments",
@@ -904,7 +936,7 @@
           "target": "components/aiellie/attachments.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["composer"]
     },
     {
       "name": "message",
@@ -924,7 +956,7 @@
         }
       ],
       "docs": "The caret's blink comes from tw-animate-css. Add `@import \"tw-animate-css\";` to your global stylesheet if it is not there already.",
-      "categories": ["chat"]
+      "categories": ["messages"]
     },
     {
       "name": "date-divider",
@@ -939,7 +971,7 @@
           "target": "components/aiellie/date-divider.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["thread"]
     },
     {
       "name": "stream-text",
@@ -955,7 +987,7 @@
         }
       ],
       "docs": "The caret's blink comes from tw-animate-css. Newest words and the caret use the `--live` colour from @aiellie/theme, and fall back to the text colour without it.",
-      "categories": ["chat"]
+      "categories": ["replies"]
     },
     {
       "name": "thinking-indicator",
@@ -971,7 +1003,7 @@
         }
       ],
       "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
-      "categories": ["chat"]
+      "categories": ["replies"]
     },
     {
       "name": "reasoning",
@@ -988,7 +1020,7 @@
         }
       ],
       "docs": "The shimmer on Thinking comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
-      "categories": ["chat"]
+      "categories": ["replies"]
     },
     {
       "name": "sources",
@@ -1008,7 +1040,7 @@
           "target": "components/aiellie/sources.tsx"
         }
       ],
-      "categories": ["chat"],
+      "categories": ["replies"],
       "docs": "Pass `loadPreview` to fill each hover card from the page itself. The `link-preview` item installs a route that does it: `(href) => fetch(`/api/link-preview?url=${encodeURIComponent(href)}`).then((r) => (r.ok ? r.json() : null))`."
     },
     {
@@ -1038,7 +1070,7 @@
           "target": "components/aiellie/suggestions.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["composer"]
     },
     {
       "name": "thread",
@@ -1074,19 +1106,19 @@
           "target": "components/aiellie/thread.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["thread"]
     },
     {
       "name": "nav-bars",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Nav Bars",
       "description": "A rail of short bars for a page's sections or a thread's turns, marking what's in view. Hover for a list, a peek at one item, or a rail that expands into labels.",
       "registryDependencies": ["@aiellie/hover-card", "@aiellie/utils"],
       "files": [
         {
-          "path": "registry/aiellie/components/nav-bars.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/nav-bars.tsx"
+          "path": "registry/aiellie/ui/nav-bars.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/nav-bars.tsx"
         }
       ],
       "categories": ["layout"]
@@ -1108,7 +1140,7 @@
           "target": "components/aiellie/thread-transcript.tsx"
         }
       ],
-      "categories": ["chat"],
+      "categories": ["thread"],
       "dependencies": ["ai"]
     },
     {
@@ -1134,7 +1166,7 @@
           "target": "components/aiellie/quick-chat.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["thread"]
     },
     {
       "name": "code-block",
@@ -1184,7 +1216,7 @@
         }
       ],
       "docs": "The caret's blink comes from tw-animate-css. Add `@import \"tw-animate-css\";` to your global stylesheet if it is not there already.",
-      "categories": ["chat"]
+      "categories": ["replies"]
     },
     {
       "name": "message-actions",
@@ -1207,7 +1239,7 @@
           "target": "components/aiellie/message-actions.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["messages"]
     },
     {
       "name": "inline-citation",
@@ -1223,7 +1255,7 @@
           "target": "components/aiellie/inline-citation.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["replies"]
     },
     {
       "name": "effort-menu",
@@ -1243,7 +1275,7 @@
           "target": "components/aiellie/effort-menu.tsx"
         }
       ],
-      "categories": ["inputs"]
+      "categories": ["options"]
     },
     {
       "name": "plan-review",
@@ -1269,9 +1301,7 @@
         }
       ],
       "docs": "The receipt fades in with tw-animate-css. Add `@import \"tw-animate-css\";` to your global stylesheet if it is not there already.",
-      "categories": [
-        "agents"
-      ]
+      "categories": ["agents"]
     },
     {
       "name": "chat",
@@ -1497,7 +1527,7 @@
           "target": "components/aiellie/attachment.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["composer"]
     },
     {
       "name": "bubble",
@@ -1513,7 +1543,7 @@
           "target": "components/aiellie/bubble.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["messages"]
     },
     {
       "name": "context-meter",
@@ -1535,11 +1565,11 @@
           "target": "components/aiellie/context-meter.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["composer"]
     },
     {
       "name": "emoji-selector",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Emoji Selector",
       "description": "A button that opens a searchable emoji panel and remembers your recent picks.",
       "dependencies": ["@hugeicons/core-free-icons", "@hugeicons/react"],
@@ -1551,9 +1581,9 @@
       ],
       "files": [
         {
-          "path": "registry/aiellie/components/emoji-selector.tsx",
-          "type": "registry:component",
-          "target": "components/aiellie/emoji-selector.tsx"
+          "path": "registry/aiellie/ui/emoji-selector.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/emoji-selector.tsx"
         }
       ],
       "categories": ["inputs"]
@@ -1580,7 +1610,7 @@
           "target": "components/aiellie/file-attachment.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["composer"]
     },
     {
       "name": "markdown",
@@ -1603,7 +1633,7 @@
           "target": "components/aiellie/markdown.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["replies"]
     },
     {
       "name": "message-scroller",
@@ -1623,7 +1653,7 @@
           "target": "components/aiellie/message-scroller.tsx"
         }
       ],
-      "categories": ["layout"]
+      "categories": ["thread"]
     },
     {
       "name": "voice-divider",
@@ -1655,7 +1685,7 @@
           "target": "components/aiellie/web-search.tsx"
         }
       ],
-      "categories": ["chat"]
+      "categories": ["replies"]
     },
     {
       "name": "switch",
@@ -1740,6 +1770,961 @@
           "target": "hooks/use-browser-history.ts"
         }
       ]
+    },
+    {
+      "name": "file-search",
+      "type": "registry:lib",
+      "title": "File Search",
+      "description": "Finds text in file names and contents, with match case, whole word and regex, and previews a replacement that can keep each match's case.",
+      "files": [
+        {
+          "path": "registry/aiellie/lib/file-search.ts",
+          "type": "registry:lib",
+          "target": "lib/file-search.ts"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A button that stays pressed until it's pressed again, filled while on.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/toggle.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/toggle.tsx"
+        }
+      ],
+      "categories": ["actions"]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "A row of toggles where one or several can be on, set apart or joined into one control.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/toggle", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/toggle-group.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/toggle-group.tsx"
+        }
+      ],
+      "categories": ["actions"]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "An input that filters a list as you type and picks from it, on Base UI.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/input-group",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/combobox.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/combobox.tsx"
+        }
+      ],
+      "categories": ["inputs"]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Base UI's tabs: a row of views to switch between, on a muted track.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/tabs.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/tabs.tsx"
+        }
+      ],
+      "categories": ["layout"]
+    },
+    {
+      "name": "toolbar",
+      "type": "registry:ui",
+      "title": "Toolbar",
+      "description": "Base UI's toolbar with this registry's surface on it, plus buttons that name themselves in a tooltip.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/tooltip", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/toolbar.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/toolbar.tsx"
+        }
+      ],
+      "categories": ["actions"]
+    },
+    {
+      "name": "meter",
+      "type": "registry:ui",
+      "title": "Meter",
+      "description": "A reading inside a known range, like a context window or a credit balance, with a label, a formatted value and a fill that can turn to a status tone.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/meter.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/meter.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Stacked and anchored notifications with actions, semantic status icons and swipe-to-dismiss behavior.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/ui/toast.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/toast.tsx"
+        }
+      ],
+      "categories": ["feedback"]
+    },
+    {
+      "name": "code-diff",
+      "type": "registry:component",
+      "title": "Code Diff",
+      "description": "What a change did, read from a unified diff: added and removed lines tinted and marked, both sides numbered, and a +N −M count for the header.",
+      "registryDependencies": ["@aiellie/code-block", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/code-diff.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/code-diff.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "terminal",
+      "type": "registry:component",
+      "title": "Terminal",
+      "description": "A command and what came back: the prompt and the command highlighted as shell, its output, and a line that says whether it is running, done or failed.",
+      "registryDependencies": [
+        "@aiellie/code-block",
+        "@aiellie/status",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/terminal.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/terminal.tsx"
+        }
+      ],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["code"]
+    },
+    {
+      "name": "tool-call",
+      "type": "registry:component",
+      "title": "Tool Call",
+      "description": "A tool the model called, folded behind one row that names it and says whether it is queued, waiting on approval, running, done or failed, opening to show what went in and came out.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/status",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/tool-call.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/tool-call.tsx"
+        }
+      ],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["agents"]
+    },
+    {
+      "name": "quoted-message",
+      "type": "registry:component",
+      "title": "Quoted Message",
+      "description": "The words a reply is about, kept to a short excerpt above it behind a rule on the start side, with who said them and a way to remove the quote.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/quoted-message.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/quoted-message.tsx"
+        }
+      ],
+      "categories": ["messages"]
+    },
+    {
+      "name": "message-highlight-toolbar",
+      "type": "registry:component",
+      "title": "Message Highlight Toolbar",
+      "description": "A small toolbar that floats over text selected in a thread, with actions that get the selected words, like quoting or explaining them.",
+      "dependencies": ["tw-animate-css"],
+      "registryDependencies": ["@aiellie/toolbar", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/message-highlight-toolbar.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/message-highlight-toolbar.tsx"
+        }
+      ],
+      "categories": ["messages"]
+    },
+    {
+      "name": "approval-mode-menu",
+      "type": "registry:component",
+      "title": "Approval Mode Menu",
+      "description": "How much an agent may do without asking, chosen from the composer: auto, manual, accept edits and plan, with full access set apart.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/menu",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/approval-mode-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/approval-mode-menu.tsx"
+        }
+      ],
+      "categories": ["options"]
+    },
+    {
+      "name": "slash-menu",
+      "type": "registry:component",
+      "title": "Slash Menu",
+      "description": "The commands a slash opens at the start of the composer, filtered as you type and picked with the arrow keys and Enter.",
+      "dependencies": ["@hugeicons/react"],
+      "registryDependencies": ["@aiellie/composer", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/slash-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/slash-menu.tsx"
+        }
+      ],
+      "categories": ["composer"]
+    },
+    {
+      "name": "mentions",
+      "type": "registry:component",
+      "title": "Mentions",
+      "description": "The people and agents an at sign opens in the composer, filtered as you type and put into the message as @Name.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/composer", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/mentions.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/mentions.tsx"
+        }
+      ],
+      "categories": ["composer"]
+    },
+    {
+      "name": "orb",
+      "type": "registry:component",
+      "title": "Orb",
+      "description": "The assistant as a sphere of moving colour that idles, listens, thinks, speaks and sleeps, swelling with the voice. Any word gives it a look of its own.",
+      "dependencies": ["@paper-design/shaders-react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/orb.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/orb.tsx"
+        }
+      ],
+      "categories": ["voice"]
+    },
+    {
+      "name": "transcript",
+      "type": "registry:component",
+      "title": "Transcript",
+      "description": "Speech as text: lines by speaker that follow the newest, with words still being guessed shimmering until they settle.",
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/transcript.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/transcript.tsx"
+        }
+      ],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["voice"]
+    },
+    {
+      "name": "audio-player",
+      "type": "registry:component",
+      "title": "Audio Player",
+      "description": "A clip that plays where it stands: play and pause, its shape to scrub through, and the time.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/audio-player.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/audio-player.tsx"
+        }
+      ],
+      "categories": ["voice"]
+    },
+    {
+      "name": "mic-menu",
+      "type": "registry:component",
+      "title": "Mic Menu",
+      "description": "Which microphone to use, from the inputs the browser lists, kept current as devices come and go.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/menu",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/mic-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/mic-menu.tsx"
+        }
+      ],
+      "categories": ["voice"]
+    },
+    {
+      "name": "prompt-menu",
+      "type": "registry:component",
+      "title": "Prompt Menu",
+      "description": "A menu of preset instructions to put the assistant under, grouped, with a line on how each changes the answer.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/menu",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/prompt-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/prompt-menu.tsx"
+        }
+      ],
+      "categories": ["options"]
+    },
+    {
+      "name": "code-snippet",
+      "type": "registry:component",
+      "title": "Code Snippet",
+      "description": "A command to copy, with tabs for npm, pnpm, yarn and bun.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/code-block", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/code-snippet.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/code-snippet.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "file-tree",
+      "type": "registry:component",
+      "title": "File Tree",
+      "description": "Folders and files a change touched, marked added, changed or removed, walked with the arrow keys.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/code-block", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/file-tree.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/file-tree.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "code-workspace",
+      "type": "registry:component",
+      "title": "Code Workspace",
+      "description": "A read-only editor for a set of files: a resizable file tree, tabs, a quick file picker, and search and replace across names and contents.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/code-block",
+        "@aiellie/combobox",
+        "@aiellie/file-search",
+        "@aiellie/file-tree",
+        "@aiellie/input-group",
+        "@aiellie/resizable",
+        "@aiellie/toggle",
+        "@aiellie/toggle-group",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/code-workspace.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/code-workspace.tsx"
+        }
+      ],
+      "docs": "Replacing never writes to your files. It previews the result in the workspace until it's undone, and what to do with it is up to you.",
+      "categories": ["code"]
+    },
+    {
+      "name": "sandbox",
+      "type": "registry:component",
+      "title": "Sandbox",
+      "description": "Code that runs in the page with Sandpack, in our own chrome: a live preview with a loading bar and its errors, an editor with a file tree and file tabs, and a console, under one toolbar that follows light and dark.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "@codesandbox/sandpack-react",
+        "jszip"
+      ],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/code-block",
+        "@aiellie/file-tree",
+        "@aiellie/tabs",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/sandbox.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/sandbox.tsx"
+        }
+      ],
+      "docs": "Sandpack bundles and runs the code on CodeSandbox's servers, so the preview needs a network connection. The colours follow a `dark` class on `<html>`.",
+      "categories": ["code"]
+    },
+    {
+      "name": "web-preview",
+      "type": "registry:component",
+      "title": "Web Preview",
+      "description": "A page in a frame with a browser's chrome: back, forward and reload, an address bar with the connection's details, a console that folds out, an annotate toggle, and a menu with zoom and a phone-width view.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/input-group",
+        "@aiellie/menu",
+        "@aiellie/popover",
+        "@aiellie/tooltip",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/web-preview.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/web-preview.tsx"
+        }
+      ],
+      "docs": "Many sites refuse to be framed, so preview pages you serve yourself, or pass `srcDoc`. The console shows the logs you hand it; the framed page has to post them to you.",
+      "categories": ["code"]
+    },
+    {
+      "name": "run-budget",
+      "type": "registry:component",
+      "title": "Run Budget",
+      "description": "A spend cap for an agent run: pick it, watch the meter fill and warn near the cap, then keep what's done or raise the cap when it stops.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/run-budget.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/run-budget.tsx"
+        }
+      ],
+      "categories": ["agents"]
+    },
+    {
+      "name": "prompt-autocomplete",
+      "type": "registry:component",
+      "title": "Prompt Autocomplete",
+      "description": "A prompt field that shows a suggested ending as ghost text. Tab takes all of it, Option-Right the next word, and Escape dismisses it.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/prompt-autocomplete.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/prompt-autocomplete.tsx"
+        }
+      ],
+      "categories": ["composer"]
+    },
+    {
+      "name": "human-handoff",
+      "type": "registry:component",
+      "title": "Human Handoff",
+      "description": "Hands a chat to a person: an editable summary of what they'll see, a place in the queue that counts down, then who joined, or a way to be reached when no one is in.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/avatar",
+        "@aiellie/button",
+        "@aiellie/input",
+        "@aiellie/textarea",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/human-handoff.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/human-handoff.tsx"
+        }
+      ],
+      "categories": ["messages"]
+    },
+    {
+      "name": "agent-cursor",
+      "type": "registry:component",
+      "title": "Agent Cursor",
+      "description": "A document you and an agent edit together. The paragraph it's rewriting is marked while the draft streams in beside it, to replace or discard, and editing that paragraph meanwhile offers to keep yours, take the agent's or merge.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/button",
+        "@aiellie/textarea",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/agent-cursor.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/agent-cursor.tsx"
+        }
+      ],
+      "categories": ["agents"]
+    },
+    {
+      "name": "attempt-picker",
+      "type": "registry:component",
+      "title": "Attempt Picker",
+      "description": "Several attempts at one task side by side, with progress while they run, then lines changed, tests passing and a suggested pick, and one to apply while the rest are discarded.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/attempt-picker.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/attempt-picker.tsx"
+        }
+      ],
+      "categories": ["agents"]
+    },
+    {
+      "name": "needs-you",
+      "type": "registry:component",
+      "title": "Needs You",
+      "description": "An inbox of agents waiting on you, oldest first: approvals, questions with choices and blocked tasks, answered in place, with waits that count up and mark themselves overdue.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/needs-you.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/needs-you.tsx"
+        }
+      ],
+      "categories": ["agents"]
+    },
+    {
+      "name": "reactions",
+      "type": "registry:component",
+      "title": "Reactions",
+      "description": "Emoji counts under a message that you press to add or take back your own.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/tooltip", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/reactions.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/reactions.tsx"
+        }
+      ],
+      "categories": ["messages"]
+    },
+    {
+      "name": "message-status",
+      "type": "registry:component",
+      "title": "Message Status",
+      "description": "How far a message has got: sending, sent, delivered, read, or not sent with a retry.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/message-status.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/message-status.tsx"
+        }
+      ],
+      "categories": ["messages"]
+    },
+    {
+      "name": "timestamps",
+      "type": "registry:component",
+      "title": "Timestamps",
+      "description": "When a message was sent, worded by how long ago, beside it or across the thread.",
+      "registryDependencies": ["@aiellie/marker", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/timestamps.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/timestamps.tsx"
+        }
+      ],
+      "categories": ["messages"]
+    },
+    {
+      "name": "message-context-menu",
+      "type": "registry:component",
+      "title": "Message Context Menu",
+      "description": "The menu a message opens on right click or long press, with a row of reactions above its actions.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@aiellie/menu", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/message-context-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/message-context-menu.tsx"
+        }
+      ],
+      "categories": ["messages"]
+    },
+    {
+      "name": "compaction-marker",
+      "type": "registry:component",
+      "title": "Compaction Marker",
+      "description": "The line in a thread where an agent compacted its context: a sweep while it works, then the tokens before and after, opening to what was kept.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/button", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/compaction-marker.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/compaction-marker.tsx"
+        }
+      ],
+      "categories": ["thread"],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet."
+    },
+    {
+      "name": "agent-steps",
+      "type": "registry:component",
+      "title": "Agent Steps",
+      "description": "An agent's run laid out step by step: a row that reads Working while it runs and Worked for 12s after, folding open to each step's status, a line of detail and the results it found.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/status",
+        "@aiellie/thinking-indicator",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/agent-steps.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/agent-steps.tsx"
+        }
+      ],
+      "docs": "The shimmer comes from shadcn/tailwind.css, which `shadcn init` adds to your global stylesheet.",
+      "categories": ["agents"]
+    },
+    {
+      "name": "agent-card",
+      "type": "registry:component",
+      "title": "Agent Card",
+      "description": "What an agent is: its mark, name and model, the instructions it follows, the tools it can call and the shape of what it returns.",
+      "dependencies": ["@hugeicons/react"],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/agent-card.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/agent-card.tsx"
+        }
+      ],
+      "categories": ["agents"]
+    },
+    {
+      "name": "typing-indicator",
+      "type": "registry:component",
+      "title": "Typing Indicator",
+      "description": "Three dots that bounce in turn while someone writes a reply, in a bubble that sits in a thread like a message or bare for a row of your own.",
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/typing-indicator.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/typing-indicator.tsx"
+        }
+      ],
+      "categories": ["messages"]
+    },
+    {
+      "name": "artifact",
+      "type": "registry:component",
+      "title": "Artifact",
+      "description": "A panel for something a reply made, like a file, a document or a page: a header with its title, a line about it, actions and a close button, over a body that scrolls.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/artifact.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/artifact.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "stack-trace",
+      "type": "registry:component",
+      "title": "Stack Trace",
+      "description": "An error read from its printed trace: the type and message, opening to its frames, with library frames folded away, file paths that open, and the whole trace to copy.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/stack-trace.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/stack-trace.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "commit",
+      "type": "registry:component",
+      "title": "Commit",
+      "description": "A commit in one row: its message, author, time and lines changed, with the hash to copy, opening to the files it touched.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "@aiellie/avatar",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/commit.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/commit.tsx"
+        }
+      ],
+      "categories": ["code"]
+    },
+    {
+      "name": "context-breakdown",
+      "type": "registry:component",
+      "title": "Context Breakdown",
+      "description": "What fills a model's context window: one bar split into the system prompt, tools, files and conversation, with a legend of token counts and what's free, sliding as parts grow or are compacted.",
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/context-breakdown.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/context-breakdown.tsx"
+        }
+      ],
+      "categories": ["composer"]
+    },
+    {
+      "name": "retrieved-sources",
+      "type": "registry:component",
+      "title": "Retrieved Sources",
+      "description": "The passages a reply was built from: each document with where the passage sits and how relevant it scored, opening to the passage, with those under a threshold muted.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": ["@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/retrieved-sources.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/retrieved-sources.tsx"
+        }
+      ],
+      "categories": ["replies"]
+    },
+    {
+      "name": "contact-button",
+      "type": "registry:component",
+      "title": "Contact Button",
+      "description": "Who you're talking to, at the top of a chat: their picture over a pill with their name, opening more about them.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@aiellie/avatar", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/contact-button.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/contact-button.tsx"
+        }
+      ],
+      "categories": ["messages"]
+    },
+    {
+      "name": "call-menu",
+      "type": "registry:component",
+      "title": "Call Menu",
+      "description": "A small round picture of who you'd call, opening a menu to start a video call or a voice call.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/avatar",
+        "@aiellie/menu",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/call-menu.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/call-menu.tsx"
+        }
+      ],
+      "categories": ["voice"]
+    },
+    {
+      "name": "video-call",
+      "type": "registry:component",
+      "title": "Video Call",
+      "description": "A live call with the assistant: the orb listens and speaks, your camera sits in a corner and is shared with it a frame a second, with mute, camera and hang-up, and a transcript beside it. Runs on Gemini Live, or on a mock with no key.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@aiellie/live-call",
+        "@aiellie/orb",
+        "@aiellie/waveform",
+        "@aiellie/transcript",
+        "@aiellie/mic-menu",
+        "@aiellie/button",
+        "@aiellie/status",
+        "@aiellie/tooltip-icon-button",
+        "@aiellie/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/aiellie/components/video-call.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/video-call.tsx"
+        }
+      ],
+      "docs": "For real calls, add `@aiellie/live-token` and set `GEMINI_API_KEY` on the server. Pass `mock` to try it without one.",
+      "categories": ["voice"]
+    },
+    {
+      "name": "live-call",
+      "type": "registry:lib",
+      "title": "Live Call",
+      "description": "The two sides a video call can talk to: Gemini Live over a WebSocket, sending the microphone as PCM and the camera as a JPEG a second, and a mock that plays the assistant with no key or network.",
+      "dependencies": ["@google/genai"],
+      "files": [
+        {
+          "path": "registry/aiellie/lib/live-call.ts",
+          "type": "registry:lib",
+          "target": "lib/live-call.ts"
+        }
+      ]
+    },
+    {
+      "name": "live-token",
+      "type": "registry:item",
+      "title": "Live Token",
+      "description": "A route that turns the server's Gemini key into a one-use token for the browser, locked to one Live model and its settings, so the key never leaves the server.",
+      "dependencies": ["@google/genai"],
+      "files": [
+        {
+          "path": "registry/aiellie/lib/live-token.ts",
+          "type": "registry:file",
+          "target": "app/api/live-token/route.ts"
+        }
+      ]
+    },
+    {
+      "name": "voice-orb",
+      "type": "registry:component",
+      "title": "Voice Orb",
+      "description": "The orb a voice chat shows above the composer: a swirl of colour that swells with the voice, with a word for connecting, muted, failed and ended.",
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "@paper-design/shaders-react"
+      ],
+      "registryDependencies": ["@aiellie/tooltip", "@aiellie/utils"],
+      "files": [
+        {
+          "path": "registry/aiellie/components/voice-orb.tsx",
+          "type": "registry:component",
+          "target": "components/aiellie/voice-orb.tsx"
+        }
+      ],
+      "categories": ["voice"]
     }
   ]
 }

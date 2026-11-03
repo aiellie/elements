@@ -7,7 +7,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { EditableTitle } from "@/registry/aiellie/components/editable-title"
+import { EditableTitle } from "@/registry/aiellie/ui/editable-title"
 import {
   Menu,
   MenuContent,

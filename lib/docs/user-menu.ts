@@ -15,7 +15,7 @@ const doc: DocContent = {
           title: "components/app-sidebar.tsx",
           code: `"use client"
 
-import { UserMenu } from "@/components/aiellie/user-menu"
+import { UserMenu } from "@/components/ui/user-menu"
 import {
   Sidebar,
   SidebarContent,

@@ -5,7 +5,7 @@ import * as React from "react"
 import {
   ShareDialog,
   type ShareVisibility,
-} from "@/registry/aiellie/components/share-dialog"
+} from "@/registry/aiellie/ui/share-dialog"
 
 export default function PrivateByDefault() {
   const [open, setOpen] = React.useState(false)

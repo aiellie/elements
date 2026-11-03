@@ -5,7 +5,7 @@ import * as React from "react"
 import {
   NavBars,
   useNavBarsInView,
-} from "@/registry/aiellie/components/nav-bars"
+} from "@/registry/aiellie/ui/nav-bars"
 
 const SECTIONS = [
   { id: "expand-goal", label: "Goal", description: "What the plan is for." },

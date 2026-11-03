@@ -4,7 +4,7 @@ import * as React from "react"
 import { Settings01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { SettingsDialog } from "@/registry/aiellie/components/settings-dialog"
+import { SettingsDialog } from "@/registry/aiellie/ui/settings-dialog"
 import { PROVIDERS } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
 

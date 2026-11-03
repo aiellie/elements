@@ -1,6 +1,6 @@
 "use client"
 
-import { UserMenu } from "@/registry/aiellie/components/user-menu"
+import { UserMenu } from "@/registry/aiellie/ui/user-menu"
 import { SidebarProvider } from "@/registry/aiellie/ui/sidebar"
 
 export default function UserMenuDemo() {

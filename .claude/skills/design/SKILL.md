@@ -1,6 +1,6 @@
 ---
 name: design
-description: The aiellie design system — color and status tokens, glass surfaces, elevation, type scale and weights, radius, spacing and density, focus, z-layers, motion, and icon rules. Use before building, restyling or reviewing any UI in this repo, including porting a shadcn component into the registry.
+description: The aiellie design system — the rules every element and tool element follows (states, brand is live, components to reach for, copy, accessibility, a checklist), then color and status tokens, glass surfaces, elevation, type scale and weights, radius, spacing and density, focus, z-layers, motion, and icon rules. Use before building, restyling or reviewing any UI in this repo, including porting a shadcn component into the registry.
 ---
 
 # aiellie — design system
@@ -13,7 +13,299 @@ Values live in `globals.css`; this file says what they mean and when to reach fo
 
 A component registry and pattern library for AI-native and agentic UI. Near-monochrome, restrained, built on shadcn/ui conventions — `data-slot`, `cn()`, static Tailwind class strings.
 
-## Visual foundations
+# Part 1: Every element
+
+## 1. Brand is live
+
+The brand colour, **#5170FF**, is the `--brand` token (`oklch(0.603 0.215 269.582)`, the same in both themes), and `--live` carries it. It replaces assistant-ui's `blue-500` and means exactly what their blue means: **something happening now.** That covers four cases:
+
+- **streaming:** a reply being written, its newest words and its caret;
+- **running:** machine work under way, like a tool fetching;
+- **connected:** a session that's open, like a voice call;
+- **switched on:** a toggle or mode the person has turned on right now, like an open activity panel, a pressed preview toggle or a reaction they added.
+
+The current page in navigation, a checked menu option and a chosen tab are not toggles: they stay neutral, carried by `accent` fills and checkmarks.
+
+Rules:
+
+- **No live thing, no brand.** The brand is never decoration: not a button at rest, a heading, a link, a border, an icon, a hover, a highlight on a suggestion, a text caret or a flash that confirms an edit (that flash is a `muted` fill). If nothing in the view is happening, the view has no brand in it.
+- **One live thing per view.** The parts of one live thing may share the ink, like a streaming reply's words and its caret. Two separate things in brand at once compete; take it off the one that isn't the subject.
+- **The brand stops when the state does.** Finished, ended, switched off: the brand goes at once, with no fade-out. Settled work is `success` or neutral, never left blue.
+- **Always the token:** `text-live`, `bg-live/4`, `hover:bg-live/7`, `border-live/20`. Never a hex, never `blue-*`, never `primary` used to mean "brand", and no `dark:` twin, since `--live` already changes with the theme.
+- **`brand` or `live`?** `--brand` holds the colour; `--live` is the same colour with a meaning. An element writes `live`, so the code says why it's blue. `text-brand` is only for the brand itself, like a logo.
+- **Contrast.** #5170FF is 4.1:1 on white, so in the light theme it clears 3:1 for marks (dots, the caret, rings, icons, fills) but not 4.5:1 for small text. Put brand ink on a word only where the word is brief and paired with a mark, like a `StatusLabel` beside its dot, or passing, like a streamed word settling. Never on body copy or links.
+
+## 2. List the states
+
+Before drawing anything, list every state the element can be in. Most elements need some of these:
+
+| State    | What it looks like                                                                                                          |
+| -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Rest     | Neutral: zinc tokens, no brand.                                                                                             |
+| Hover    | A fill or ink change only, at 80 ms. Nothing grows.                                                                         |
+| Focus    | The `focus-visible` ring (section 7, and Focus and edges below). Never on click.                                            |
+| Pressed  | A dent: `active:scale-[0.97]`, or `active:scale-90` for an icon button.                                                     |
+| Disabled | `disabled:opacity-50`, and it can't be reached by the pointer. It stays in place so nothing shifts.                         |
+| Open     | A trigger stays marked while what it opens is open (`aria-expanded:bg-muted`), and its icon turns.                          |
+| Loading  | A `Skeleton` in the content's shape if the shape is known; otherwise the activity grammar, naming the work.                 |
+| Live     | Brand ink in one place, per section 1.                                                                                      |
+| Empty    | The slot stays empty, or one line saying what will appear there. No illustration, no slogan.                                |
+| Error    | `Status variant="destructive"` with "Failed", then why, then a way to retry.                                                |
+| Done     | `success` ink with a word or a tick, only for "completed, passing or saved", and only where the person needs to know.       |
+
+Waiting on the person (an approval, an answer they owe) is `Status variant="pending"`: the `pending` token, amber, with a dot that doesn't pulse. Anything else (queued, draft, idle, read, suggested) is neutral: `Status variant="muted"`. There is no fifth hue.
+
+## 3. Surfaces and layout
+
+- **Docked or floating?** A docked element (a card, a field, a row, a button) is flat: a hairline and its ground, no shadow. A floating one (a menu, popover, hover card, tooltip) is glass with `shadow-md`: the class string under Glass surfaces, as `Menu` and `Popover` already draw it. A panel over a scrim (a dialog, a sheet) is solid with `shadow-lg`. Inside a dialog, a floating layer is solid.
+- **Hierarchy comes from size, not weight.** Weights are capped at 430, so `font-semibold` reads as `font-medium`. Make the important thing bigger and the rest `text-xs text-muted-foreground`.
+- **Gap, not margin.** Spacing belongs to the container. A component never carries an outside margin.
+- **Padding shrinks as you nest:** an outer surface `p-4`, a block inside it `p-3`, a chip `px-2`. A nested corner is the parent's radius minus the padding.
+- **One radius family per row.** `rounded-full` only for true circles and capsules. Nothing clickable is rounder than `rounded-xl`.
+- **Lines only where they help.** Rows are separated by spacing and a hover fill. Never a box in a box.
+- **Numbers** use `tabular-nums` and carry their unit.
+
+## 4. Components to reach for
+
+Use these before writing markup. Extend one with a prop before adding a sibling. Paths are under `registry/aiellie/`; registry code imports them as `@/registry/aiellie/<folder>/<name>`.
+
+| Need                             | Use                                                                                                                                                  |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A state with a word              | `Status` + `StatusIndicator` + `StatusLabel` (`ui/status.tsx`), `variant` live, success, destructive, pending or muted; `pulse` while running                         |
+| Loading with a known shape       | `Skeleton` (`ui/skeleton.tsx`), sized like the content it stands for                                                                                |
+| A running label                  | the `shimmer` class, with `motion-reduce:animate-none`                                                                                               |
+| Work under way with no shape yet | `ThinkingIndicator` (`components/thinking-indicator.tsx`), named for the work ("Searching")                                                           |
+| A region that folds              | `Collapsible` with `CollapsibleContent` (`ui/collapsible.tsx`), which already folds at 280 ms                                                        |
+| A line of evidence that folds    | `Trace`, `TraceLine`, `TraceTitle` (`ui/trace.tsx`)                                                                                                  |
+| Streamed words                   | `Response` (`components/response.tsx`) or `StreamText` (`components/stream-text.tsx`)                                                                |
+| Actions                          | `Button` (`ui/button.tsx`): `default` for the main action, `ghost` or `outline` beside it, `destructive` only when it destroys                        |
+| An icon-only control             | `TooltipIconButton` (`ui/tooltip-icon-button.tsx`), or a `Button` size `icon-*` inside a `Tooltip`, with an `aria-label`                              |
+| A menu or popover                | `Menu` (`ui/menu.tsx`), `Popover` (`ui/popover.tsx`); a search at the top of a menu is `MenuSearch`                                                   |
+| A dialog                         | `Dialog` (`ui/dialog.tsx`), or `AlertDialog` (`ui/alert-dialog.tsx`) to confirm something destructive                                               |
+| Rows of facts                    | `Item` (`ui/item.tsx`) with `ItemMedia`, `ItemContent`, `ItemTitle`, `ItemDescription`, `ItemActions`                                                  |
+| A toggle                         | `Switch` (`ui/switch.tsx`) or `Toggle`; when it's on, it's live                                                                                       |
+
+Two things to know:
+
+- `DetailList`, `DetailRow` and `ToolMark` don't exist; use `Item` for rows of facts, and a tool's icon in `muted-foreground` with no tile.
+- `SwapLabel`, `ShimmerLabel`, `iconSwap` (`iconSwapIn`, `iconSwapOut`), `collapsePanel`, `field`, `fieldInteractive` and `floating` live in `lib/surfaces.tsx`. They follow these rules, but the file is site-only, so registry code writes the same classes itself rather than importing them.
+
+## 5. Motion
+
+Every motion explains a state change, keeps continuity, or confirms an action. Motion never holds text back from being read. The full rules and the keyframe table are under Motion below; these are the recipes.
+
+- **Durations:** **80 ms** for what the pointer does directly (a press, a hover), **150 ms** for a toggle, a label swap or a small layer arriving, **280 ms** for a fold, a panel or a dialog, and **70 ms** between staggered items.
+- **Curves:** ease-out `cubic-bezier(0.16,1,0.3,1)` for entering and answering input, ease-in `cubic-bezier(0.4,0,1,1)` for leaving. Not Tailwind's own `ease-out`.
+- **Reduced motion:** every transition carries `motion-reduce:transition-none` and every animation `motion-reduce:animate-none`, on the same element. Motion driven from JavaScript checks `matchMedia("(prefers-reduced-motion: reduce)")` itself.
+
+| Moment                             | Recipe                                                                                                                                                                                          |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A press                            | `Button` already dents: `active:scale-[0.97]`, icon buttons `active:scale-90`, at 80 ms.                                                                                                        |
+| A row's hover                      | `transition-colors duration-80 hover:bg-foreground/[0.04] motion-reduce:transition-none`                                                                                                        |
+| A trigger's icon                   | Turns at 150 ms while open: a chevron 180°, a plus 45°, a fold's chevron 90°.                                                                                                                   |
+| A label changing in place          | `SwapLabel` on the site; in registry code, blur one label into the next and ease the width, at 150 ms.                                                                                          |
+| An icon changing in place          | `iconSwap` on the site; in registry code, cross-fade and scale the two icons in one grid cell, at 150 ms, like Copy turning into a tick and back.                                              |
+| A region appearing inside a layout | Fold, don't pop: `CollapsibleContent`, or `grid-template-rows` from `0fr` to `1fr` at 280 ms, `inert` while shut.                                                                               |
+| A floating layer arriving          | `animate-in` and `animate-out` from tw-animate-css, as `Menu` and `Popover` already do.                                                                                                         |
+| A few items arriving together      | `animate-in fade-in slide-in-from-bottom-1 duration-280 ease-[cubic-bezier(0.16,1,0.3,1)] fill-mode-both motion-reduce:animate-none`, delay `index × 70ms`. Three to five items, never a list. |
+| Working                            | `shimmer` on the label, `Status pulse` on its dot, `animate-pulse` on a skeleton. All stop when the work does.                                                                                  |
+| Streamed words                     | `Response` or `StreamText`. Each word lands in brand ink (`sd-liveIn`) and settles. Never hand-roll a stream.                                                                                   |
+
+Never: a spinner where a skeleton fits, a loop on something settled, an entrance on anything already on the page at load, `transition-all`, growth on hover, scroll-triggered reveals, or a new keyframe that isn't added to the keyframe table under Motion.
+
+## 6. Copy
+
+- Every string names a control, states a fact the person needs, or says what happens next. Delete one that does none of these.
+- A control says what it does: "Send email", "Copy", "Retry".
+- Work in progress names the work: "Searching", "Connecting". Never "Loading".
+- An error says why and what to do: "The API key was refused. Add a new one in Settings." Not "Something went wrong."
+- Sentence case. No slogans or reassurance in chrome, and no "simply", "just" or "seamlessly".
+
+## 7. Accessibility
+
+- Keyboard focus only: `outline-none focus-visible:ring-2 focus-visible:ring-ring` for controls; fields turn their border instead with `focus-visible:border-ring`. Focus and edges, below, has the detail.
+- A state is never told by colour alone: every `Status` has a word or an icon.
+- Controls are real buttons, links or inputs, never a clickable `div`.
+- An icon-only control has a `Tooltip` and an `aria-label`. Decorative icons are `aria-hidden`.
+- Something working has `aria-busy`. Text that changes as work goes on is announced once with `role="status"`, not on every element inside it.
+- A control that does nothing right now is disabled or gone, never live-looking.
+
+## 8. Steps
+
+1. **List the states** (section 2).
+2. **Decide docked or floating** and sketch the layout in words (section 3).
+3. **List the components** it reuses (section 4).
+4. **Build the main state,** then every other state.
+5. **Place the brand:** is anything live? If so, the brand is in exactly one place while it is; if not, there's no brand.
+6. **Motion pass** (section 5), then **copy pass** (section 6).
+7. **Add it to the gallery:** an `examples/<name>-demo.tsx` that can show each row of its state table, with a "Try it" state where it takes input; a `DemoCard` in its category on `/components` or `/design` and an entry in `DEMOS` (`lib/demos.tsx`) if the chat uses it; and its docs in `lib/docs/<name>.ts`, with an example per state. CLAUDE.md's "Building a feature" has the full order.
+8. **Run the checklist** at the end of Part 2, looking at it in the gallery and at `/demo/<name>`.
+
+## 9. Reject these
+
+- The brand as decoration: brand buttons, brand headings, a brand border at rest.
+- Two live things at once.
+- A coloured tile behind every icon, rainbow badges, gradients, glows, blobs.
+- A brand `Status` used as a label, like a page's eyebrow or a count: that's `Status variant="muted"`.
+- A box in a box, or a card around every section.
+- Tiny muted text used to make density fit.
+- A spinner alone where the content's shape is known.
+- Activity marks (a pulsing dot, a shimmer) on anything that isn't happening now.
+- A mock-up in place of the real thing: the element is shown working, with real data.
+
+# Part 2: Tool elements
+
+A tool element is a tool's part in the thread: what the reply shows while the tool runs and after. Everything in Part 1 applies; this adds the rest.
+
+## 10. Tool states
+
+A tool's part moves through the AI SDK's states. This table is the default; change a row only for a reason you can say out loud.
+
+| State                | What it shows                                                                                                                 | Brand?           |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| `input-streaming`    | The frame with a `Skeleton` in the result's shape, and a caption naming the work ("Checking the weather").                    | Caption shimmers |
+| `input-available`    | The same, now with the input shown ("Checking the weather in Lisbon"). Root gets `data-status="running"` and `aria-busy`.     | Yes              |
+| `approval-requested` | The settled request, fully readable, with its actions. Waiting on the person: `Status variant="pending"`, amber, no pulse.      | No               |
+| `approval-responded` | Actions replaced by the running caption until the result arrives.                                                             | Yes              |
+| `output-available`   | The result. No loops, no brand, nothing moving.                                                                               | No               |
+| `output-error`       | The frame stays. `Status variant="destructive"` with "Failed", then the reason as a sentence, then Retry if there is one.     | No               |
+| `output-denied`      | The request in `muted-foreground` with a word saying what didn't happen ("Not sent").                                         | No               |
+
+- `data-status="running"` on the root matters: `Thread` (`components/thread.tsx`) hides its thinking indicator while anything in the message content is running, so the tool stays the one live thing.
+- A result loaded from history renders straight into its settled state: no skeleton, no entrance, no brand.
+- The skeleton has the result's shape, so loading turns into the result instantly, with nothing jumping and no entrance animation.
+
+## 11. Pick the shape
+
+- **Trace line** (`Trace`, `TraceLine`, `TraceTitle` from `ui/trace.tsx`): when the result is evidence for the reply, like a search. One quiet line that folds open. `components/web-search.tsx` is the reference.
+- **Card:** when the result is the answer, or needs a decision. `components/plan-review.tsx` is the reference.
+- **Inline status** (`Status`): when all there is to say is a state.
+
+## 12. Card anatomy
+
+A tool card is docked, so it's flat: a hairline, no fill, no shadow.
+
+```tsx
+<div
+  data-slot="weather-card"
+  data-status={running ? "running" : undefined}
+  aria-busy={running || undefined}
+  className="flex w-full min-w-0 flex-col gap-4 rounded-xl border border-border/60 p-4 text-sm"
+>
+  {/* Caption row: what it is at the start, its state at the end. */}
+  <header className="flex min-h-5 items-center gap-2 text-xs text-muted-foreground">
+    <span className={cn("min-w-0 truncate", running && "shimmer motion-reduce:animate-none")}>
+      {caption}
+    </span>
+    <span className="ms-auto shrink-0">{state}</span>
+  </header>
+  {/* The main value, then the detail. */}
+</div>
+```
+
+- The main value is the biggest thing: a headline number is `text-4xl tabular-nums`.
+- The caption changes in place when the work finishes ("Checking the weather" becomes "Weather"), with the label swap from section 5.
+- Once a decision is made, its buttons go. A settled card offers nothing that does nothing.
+
+## 13. Tool copy
+
+- The running caption names the work and its input: "Checking the weather in Lisbon", "Searching npm for date pickers".
+- The settled caption names the thing: "Weather", "Email to Sam".
+- An error names what failed: "Couldn't find a place called Zxqvbland."
+- Approval actions say what happens: "Send email" and "Don't send", not "Yes" and "No".
+
+## 14. Where the files go
+
+Tools live in the chat block, and their elements are components.
+
+- **The tool** is a block lib file, `registry/aiellie/blocks/chat/lib/chat-<name>.ts`, holding the tool, the instructions that tell the model when to call it, and its input and output types. It goes into `tools` in `blocks/chat/route.ts`. A tool the person answers has no `execute`; their answer goes back through `addToolOutput`, then `sendMessage()` carries the reply on. `chat-plan.ts` is the reference. A tool that runs at the provider, like web search, comes from `chat-providers.ts` instead.
+- **Its element** is a component, `registry/aiellie/components/<name>.tsx` (it installs to `components/aiellie/`), knowing nothing about the chat. `renderTool` in `blocks/chat/components/chat-thread.tsx` draws it by `part.type` and `part.state` and hands it to `Thread`, which puts it above the reply's words. A provider tool's parts are read by `Thread` itself, the way `WebSearch` is.
+- **The registry:** the component gets its own item in `registry.json`, with a category, a demo and a card; the chat block lists the new lib file and depends on the component.
+
+CLAUDE.md (also `AGENTS.md`) has the full pattern.
+
+# Checklist
+
+Tick every line before calling an element done. A "no" is either fixed or written down with its reason.
+
+## Every element
+
+### States (section 2)
+
+- [ ] Every state the element can reach is listed, and each one has been seen in the browser.
+- [ ] Loading shows a `Skeleton` in the content's shape, or names the work if there's no shape yet.
+- [ ] Empty and error states exist where they can happen, and the error says why.
+- [ ] Disabled controls stay in place, so nothing shifts.
+
+### Brand (section 1)
+
+- [ ] The brand appears only while something is streaming, running, connected or switched on.
+- [ ] At most one live thing in the view.
+- [ ] Brand ink is written as `live` (`text-live`, `bg-live/4`), never a hex, `blue-*` or `brand-*`.
+- [ ] Brand ink is never on body copy or links.
+
+### Surfaces and layout (section 3)
+
+- [ ] Docked elements are flat; only floating ones have glass and a shadow.
+- [ ] Hierarchy comes from size; numbers are `tabular-nums` with their units.
+- [ ] Spacing is `gap` on the container, with no outside margins, and padding shrinks as it nests.
+- [ ] Nested corners are the parent's radius minus the padding, and nothing clickable is rounder than `rounded-xl` unless it's a circle or capsule.
+- [ ] No box in a box.
+
+### Components (section 4)
+
+- [ ] Every state, dot, skeleton, button, fold, menu and dialog is an existing component, not new markup.
+- [ ] Nothing in `registry/aiellie/` imports site code (`@/components/...`, `lib/surfaces`, `lib/constants`), and a component that needs a server route takes its address as a prop rather than hard-wiring a call to `/api/`.
+
+### Motion (section 5)
+
+- [ ] Every motion has a job: a state change, continuity, or confirming an action.
+- [ ] Every duration is 80, 150, 280 or 70 ms, and every curve is one of the two under Motion.
+- [ ] Every transition names its properties, with `motion-reduce:transition-none`, and every animation has `motion-reduce:animate-none`, on the same element.
+- [ ] Entrances with a delay carry `fill-mode-both`.
+- [ ] Every animation runs a keyframe from the closed set under Motion, or adds one to it.
+- [ ] Loops run only while something is working and stop when it's done.
+- [ ] No `transition-all`, nothing grows on hover, nothing already on the page animates in.
+
+### Copy (section 6)
+
+- [ ] Every string names a control, states a needed fact, or says what happens next.
+- [ ] Every control says what it does, in sentence case.
+- [ ] Nothing says "Loading" or "Something went wrong".
+
+### Accessibility (section 7)
+
+- [ ] Every control can be reached and used by keyboard, with the `focus-visible` ring.
+- [ ] No state is shown by colour alone.
+- [ ] Icon-only controls have a tooltip and an `aria-label`; decorative icons are `aria-hidden`.
+- [ ] Anything working has `aria-busy`, and changing text is announced once.
+
+### Look at it
+
+- [ ] Its demo shows every state, and each one renders, on its card and at `/demo/<name>`.
+- [ ] Light and dark (press `d` in `pnpm dev`).
+- [ ] Phone width, with device emulation.
+- [ ] Keyboard only.
+- [ ] Reduced motion switched on.
+- [ ] Squint: one thing is clearly dominant.
+- [ ] Nothing from the reject list.
+
+## Tool elements, as well
+
+- [ ] Every tool state it can reach (section 10) has been seen, including a forced error.
+- [ ] While running, the root has `data-status="running"` and `aria-busy`, and the brand is only on the caption's dot and shimmer.
+- [ ] Once settled, there's no brand, no shimmer and nothing moving.
+- [ ] Reloading shows the result from history settled, with no skeleton and no entrance.
+- [ ] The shape fits the job: trace line for evidence, card for an answer or a decision, `Status` for a state alone.
+- [ ] A card is `rounded-xl border border-border/60 p-4`, no fill, no shadow, with a caption row naming it and showing its state.
+- [ ] The running caption names the work and its input; the settled caption names the thing.
+- [ ] Once a decision is made, its buttons are gone or disabled.
+- [ ] The tool is a `chat-<name>.ts` in the chat block's `lib/`, in `tools` in the block's `route.ts`; its element is a component drawn by `renderTool`; and both are in `registry.json` (section 14).
+
+---
+
+
+# Visual foundations
 
 ### Color
 
@@ -63,21 +355,17 @@ Scrollbars are furniture: the `border` hairline on no track at all, so a scrolli
 
 ### Status colors
 
-Three statuses, built the same way. Each has an ink and two fills — 4% resting, 7% on hover — and nothing else:
+Four statuses, built the same way. Each has an ink and two fills — 4% resting, 7% on hover — and nothing else:
 
 | status        | ink (light / dark)                | resting fill        | hover fill                |
 | ------------- | --------------------------------- | ------------------- | ------------------------- |
 | `destructive` | red-600 / red-400                 | `destructive-bg` 4% | `destructive-bg-hover` 7% |
-| `live`        | `#526FFF` / `oklch(0.7 0.17 270)` | `live-bg` 4%        | `live-bg-hover` 7%        |
+| `live`        | `brand`, #5170FF in both themes   | `live-bg` 4%        | `live-bg-hover` 7%        |
 | `success`     | `success` (emerald)               | `success-bg` 4%     | `success-bg-hover` 7%     |
+| `pending`     | `pending` (amber-600 / amber-400) | 4%                  | 7%                        |
 
-`live` means streaming, running, connected, or currently selected: something happening now, or a toggle the person has switched on, like an open activity panel, a pressed preview toggle or a reaction they added. The current page in navigation, a checked menu option and a chosen tab are not toggles; they stay neutral, carried by `accent` fills and checkmarks. `success` means completed, passing, saved. Anything else — pending, queued, draft, idle, read, suggested — is neutral: `muted` fill, `muted-foreground` ink. There is no fourth hue, so `Status` has exactly the three variants.
+`live` is the brand, and means something happening now; section 1 has its rules. `success` means completed, passing, saved. Waiting on the person is `pending` (amber, still), and anything else (queued, draft, idle, read, suggested) is neutral: `muted` fill, `muted-foreground` ink. Section 2 says what `Status` ships today.
 
-**`live` is the only accent, and it is earned.**
-
-- **No live thing, no blue.** A page where nothing is streaming, running, connected or selected has no `live` on it at all. Blue is never decoration: not a highlight on a suggestion, not the tint of a reacted-to chip that nobody is acting on, not a text caret, not a flash that confirms an edit. A confirmation flash is a `muted` fill.
-- **One live thing per view.** The parts of one live thing may share the ink (a streaming reply's newest words and its caret are one thing), but two separate things in `live` at once compete, and one of them is decoration. Take the hue off the one that isn't the subject.
-- **Blue stops when the state does.** The moment a run finishes, a reply settles or a toggle turns off, its `live` goes: settled work is `success` or neutral, never left blue.
 - **`destructive` and `success` are states, not accents.** Red says something failed, is failing, or will be destroyed; green says it finished. Neither is used to draw the eye, decorate a heading or brand a section.
 
 The formula, as static class strings:
@@ -87,13 +375,13 @@ bg-destructive/4 text-destructive          — a static badge or row
 bg-destructive/4 hover:bg-destructive/7    — the same thing when it is clickable
 ```
 
-**`live` is always the `live` token, never a blue shade.** Registry code and site code alike write `text-live`, `bg-live/4`, `hover:bg-live/7` and `border-live/20`. No `dark:` twin, since `--live` already changes with the theme, and no fallback colour. `success` works the same way, as the `success` token (`text-success`, `bg-success/4`), never an emerald shade.
+`live` is always the token, as section 1 says. `success` works the same way, as the `success` token (`text-success`, `bg-success/4`), never an emerald shade.
 
 The 7% step is only for items that are genuinely interactive. A status badge sitting in a table cell stays at 4% and never lights up on hover.
 
 Borders are not part of the formula: a status fill reads at 4% because the whole system is near-monochrome, so it needs no outline. Add `border-destructive/20` only when a status block sits on a fill of its own rather than on `background` or `card`.
 
-Contrast, in the light theme: `destructive` clears 4.5:1, but `live` (3.8:1) and `success` (3.7:1) do not. Both are sound for dots, icons and large or bold text; for status text at `body-sm` or `caption` size, set the word in `foreground` and let the hue carry only the mark. In dark all three clear comfortably. `live` is a placeholder — when its final hue is picked between indigo and blue, choose one that clears 4.5:1 on white and the set closes cleanly.
+Contrast, in the light theme: `destructive` clears 4.5:1, but `live` (4.1:1) and `success` (3.7:1) do not. Both are sound for dots, icons and large or bold text; for status text at `body-sm` or `caption` size, keep the word brief and beside its mark (section 1), or set it in `foreground` and let the hue carry only the mark. `pending` is for marks and brief words beside them only. In dark, `destructive` and `success` clear comfortably, and `live` holds 4.2:1 on `background`.
 
 ### Glass surfaces
 
@@ -166,7 +454,7 @@ Fourteen styles, each with its size, leading, weight and tracking fixed:
 - `code` (13px) sits inline on a `muted` ground; `code-block` is the same size with looser leading. `code-sm` is 11px for dense work — token and prop names in reference tables, paths, ids, and inline code inside `caption` or `body-sm`. `kbd` is 12px.
 - The code group runs one weight heavier at its small end: `code-sm` and `kbd` are `medium`, since mono at 11 and 12px goes thin against a `muted` fill.
 
-**A catalog page's eyebrow uses a pulsing `Status` with a `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays visually consistent with status-shaped labels elsewhere in the catalog. Use the default `live` variant.
+**A catalog page's eyebrow is a `muted` `Status` with a still `StatusIndicator`.** Put the count and eyebrow together in `StatusLabel`, so the compact page metadata reads as one chip and stays consistent with status-shaped labels elsewhere. It never takes `live` or `pulse`: a page's count isn't happening now, so blue there would be decoration.
 
 Emphasis comes from size and ink, not weight — the 80-unit spread between light and medium is too small to shout with. Italics are for citation only, and nothing in the UI is underlined except a prose link on hover.
 
@@ -190,7 +478,7 @@ Two rules:
 - **Nested radius = container radius minus the padding between them.** A code block inside a card (18px corner, 16px padding) rounds at 10px with `radius-sm`, not at 18px — matching the parent makes the inner element look like it is bulging out of it.
 - **One radius family per composition.** A pill next to a 14px corner reads as two systems. Pick pills or corners for a given row of controls and hold it; `radius-full` is for shapes that are genuinely circular or capsule-shaped, never a softer version of a button.
 
-Anything interactive stays at `radius-2xl` or below — a 24px corner on a button reads as a toy.
+Nothing clickable is rounder than `radius-xl`, unless it's a true circle or capsule. A 24px corner on a button reads as a toy.
 
 ### Spacing and density
 
@@ -411,17 +699,7 @@ Still open: overlay enter/exit and row-hover fades — the Motion card on this p
 
 Everything else is static. No scroll-triggered reveals, no parallax, no easing on colour changes other than the row-hover case above.
 
-**Checklist for a new element**
-
-- `motion-reduce` on every transition and animation.
-- Motion driven from JavaScript checks `prefers-reduced-motion` itself.
-- Every transition names its properties; none uses `all`.
-- Every duration is 80, 150 or 280 ms, and a stagger step is 70 ms.
-- Entrances with a delay carry `fill-mode-both`.
-- Anything that loops is streaming or loading, and stops when the work does.
-- It explains a state change, keeps continuity or confirms an action, and never holds text back from being read.
-- It runs a keyframe from the closed set, or adds one to the table.
-- Loading content with a known shape is a skeleton; the activity grammar appears only while real work runs.
+The motion lines of the Checklist above cover a new element.
 
 ### Themes
 
@@ -478,7 +756,7 @@ Files land under `assets/<Group>/` when they arrive — `assets/Logos/`, `assets
 ## Questions to answer when filling this in
 
 - **Name.** Is the system's name always lowercase `aiellie`, or does it capitalise in prose and at the start of a sentence? Is there a separate product name from the handle?
-- **Brand hue.** Still unpicked — somewhere between indigo and blue. Once chosen it replaces the `live` placeholder, takes a block on the cover, and decides whether the focus border stays neutral zinc or moves to brand.
+- **Brand hue.** #5170FF, carried by `live` (section 1). The focus border stays neutral zinc, since focus is not live.
 - **Clear space and minimum size.** How much room around the mark, expressed in a unit of the mark itself; the smallest size it's allowed to render.
 - **Lockups.** Is there a fixed mark-plus-wordmark arrangement, and does it have a stacked variant?
 - **Misuse.** What is explicitly not allowed — recolouring, stretching, outlining, setting it on a busy photo, rebuilding it in a different typeface.
@@ -518,7 +796,9 @@ Every value in the system. Generated from `tokens.json` — do not hand-edit her
 | `destructive-foreground`     | `oklch(0.985 0 0)`           | `oklch(0.141 0.005 285.823)` | Text on a destructive fill (4.                                                                                                   |
 | `destructive-bg`             | `#e7000b0a`                  | `#ff64670a`                  | Destructive at 4%.                                                                                                               |
 | `destructive-bg-hover`       | `#e7000b12`                  | `#ff646712`                  | Destructive at 7%.                                                                                                               |
-| `live`                       | `oklch(0.623 0.214 259.815)` | `oklch(0.707 0.165 254.624)` | Status ink for live — streaming, running, connected, in progress.                                                                |
+| `brand`                      | `oklch(0.603 0.215 269.582)` | `oklch(0.603 0.215 269.582)` | The brand, #5170FF. Only for the brand itself, like a logo; elements write `live`.                                               |
+| `live`                       | `var(--brand)`               | `var(--brand)`               | The brand as status ink: streaming, running, connected, switched on.                                                             |
+| `pending`                    | `oklch(0.666 0.179 58.318)`  | `oklch(0.828 0.189 84.429)`  | Status ink for waiting on the person, like an approval. Never pulses.                                                            |
 | `live-bg`                    | `#2b7fff0a`                  | `#51a2ff0a`                  | Live at 4%.                                                                                                                      |
 | `live-bg-hover`              | `#2b7fff12`                  | `#51a2ff12`                  | Live at 7%.                                                                                                                      |
 | `success`                    | `oklch(0.596 0.145 163.225)` | `oklch(0.765 0.177 163.223)` | Status ink for success — completed, passing, saved.                                                                              |

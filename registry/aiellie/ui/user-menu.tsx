@@ -23,7 +23,7 @@ import {
   SettingsDialog,
   type SettingsUser,
   type SettingsValues,
-} from "@/registry/aiellie/components/settings-dialog"
+} from "@/registry/aiellie/ui/settings-dialog"
 import {
   Avatar,
   AvatarFallback,
@@ -33,7 +33,7 @@ import { Badge } from "@/registry/aiellie/ui/badge"
 import {
   LoginDialog,
   type LoginValues,
-} from "@/registry/aiellie/components/login-form"
+} from "@/registry/aiellie/ui/login-form"
 import {
   SidebarMenu,
   SidebarMenuButton,

@@ -129,6 +129,7 @@ type DocsItem = {
 }
 
 type DocsSection = {
+  category: Category
   /** The category the gallery files it under, like "Chat". */
   title: string
   items: DocsItem[]
@@ -242,7 +243,8 @@ function buildSections(gallery: Gallery) {
         description: item.description,
         index: ++count,
       }))
-    if (items.length) sections.push({ title: category.name, items })
+    if (items.length)
+      sections.push({ category: id as Category, title: category.name, items })
   }
   return { sections, items: sections.flatMap((section) => section.items) }
 }

@@ -13,7 +13,7 @@ const doc: DocContent = {
         ],
         code: {
           title: "app/workspace/page.tsx",
-          code: `import { Panels } from "@/components/aiellie/panels"
+          code: `import { Panels } from "@/components/ui/panels"
 
 export default function Workspace() {
   return (
