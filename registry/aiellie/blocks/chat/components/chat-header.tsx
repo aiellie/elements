@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { EditableTitle } from "@/registry/aiellie/components/editable-title"
+import { EditableTitle } from "@/registry/aiellie/ui/editable-title"
 import { cn } from "@/lib/utils"
 
 // The chat's bar, which sits in the main panel's header.

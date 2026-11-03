@@ -17,7 +17,7 @@ const doc: DocContent = {
 
 import * as React from "react"
 
-import { LoginDialog } from "@/components/aiellie/login-form"
+import { LoginDialog } from "@/components/ui/login-form"
 import { Button } from "@/components/ui/button"
 
 export function SignIn() {

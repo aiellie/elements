@@ -15,7 +15,7 @@ import {
   ComposerInput,
   ComposerSubmit,
 } from "@/registry/aiellie/components/composer"
-import { formatSize } from "@/registry/aiellie/components/file-preview"
+import { formatSize } from "@/registry/aiellie/ui/file-preview"
 
 type Picked = { id: string; file: File; url?: string }
 

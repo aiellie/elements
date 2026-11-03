@@ -15,7 +15,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { EmojiSelector } from "@/registry/aiellie/components/emoji-selector"
+import { EmojiSelector } from "@/registry/aiellie/ui/emoji-selector"
 import { Button } from "@/registry/aiellie/ui/button"
 import {
   Menu,

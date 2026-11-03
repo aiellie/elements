@@ -8,7 +8,7 @@ import {
   AttachmentImage,
   Attachments,
 } from "@/registry/aiellie/components/attachments"
-import { formatSize } from "@/registry/aiellie/components/file-preview"
+import { formatSize } from "@/registry/aiellie/ui/file-preview"
 import { Button } from "@/registry/aiellie/ui/button"
 
 type Picked = { id: string; file: File; url?: string }

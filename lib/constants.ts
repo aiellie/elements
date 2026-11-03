@@ -34,7 +34,7 @@ export const PAGES = {
     title: "AI-native components",
     icon: AiElementsIcon,
     description:
-      "Everything designed here, from the composer and its menus to the pieces of a conversation. Each one installs on its own, into components/aiellie.",
+      "Everything a chat is made of, from the thread and its messages to the composer, agents, code and voice. Each one installs on its own, into components/aiellie.",
   },
   "/design": {
     label: "Design",
@@ -42,7 +42,7 @@ export const PAGES = {
     title: "The design system",
     icon: PaintBoardIcon,
     description:
-      "The primitives everything here is built from: shadcn's components in this system's style, and the menus and status pills that aren't specific to AI. Each one installs into components/ui.",
+      "The primitives everything here is built from: shadcn's components in this system's style, and the controls, panels and dialogs that any app could use. Each one installs into components/ui.",
   },
 } satisfies Record<string, PageMeta>
 

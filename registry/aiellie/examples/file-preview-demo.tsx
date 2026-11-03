@@ -12,7 +12,7 @@ import {
   FilePreview,
   describe,
   type FilePreviewItem,
-} from "@/registry/aiellie/components/file-preview"
+} from "@/registry/aiellie/ui/file-preview"
 
 // Sample files, made here so the demo needs none on disk.
 const PICTURE = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><linearGradient id="g" x2="1" y2="1"><stop offset="0" stop-color="#a5b4fc"/><stop offset="1" stop-color="#f9a8d4"/></linearGradient></defs><rect width="400" height="300" fill="url(#g)"/></svg>`

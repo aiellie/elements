@@ -1,0 +1,1290 @@
+{
+  "rules": {
+    "brand-token": {
+      "section": "Brand",
+      "title": "Brand ink is written as live, never blue, brand, a hex or a dark: twin"
+    },
+    "raw-colour": {
+      "section": "Brand",
+      "title": "Colour comes from a theme token, never a raw Tailwind shade"
+    },
+    "shadow-depth": {
+      "section": "Surfaces",
+      "title": "Shadows stop at shadow-lg, with no custom, coloured or drop shadows"
+    },
+    "radius": {
+      "section": "Surfaces",
+      "title": "Nothing is rounder than rounded-xl except circles and capsules"
+    },
+    "site-import": {
+      "section": "Components",
+      "title": "Registry code imports no site code and hard-wires no /api/ call"
+    },
+    "registry-deps": {
+      "section": "Components",
+      "title": "Every registry file and package it imports is listed on its item"
+    },
+    "transition-all": {
+      "section": "Motion",
+      "title": "Transitions name their properties, never transition-all"
+    },
+    "duration": {
+      "section": "Motion",
+      "title": "Durations are 70, 80, 150 or 280 ms"
+    },
+    "easing": {
+      "section": "Motion",
+      "title": "Curves are the system's ease-out or ease-in, not Tailwind's own"
+    },
+    "reduced-motion": {
+      "section": "Motion",
+      "title": "Every transition and animation has its motion-reduce escape on the same element"
+    },
+    "scale": {
+      "section": "Motion",
+      "title": "Nothing grows on hover, and presses dent at 0.97 or 0.90 only"
+    },
+    "copy": {
+      "section": "Copy",
+      "title": "No “Loading”, “Something went wrong”, “simply” or “seamlessly”"
+    },
+    "focus": {
+      "section": "Accessibility",
+      "title": "Focus shows on focus-visible only, in ring at full strength"
+    },
+    "icon-label": {
+      "section": "Accessibility",
+      "title": "Icons are Hugeicons, aria-hidden unless they carry a label"
+    },
+    "real-controls": {
+      "section": "Accessibility",
+      "title": "Controls are real buttons, links or inputs, never a clickable div"
+    },
+    "tabs-line": {
+      "section": "Components",
+      "title": "Tabs use the segmented track, never variant=\"line\""
+    },
+    "demo": {
+      "section": "Look at it",
+      "title": "It has a demo and opens full screen at /demo/<name>"
+    },
+    "render": {
+      "section": "Look at it",
+      "title": "Its demo renders without errors, and fits a phone without scrolling sideways"
+    }
+  },
+  "items": {
+    "editable-title": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "button": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "textarea": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "tooltip": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "popover": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "hover-card": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "dialog": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/ui/dialog.tsx",
+          "line": 74,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        }
+      ]
+    },
+    "command": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "sheet": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/ui/sheet.tsx",
+          "line": 56,
+          "text": "a transition with no motion-reduce:transition-none"
+        },
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/ui/sheet.tsx",
+          "line": 74,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        }
+      ]
+    },
+    "resizable": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "input": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "input-group": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "separator": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "marker": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "skeleton": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "avatar": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "badge": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "empty": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "sidebar": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "breadcrumb": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "user-menu": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "panels": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "menu": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "settings-dialog": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/ui/settings-dialog.tsx",
+          "line": 472,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        },
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/ui/settings-dialog.tsx",
+          "line": 484,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        }
+      ]
+    },
+    "share-dialog": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/ui/share-dialog.tsx",
+          "line": 187,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        }
+      ]
+    },
+    "login-form": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "file-preview": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "temporary-chat-toggle": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "status": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "trace": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/ui/trace.tsx",
+          "line": 36,
+          "text": "an animation with no motion-reduce:animate-none"
+        }
+      ]
+    },
+    "collapsible": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "tooltip-icon-button": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "history-buttons": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/ui/history-buttons.tsx",
+          "line": 41,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        },
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/ui/history-buttons.tsx",
+          "line": 50,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        }
+      ]
+    },
+    "add-menu": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/add-menu.tsx",
+          "line": 40,
+          "text": "[&>svg]:ease-out"
+        }
+      ]
+    },
+    "waveform": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/waveform.tsx",
+          "line": 91,
+          "text": "ease-out"
+        }
+      ]
+    },
+    "project-selector": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "plugin-selector": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "work-in-menu": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "branches-menu": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "dictate-button": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "model-selector": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/components/model-selector.tsx",
+          "line": 115,
+          "text": "a transition with no motion-reduce:transition-none"
+        }
+      ]
+    },
+    "composer": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/components/composer.tsx",
+          "line": 427,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        },
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/components/composer.tsx",
+          "line": 780,
+          "text": "an animation with no motion-reduce:animate-none"
+        },
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/components/composer.tsx",
+          "line": 988,
+          "text": "a transition with no motion-reduce:transition-none"
+        }
+      ]
+    },
+    "attachments": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "message": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "date-divider": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "stream-text": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "thinking-indicator": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "reasoning": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "sources": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/components/sources.tsx",
+          "line": 67,
+          "text": "a transition with no motion-reduce:transition-none"
+        },
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/components/sources.tsx",
+          "line": 131,
+          "text": "a transition with no motion-reduce:transition-none"
+        }
+      ]
+    },
+    "suggestions": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "thread": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/components/thread.tsx",
+          "line": 381,
+          "text": "a transition with no motion-reduce:transition-none"
+        }
+      ]
+    },
+    "nav-bars": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "thread-transcript": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "quick-chat": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "code-block": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/components/code-block.tsx",
+          "line": 210,
+          "text": "a transition with no motion-reduce:transition-none"
+        },
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/components/code-block.tsx",
+          "line": 257,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        },
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/components/code-block.tsx",
+          "line": 259,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        }
+      ]
+    },
+    "response": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "message-actions": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "inline-citation": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "effort-menu": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "plan-review": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "scale",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 29,
+          "text": "active:scale-[0.96]"
+        },
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 31,
+          "text": "ease-[cubic-bezier(0.23,1,0.32,1)]"
+        },
+        {
+          "rule": "scale",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 31,
+          "text": "active:scale-[0.96]"
+        },
+        {
+          "rule": "duration",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 567,
+          "text": "duration-700"
+        },
+        {
+          "rule": "brand-token",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 567,
+          "text": "bg-blue-500/[0.08]"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 567,
+          "text": "bg-blue-500/[0.08]"
+        },
+        {
+          "rule": "brand-token",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 567,
+          "text": "dark:bg-blue-400/[0.1]"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 567,
+          "text": "dark:bg-blue-400/[0.1]"
+        },
+        {
+          "rule": "duration",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 642,
+          "text": "duration-700"
+        },
+        {
+          "rule": "brand-token",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 642,
+          "text": "text-blue-600"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 642,
+          "text": "text-blue-600"
+        },
+        {
+          "rule": "brand-token",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 642,
+          "text": "dark:text-blue-400"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 642,
+          "text": "dark:text-blue-400"
+        },
+        {
+          "rule": "duration",
+          "file": "registry/aiellie/components/plan-review.tsx",
+          "line": 820,
+          "text": "duration-300"
+        }
+      ]
+    },
+    "attachment": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/components/attachment.tsx",
+          "line": 9,
+          "text": "a transition with no motion-reduce:transition-none"
+        },
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/components/attachment.tsx",
+          "line": 103,
+          "text": "an animation with no motion-reduce:animate-none"
+        }
+      ]
+    },
+    "bubble": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/components/bubble.tsx",
+          "line": 73,
+          "text": "a transition with no motion-reduce:transition-none"
+        }
+      ]
+    },
+    "context-meter": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "emoji-selector": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "real-controls",
+          "file": "registry/aiellie/ui/emoji-selector.tsx",
+          "line": 293,
+          "text": "<div onClick>"
+        }
+      ]
+    },
+    "file-attachment": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/components/file-attachment.tsx",
+          "line": 327,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        },
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/components/file-attachment.tsx",
+          "line": 385,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        },
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/components/file-attachment.tsx",
+          "line": 398,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        }
+      ]
+    },
+    "markdown": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "message-scroller": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "icon-label",
+          "file": "registry/aiellie/components/message-scroller.tsx",
+          "line": 111,
+          "text": "<HugeiconsIcon> with no aria-hidden or label"
+        }
+      ]
+    },
+    "voice-divider": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "web-search": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "switch": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "transition-all",
+          "file": "registry/aiellie/ui/switch.tsx",
+          "line": 17,
+          "text": "transition-all"
+        },
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/ui/switch.tsx",
+          "line": 17,
+          "text": "a transition with no motion-reduce:transition-none"
+        },
+        {
+          "rule": "reduced-motion",
+          "file": "registry/aiellie/ui/switch.tsx",
+          "line": 25,
+          "text": "a transition with no motion-reduce:transition-none"
+        }
+      ]
+    },
+    "toggle": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "toggle-group": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "combobox": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/ui/combobox.tsx",
+          "line": 126,
+          "text": "ease-out"
+        }
+      ]
+    },
+    "tabs": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "toolbar": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/ui/toolbar.tsx",
+          "line": 41,
+          "text": "ease-[cubic-bezier(0.23,1,0.32,1)]"
+        }
+      ]
+    },
+    "meter": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/ui/meter.tsx",
+          "line": 55,
+          "text": "group-data-[tone=success]/meter:bg-emerald-600"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/ui/meter.tsx",
+          "line": 55,
+          "text": "dark:group-data-[tone=success]/meter:bg-emerald-400"
+        }
+      ]
+    },
+    "toast": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/ui/toast.tsx",
+          "line": 100,
+          "text": "ease-out"
+        }
+      ]
+    },
+    "code-diff": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/code-diff.tsx",
+          "line": 104,
+          "text": "text-emerald-600"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/code-diff.tsx",
+          "line": 104,
+          "text": "dark:text-emerald-400"
+        }
+      ]
+    },
+    "terminal": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "tool-call": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "quoted-message": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "message-highlight-toolbar": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "approval-mode-menu": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "slash-menu": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "mentions": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "orb": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/orb.tsx",
+          "line": 255,
+          "text": "ease-out"
+        }
+      ]
+    },
+    "transcript": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "audio-player": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "radius",
+          "file": "registry/aiellie/components/audio-player.tsx",
+          "line": 76,
+          "text": "rounded-2xl"
+        }
+      ]
+    },
+    "mic-menu": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "prompt-menu": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "code-snippet": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "file-tree": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "code-workspace": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/code-workspace.tsx",
+          "line": 779,
+          "text": "ease-out"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/code-workspace.tsx",
+          "line": 944,
+          "text": "bg-emerald-600/10"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/code-workspace.tsx",
+          "line": 944,
+          "text": "text-emerald-700"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/code-workspace.tsx",
+          "line": 944,
+          "text": "dark:bg-emerald-400/15"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/code-workspace.tsx",
+          "line": 944,
+          "text": "dark:text-emerald-400"
+        }
+      ]
+    },
+    "sandbox": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/sandbox.tsx",
+          "line": 651,
+          "text": "ease-out"
+        }
+      ]
+    },
+    "web-preview": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "radius",
+          "file": "registry/aiellie/components/web-preview.tsx",
+          "line": 151,
+          "text": "rounded-2xl"
+        },
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/web-preview.tsx",
+          "line": 497,
+          "text": "ease-out"
+        },
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/web-preview.tsx",
+          "line": 616,
+          "text": "ease-out"
+        },
+        {
+          "rule": "brand-token",
+          "file": "registry/aiellie/components/web-preview.tsx",
+          "line": 692,
+          "text": "dark:data-active:bg-live/15"
+        }
+      ]
+    },
+    "run-budget": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "radius",
+          "file": "registry/aiellie/components/run-budget.tsx",
+          "line": 155,
+          "text": "rounded-2xl"
+        },
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/run-budget.tsx",
+          "line": 241,
+          "text": "ease-out"
+        }
+      ]
+    },
+    "prompt-autocomplete": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "human-handoff": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/human-handoff.tsx",
+          "line": 108,
+          "text": "ease-out"
+        },
+        {
+          "rule": "shadow-depth",
+          "file": "registry/aiellie/components/human-handoff.tsx",
+          "line": 119,
+          "text": "shadow-[0_0_0_4px]"
+        },
+        {
+          "rule": "shadow-depth",
+          "file": "registry/aiellie/components/human-handoff.tsx",
+          "line": 119,
+          "text": "shadow-live/15"
+        },
+        {
+          "rule": "radius",
+          "file": "registry/aiellie/components/human-handoff.tsx",
+          "line": 225,
+          "text": "rounded-2xl"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/human-handoff.tsx",
+          "line": 402,
+          "text": "text-emerald-600"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/human-handoff.tsx",
+          "line": 402,
+          "text": "dark:text-emerald-400"
+        }
+      ]
+    },
+    "agent-cursor": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "radius",
+          "file": "registry/aiellie/components/agent-cursor.tsx",
+          "line": 120,
+          "text": "rounded-2xl"
+        },
+        {
+          "rule": "brand-token",
+          "file": "registry/aiellie/components/agent-cursor.tsx",
+          "line": 167,
+          "text": "dark:data-writing:bg-live/8"
+        }
+      ]
+    },
+    "attempt-picker": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "radius",
+          "file": "registry/aiellie/components/attempt-picker.tsx",
+          "line": 139,
+          "text": "rounded-2xl"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/attempt-picker.tsx",
+          "line": 195,
+          "text": "text-emerald-600"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/attempt-picker.tsx",
+          "line": 195,
+          "text": "dark:text-emerald-400"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/attempt-picker.tsx",
+          "line": 310,
+          "text": "text-emerald-600"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/attempt-picker.tsx",
+          "line": 310,
+          "text": "dark:text-emerald-400"
+        },
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/attempt-picker.tsx",
+          "line": 351,
+          "text": "ease-out"
+        },
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/attempt-picker.tsx",
+          "line": 359,
+          "text": "ease-out"
+        }
+      ]
+    },
+    "needs-you": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "radius",
+          "file": "registry/aiellie/components/needs-you.tsx",
+          "line": 143,
+          "text": "rounded-2xl"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/needs-you.tsx",
+          "line": 182,
+          "text": "text-emerald-600"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/needs-you.tsx",
+          "line": 182,
+          "text": "dark:text-emerald-400"
+        },
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/needs-you.tsx",
+          "line": 197,
+          "text": "ease-out"
+        }
+      ]
+    },
+    "reactions": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "scale",
+          "file": "registry/aiellie/components/reactions.tsx",
+          "line": 49,
+          "text": "active:scale-95"
+        },
+        {
+          "rule": "brand-token",
+          "file": "registry/aiellie/components/reactions.tsx",
+          "line": 86,
+          "text": "dark:data-reacted:bg-live/10"
+        },
+        {
+          "rule": "brand-token",
+          "file": "registry/aiellie/components/reactions.tsx",
+          "line": 86,
+          "text": "dark:data-reacted:hover:bg-live/15"
+        }
+      ]
+    },
+    "message-status": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "timestamps": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "message-context-menu": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "brand-token",
+          "file": "registry/aiellie/components/message-context-menu.tsx",
+          "line": 81,
+          "text": "dark:data-checked:bg-live/20"
+        }
+      ]
+    },
+    "compaction-marker": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/compaction-marker.tsx",
+          "line": 304,
+          "text": "ease-out"
+        },
+        {
+          "rule": "easing",
+          "file": "registry/aiellie/components/compaction-marker.tsx",
+          "line": 320,
+          "text": "ease-out"
+        }
+      ]
+    },
+    "agent-steps": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "agent-card": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "typing-indicator": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "artifact": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "stack-trace": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "commit": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/commit.tsx",
+          "line": 129,
+          "text": "text-emerald-600"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/commit.tsx",
+          "line": 129,
+          "text": "dark:text-emerald-400"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/commit.tsx",
+          "line": 249,
+          "text": "text-emerald-600"
+        },
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/commit.tsx",
+          "line": 249,
+          "text": "dark:text-emerald-400"
+        }
+      ]
+    },
+    "context-breakdown": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "retrieved-sources": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "contact-button": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "call-menu": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "video-call": {
+      "passed": true,
+      "rendered": false,
+      "failures": []
+    },
+    "voice-orb": {
+      "passed": false,
+      "rendered": false,
+      "failures": [
+        {
+          "rule": "raw-colour",
+          "file": "registry/aiellie/components/voice-orb.tsx",
+          "line": 171,
+          "text": "text-neutral-700"
+        }
+      ]
+    }
+  }
+}

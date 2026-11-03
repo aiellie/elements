@@ -5,7 +5,7 @@ import * as React from "react"
 import {
   SettingsDialog,
   type SettingsValues,
-} from "@/registry/aiellie/components/settings-dialog"
+} from "@/registry/aiellie/ui/settings-dialog"
 import { PROVIDERS } from "@/registry/aiellie/lib/models"
 import { Button } from "@/registry/aiellie/ui/button"
 

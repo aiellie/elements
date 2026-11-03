@@ -30,7 +30,7 @@ import { Badge } from "@/registry/aiellie/ui/badge"
 import {
   LoginDialog,
   type LoginValues,
-} from "@/registry/aiellie/components/login-form"
+} from "@/registry/aiellie/ui/login-form"
 import {
   SidebarMenu,
   SidebarMenuButton,

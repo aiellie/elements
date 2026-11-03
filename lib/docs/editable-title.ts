@@ -17,7 +17,7 @@ const doc: DocContent = {
 
 import * as React from "react"
 
-import { EditableTitle } from "@/components/aiellie/editable-title"
+import { EditableTitle } from "@/components/ui/editable-title"
 
 export function ChatTitle({
   title,

@@ -39,7 +39,7 @@ import {
   FilePreview,
   describe,
   type FilePreviewItem,
-} from "@/components/aiellie/file-preview"
+} from "@/components/ui/file-preview"
 
 export function ComposerFiles({
   items,

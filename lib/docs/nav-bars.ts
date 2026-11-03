@@ -19,7 +19,7 @@ import {
   NavBars,
   useNavBarsInView,
   type NavBarsItem,
-} from "@/components/aiellie/nav-bars"
+} from "@/components/ui/nav-bars"
 
 export function PageNav({ items }: { items: NavBarsItem[] }) {
   const active = useNavBarsInView(items.map((item) => item.id))

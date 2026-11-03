@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { HistoryButtons } from "@/registry/aiellie/components/history-buttons"
+import { HistoryButtons } from "@/registry/aiellie/ui/history-buttons"
 
 const PAGES = ["Inbox", "Q3 planning", "Launch checklist", "Release notes"]
 

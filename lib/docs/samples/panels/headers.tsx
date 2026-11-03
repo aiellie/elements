@@ -1,6 +1,6 @@
 "use client"
 
-import { Panels } from "@/registry/aiellie/components/panels"
+import { Panels } from "@/registry/aiellie/ui/panels"
 import { Badge } from "@/registry/aiellie/ui/badge"
 
 export default function Headers() {

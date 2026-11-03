@@ -1,6 +1,6 @@
 "use client"
 
-import { LoginForm } from "@/registry/aiellie/components/login-form"
+import { LoginForm } from "@/registry/aiellie/ui/login-form"
 
 export default function SendFailed() {
   return (
