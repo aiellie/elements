@@ -227,7 +227,8 @@ const DEMOS: Record<string, Demo> = {
   popover: {
     title: "Popover",
     gallery: "/design",
-    description: "A glass panel beside its trigger, for small forms and details",
+    description:
+      "A glass panel beside its trigger, for small forms and details",
     Demo: PopoverDemo,
   },
   "alert-dialog": {
@@ -305,7 +306,8 @@ const DEMOS: Record<string, Demo> = {
   meter: {
     title: "Meter",
     gallery: "/design",
-    description: "How full something is, like a context window or a credit balance",
+    description:
+      "How full something is, like a context window or a credit balance",
     Demo: MeterDemo,
   },
   "user-menu": {
@@ -329,7 +331,8 @@ const DEMOS: Record<string, Demo> = {
   "plugin-selector": {
     title: "Plugin Selector",
     gallery: "/components",
-    description: "Which plugins a chat can use, turned on and off from one menu",
+    description:
+      "Which plugins a chat can use, turned on and off from one menu",
     Demo: PluginSelectorDemo,
   },
   "work-in-menu": {
@@ -390,13 +393,15 @@ const DEMOS: Record<string, Demo> = {
   trace: {
     title: "Trace",
     gallery: "/design",
-    description: "The steps an agent took, one line each, folding open for more",
+    description:
+      "The steps an agent took, one line each, folding open for more",
     Demo: TraceDemo,
   },
   waveform: {
     title: "Waveform",
     gallery: "/components",
-    description: "Live bars that follow a microphone, so you can see it hears you",
+    description:
+      "Live bars that follow a microphone, so you can see it hears you",
     Demo: WaveformDemo,
   },
   toast: {
@@ -408,7 +413,8 @@ const DEMOS: Record<string, Demo> = {
   attachment: {
     title: "Attachment",
     gallery: "/components",
-    description: "One attachment as an image square or a file chip, with its actions",
+    description:
+      "One attachment as an image square or a file chip, with its actions",
     Demo: AttachmentDemo,
   },
   bubble: {
@@ -444,7 +450,8 @@ const DEMOS: Record<string, Demo> = {
   "message-scroller": {
     title: "Message Scroller",
     gallery: "/components",
-    description: "Anchors each turn and follows a reply while you are at the end",
+    description:
+      "Anchors each turn and follows a reply while you are at the end",
     Demo: MessageScrollerDemo,
   },
   "voice-divider": {
@@ -487,7 +494,8 @@ const DEMOS: Record<string, Demo> = {
   "date-divider": {
     title: "Date Divider",
     gallery: "/components",
-    description: "The day and time a thread picks up at, as a quiet line of text",
+    description:
+      "The day and time a thread picks up at, as a quiet line of text",
     Demo: DateDividerDemo,
   },
   thread: {
@@ -517,13 +525,15 @@ const DEMOS: Record<string, Demo> = {
   reasoning: {
     title: "Reasoning",
     gallery: "/components",
-    description: "How long the model thought, folding open to show its thoughts",
+    description:
+      "How long the model thought, folding open to show its thoughts",
     Demo: ReasoningDemo,
   },
   "thinking-indicator": {
     title: "Thinking Indicator",
     gallery: "/components",
-    description: "What a reply is doing before its first word, as a live dot and a shimmer",
+    description:
+      "What a reply is doing before its first word, as a live dot and a shimmer",
     Demo: ThinkingIndicatorDemo,
   },
   sources: {
@@ -541,7 +551,8 @@ const DEMOS: Record<string, Demo> = {
   "history-buttons": {
     title: "History Buttons",
     gallery: "/design",
-    description: "Back and forward through what you opened, with their shortcuts",
+    description:
+      "Back and forward through what you opened, with their shortcuts",
     Demo: HistoryButtonsDemo,
   },
   "editable-title": {
@@ -565,7 +576,8 @@ const DEMOS: Record<string, Demo> = {
   "file-preview": {
     title: "File Preview",
     gallery: "/design",
-    description: "A file opened in full: an image, a PDF, code in color or a folder",
+    description:
+      "A file opened in full: an image, a PDF, code in color or a folder",
     Demo: FilePreviewDemo,
   },
   "code-block": {
@@ -767,7 +779,8 @@ const DEMOS: Record<string, Demo> = {
   "agent-cursor": {
     title: "Agent Cursor",
     gallery: "/components",
-    description: "A document you and the agent edit at once, without clobbering each other",
+    description:
+      "A document you and the agent edit at once, without clobbering each other",
     Demo: AgentCursorDemo,
   },
   "attempt-picker": {

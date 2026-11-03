@@ -76,37 +76,37 @@
   "items": {
     "editable-title": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "button": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "textarea": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "tooltip": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "popover": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "hover-card": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "dialog": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "icon-label",
@@ -116,14 +116,24 @@
         }
       ]
     },
+    "alert-dialog": {
+      "passed": true,
+      "rendered": true,
+      "failures": []
+    },
+    "item": {
+      "passed": true,
+      "rendered": true,
+      "failures": []
+    },
     "command": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "sheet": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "reduced-motion",
@@ -141,77 +151,90 @@
     },
     "resizable": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "input": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "input-group": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "separator": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "marker": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "skeleton": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "avatar": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "badge": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "empty": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "sidebar": {
-      "passed": true,
-      "rendered": false,
-      "failures": []
+      "passed": false,
+      "rendered": true,
+      "failures": [
+        {
+          "rule": "render",
+          "file": "/demo/sidebar",
+          "line": 0,
+          "text": "1280px: A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client"
+        },
+        {
+          "rule": "render",
+          "file": "/demo/sidebar",
+          "line": 0,
+          "text": "390px: A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client"
+        }
+      ]
     },
     "breadcrumb": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "user-menu": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "panels": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "menu": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "settings-dialog": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "icon-label",
@@ -229,7 +252,7 @@
     },
     "share-dialog": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "icon-label",
@@ -241,27 +264,27 @@
     },
     "login-form": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "file-preview": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "temporary-chat-toggle": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "status": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "trace": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "reduced-motion",
@@ -273,17 +296,17 @@
     },
     "collapsible": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "tooltip-icon-button": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "history-buttons": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "icon-label",
@@ -301,7 +324,7 @@
     },
     "add-menu": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "easing",
@@ -313,7 +336,7 @@
     },
     "waveform": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "easing",
@@ -325,32 +348,32 @@
     },
     "project-selector": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "plugin-selector": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "work-in-menu": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "branches-menu": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "dictate-button": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "model-selector": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "reduced-motion",
@@ -362,7 +385,7 @@
     },
     "composer": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "icon-label",
@@ -386,37 +409,50 @@
     },
     "attachments": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "message": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "date-divider": {
-      "passed": true,
-      "rendered": false,
-      "failures": []
+      "passed": false,
+      "rendered": true,
+      "failures": [
+        {
+          "rule": "render",
+          "file": "/demo/date-divider",
+          "line": 0,
+          "text": "1280px: A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client"
+        },
+        {
+          "rule": "render",
+          "file": "/demo/date-divider",
+          "line": 0,
+          "text": "390px: A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client"
+        }
+      ]
     },
     "stream-text": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "thinking-indicator": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "reasoning": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "sources": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "reduced-motion",
@@ -434,39 +470,63 @@
     },
     "suggestions": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "thread": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "reduced-motion",
           "file": "registry/aiellie/components/thread.tsx",
           "line": 381,
           "text": "a transition with no motion-reduce:transition-none"
+        },
+        {
+          "rule": "render",
+          "file": "/demo/thread",
+          "line": 0,
+          "text": "1280px: Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using templa"
+        },
+        {
+          "rule": "render",
+          "file": "/demo/thread",
+          "line": 0,
+          "text": "1280px: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed "
+        },
+        {
+          "rule": "render",
+          "file": "/demo/thread",
+          "line": 0,
+          "text": "390px: Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using templa"
+        },
+        {
+          "rule": "render",
+          "file": "/demo/thread",
+          "line": 0,
+          "text": "390px: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed "
         }
       ]
     },
     "nav-bars": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "thread-transcript": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "quick-chat": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "code-block": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "reduced-motion",
@@ -490,27 +550,27 @@
     },
     "response": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "message-actions": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "inline-citation": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "effort-menu": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "plan-review": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "scale",
@@ -600,7 +660,7 @@
     },
     "attachment": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "reduced-motion",
@@ -618,7 +678,7 @@
     },
     "bubble": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "reduced-motion",
@@ -630,12 +690,12 @@
     },
     "context-meter": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "emoji-selector": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "real-controls",
@@ -647,7 +707,7 @@
     },
     "file-attachment": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "icon-label",
@@ -671,12 +731,12 @@
     },
     "markdown": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "message-scroller": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "icon-label",
@@ -688,17 +748,17 @@
     },
     "voice-divider": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "web-search": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "switch": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "transition-all",
@@ -722,17 +782,17 @@
     },
     "toggle": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "toggle-group": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "combobox": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "easing",
@@ -744,12 +804,12 @@
     },
     "tabs": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "toolbar": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "easing",
@@ -761,7 +821,7 @@
     },
     "meter": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "raw-colour",
@@ -779,7 +839,7 @@
     },
     "toast": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "easing",
@@ -791,7 +851,7 @@
     },
     "code-diff": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "raw-colour",
@@ -809,42 +869,42 @@
     },
     "terminal": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "tool-call": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "quoted-message": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "message-highlight-toolbar": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "approval-mode-menu": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "slash-menu": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "mentions": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "orb": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "easing",
@@ -856,12 +916,12 @@
     },
     "transcript": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "audio-player": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "radius",
@@ -873,27 +933,27 @@
     },
     "mic-menu": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "prompt-menu": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "code-snippet": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "file-tree": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "code-workspace": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "easing",
@@ -929,7 +989,7 @@
     },
     "sandbox": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "easing",
@@ -941,7 +1001,7 @@
     },
     "web-preview": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "radius",
@@ -971,7 +1031,7 @@
     },
     "run-budget": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "radius",
@@ -989,12 +1049,12 @@
     },
     "prompt-autocomplete": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "human-handoff": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "easing",
@@ -1036,7 +1096,7 @@
     },
     "agent-cursor": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "radius",
@@ -1054,7 +1114,7 @@
     },
     "attempt-picker": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "radius",
@@ -1102,7 +1162,7 @@
     },
     "needs-you": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "radius",
@@ -1132,7 +1192,7 @@
     },
     "reactions": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "scale",
@@ -1156,17 +1216,17 @@
     },
     "message-status": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "timestamps": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "message-context-menu": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "brand-token",
@@ -1178,7 +1238,7 @@
     },
     "compaction-marker": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "easing",
@@ -1196,32 +1256,32 @@
     },
     "agent-steps": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "agent-card": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "typing-indicator": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "artifact": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "stack-trace": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "commit": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "raw-colour",
@@ -1251,32 +1311,32 @@
     },
     "context-breakdown": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "retrieved-sources": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "contact-button": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "call-menu": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "video-call": {
       "passed": true,
-      "rendered": false,
+      "rendered": true,
       "failures": []
     },
     "voice-orb": {
       "passed": false,
-      "rendered": false,
+      "rendered": true,
       "failures": [
         {
           "rule": "raw-colour",
